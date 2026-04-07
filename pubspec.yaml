@@ -1,0 +1,16 @@
+name: flutter_multi_package_playground
+
+workspace:
+  - apps/
+
+environment:
+  sdk: ^3.11.1
+
+dev_dependencies:
+  melos: ^7.1.0
+
+melos:
+  command:
+    bootstrap:
+      environment:
+        sdk: ^3.9.0
