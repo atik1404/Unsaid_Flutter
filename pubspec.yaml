@@ -131,7 +131,7 @@ melos:
       run: melos exec --scope secret_env -- dart run build_runner build
 
     build_runner: |
-      melos exec -c 1 --scope="secured" -- \
+      melos exec -c 1 --scope="domain" --scope="response" --scope="entity" -- \
         flutter pub run build_runner build --delete-conflicting-outputs
 
     update_minor_deps:

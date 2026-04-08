@@ -25,7 +25,7 @@ dependencies:
 
   code_analyzer: ^0.0.1
 
-  logger: ^2.6.1
+  logger: ^2.7.0
 
 dev_dependencies:
   flutter_test:
