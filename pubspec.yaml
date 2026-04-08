@@ -97,6 +97,7 @@ melos:
         build_runner: ^2.13.1
         envied_generator: ^1.3.4
         intl_utils: ^2.8.14
+        mockito: ^5.6.4
 
   scripts:
     analyze:
@@ -106,9 +107,9 @@ melos:
       run: melos exec -- flutter clean && melos bootstrap
       description: Cleans and then fetches dependencies for all packages.
 
-    generate:barrels:
-      run: dart run melos_scripts/barrel_generator.dart
-      description: Update all package barrel files
+    # generate:barrels:
+    #   run: dart run melos_scripts/barrel_generator.dart
+    #   description: Update all package barrel files
 
     update_overrides:
       run: melos exec -- dart run $(pwd)/scripts/pubspec_overrides.dart && melos bootstrap
@@ -129,7 +130,7 @@ melos:
       run: melos exec --scope secret_env -- dart run build_runner build
 
     build_runner: |
-      melos exec -c 1 --scope="domain" --scope="response" --scope="entity" -- \
+      melos exec -c 1 --scope="secured" -- \
         flutter pub run build_runner build --delete-conflicting-outputs
 
     # Production APK builds

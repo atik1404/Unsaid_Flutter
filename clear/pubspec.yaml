@@ -1,7 +1,0 @@
-name: clear
-environment:
-  sdk: ">=3.11.4 <4.0.0"
-dev_dependencies:
-  melos: ^7.5.1
-workspace: 
-melos: 
