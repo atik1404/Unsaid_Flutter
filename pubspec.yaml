@@ -86,6 +86,7 @@ melos:
         path: ^1.9.1
         path_provider: ^2.1.5
         sqflite: ^2.4.2
+        permission_handler: ^12.0.1
 
       dev_dependencies:
         flutter_test:
@@ -132,6 +133,14 @@ melos:
     build_runner: |
       melos exec -c 1 --scope="secured" -- \
         flutter pub run build_runner build --delete-conflicting-outputs
+
+    update_minor_deps:
+      description: Update minor dependencies
+      run: dart run melos_minor_deps_update.dart
+
+    update_major_deps:
+      description: Update major dependencies
+      run: dart run melos_major_deps_update.dart
 
     # Production APK builds
     build:apk:production:release:
