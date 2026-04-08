@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Playground-Dev",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart",
+            // "args": [
+            //     "--flavor",
+            //     "development",
+            //     "--target",
+            //     "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart"
+            // ]
+        },
+        {
+            "name": "Playground-Prod",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart",
+            // "args": [
+            //     "--flavor",
+            //     "production",
+            //     "--target",
+            //     "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart"
+            // ]
+        }
+    ]
+}

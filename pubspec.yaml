@@ -2,15 +2,84 @@ name: flutter_multi_package_playground
 
 workspace:
   - apps/
+  - cache/database/
+  - cache/secured/
+  - cache/sharedpref/
+  - common/
+  - data/
+  - domain/
+  - designsystem/
+  - ui/
+  - entity/
+  - response/
+  - navigation/
+  - code_analyzer/
 
 environment:
   sdk: ^3.11.1
 
 dev_dependencies:
-  melos: ^7.1.0
+  melos: ^7.5.1
 
 melos:
   command:
     bootstrap:
       environment:
-        sdk: ^3.9.0
+        sdk: ^3.11.1
+
+      dependencies:
+        common: ^0.0.1
+        database: ^0.0.1
+        secured: ^0.0.1
+        sharedpref: ^0.0.1
+        domain: ^0.0.1
+        designsystem: ^0.0.1
+        ui: ^0.0.1
+        navigation: ^0.0.1
+        entity: ^0.0.1
+        response: ^0.0.1
+        data: ^0.0.1
+        code_analyzer: ^0.0.1
+
+      dev_dependencies:
+        flutter_test:
+          sdk: flutter
+        flutter_lints: ^6.0.0
+        dart_code_linter: ^4.0.2
+        melos: ^6.3.3
+        json_serializable: ^6.10.0
+        build_runner: ^2.7.0
+        envied_generator: ^1.2.0
+        intl_utils: ^2.8.11
+
+  scripts:
+    analyze:
+      run: melos exec -- flutter analyze
+
+    clean_and_get:
+      run: melos exec -- flutter clean && melos bootstrap
+      description: Cleans and then fetches dependencies for all packages.
+
+    generate:barrels:
+      run: dart run melos_scripts/barrel_generator.dart
+      description: Update all package barrel files
+
+    update_overrides:
+      run: melos exec -- dart run $(pwd)/scripts/pubspec_overrides.dart && melos bootstrap
+
+    env_secret_generate:
+      run: melos exec --scope secret_env -- dart run build_runner build
+
+    build_runner: |
+      melos exec -c 1 --scope="domain" --scope="response" --scope="entity" -- \
+        flutter pub run build_runner build --delete-conflicting-outputs
+
+    # Production APK builds
+    build:apk:production:release:
+      run: melos exec --scope="app" -- flutter build apk --target=lib/application/main_production.dart --flavor production --release
+      description: Build production APK (release mode)
+
+    # Development APK builds
+    build:apk:development:release:
+      run: melos exec --scope="app" -- flutter build apk --target=lib/application/main_development.dart --flavor development --release
+      description: Build development APK (release mode)
