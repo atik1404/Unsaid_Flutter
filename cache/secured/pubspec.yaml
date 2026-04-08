@@ -14,7 +14,7 @@ resolution: workspace
 #
 # Steps to add a new dependency:
 #   1. Add the dependency to this list.
-#   2. Add it to the pubspec.yaml file for future updates.
+#   2. Add it to the root pubspec.yaml file for future updates.
 
 environment:
   sdk: ^3.11.1
