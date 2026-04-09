@@ -1,9 +1,9 @@
 final class LoginEntity {
-  final String token;
+  final String accessToken;
   final String refreshToken;
 
   LoginEntity({
-    required this.token,
+    required this.accessToken,
     required this.refreshToken,
   });
 }

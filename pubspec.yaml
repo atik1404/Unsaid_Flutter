@@ -6,6 +6,7 @@ workspace:
   - cache/secured/
   - cache/sharedpref/
   - common/
+  - di/
   - data/
   - domain/
   - designsystem/
@@ -35,6 +36,7 @@ melos:
         domain: ^0.0.1
         designsystem: ^0.0.1
         ui: ^0.0.1
+        di: ^0.0.1
         navigation: ^0.0.1
         entity: ^0.0.1
         response: ^0.0.1

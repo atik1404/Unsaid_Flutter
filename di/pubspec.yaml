@@ -25,9 +25,15 @@ dependencies:
     sdk: flutter
 
   code_analyzer: ^0.0.1
+  data: ^0.0.1
+  domain: ^0.0.1
+  secured: ^0.0.1
+  sharedpref: ^0.0.1
+
+  get_it: ^9.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  dart_code_linter: ^3.0.0
+  dart_code_linter: ^4.0.2

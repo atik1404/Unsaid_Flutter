@@ -1,48 +1,40 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecuredStorage {
-  SecuredStorage({FlutterSecureStorage? storage})
-    : _storage = storage ?? const FlutterSecureStorage();
+  factory SecuredStorage() => _instance;
 
-  final FlutterSecureStorage _storage;
+  SecuredStorage._internal();
 
-  static const _androidOptions = AndroidOptions.defaultOptions;
+  static final SecuredStorage _instance = SecuredStorage._internal();
 
-  static const _iOSOptions = IOSOptions(
+  static const IOSOptions _iOSOptions = IOSOptions(
     accessibility: KeychainAccessibility.first_unlock,
+  );
+
+  final FlutterSecureStorage _storage = const FlutterSecureStorage(
+    iOptions: _iOSOptions,
   );
 
   Future<void> write({required String key, required String value}) async {
     await _storage.write(
       key: key,
       value: value,
-      aOptions: _androidOptions,
-      iOptions: _iOSOptions,
     );
   }
 
   Future<String> read({required String key}) => _storage
       .read(
         key: key,
-        aOptions: _androidOptions,
-        iOptions: _iOSOptions,
       )
       .then((result) => result ?? '');
 
   Future<Map<String, String>> readAll() {
-    return _storage
-        .readAll(
-          aOptions: _androidOptions,
-          iOptions: _iOSOptions,
-        )
-        .then((result) => result);
+    return _storage.readAll().then((result) => result);
   }
 
   Future<bool> containsKey({required String key}) async {
     final result = await _storage.containsKey(
       key: key,
-      aOptions: _androidOptions,
-      iOptions: _iOSOptions,
     );
 
     return result;
@@ -51,12 +43,10 @@ class SecuredStorage {
   Future<void> delete({required String key}) async {
     await _storage.delete(
       key: key,
-      aOptions: _androidOptions,
-      iOptions: _iOSOptions,
     );
   }
 
   Future<void> deleteAll() async {
-    await _storage.deleteAll(aOptions: _androidOptions, iOptions: _iOSOptions);
+    await _storage.deleteAll();
   }
 }
