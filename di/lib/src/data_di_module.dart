@@ -11,4 +11,6 @@ Future<void> registerDataDiModule(GetIt locator) async {
     )
     ..registerSingleton<NetworkClient>(NetworkClient(locator<Dio>()))
     ..registerSingleton<AuthRepository>(AuthRepoImpl(locator<NetworkClient>()));
+
+  return;
 }

@@ -17,7 +17,7 @@ resolution: workspace
 #   2. Add it to the root pubspec.yaml file for future updates.
 
 environment:
-  sdk: ^3.11.1
+  sdk: ^3.11.4
 
 dependencies:
   flutter:

@@ -7,4 +7,6 @@ Future<void> registerDomainModule(GetIt locator) async {
     ..registerFactory<FetchProfileUseCase>(
       () => FetchProfileUseCase(locator()),
     );
+
+  return;
 }

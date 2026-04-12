@@ -17,7 +17,7 @@ workspace:
   - code_analyzer/
 
 environment:
-  sdk: ^3.11.1
+  sdk: ^3.11.4
 
 dev_dependencies:
   melos: ^7.5.1
@@ -26,7 +26,7 @@ melos:
   command:
     bootstrap:
       environment:
-        sdk: ^3.11.1
+        sdk: ^3.11.4
 
       dependencies:
         common: ^0.0.1
