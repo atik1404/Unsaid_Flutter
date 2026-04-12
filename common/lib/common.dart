@@ -6,3 +6,4 @@ export 'src/constants/app_constants.dart';
 export 'src/result/failure.dart';
 export 'src/result/failure_message.dart';
 export 'src/result/result.dart';
+export 'src/enums/failure_key.dart';

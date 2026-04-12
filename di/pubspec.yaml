@@ -30,6 +30,8 @@ dependencies:
   secured: ^0.0.1
   sharedpref: ^0.0.1
 
+  dio: ^5.9.2
+
   get_it: ^9.2.1
 
 dev_dependencies:

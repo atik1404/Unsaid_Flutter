@@ -4,10 +4,10 @@ import 'package:domain/src/repository/auth_repository.dart';
 import 'package:domain/src/usecase/base_usecase.dart';
 import 'package:entity/entity.dart';
 
-final class LoginRemoteUseCase extends UseCase<LoginEntity, LoginParams> {
+final class LoginUseCase extends UseCase<LoginEntity, LoginParams> {
   final AuthRepository _repository;
 
-  LoginRemoteUseCase(this._repository);
+  LoginUseCase(this._repository);
 
   @override
   Future<Result<LoginEntity, Failure>> call(LoginParams params) async {

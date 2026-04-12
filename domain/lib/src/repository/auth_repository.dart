@@ -4,4 +4,6 @@ import 'package:entity/entity.dart';
 
 abstract class AuthRepository {
   Future<Result<LoginEntity, Failure>> login(LoginParams params);
+
+  Future<Result<ProfileEntity, Failure>> fetchProfile();
 }

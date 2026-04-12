@@ -1,4 +1,5 @@
 enum FailureKey {
+  internet,
   network,
   server,
   authentication,
