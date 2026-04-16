@@ -1,0 +1,10 @@
+{
+    "@@locale": "bn",
+    "message_no_internet": "মনে হচ্ছে আপনি অফলাইনে আছেন, অনুগ্রহ করে আপনার সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।",
+    "@message_no_internet": {
+        "description": "Error message shown when the user has no active internet connection"
+    },
+    "message_connection_timeout": "সংযোগের সময়সীমা শেষ, অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
+    "message_unknown_error": "অজানা ত্রুটি, অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
+    "message_something_went_wrong": "কিছু একটা সমস্যা হয়েছে, অনুগ্রহ করে পরে আবার চেষ্টা করুন।"
+}

@@ -1,0 +1,10 @@
+{
+    "@@locale": "en",
+    "message_no_internet": "Seems like you're offline, please check your connection and try again.",
+    "@message_no_internet": {
+        "description": "Error message shown when the user has no active internet connection"
+    },
+    "message_connection_timeout": "Connection timeout, please try again later.",
+    "message_unknown_error": "Unknown error, please try again later.",
+    "message_something_went_wrong": "Something went wrong, please try again later."
+}
