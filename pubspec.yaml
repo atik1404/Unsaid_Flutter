@@ -14,6 +14,7 @@ workspace:
   - entity/
   - response/
   - navigation/
+  - localization/
   - code_analyzer/
 
 environment:
@@ -42,6 +43,7 @@ melos:
         response: ^0.0.1
         data: ^0.0.1
         code_analyzer: ^0.0.1
+        localization: ^0.0.1
 
         flutter_bloc: ^9.1.1
         get_it: ^9.2.1
@@ -133,7 +135,7 @@ melos:
       run: melos exec --scope secret_env -- dart run build_runner build
 
     build_runner: |
-      melos exec -c 1 --scope="domain" --scope="response" --scope="entity" -- \
+      melos exec -c 1 --scope="domain" --scope="response" --scope="entity" --scope="localization" -- \
         flutter pub run build_runner build --delete-conflicting-outputs
 
     update_minor_deps:

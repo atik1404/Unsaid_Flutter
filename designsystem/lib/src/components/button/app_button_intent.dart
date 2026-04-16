@@ -1,4 +1,4 @@
-import 'package:designsystem/src/components/button/app_button_color.dart';
+import 'package:designsystem/src/components/button/app_button_colors.dart';
 
 sealed class AppButtonIntent {
   const AppButtonIntent();

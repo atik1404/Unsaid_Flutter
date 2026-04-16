@@ -1,5 +1,5 @@
-final class AppBorderWidths {
-  const AppBorderWidths._();
+final class AppBorderWidth {
+  const AppBorderWidth._();
 
   static const double none = 0;
   static const double thin = 1;

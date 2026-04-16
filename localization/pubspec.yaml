@@ -1,0 +1,23 @@
+name: localization
+description: "A new Flutter package project."
+version: 0.0.1
+resolution: workspace
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  code_analyzer: ^0.0.1
+
+  intl: ^0.20.2
+  flutter_bloc: ^9.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  dart_code_linter: ^4.0.2
+  build_runner: ^2.13.1

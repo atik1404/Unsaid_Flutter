@@ -14,7 +14,6 @@ linter:
     - control_flow_in_finally
     - empty_statements
     - hash_and_equals
-    #- invariant_booleans
     - literal_only_boolean_expressions
     - no_adjacent_strings_in_list
     - no_duplicate_case_values
@@ -32,7 +31,6 @@ linter:
     - avoid_bool_literals_in_conditional_expressions
     - avoid_catching_errors
     - avoid_init_to_null
-    #- avoid_null_checks_in_equality_operators
     - avoid_positional_boolean_parameters
     - avoid_private_typedef_functions
     - avoid_redundant_argument_values
@@ -49,7 +47,6 @@ linter:
 
     - constant_identifier_names
     - curly_braces_in_flow_control_structures
-    #- directives_ordering
     - empty_catches
     - empty_constructor_bodies
     - exhaustive_cases
@@ -59,11 +56,9 @@ linter:
     - leading_newlines_in_multiline_strings
     - library_names
     - library_prefixes
-    #- lines_longer_than_80_chars
     - missing_whitespace_between_adjacent_strings
     - non_constant_identifier_names
     - null_closures
-    #- one_member_abstracts
     - only_throw_errors
     - package_prefixed_library_names
     - parameter_assignments
@@ -77,7 +72,6 @@ linter:
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables
     - prefer_contains
-    #- prefer_equal_for_default_values
     - prefer_final_fields
     - prefer_final_in_for_each
     - prefer_final_locals

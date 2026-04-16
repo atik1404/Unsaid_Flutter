@@ -10,8 +10,8 @@ final class AppInputFieldTheme extends ThemeExtension<AppInputFieldTheme> {
 
   const AppInputFieldTheme({
     required this.colors,
-    this.focusedBorderWidth = AppBorderWidths.thick,
-    this.defaultBorderWidth = AppBorderWidths.thin,
+    this.focusedBorderWidth = AppBorderWidth.thick,
+    this.defaultBorderWidth = AppBorderWidth.thin,
   });
 
   factory AppInputFieldTheme.light() => const AppInputFieldTheme(

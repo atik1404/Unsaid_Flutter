@@ -1,5 +1,5 @@
-class AppIconSizes {
-  AppIconSizes._();
+class IconSizes {
+  IconSizes._();
 
   /// 12px — micro indicators, status dots inside dense UI.
   static const double indicator = 12;

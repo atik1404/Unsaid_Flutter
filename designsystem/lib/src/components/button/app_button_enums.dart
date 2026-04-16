@@ -1,3 +1,5 @@
+sealed class AppButtonEnums {}
+
 enum AppButtonHeight { sm, md, lg }
 
 enum AppButtonShape { rounded, pill, circle, sharp }

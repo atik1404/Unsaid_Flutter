@@ -22,7 +22,7 @@ final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
   factory AppTopBarTheme.light() => const AppTopBarTheme(
     backgroundColor: AppColors.white,
     foregroundColor: AppColors.neutral900,
-    scrolledUnderElevation: AppElevations.card,
+    scrolledUnderElevation: AppElevation.card,
     surfaceTintColor: AppColors.transparent,
   );
 

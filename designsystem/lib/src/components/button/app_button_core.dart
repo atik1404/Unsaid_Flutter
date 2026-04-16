@@ -52,17 +52,11 @@ class AppButtonCore extends StatelessWidget {
 
     final isInteractive = onPressed != null && !isLoading;
 
-    final effectiveForeground = isInteractive
-        ? colors.foreground
-        : colors.foreground.withValues(alpha: _disabledOpacity);
+    final effectiveForeground = isInteractive ? colors.foreground : colors.foreground.withValues(alpha: _disabledOpacity);
 
-    final disabledBackground = variant == AppButtonVariant.filled
-        ? colors.background.withValues(alpha: _disabledOpacity)
-        : Colors.transparent;
+    final disabledBackground = variant == AppButtonVariant.filled ? colors.background.withValues(alpha: _disabledOpacity) : Colors.transparent;
 
-    final overlayColor = variant == AppButtonVariant.filled
-        ? null
-        : colors.foreground.withValues(alpha: _hoverOverlayOpacity);
+    final overlayColor = variant == AppButtonVariant.filled ? null : colors.foreground.withValues(alpha: _hoverOverlayOpacity);
 
     return SizedBox(
       height: shrinkWrap ? null : dims.height,
@@ -73,9 +67,7 @@ class AppButtonCore extends StatelessWidget {
           elevation: 0,
           backgroundColor: colors.background,
           foregroundColor: colors.foreground,
-          disabledBackgroundColor: isLoading
-              ? colors.background
-              : disabledBackground,
+          disabledBackgroundColor: isLoading ? colors.background : disabledBackground,
           side: _resolveBorderSide(colors, isInteractive),
           overlayColor: overlayColor,
           shadowColor: Colors.transparent,
@@ -91,21 +83,15 @@ class AppButtonCore extends StatelessWidget {
 
   BorderSide? _resolveBorderSide(AppButtonColors colors, bool isInteractive) {
     if (variant != AppButtonVariant.outline) return null;
-    final color = isInteractive
-        ? colors.border
-        : colors.border.withValues(alpha: _disabledOpacity);
+    final color = isInteractive ? colors.border : colors.border.withValues(alpha: _disabledOpacity);
     return BorderSide(color: color);
   }
 
   OutlinedBorder _resolveShape() => switch (shape) {
-    AppButtonShape.rounded => RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5),
-    ),
+    AppButtonShape.rounded => RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     AppButtonShape.pill => const StadiumBorder(),
     AppButtonShape.circle => const CircleBorder(),
-    AppButtonShape.sharp => const RoundedRectangleBorder(
-      borderRadius: BorderRadius.zero,
-    ),
+    AppButtonShape.sharp => const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
   };
 
   _ButtonDimensions _dimensionsFor(AppButtonHeight h) => switch (h) {
@@ -114,12 +100,11 @@ class AppButtonCore extends StatelessWidget {
     AppButtonHeight.lg => const _ButtonDimensions(height: 56, loadingSize: 20),
   };
 
-  TextStyle _textStyleFor(AppButtonHeight h, AppTypographyTheme t) =>
-      switch (h) {
-        AppButtonHeight.sm => t.labelSmall,
-        AppButtonHeight.md => t.labelMedium,
-        AppButtonHeight.lg => t.labelLarge,
-      };
+  TextStyle _textStyleFor(AppButtonHeight h, AppTypographyTheme t) => switch (h) {
+    AppButtonHeight.sm => t.labelSmall,
+    AppButtonHeight.md => t.labelMedium,
+    AppButtonHeight.lg => t.labelLarge,
+  };
 
   Widget _buildChild(
     Color contentColor,

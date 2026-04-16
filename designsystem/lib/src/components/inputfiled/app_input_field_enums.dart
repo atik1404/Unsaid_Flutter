@@ -1,3 +1,6 @@
+sealed class AppInputFieldEnums {}
+
+
 enum AppInputFieldVariant { outline, filled, underline }
 
 enum AppInputFieldSize { sm, md, lg }

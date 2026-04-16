@@ -1,3 +1,5 @@
+sealed class AppCardEnums {}
+
 enum AppCardTone { warning }
 
 enum AppCardVariant { filled, outline, filledOutline }

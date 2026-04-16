@@ -1,5 +1,5 @@
-final class AppElevations {
-  const AppElevations._();
+final class AppElevation {
+  const AppElevation._();
 
   static const double flat = 0;
   static const double raised = 1;

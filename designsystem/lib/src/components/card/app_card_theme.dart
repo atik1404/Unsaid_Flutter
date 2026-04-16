@@ -15,7 +15,7 @@ final class AppCardTheme extends ThemeExtension<AppCardTheme> {
   };
 
   double defaultElevationFor(AppCardTone tone) => switch (tone) {
-    AppCardTone.warning => AppElevations.flat,
+    AppCardTone.warning => AppElevation.flat,
   };
 
   factory AppCardTheme.light() => AppCardTheme(

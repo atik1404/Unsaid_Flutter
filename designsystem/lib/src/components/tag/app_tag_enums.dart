@@ -1,3 +1,6 @@
+sealed class AppTagEnums {}
+
+
 enum AppTagVariant { filled, outline, filledOutline }
 
 enum AppTagShape { pill, rounded, circle, sharp }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 @immutable
-class AppFontWeight {
-  const AppFontWeight._();
+class TypographyTokens {
+  const TypographyTokens._();
 
   static const FontWeight regular = FontWeight.w400;
   static const FontWeight medium = FontWeight.w500;
