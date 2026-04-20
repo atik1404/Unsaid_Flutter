@@ -1,3 +1,3 @@
-final class LoginRouter {
+final class PostListScreenRouter {
   
 }
