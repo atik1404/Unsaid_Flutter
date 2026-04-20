@@ -6,6 +6,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topMargin = MediaQuery.sizeOf(context).height * 0.2;
+
     return AppScaffold(
       body: Stack(
         children: [
@@ -15,6 +17,19 @@ class SplashScreen extends StatelessWidget {
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
+            ),
+          ),
+
+          Positioned(
+            top: topMargin,
+            left: 0,
+            right: 0,
+            child: const Center(
+              child: AppImage.asset(
+                AppDrawables.logoTransparent,
+                width: 120,
+                height: 120,
+              ),
             ),
           ),
 
@@ -37,11 +52,6 @@ class SplashScreen extends StatelessWidget {
     return const Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppImage.asset(
-          AppDrawables.logoTransparent,
-          width: 120,
-          height: 120,
-        ),
         SizedBox(height: AppSpacing.s48),
         AppText.headlineLarge(
           'Unmasked voice',
