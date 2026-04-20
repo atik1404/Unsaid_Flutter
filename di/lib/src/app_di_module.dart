@@ -9,5 +9,6 @@ Future<void> registerAppDiModule() async {
   await registerCacheModule(locator);
 
   await registerDataDiModule(locator);
+  
   await registerDomainModule(locator);
 }

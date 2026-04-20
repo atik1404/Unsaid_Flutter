@@ -1,7 +1,7 @@
 import 'package:common/common.dart';
 import 'package:data/data.dart';
-import 'package:data/src/mapper/login_mapper.dart';
-import 'package:data/src/mapper/profile_mapper.dart';
+import 'package:data/src/mapper/auth/login_mapper.dart';
+import 'package:data/src/mapper/auth/profile_mapper.dart';
 import 'package:data/src/network/api_handler.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
