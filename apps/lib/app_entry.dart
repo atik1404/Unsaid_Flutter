@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/app_locale.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:navigation/navigation.dart';
 
 class AppEntry extends StatelessWidget {
   const AppEntry({super.key});
@@ -18,65 +16,19 @@ class AppEntry extends StatelessWidget {
           providers: [BlocProvider(create: (context) => LocaleCubit())],
           child: BlocBuilder<LocaleCubit, Locale>(
             builder: (context, locale) {
-              return ScreenUtilInit(
-                //designSize: _getDesignSize(constraints.biggest),
-                minTextAdapt: true,
-                splitScreenMode: true,
-                builder: (context, _) {
-                  return SafeArea(
-                    top: false,
-                    bottom: Platform.isAndroid,
-                    child: MaterialApp.router(
-                      debugShowCheckedModeBanner: false,
-                      locale: locale,
-                      localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate, AppLocale.delegate],
-                      //theme: _buildAppTheme(Brightness.light),
-                      //darkTheme: _buildAppTheme(Brightness.dark),
-                      //routerConfig: router,
-                    ),
-                  );
-                },
+              return MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                title: 'Foundry Flutter',
+                theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
+                locale: locale,
+                localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate, AppLocale.delegate],
+                supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
+                routerConfig: router,
               );
             },
           ),
         );
       },
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text(widget.title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
     );
   }
 }
