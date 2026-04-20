@@ -6,11 +6,18 @@ plugins {
 }
 
 android {
-    namespace = "com.playground.monorepo.flutter_multi_package_playground"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    namespace = "com.playground.flutter_multi_package_playground"
+    compileSdk = 36
+    ndkVersion = "28.1.13356709"
 
-    compileOptions {
+    externalNativeBuild {
+        cmake {
+            version = "4.0.2"
+        }
+    }
+
+     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -20,25 +27,27 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.playground.monorepo.flutter_multi_package_playground"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        applicationId = "com.playground.flutter_multi_package_playground"
+         minSdk =  24
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
     }
 }
 
 flutter {
-    source = "app/src"
+    source = "../.."
+}
+
+dependencies {
+    //implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    //implementation("com.google.firebase:firebase-analytics")
+    implementation("androidx.multidex:multidex:2.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }
