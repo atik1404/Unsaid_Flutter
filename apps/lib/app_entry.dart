@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/app_locale.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:navigation/navigation.dart';
@@ -19,15 +20,22 @@ class AppEntry extends StatelessWidget {
           providers: [BlocProvider(create: (context) => LocaleCubit())],
           child: BlocBuilder<LocaleCubit, Locale>(
             builder: (context, locale) {
-              return MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                title: 'Foundry Flutter',
-                theme: _buildAppTheme(Brightness.light),
-                darkTheme: _buildAppTheme(Brightness.dark),
-                locale: locale,
-                localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate, AppLocale.delegate],
-                supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
-                routerConfig: router,
+              return ScreenUtilInit(
+                designSize: _getDesignSize(constraints.biggest),
+                minTextAdapt: true,
+                splitScreenMode: true,
+                builder: (context, _) {
+                  return MaterialApp.router(
+                    debugShowCheckedModeBanner: false,
+                    title: 'Foundry Flutter',
+                    theme: _buildAppTheme(Brightness.light),
+                    darkTheme: _buildAppTheme(Brightness.dark),
+                    locale: locale,
+                    localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate, AppLocale.delegate],
+                    supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
+                    routerConfig: router,
+                  );
+                },
               );
             },
           ),

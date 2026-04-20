@@ -1,7 +1,7 @@
 // ignore_for_file: unused_element_parameter, unused_element
 import 'package:designsystem/src/components/text/app_text_weight.dart';
 import 'package:designsystem/src/components/typography/app_typography_intent.dart';
-import 'package:designsystem/src/components/typography/app_typography_theme.dart';
+import 'package:designsystem/src/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
@@ -28,7 +28,7 @@ class AppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typography = Theme.of(context).extension<AppTypographyTheme>()!;
+    final typography = context.typography;
     final intentStyle = typography.byIntent(intent);
     final defaultStyle = DefaultTextStyle.of(context).style;
 
