@@ -1,3 +1,4 @@
+import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -5,17 +6,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text("Loading..."),
-          ],
-        ),
-      ),
+    return const AppScaffold(
+      body: AppSvg.asset(AppDrawables.appBackground, width: double.infinity, height: double.infinity, fit: BoxFit.cover),
     );
   }
 }

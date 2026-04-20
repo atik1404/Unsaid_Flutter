@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localization/app_locale.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:navigation/navigation.dart';
+import 'package:designsystem/designsystem.dart';
+
+part 'theme_config.dart';
 
 class AppEntry extends StatelessWidget {
   const AppEntry({super.key});
@@ -19,7 +22,8 @@ class AppEntry extends StatelessWidget {
               return MaterialApp.router(
                 debugShowCheckedModeBanner: false,
                 title: 'Foundry Flutter',
-                theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
+                theme: _buildAppTheme(Brightness.light),
+                darkTheme: _buildAppTheme(Brightness.dark),
                 locale: locale,
                 localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate, AppLocale.delegate],
                 supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],

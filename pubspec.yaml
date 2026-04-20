@@ -16,6 +16,7 @@ workspace:
   - navigation/
   - localization/
   - code_analyzer/
+  
   - features/auth/login/
   - features/auth/splash/
   - features/posts/post_list/

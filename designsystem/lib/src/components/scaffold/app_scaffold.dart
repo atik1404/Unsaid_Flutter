@@ -1,4 +1,4 @@
-import 'package:designsystem/src/components/scaffold/app_scaffold_theme.dart';
+import 'package:designsystem/src/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -32,8 +32,8 @@ class AppScaffold extends StatelessWidget {
     this.bottomSheet,
     this.extendBodyBehindAppBar = false,
     this.resizeToAvoidBottomInset = true,
-    this.safeAreaTop = true,
-    this.safeAreaBottom = true,
+    this.safeAreaTop = false,
+    this.safeAreaBottom = false,
     this.padding,
     this.dismissKeyboardOnTap = true,
     this.selectableText = false,
@@ -42,10 +42,10 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppScaffoldTheme>()!;
+    final theme = context.scaffoldTheme;
 
     // The body, with optional padding and selection support.
-    Widget content = body;
+    var content = body;
     if (padding != null) {
       content = Padding(padding: padding!, child: content);
     }

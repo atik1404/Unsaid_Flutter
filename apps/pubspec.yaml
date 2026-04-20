@@ -15,6 +15,7 @@ dependencies:
   code_analyzer: ^0.0.1
   navigation: ^0.0.1
   localization: ^0.0.1
+  designsystem: ^0.0.1
 
   cupertino_icons: ^1.0.9
   intl: ^0.20.2
@@ -31,3 +32,23 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+
+  config:
+    enable-lldb-debugging: false
