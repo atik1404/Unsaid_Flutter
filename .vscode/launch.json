@@ -6,12 +6,12 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
-            "program": "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart",
+            "program": "/Volumes/Personal/Projects/Playground/Flutter/flutter_multi_package/apps/lib/main.dart",
             // "args": [
             //     "--flavor",
             //     "development",
             //     "--target",
-            //     "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart"
+            //     "/Volumes/Personal/Projects/Playground/Flutter/flutter_multi_package/apps/lib/main.dart"
             // ]
         },
         {
@@ -19,12 +19,12 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
-            "program": "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart",
+            "program": "/Volumes/Personal/Projects/Playground/Flutter/flutter_multi_package/apps/lib/main.dart",
             // "args": [
             //     "--flavor",
             //     "production",
             //     "--target",
-            //     "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart"
+            //     "/Volumes/Personal/Projects/Playground/Flutter/flutter_multi_package/apps/lib/main.dart"
             // ]
         }
     ]
