@@ -3,6 +3,10 @@ description: "A new Flutter package project."
 version: 0.0.1
 resolution: workspace
 
+melos:
+  tags:
+    - feature
+
 environment:
   sdk: ^3.11.4
   flutter: ">=1.17.0"
