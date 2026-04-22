@@ -25,4 +25,3 @@ dependencies:
 
 dev_dependencies:
   dart_code_linter: ^4.0.2
-  build_runner: ^2.13.1

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/app_locale.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:navigation/navigation.dart';
+import 'package:di/di.dart';
 import 'package:designsystem/designsystem.dart';
 
 part 'theme_config.dart';
