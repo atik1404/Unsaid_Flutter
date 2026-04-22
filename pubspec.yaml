@@ -1,22 +1,32 @@
 name: flutter_multi_package_playground
 
 workspace:
+  # apps
   - apps/
+
+  # domain & data
+  - domain/
+  - data/
+
+  # cache
   - cache/database/
   - cache/secured/
   - cache/sharedpref/
-  - common/
-  - di/
-  - data/
-  - domain/
-  - designsystem/
-  - ui/
-  - entity/
-  - response/
-  - navigation/
-  - localization/
-  - code_analyzer/
 
+  # core
+  - core/common/
+  - core/entity/
+  - core/response/
+  - core/code_analyzer/
+
+  # shared
+  - shared/designsystem/
+  - shared/ui/
+  - shared/localization/
+  - shared/navigation/
+  - shared/di/
+
+  # features
   - features/auth/login/
   - features/auth/splash/
   - features/posts/post_list/
@@ -49,7 +59,6 @@ melos:
         data: ^0.0.1
         code_analyzer: ^0.0.1
         localization: ^0.0.1
-        
 
         flutter_bloc: ^9.1.1
         get_it: ^9.2.1
@@ -149,7 +158,7 @@ melos:
       description: Run build_runner for feature packages only
       exec: flutter pub run build_runner build --delete-conflicting-outputs
       packageFilters:
-        tags: 
+        tags:
           - feature
         dependsOn: build_runner
 
