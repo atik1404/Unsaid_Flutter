@@ -1,6 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:splash/src/splash_screen.dart';
+import 'package:splash/src/state/splash_cubit.dart';
 
 final class SplashScreenRouter implements BaseRouter {
   @override
@@ -9,7 +11,10 @@ final class SplashScreenRouter implements BaseRouter {
       GoRoute(
         path: '/',
         name: AppRouteName.splash,
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (_) => SplashCubit()..initialize(),
+          child: const SplashScreen(),
+        ),
         routes: children,
       ),
     ];

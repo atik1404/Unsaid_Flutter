@@ -151,7 +151,7 @@ melos:
       run: melos exec --scope secret_env -- dart run build_runner build
 
     build_runner: |
-      melos exec -c 1 --scope="domain" --scope="response" --scope="entity" --scope="localization" -- \
+      melos exec -c 1 --scope="domain" --scope="response" --scope="localization" -- \
         flutter pub run build_runner build --delete-conflicting-outputs
 
     build_runner_feature:

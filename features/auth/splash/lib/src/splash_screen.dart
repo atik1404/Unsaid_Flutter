@@ -1,13 +1,29 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:navigation/navigation.dart';
+import 'package:splash/src/state/splash_cubit.dart';
+import 'package:splash/src/state/splash_state.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final topMargin = MediaQuery.sizeOf(context).height * 0.2;
+    return BlocListener<SplashCubit, SplashState>(
+      listener: (context, state) {
+        state.maybeMap(
+          success: (_) => context.goNamed(AppRouteName.login),
+          orElse: () {},
+        );
+      },
+      child: _buildMainContent(context),
+    );
+  }
 
+  Widget _buildMainContent(BuildContext context) {
+    final topMargin = MediaQuery.sizeOf(context).height * 0.2;
     return AppScaffold(
       body: Stack(
         children: [

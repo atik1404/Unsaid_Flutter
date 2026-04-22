@@ -1,6 +1,7 @@
 import 'package:designsystem/src/components/icon/app_icon.dart';
 import 'package:designsystem/src/components/inputfiled/inputfield.dart';
 import 'package:designsystem/src/components/typography/app_typography_theme.dart';
+import 'package:designsystem/src/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 enum _InputVisualState { disabled, error, focused, defaultState }
@@ -96,8 +97,8 @@ class _AppInputFieldState extends State<AppInputField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppInputFieldTheme>()!;
-    final typography = Theme.of(context).extension<AppTypographyTheme>()!;
+    final theme = context.inputTheme;
+    final typography = context.typography;
     final colors = theme.colors;
     final spec = AppInputFieldSizeSpec.of(widget.size);
     final state = _resolveState();

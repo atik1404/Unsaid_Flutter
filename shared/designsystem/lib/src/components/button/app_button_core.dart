@@ -1,5 +1,6 @@
 import 'package:designsystem/src/components/button/button.dart';
 import 'package:designsystem/src/components/typography/app_typography_theme.dart';
+import 'package:designsystem/src/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class AppButtonCore extends StatelessWidget {
@@ -37,8 +38,8 @@ class AppButtonCore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppButtonTheme>()!;
-    final typography = Theme.of(context).extension<AppTypographyTheme>()!;
+    final theme = context.buttonTheme;
+    final typography = context.typography;
 
     final variants = theme.byIntent(intent);
     final colors = switch (variant) {

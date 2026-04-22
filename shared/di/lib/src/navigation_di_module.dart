@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:login/login.dart';
 import 'package:navigation/navigation.dart';
 import 'package:splash/splash.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
+  final routers = [
+    ...SplashScreenRouter().routes(),
+    ...LoginScreenRouter().routes(),
+  ];
+
   locator.registerSingleton<GoRouter>(
     GoRouter(
       navigatorKey: rootNavKey,
       initialLocation: AppRouteName.splash,
       observers: [routeObserver],
-      routes: [
-        // ── Auth routes ──
-        ...SplashScreenRouter().routes(
-          children: [
-            // Nested routes under splash go here (e.g. login)
-          ],
-        ),
-      ],
+      routes: routers,
       errorBuilder: (context, state) {
         return Scaffold(
           body: Center(
