@@ -12,12 +12,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: _buildLoginForm(),
+        child: Center(
+          child: _buildLoginForm(),
+        ),
       ),
     );
   }
@@ -25,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginForm() {
     const gap = SizedBox(height: AppSpacing.s16);
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         const AppInputField(
           hint: "Enter your email",
