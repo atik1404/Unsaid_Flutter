@@ -29,7 +29,7 @@ workspace:
   # features
   - features/auth/login/
   - features/auth/splash/
-  - features/posts/post_list/
+  - features/posts/home/
   - features/posts/create_post/
 
 environment:
@@ -162,7 +162,7 @@ melos:
           - feature
         dependsOn: build_runner
 
-    locale_generator:
+    locale_gen:
       run: melos exec --scope localization -- flutter gen-l10n
 
     update_minor_deps:
@@ -175,14 +175,12 @@ melos:
 
     # Production APK builds
     build:apk:production:release:
-      run: melos exec --scope="app" -- flutter build apk
-        --target=lib/application/main_production.dart --flavor production
-        --release
+      run: melos exec --scope="app" -- flutter build apk --target=lib/main.dart
+        --flavor production --release
       description: Build production APK (release mode)
 
     # Development APK builds
     build:apk:development:release:
-      run: melos exec --scope="app" -- flutter build apk
-        --target=lib/application/main_development.dart --flavor development
-        --release
+      run: melos exec --scope="app" -- flutter build apk --target=lib/main.dart
+        --flavor development --release
       description: Build development APK (release mode)

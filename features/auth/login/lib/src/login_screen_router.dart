@@ -7,8 +7,8 @@ final class LoginScreenRouter implements BaseRouter {
   List<RouteBase> routes({List<RouteBase> children = const []}) {
     return [
       GoRoute(
-        path: '/login',
-        name: AppRouteName.login,
+        path: AppRouteName.loginPath,
+        name: AppRouteName.loginScreen,
         builder: (context, state) => const LoginScreen(),
         routes: children,
       ),
