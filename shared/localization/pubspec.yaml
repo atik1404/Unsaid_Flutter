@@ -25,3 +25,6 @@ dev_dependencies:
   dart_code_linter: ^4.0.2
   intl_utils: ^2.8.14
   build_runner: ^2.13.1
+
+flutter:
+  generate: true

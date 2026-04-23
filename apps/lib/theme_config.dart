@@ -2,21 +2,21 @@ part of 'app_entry.dart';
 
 ThemeData _buildAppTheme(Brightness brightness) {
   final appTheme = (brightness == Brightness.dark) ? AppTheme.dark() : AppTheme.light();
-  final white = appTheme.colorSchemeTheme.warning;
+  final white = appTheme.colorSchemeTheme.contentWarning;
 
   return ThemeData(
     brightness: brightness,
     useMaterial3: true,
     colorScheme: ColorScheme(
       brightness: brightness,
-      primary: appTheme.colorSchemeTheme.error,
+      primary: appTheme.colorSchemeTheme.contentError,
       onPrimary: white,
-      secondary: appTheme.colorSchemeTheme.warning,
+      secondary: appTheme.colorSchemeTheme.contentWarning,
       onSecondary: white,
-      error: appTheme.colorSchemeTheme.error,
+      error: appTheme.colorSchemeTheme.contentError,
       onError: white,
       surface: white,
-      onSurface: appTheme.colorSchemeTheme.onError,
+      onSurface: appTheme.colorSchemeTheme.contentError,
     ),
     fontFamily: 'Poppins',
     extensions: <ThemeExtension<dynamic>>[appTheme],

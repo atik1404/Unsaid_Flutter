@@ -1,10 +1,10 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
-import 'package:localization/app_locale.dart';
+import 'package:localization/src/l10n/app_localizations.dart';
 
-extension AppLocaleKeyExtension on FailureKey {
+extension LocalizationKeyExtension on FailureKey {
   String locale(BuildContext context, {List<String>? args}) {
-    final l10n = AppLocale.of(context);
+    final l10n = Localizations.of<AppLocalizations>(context, AppLocalizations);
     if (l10n == null) {
       return '';
     }

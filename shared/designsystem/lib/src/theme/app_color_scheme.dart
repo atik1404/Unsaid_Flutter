@@ -2,22 +2,75 @@ import 'package:designsystem/src/tokens/app_colors.dart';
 import 'package:flutter/material.dart';
 
 final class AppColorScheme extends ThemeExtension<AppColorScheme> {
-  final Color error;
-  final Color onError;
+  // Surfaces
+  final Color backgroundPrimary;
+  final Color backgroundSecondary;
+  final Color backgroundDisabled;
 
-  final Color success;
-  final Color onSuccess;
+  // Intent surfaces (banners, alerts, inline messages, badges)
+  final Color backgroundBrand;
+  final Color backgroundError;
+  final Color backgroundSuccess;
+  final Color backgroundWarning;
+  final Color backgroundInfo;
 
-  final Color warning;
-  final Color onWarning;
+  // Overlay
+  final Color overlay; // scrim behind modals/dialogs (use with opacity)
+
+  // Content hierarchy (text + icons by emphasis level)
+  final Color contentPrimary; // high emphasis
+  final Color contentSecondary; // medium emphasis
+  final Color contentTertiary; // low emphasis
+  final Color contentDisabled; // non-interactive
+  final Color contentBrand; // brand-colored content
+  final Color contentError; // error-colored content
+  final Color contentSuccess; // success-colored content
+  final Color contentWarning; // warning-colored content
+  final Color contentInfo; // info-colored content
+
+  // Content on filled intent surfaces
+  final Color contentOnBrand;
+  final Color contentOnError;
+  final Color contentOnSuccess;
+  final Color contentOnWarning;
+  final Color contentOnInfo;
+
+  // Borders & divider
+  final Color borderPrimary; // standard borders
+  final Color borderSubtle; // light dividers, separators
+  final Color borderBrand; // brand-colored border & divider
+  final Color borderFocused; // keyboard/accessibility focus rings
+  final Color borderError; // error-colored border & divider
 
   const AppColorScheme({
-    required this.error,
-    required this.onError,
-    required this.success,
-    required this.onSuccess,
-    required this.warning,
-    required this.onWarning,
+    required this.backgroundPrimary,
+    required this.backgroundSecondary,
+    required this.backgroundDisabled,
+    required this.backgroundBrand,
+    required this.backgroundError,
+    required this.backgroundSuccess,
+    required this.backgroundWarning,
+    required this.backgroundInfo,
+    required this.overlay,
+    required this.contentPrimary,
+    required this.contentSecondary,
+    required this.contentTertiary,
+    required this.contentDisabled,
+    required this.contentBrand,
+    required this.contentError,
+    required this.contentSuccess,
+    required this.contentWarning,
+    required this.contentInfo,
+    required this.contentOnBrand,
+    required this.contentOnError,
+    required this.contentOnSuccess,
+    required this.contentOnWarning,
+    required this.contentOnInfo,
+    required this.borderPrimary,
+    required this.borderSubtle,
+    required this.borderBrand,
+    required this.borderFocused,
+    required this.borderError,
   });
 
   @override
@@ -31,12 +84,34 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
 
   factory AppColorScheme.light() {
     return const AppColorScheme(
-      error: AppColors.error500,
-      onError: AppColors.white,
-      success: AppColors.success500,
-      onSuccess: AppColors.white,
-      warning: AppColors.warning500,
-      onWarning: AppColors.white,
+      backgroundPrimary: AppColors.white,
+      backgroundSecondary: AppColors.neutral50,
+      backgroundDisabled: AppColors.neutral100,
+      backgroundBrand: AppColors.brand500,
+      backgroundError: AppColors.error500,
+      backgroundSuccess: AppColors.success500,
+      backgroundWarning: AppColors.warning500,
+      backgroundInfo: AppColors.neutral300,
+      overlay: AppColors.neutral800,
+      contentPrimary: AppColors.neutral900,
+      contentSecondary: AppColors.neutral700,
+      contentTertiary: AppColors.neutral500,
+      contentDisabled: AppColors.neutral300,
+      contentBrand: AppColors.brand500,
+      contentError: AppColors.error500,
+      contentSuccess: AppColors.success500,
+      contentWarning: AppColors.warning500,
+      contentInfo: AppColors.neutral300,
+      contentOnBrand: AppColors.white,
+      contentOnError: AppColors.white,
+      contentOnSuccess: AppColors.white,
+      contentOnWarning: AppColors.white,
+      contentOnInfo: AppColors.neutral900,
+      borderPrimary: AppColors.neutral200,
+      borderSubtle: AppColors.neutral100,
+      borderBrand: AppColors.brand500,
+      borderFocused: AppColors.brand500,
+      borderError: AppColors.error500,
     );
   }
 
