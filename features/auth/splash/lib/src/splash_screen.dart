@@ -49,7 +49,7 @@ class SplashScreen extends StatelessWidget {
             ),
           ),
 
-          Center(child: _buildContent()),
+          Center(child: _buildContent(context)),
 
           const Positioned(
             bottom: AppSpacing.s48,
@@ -64,25 +64,30 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContent() {
-    return const Column(
+  Widget _buildContent(BuildContext context) {
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(height: AppSpacing.s48),
-        AppText.headlineLarge(
-          'Unmasked voice',
+        const SizedBox(height: AppSpacing.s48),
+        const AppText.headlineLarge(
+          'Unsaid',
+          textWeight: AppTextWeight.extraBold,
         ),
-        SizedBox(height: AppSpacing.s12),
+        const SizedBox(height: AppSpacing.s12),
         AppText.bodyLarge(
           textAlign: TextAlign.center,
-          'Every user is anonymous, post & message freely.',
+          textWeight: AppTextWeight.light,
+          color: context.colorScheme.white,
+          'Things you couldn’t say anywhere else.',
         ),
-        SizedBox(height: AppSpacing.s12),
-        AppText.bodySmall(
+        const SizedBox(height: AppSpacing.s12),
+        AppText.bodyLarge(
           textAlign: TextAlign.center,
+          textWeight: AppTextWeight.light,
+          color: context.colorScheme.white,
           'Shed your identity, not your voice',
         ),
-        SizedBox(height: AppSpacing.s48),
+        const SizedBox(height: AppSpacing.s48),
       ],
     );
   }

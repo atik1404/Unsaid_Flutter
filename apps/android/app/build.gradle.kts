@@ -12,7 +12,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            version = "4.0.2"
+            version = "4.1.2"
         }
     }
 

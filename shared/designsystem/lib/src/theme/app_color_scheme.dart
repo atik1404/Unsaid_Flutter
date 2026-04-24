@@ -42,6 +42,9 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color borderFocused; // keyboard/accessibility focus rings
   final Color borderError; // error-colored border & divider
 
+  final Color white;
+  final Color black;
+
   const AppColorScheme({
     required this.backgroundPrimary,
     required this.backgroundSecondary,
@@ -71,6 +74,8 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
     required this.borderBrand,
     required this.borderFocused,
     required this.borderError,
+    required this.white,
+    required this.black,
   });
 
   @override
@@ -112,6 +117,8 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
       borderBrand: AppColors.brand500,
       borderFocused: AppColors.brand500,
       borderError: AppColors.error500,
+      white: AppColors.white,
+      black: AppColors.black,
     );
   }
 
