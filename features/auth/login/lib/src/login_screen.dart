@@ -19,6 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginUi(BuildContext context) {
+    final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
+
     return Stack(
       children: [
         const Positioned.fill(
@@ -34,10 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
           builder: (context, constraints) {
             return SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
-              padding: EdgeInsets.all(AppSpacing.s24.r),
+              padding: pagePadding,
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
+                  minHeight: constraints.maxHeight - pagePadding.vertical,
                 ),
                 child: _buildLoginForm(context),
               ),
@@ -50,15 +52,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginForm(BuildContext context) {
     final gap = SizedBox(height: AppSpacing.s12.h);
-    final gapS48 = SizedBox(height: AppSpacing.s48.h);
-    final topMargin = MediaQuery.sizeOf(context).height * 0.08;
+    final topMargin = MediaQuery.sizeOf(context).height * 0.07;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: topMargin),
         _buildLoginHeader(context),
-        gapS48,
+        gap,
+        gap,
         AppText.bodySmall(
           context.l10n.login_label_phone,
           textWeight: AppTextWeight.light,
@@ -74,7 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         SizedBox(height: AppSpacing.s4.h),
         _buildPassword(context),
-        gapS48,
+        gap,
+        gap,
         _buildLoginButton(context),
         gap,
         Align(
@@ -87,7 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         gap,
+        gap,
         _buildCreateAccount(context),
+        gap,
         _buildSocialLoginOptions(context),
       ],
     );
