@@ -181,6 +181,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get Started'**
   String get onboarding_get_started;
+
+  /// Label for retry button on error screens
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get action_retry;
 }
 
 class _AppLocalizationsDelegate

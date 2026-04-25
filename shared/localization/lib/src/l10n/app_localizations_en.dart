@@ -55,4 +55,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_get_started => 'Get Started';
+
+  @override
+  String get action_retry => 'Try Again';
 }

@@ -36,6 +36,7 @@ class SplashScreen extends StatelessWidget {
           return AppErrorScreen(
             title: 'Something went wrong',
             message: state.message,
+            onRetry: () => context.read<SplashCubit>().checkAuthorization(),
           );
         }
 

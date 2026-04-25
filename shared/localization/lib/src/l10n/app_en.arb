@@ -46,5 +46,9 @@
     "onboarding_get_started": "Get Started",
     "@onboarding_get_started": {
         "description": "Button label on the last onboarding page"
+    },
+    "action_retry": "Try Again",
+    "@action_retry": {
+        "description": "Label for retry button on error screens"
     }
 }

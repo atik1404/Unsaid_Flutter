@@ -56,4 +56,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get onboarding_get_started => 'শুরু করুন';
+
+  @override
+  String get action_retry => 'Try Again';
 }
