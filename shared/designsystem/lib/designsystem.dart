@@ -11,6 +11,7 @@ export 'src/components/button/app_outline_button.dart';
 export 'src/components/button/app_icon_button.dart';
 export 'src/components/button/app_text_button.dart';
 export 'src/components/button/app_button_enums.dart';
+export 'src/components/button/app_button_intent.dart';
 
 export 'src/components/inputfiled/app_input_field.dart';
 export 'src/components/card/app_card.dart';

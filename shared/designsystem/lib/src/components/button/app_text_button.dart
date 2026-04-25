@@ -40,9 +40,9 @@ final class AppTextButtonStyle {
   final Widget? trailing;
 
   const AppTextButtonStyle({
+    this.intent = const AppButtonIntent.primary(),
     this.leading,
     this.trailing,
-    this.intent = const AppButtonIntent.primary(),
   });
 
   AppTextButtonStyle copyWith({

@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 
 final class AppButtonTheme extends ThemeExtension<AppButtonTheme> {
   final AppButtonVariantSet primary;
+  final AppButtonVariantSet secondary;
 
   const AppButtonTheme({
     required this.primary,
+    required this.secondary,
   });
 
   AppButtonVariantSet byIntent(AppButtonIntent intent) => switch (intent) {
     AppButtonIntentPrimary() => primary,
     AppButtonIntentCustom(variants: final v) => v,
+    AppButtonIntentSecondary() => secondary,
   };
 
   factory AppButtonTheme.light() => const AppButtonTheme(
@@ -34,6 +37,23 @@ final class AppButtonTheme extends ThemeExtension<AppButtonTheme> {
       text: AppButtonColors(
         background: Colors.transparent,
         foreground: AppColors.brand500,
+        border: Colors.transparent,
+      ),
+    ),
+    secondary: AppButtonVariantSet(
+      filled: AppButtonColors(
+        background: Colors.transparent,
+        foreground: AppColors.warning500,
+        border: AppColors.warning500,
+      ),
+      outline: AppButtonColors(
+        background: Colors.transparent,
+        foreground: AppColors.warning500,
+        border: AppColors.warning500,
+      ),
+      text: AppButtonColors(
+        background: Colors.transparent,
+        foreground: AppColors.warning500,
         border: Colors.transparent,
       ),
     ),
