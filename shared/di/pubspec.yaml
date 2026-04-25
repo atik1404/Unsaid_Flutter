@@ -35,10 +35,10 @@ dependencies:
   navigation: ^0.0.1
   splash: ^0.0.1
   login: ^0.0.1
+  onboarding: ^0.0.1
 
   dio: ^5.9.2
   go_router: ^17.2.0
-
   get_it: ^9.2.1
 
 dev_dependencies:

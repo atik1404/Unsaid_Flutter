@@ -29,6 +29,8 @@ workspace:
   # features
   - features/auth/login/
   - features/auth/splash/
+  - features/auth/onboarding/
+
   - features/posts/home/
   - features/posts/create_post/
 

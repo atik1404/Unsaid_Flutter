@@ -121,6 +121,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong, please try again later.'**
   String get message_something_went_wrong;
+
+  /// Title for the first onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'The Simple Way to'**
+  String get onboarding_title_1;
+
+  /// Subtitle for the first onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'find the best!'**
+  String get onboarding_subtitle_1;
+
+  /// Description for the first onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'Your perfect movie night starts here. Explore, stream, and love every scene!'**
+  String get onboarding_description_1;
+
+  /// Title for the second onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'The Best Design'**
+  String get onboarding_title_2;
+
+  /// Subtitle for the second onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'Strategy'**
+  String get onboarding_subtitle_2;
+
+  /// Description for the second onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'From Oscar winners to hidden gems—every film awaits your spotlight.'**
+  String get onboarding_description_2;
+
+  /// Button label on the last onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboarding_get_started;
 }
 
 class _AppLocalizationsDelegate

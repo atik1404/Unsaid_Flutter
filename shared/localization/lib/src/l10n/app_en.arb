@@ -6,5 +6,33 @@
     },
     "message_connection_timeout": "Connection timeout, please try again later.",
     "message_unknown_error": "Unknown error, please try again later.",
-    "message_something_went_wrong": "Something went wrong, please try again later."
+    "message_something_went_wrong": "Something went wrong, please try again later.",
+    "onboarding_title_1": "The Simple Way to",
+    "@onboarding_title_1": {
+        "description": "Title for the first onboarding page"
+    },
+    "onboarding_subtitle_1": "find the best!",
+    "@onboarding_subtitle_1": {
+        "description": "Subtitle for the first onboarding page"
+    },
+    "onboarding_description_1": "Your perfect movie night starts here. Explore, stream, and love every scene!",
+    "@onboarding_description_1": {
+        "description": "Description for the first onboarding page"
+    },
+    "onboarding_title_2": "The Best Design",
+    "@onboarding_title_2": {
+        "description": "Title for the second onboarding page"
+    },
+    "onboarding_subtitle_2": "Strategy",
+    "@onboarding_subtitle_2": {
+        "description": "Subtitle for the second onboarding page"
+    },
+    "onboarding_description_2": "From Oscar winners to hidden gems—every film awaits your spotlight.",
+    "@onboarding_description_2": {
+        "description": "Description for the second onboarding page"
+    },
+    "onboarding_get_started": "Get Started",
+    "@onboarding_get_started": {
+        "description": "Button label on the last onboarding page"
+    }
 }
