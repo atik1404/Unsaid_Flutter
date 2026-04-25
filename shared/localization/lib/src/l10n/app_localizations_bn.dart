@@ -25,24 +25,34 @@ class AppLocalizationsBn extends AppLocalizations {
       'কিছু একটা সমস্যা হয়েছে, অনুগ্রহ করে পরে আবার চেষ্টা করুন।';
 
   @override
-  String get onboarding_title_1 => 'সবচেয়ে সহজ উপায়';
+  String get onboarding_title_1 => 'যা অনুভব করেন, তা শেয়ার করুন';
 
   @override
-  String get onboarding_subtitle_1 => 'সেরাটি খুঁজে পান!';
+  String get onboarding_subtitle_1 => 'ভালোবাসা, রাগ, স্বীকারোক্তি—নিরাপদে';
 
   @override
   String get onboarding_description_1 =>
-      'আপনার নিখুঁত মুভি নাইট এখানে শুরু হয়। অন্বেষণ করুন, স্ট্রিম করুন এবং প্রতিটি দৃশ্য উপভোগ করুন!';
+      'বেনামে পোস্ট করুন। মনের কথা বলুন। কোনো বাধা ছাড়াই অন্যদের সঙ্গে যুক্ত হন।';
 
   @override
-  String get onboarding_title_2 => 'সেরা ডিজাইন';
+  String get onboarding_title_2 => 'খোলামেলা বলুন, নিরাপদ থাকুন।';
 
   @override
-  String get onboarding_subtitle_2 => 'কৌশল';
+  String get onboarding_subtitle_2 => 'আপনার কণ্ঠ, আপনার গোপনীয়তা';
 
   @override
   String get onboarding_description_2 =>
-      'অস্কারজয়ী থেকে লুকানো রত্ন—প্রতিটি চলচ্চিত্র আপনার দৃষ্টির অপেক্ষায়।';
+      'যা খুশি শেয়ার করুন—আপনার পরিচয় গোপনই থাকবে। আপনার গোপন কথা নিরাপদ। সীমাহীনভাবে নিজেকে প্রকাশ করুন।';
+
+  @override
+  String get onboarding_title_3 => 'যা বলতে চান, সব বলুন';
+
+  @override
+  String get onboarding_subtitle_3 => 'ফিসফিসানি থেকে সতর্কবার্তা পর্যন্ত';
+
+  @override
+  String get onboarding_description_3 =>
+      'মনের চাপ ঝরান, স্বীকার করুন, অভিযোগ করুন—নিরাপদে ও বেনামে। নির্ভীক প্রকাশের আপনার প্ল্যাটফর্ম।';
 
   @override
   String get onboarding_get_started => 'শুরু করুন';

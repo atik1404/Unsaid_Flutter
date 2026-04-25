@@ -125,38 +125,56 @@ abstract class AppLocalizations {
   /// Title for the first onboarding page
   ///
   /// In en, this message translates to:
-  /// **'The Simple Way to'**
+  /// **'Share What You Feel'**
   String get onboarding_title_1;
 
   /// Subtitle for the first onboarding page
   ///
   /// In en, this message translates to:
-  /// **'find the best!'**
+  /// **'Love, anger, confessions—safely'**
   String get onboarding_subtitle_1;
 
   /// Description for the first onboarding page
   ///
   /// In en, this message translates to:
-  /// **'Your perfect movie night starts here. Explore, stream, and love every scene!'**
+  /// **'Post anonymously. Speak your truth. Connect with others without barriers.'**
   String get onboarding_description_1;
 
   /// Title for the second onboarding page
   ///
   /// In en, this message translates to:
-  /// **'The Best Design'**
+  /// **'Speak Freely. Stay Protected.'**
   String get onboarding_title_2;
 
   /// Subtitle for the second onboarding page
   ///
   /// In en, this message translates to:
-  /// **'Strategy'**
+  /// **'Your voice, your privacy'**
   String get onboarding_subtitle_2;
 
   /// Description for the second onboarding page
   ///
   /// In en, this message translates to:
-  /// **'From Oscar winners to hidden gems—every film awaits your spotlight.'**
+  /// **'Share anything—your identity stays hidden. Your secrets are safe. Express yourself without limits.'**
   String get onboarding_description_2;
+
+  /// Title for the third onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'Everything You Want to Say'**
+  String get onboarding_title_3;
+
+  /// Subtitle for the third onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'From whispers to warnings'**
+  String get onboarding_subtitle_3;
+
+  /// Description for the third onboarding page
+  ///
+  /// In en, this message translates to:
+  /// **'Vent, confess, complain—securely and anonymously. Your platform for unfiltered expression.'**
+  String get onboarding_description_3;
 
   /// Button label on the last onboarding page
   ///

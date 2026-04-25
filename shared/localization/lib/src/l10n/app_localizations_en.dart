@@ -24,24 +24,34 @@ class AppLocalizationsEn extends AppLocalizations {
       'Something went wrong, please try again later.';
 
   @override
-  String get onboarding_title_1 => 'The Simple Way to';
+  String get onboarding_title_1 => 'Share What You Feel';
 
   @override
-  String get onboarding_subtitle_1 => 'find the best!';
+  String get onboarding_subtitle_1 => 'Love, anger, confessions—safely';
 
   @override
   String get onboarding_description_1 =>
-      'Your perfect movie night starts here. Explore, stream, and love every scene!';
+      'Post anonymously. Speak your truth. Connect with others without barriers.';
 
   @override
-  String get onboarding_title_2 => 'The Best Design';
+  String get onboarding_title_2 => 'Speak Freely. Stay Protected.';
 
   @override
-  String get onboarding_subtitle_2 => 'Strategy';
+  String get onboarding_subtitle_2 => 'Your voice, your privacy';
 
   @override
   String get onboarding_description_2 =>
-      'From Oscar winners to hidden gems—every film awaits your spotlight.';
+      'Share anything—your identity stays hidden. Your secrets are safe. Express yourself without limits.';
+
+  @override
+  String get onboarding_title_3 => 'Everything You Want to Say';
+
+  @override
+  String get onboarding_subtitle_3 => 'From whispers to warnings';
+
+  @override
+  String get onboarding_description_3 =>
+      'Vent, confess, complain—securely and anonymously. Your platform for unfiltered expression.';
 
   @override
   String get onboarding_get_started => 'Get Started';

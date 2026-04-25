@@ -90,8 +90,8 @@ final class AppFilledButtonStyle {
   const AppFilledButtonStyle({
     this.leading,
     this.trailing,
-    this.intent = const AppButtonIntent.brand(),
-    this.shape = AppButtonShape.rounded,
+    this.intent = const AppButtonIntent.primary(),
+    this.shape = AppButtonShape.pill,
     this.shrinkWrap = false,
   });
 

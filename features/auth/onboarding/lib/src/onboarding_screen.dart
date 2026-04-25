@@ -25,19 +25,19 @@ class OnboardingScreen extends StatelessWidget {
         title: l10n.onboarding_title_1,
         subTitle: l10n.onboarding_subtitle_1,
         description: l10n.onboarding_description_1,
-        image: AppDrawables.logoTransparent,
+        image: AppDrawables.icShareYourMind,
       ),
       OnboardingPagerEntity(
         title: l10n.onboarding_title_2,
         subTitle: l10n.onboarding_subtitle_2,
         description: l10n.onboarding_description_2,
-        image: AppDrawables.logoTransparent,
+        image: AppDrawables.icShareAnonymously,
       ),
       OnboardingPagerEntity(
-        title: l10n.onboarding_title_2,
-        subTitle: l10n.onboarding_subtitle_2,
-        description: l10n.onboarding_description_2,
-        image: AppDrawables.logoTransparent,
+        title: l10n.onboarding_title_3,
+        subTitle: l10n.onboarding_subtitle_3,
+        description: l10n.onboarding_description_3,
+        image: AppDrawables.icShareAnything,
       ),
     ];
 
@@ -76,7 +76,7 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(height: AppSpacing.s32.h),
                   // Animated "Get Started" button
                   _buildAnimatedButton(),
-                  SizedBox(height: screenSize.height * 0.15),
+                  SizedBox(height: screenSize.height * 0.1),
                 ],
               ),
             ),
@@ -112,40 +112,42 @@ class OnboardingScreen extends StatelessWidget {
 
   /// Builds a single onboarding page
   Widget _buildPageItem(BuildContext context, OnboardingPagerEntity item) {
+    final contentMargin = MediaQuery.sizeOf(context).height * 0.1;
+
     return Column(
       children: [
-        const Spacer(),
-        // Onboarding illustration/image
-        Image.asset(
+        SizedBox(height: contentMargin),
+        AppImage.asset(
           item.image,
           height: 250.h,
         ),
-        const Spacer(),
+        SizedBox(height: contentMargin),
         Column(
           children: [
             // Title text
             AppText.titleLarge(
               item.title,
               textAlign: TextAlign.center,
-              textWeight: AppTextWeight.bold,
+              textWeight: AppTextWeight.extraBold,
             ),
             SizedBox(height: AppSpacing.s16.h),
             // Subtitle text
-            AppText.titleSmall(
+            AppText.titleMedium(
               item.subTitle,
               textAlign: TextAlign.center,
-              textWeight: AppTextWeight.light,
+              textWeight: AppTextWeight.semiBold,
+              color: context.colorScheme.contentTertiary,
             ),
-            SizedBox(height: AppSpacing.s32.h),
+            SizedBox(height: AppSpacing.s16.h),
             // Description text
-            AppText.bodyMedium(
+            AppText.bodySmall(
               item.description,
               textAlign: TextAlign.center,
               textWeight: AppTextWeight.light,
+              color: context.colorScheme.contentTertiary,
             ),
           ],
         ),
-        const Spacer(),
       ],
     );
   }

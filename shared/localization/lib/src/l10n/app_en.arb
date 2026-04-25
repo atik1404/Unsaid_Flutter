@@ -7,29 +7,41 @@
     "message_connection_timeout": "Connection timeout, please try again later.",
     "message_unknown_error": "Unknown error, please try again later.",
     "message_something_went_wrong": "Something went wrong, please try again later.",
-    "onboarding_title_1": "The Simple Way to",
+    "onboarding_title_1": "Share What You Feel",
     "@onboarding_title_1": {
         "description": "Title for the first onboarding page"
     },
-    "onboarding_subtitle_1": "find the best!",
+    "onboarding_subtitle_1": "Love, anger, confessions—safely",
     "@onboarding_subtitle_1": {
         "description": "Subtitle for the first onboarding page"
     },
-    "onboarding_description_1": "Your perfect movie night starts here. Explore, stream, and love every scene!",
+    "onboarding_description_1": "Post anonymously. Speak your truth. Connect with others without barriers.",
     "@onboarding_description_1": {
         "description": "Description for the first onboarding page"
     },
-    "onboarding_title_2": "The Best Design",
+    "onboarding_title_2": "Speak Freely. Stay Protected.",
     "@onboarding_title_2": {
         "description": "Title for the second onboarding page"
     },
-    "onboarding_subtitle_2": "Strategy",
+    "onboarding_subtitle_2": "Your voice, your privacy",
     "@onboarding_subtitle_2": {
         "description": "Subtitle for the second onboarding page"
     },
-    "onboarding_description_2": "From Oscar winners to hidden gems—every film awaits your spotlight.",
+    "onboarding_description_2": "Share anything—your identity stays hidden. Your secrets are safe. Express yourself without limits.",
     "@onboarding_description_2": {
         "description": "Description for the second onboarding page"
+    },
+    "onboarding_title_3": "Everything You Want to Say",
+    "@onboarding_title_3": {
+        "description": "Title for the third onboarding page"
+    },
+    "onboarding_subtitle_3": "From whispers to warnings",
+    "@onboarding_subtitle_3": {
+        "description": "Subtitle for the third onboarding page"
+    },
+    "onboarding_description_3": "Vent, confess, complain—securely and anonymously. Your platform for unfiltered expression.",
+    "@onboarding_description_3": {
+        "description": "Description for the third onboarding page"
     },
     "onboarding_get_started": "Get Started",
     "@onboarding_get_started": {

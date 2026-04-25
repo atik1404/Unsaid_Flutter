@@ -3,13 +3,18 @@ import 'package:designsystem/src/components/button/app_button_colors.dart';
 sealed class AppButtonIntent {
   const AppButtonIntent();
 
-  const factory AppButtonIntent.brand() = AppButtonIntentBrand._;
+  const factory AppButtonIntent.primary() = AppButtonIntentPrimary._;
+  const factory AppButtonIntent.secondary() = AppButtonIntentSecondary._;
   const factory AppButtonIntent.custom(AppButtonVariantSet varients) =
       AppButtonIntentCustom._;
 }
 
-final class AppButtonIntentBrand extends AppButtonIntent {
-  const AppButtonIntentBrand._();
+final class AppButtonIntentPrimary extends AppButtonIntent {
+  const AppButtonIntentPrimary._();
+}
+
+final class AppButtonIntentSecondary extends AppButtonIntent {
+  const AppButtonIntentSecondary._();
 }
 
 final class AppButtonIntentCustom extends AppButtonIntent {

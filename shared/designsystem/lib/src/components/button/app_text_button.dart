@@ -42,7 +42,7 @@ final class AppTextButtonStyle {
   const AppTextButtonStyle({
     this.leading,
     this.trailing,
-    this.intent = const AppButtonIntent.brand(),
+    this.intent = const AppButtonIntent.primary(),
   });
 
   AppTextButtonStyle copyWith({
