@@ -47,12 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           _buildLoginHeader(context),
           gap,
+          gap,
           AppText.bodySmall(
             context.l10n.login_label_phone,
             textWeight: AppTextWeight.light,
             color: context.colorScheme.contentInfo,
           ),
-          const SizedBox(height: AppSpacing.s8),
+          SizedBox(height: AppSpacing.s4.h),
           _buildPhoneNumber(context),
           gap,
           AppText.bodySmall(
@@ -60,13 +61,25 @@ class _LoginScreenState extends State<LoginScreen> {
             textWeight: AppTextWeight.light,
             color: context.colorScheme.contentInfo,
           ),
-          const SizedBox(height: AppSpacing.s8),
+          SizedBox(height: AppSpacing.s4.h),
           _buildPassword(context),
           gap,
           gap,
           gap,
-          gap,
           _buildLoginButton(context),
+          gap,
+          Align(
+            child: AppTextButton(
+              'Forgot Password',
+              onPressed: () {},
+              style: const AppTextButtonStyle(
+                intent: AppButtonIntent.secondary(),
+              ),
+            ),
+          ),
+          gap,
+          _buildCreateAccount(context),
+          _buildSocialLoginOptions(context),
         ],
       ),
     );
@@ -80,13 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
           width: 120.w,
           height: 120.h,
         ),
-        const SizedBox(height: AppSpacing.s16),
+        SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(
           context.l10n.login_title,
           textWeight: AppTextWeight.extraBold,
         ),
-        const SizedBox(height: AppSpacing.s8),
-        AppText.bodyLarge(
+        SizedBox(height: AppSpacing.s8.h),
+        AppText.bodySmall(
           context.l10n.login_subtitle,
           textAlign: TextAlign.center,
           textWeight: AppTextWeight.light,
@@ -116,6 +129,58 @@ class _LoginScreenState extends State<LoginScreen> {
       onPressed: () {
         // Handle login logic
       },
+    );
+  }
+
+  Widget _buildCreateAccount(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AppText.bodySmall(
+          'Not have an account?',
+          textWeight: AppTextWeight.light,
+          color: context.colorScheme.contentInfo,
+        ),
+        AppTextButton(
+          'Sign Up',
+          onPressed: () {},
+          style: const AppTextButtonStyle(
+            intent: AppButtonIntent.secondary(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialLoginOptions(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: AppSpacing.s24.h),
+        AppText.bodySmall(
+          'Or sign in with',
+          textWeight: AppTextWeight.extraBold,
+          color: context.colorScheme.contentInfo,
+        ),
+        SizedBox(height: AppSpacing.s32.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: AppFilledButton.text(
+                'Google',
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(width: AppSpacing.s16.w),
+            Expanded(
+              child: AppFilledButton.text(
+                'Facebook',
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
