@@ -1,5 +1,6 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginUi(BuildContext context) {
+    final topMargin = MediaQuery.sizeOf(context).height * 0.1;
     return Stack(
       children: [
         const Positioned.fill(
@@ -28,44 +30,65 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
 
-        _buildLoginForm(context),
+        Center(
+          child: _buildLoginForm(context),
+        ),
       ],
     );
   }
 
   Widget _buildLoginForm(BuildContext context) {
-    const gap = SizedBox(height: AppSpacing.s16);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildLoginHeader(context),
-        gap,
-        _buildPhoneNumber(context),
-        gap,
-        _buildPassword(context),
-        gap,
-        _buildLoginButton(context),
-      ],
+    final gap = SizedBox(height: AppSpacing.s12.h);
+    return Padding(
+      padding: EdgeInsets.all(AppSpacing.s24.r),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildLoginHeader(context),
+          gap,
+          const AppText.bodySmall(
+            "Phone number",
+            textWeight: AppTextWeight.light,
+          ),
+          const SizedBox(height: AppSpacing.s8),
+          _buildPhoneNumber(context),
+          gap,
+          const AppText.bodySmall(
+            "Password",
+            textWeight: AppTextWeight.light,
+          ),
+          const SizedBox(height: AppSpacing.s8),
+          _buildPassword(context),
+          gap,
+          gap,
+          gap,
+          gap,
+          _buildLoginButton(context),
+        ],
+      ),
     );
   }
 
   Widget _buildLoginHeader(BuildContext context) {
     return Column(
       children: [
-        const AppImage.asset(
+        AppImage.asset(
           AppDrawables.logoTransparent,
-          width: 120,
-          height: 120,
+          width: 120.w,
+          height: 120.h,
         ),
         const SizedBox(height: AppSpacing.s16),
-        Text(
-          "Welcome Back",
-          style: Theme.of(context).textTheme.headlineSmall,
+        const AppText.titleLarge(
+          "Let’s Get You In",
+          textWeight: AppTextWeight.extraBold,
         ),
         const SizedBox(height: AppSpacing.s8),
-        const Text(
-          "Enter your credentials to login to your account",
-          style: TextStyle(fontSize: 16, color: Colors.grey),
+        AppText.bodyLarge(
+          "Sign in to connect through honest, anonymous conversations.",
+          textAlign: TextAlign.center,
+          textWeight: AppTextWeight.light,
+          color: context.colorScheme.contentInfo,
         ),
       ],
     );

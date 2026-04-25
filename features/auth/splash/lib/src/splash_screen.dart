@@ -1,6 +1,7 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:splash/src/state/splash_cubit.dart';
@@ -34,7 +35,6 @@ class SplashScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is SplashError) {
           return AppErrorScreen(
-            title: 'Something went wrong',
             message: state.message,
             onRetry: () => context.read<SplashCubit>().checkAuthorization(),
           );
@@ -55,11 +55,11 @@ class SplashScreen extends StatelessWidget {
               top: topMargin,
               left: 0,
               right: 0,
-              child: const Center(
+              child: Center(
                 child: AppImage.asset(
                   AppDrawables.logoTransparent,
-                  width: 120,
-                  height: 120,
+                  width: 120.w,
+                  height: 120.h,
                 ),
               ),
             ),
