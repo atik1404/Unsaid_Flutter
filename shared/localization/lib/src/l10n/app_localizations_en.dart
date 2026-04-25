@@ -60,7 +60,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get action_retry => 'Try Again';
 
   @override
-  String get login_title => 'Let\'s Get You In';
+  String get login_title => 'Let\'s Get You Signed In';
 
   @override
   String get login_subtitle =>
@@ -79,5 +79,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login_hint_password => 'Enter your password';
 
   @override
-  String get login_button => 'Login';
+  String get login_button => 'Sign In';
+
+  @override
+  String get login_forgot_password => 'Forgot Password';
+
+  @override
+  String get login_create_account_prompt => 'Don\'t have an account?';
+
+  @override
+  String get login_sign_up => 'Sign Up';
+
+  @override
+  String get login_social_sign_in => 'Or sign in with';
+
+  @override
+  String get login_google => 'Google';
+
+  @override
+  String get login_facebook => 'Facebook';
 }

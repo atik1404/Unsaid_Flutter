@@ -48,7 +48,7 @@
     "@action_retry": {
         "description": "Label for retry button on error screens"
     },
-    "login_title": "আসুন, লগইন করি",
+    "login_title": "আসুন, সাইন ইন করি",
     "@login_title": {
         "description": "Login screen main heading"
     },
@@ -72,8 +72,32 @@
     "@login_hint_password": {
         "description": "Hint text inside the password input field"
     },
-    "login_button": "লগইন",
+    "login_button": "সাইন ইন",
     "@login_button": {
-        "description": "Login submit button label"
+        "description": "Sign in submit button label"
+    },
+    "login_forgot_password": "পাসওয়ার্ড ভুলে গেছেন",
+    "@login_forgot_password": {
+        "description": "Secondary action label for forgotten password on the sign in screen"
+    },
+    "login_create_account_prompt": "অ্যাকাউন্ট নেই?",
+    "@login_create_account_prompt": {
+        "description": "Prompt shown before the sign up action on the sign in screen"
+    },
+    "login_sign_up": "সাইন আপ",
+    "@login_sign_up": {
+        "description": "Call to action for creating a new account from the sign in screen"
+    },
+    "login_social_sign_in": "অথবা সাইন ইন করুন",
+    "@login_social_sign_in": {
+        "description": "Label above social sign in provider buttons"
+    },
+    "login_google": "গুগল",
+    "@login_google": {
+        "description": "Google sign in provider button label"
+    },
+    "login_facebook": "ফেসবুক",
+    "@login_facebook": {
+        "description": "Facebook sign in provider button label"
     }
 }

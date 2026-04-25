@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// Login screen main heading
   ///
   /// In en, this message translates to:
-  /// **'Let's Get You In'**
+  /// **'Let\'s Get You Signed In'**
   String get login_title;
 
   /// Login screen subtitle below heading
@@ -224,11 +224,47 @@ abstract class AppLocalizations {
   /// **'Enter your password'**
   String get login_hint_password;
 
-  /// Login submit button label
+  /// Sign in submit button label
   ///
   /// In en, this message translates to:
-  /// **'Login'**
+  /// **'Sign In'**
   String get login_button;
+
+  /// Secondary action label for forgotten password on the sign in screen
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get login_forgot_password;
+
+  /// Prompt shown before the sign up action on the sign in screen
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get login_create_account_prompt;
+
+  /// Call to action for creating a new account from the sign in screen
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get login_sign_up;
+
+  /// Label above social sign in provider buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Or sign in with'**
+  String get login_social_sign_in;
+
+  /// Google sign in provider button label
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get login_google;
+
+  /// Facebook sign in provider button label
+  ///
+  /// In en, this message translates to:
+  /// **'Facebook'**
+  String get login_facebook;
 }
 
 class _AppLocalizationsDelegate

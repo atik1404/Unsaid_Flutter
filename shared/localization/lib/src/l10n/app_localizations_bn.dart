@@ -61,7 +61,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get action_retry => 'আবার চেষ্টা করুন';
 
   @override
-  String get login_title => 'আসুন, লগইন করি';
+  String get login_title => 'আসুন, সাইন ইন করি';
 
   @override
   String get login_subtitle =>
@@ -80,5 +80,23 @@ class AppLocalizationsBn extends AppLocalizations {
   String get login_hint_password => 'আপনার পাসওয়ার্ড দিন';
 
   @override
-  String get login_button => 'লগইন';
+  String get login_button => 'সাইন ইন';
+
+  @override
+  String get login_forgot_password => 'পাসওয়ার্ড ভুলে গেছেন';
+
+  @override
+  String get login_create_account_prompt => 'অ্যাকাউন্ট নেই?';
+
+  @override
+  String get login_sign_up => 'সাইন আপ';
+
+  @override
+  String get login_social_sign_in => 'অথবা সাইন ইন করুন';
+
+  @override
+  String get login_google => 'গুগল';
+
+  @override
+  String get login_facebook => 'ফেসবুক';
 }

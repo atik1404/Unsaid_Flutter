@@ -30,8 +30,19 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
 
-        Center(
-          child: _buildLoginForm(context),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              padding: EdgeInsets.all(AppSpacing.s24.r),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: _buildLoginForm(context),
+              ),
+            );
+          },
         ),
       ],
     );
@@ -39,49 +50,46 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginForm(BuildContext context) {
     final gap = SizedBox(height: AppSpacing.s12.h);
-    return Padding(
-      padding: EdgeInsets.all(AppSpacing.s24.r),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildLoginHeader(context),
-          gap,
-          gap,
-          AppText.bodySmall(
-            context.l10n.login_label_phone,
-            textWeight: AppTextWeight.light,
-            color: context.colorScheme.contentInfo,
-          ),
-          SizedBox(height: AppSpacing.s4.h),
-          _buildPhoneNumber(context),
-          gap,
-          AppText.bodySmall(
-            context.l10n.login_label_password,
-            textWeight: AppTextWeight.light,
-            color: context.colorScheme.contentInfo,
-          ),
-          SizedBox(height: AppSpacing.s4.h),
-          _buildPassword(context),
-          gap,
-          gap,
-          gap,
-          _buildLoginButton(context),
-          gap,
-          Align(
-            child: AppTextButton(
-              'Forgot Password',
-              onPressed: () {},
-              style: const AppTextButtonStyle(
-                intent: AppButtonIntent.secondary(),
-              ),
+    final gapS48 = SizedBox(height: AppSpacing.s48.h);
+    final topMargin = MediaQuery.sizeOf(context).height * 0.08;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: topMargin),
+        _buildLoginHeader(context),
+        gapS48,
+        AppText.bodySmall(
+          context.l10n.login_label_phone,
+          textWeight: AppTextWeight.light,
+          color: context.colorScheme.contentInfo,
+        ),
+        SizedBox(height: AppSpacing.s4.h),
+        _buildPhoneNumber(context),
+        gap,
+        AppText.bodySmall(
+          context.l10n.login_label_password,
+          textWeight: AppTextWeight.light,
+          color: context.colorScheme.contentInfo,
+        ),
+        SizedBox(height: AppSpacing.s4.h),
+        _buildPassword(context),
+        gapS48,
+        _buildLoginButton(context),
+        gap,
+        Align(
+          child: AppTextButton(
+            context.l10n.login_forgot_password,
+            onPressed: () {},
+            style: const AppTextButtonStyle(
+              intent: AppButtonIntent.secondary(),
             ),
           ),
-          gap,
-          _buildCreateAccount(context),
-          _buildSocialLoginOptions(context),
-        ],
-      ),
+        ),
+        gap,
+        _buildCreateAccount(context),
+        _buildSocialLoginOptions(context),
+      ],
     );
   }
 
@@ -137,12 +145,12 @@ class _LoginScreenState extends State<LoginScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppText.bodySmall(
-          'Not have an account?',
+          context.l10n.login_create_account_prompt,
           textWeight: AppTextWeight.light,
           color: context.colorScheme.contentInfo,
         ),
         AppTextButton(
-          'Sign Up',
+          context.l10n.login_sign_up,
           onPressed: () {},
           style: const AppTextButtonStyle(
             intent: AppButtonIntent.secondary(),
@@ -157,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         SizedBox(height: AppSpacing.s24.h),
         AppText.bodySmall(
-          'Or sign in with',
+          context.l10n.login_social_sign_in,
           textWeight: AppTextWeight.extraBold,
           color: context.colorScheme.contentInfo,
         ),
@@ -167,14 +175,14 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Expanded(
               child: AppFilledButton.text(
-                'Google',
+                context.l10n.login_google,
                 onPressed: () {},
               ),
             ),
             SizedBox(width: AppSpacing.s16.w),
             Expanded(
               child: AppFilledButton.text(
-                'Facebook',
+                context.l10n.login_facebook,
                 onPressed: () {},
               ),
             ),
