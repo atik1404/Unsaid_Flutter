@@ -1,7 +1,7 @@
 export 'src/extensions/integer_extension.dart';
 export 'src/extensions/number_extension.dart';
 export 'src/extensions/string_extension.dart';
-export 'src/utils/logcat.dart';
+export 'src/utils/app_log.dart';
 export 'src/constants/app_constants.dart';
 export 'src/result/failure.dart';
 export 'src/result/failure_message.dart';

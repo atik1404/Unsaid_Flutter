@@ -2,26 +2,33 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
-class NetworkErrorScreen extends StatefulWidget {
+class AppErrorScreen extends StatefulWidget {
   final String? title;
   final String? message;
   final VoidCallback? onRetry;
 
-  const NetworkErrorScreen({super.key, this.title, this.message, this.onRetry});
+  const AppErrorScreen({super.key, this.title, this.message, this.onRetry});
 
   @override
-  State<NetworkErrorScreen> createState() => _NetworkErrorScreenState();
+  State<AppErrorScreen> createState() => _AppErrorScreenState();
 }
 
-class _NetworkErrorScreenState extends State<NetworkErrorScreen> with SingleTickerProviderStateMixin {
+class _AppErrorScreenState extends State<AppErrorScreen>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _floatAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat(reverse: true);
-    _floatAnimation = Tween<double>(begin: -10, end: 10).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutSine));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+    _floatAnimation = Tween<double>(
+      begin: -10,
+      end: 10,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutSine));
   }
 
   @override
@@ -32,11 +39,7 @@ class _NetworkErrorScreenState extends State<NetworkErrorScreen> with SingleTick
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Scaffold(
-      backgroundColor: colorScheme.surface,
+    return AppScaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -118,7 +121,8 @@ class StaggeredFadeSlide extends StatelessWidget {
       duration: duration,
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
-        final adjustedValue = (value - delay).clamp(0.0, 1.0) * (1 / remainingTime);
+        final adjustedValue =
+            (value - delay).clamp(0.0, 1.0) * (1 / remainingTime);
 
         return Transform.translate(
           offset: Offset(0, 20 * (1 - adjustedValue)),

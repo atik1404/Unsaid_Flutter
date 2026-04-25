@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:splash/src/state/splash_cubit.dart';
 import 'package:splash/src/state/splash_state.dart';
+import 'package:ui/ui.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -14,53 +15,67 @@ class SplashScreen extends StatelessWidget {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         state.maybeMap(
-          success: (_) => context.goNamed(AppRouteName.onboardingScreen),
+          navigateToOnboarding: (_) =>
+              context.goNamed(AppRouteName.onboardingScreen),
+          navigateToLogin: (_) => context.goNamed(AppRouteName.loginScreen),
+          navigateToHome: (_) => context.goNamed(AppRouteName.homeScreen),
           orElse: () {},
         );
       },
-      child: _buildMainContent(context),
+      child: AppScaffold(
+        body: _buildMainContent(context),
+      ),
     );
   }
 
   Widget _buildMainContent(BuildContext context) {
     final topMargin = MediaQuery.sizeOf(context).height * 0.2;
-    return AppScaffold(
-      body: Stack(
-        children: [
-          const Positioned.fill(
-            child: AppSvg.asset(
-              AppDrawables.appBackground,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-          ),
+    return BlocBuilder<SplashCubit, SplashState>(
+      builder: (context, state) {
+        if (state is SplashError) {
+          return AppErrorScreen(
+            title: 'Something went wrong',
+            message: state.message,
+          );
+        }
 
-          Positioned(
-            top: topMargin,
-            left: 0,
-            right: 0,
-            child: const Center(
-              child: AppImage.asset(
-                AppDrawables.logoTransparent,
-                width: 120,
-                height: 120,
+        return Stack(
+          children: [
+            const Positioned.fill(
+              child: AppSvg.asset(
+                AppDrawables.appBackground,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
               ),
             ),
-          ),
 
-          Center(child: _buildContent(context)),
-
-          const Positioned(
-            bottom: AppSpacing.s48,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: CircularProgressIndicator(),
+            Positioned(
+              top: topMargin,
+              left: 0,
+              right: 0,
+              child: const Center(
+                child: AppImage.asset(
+                  AppDrawables.logoTransparent,
+                  width: 120,
+                  height: 120,
+                ),
+              ),
             ),
-          ),
-        ],
-      ),
+
+            Center(child: _buildContent(context)),
+
+            const Positioned(
+              bottom: AppSpacing.s48,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

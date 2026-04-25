@@ -5,11 +5,13 @@ class AppButtonColors {
   final Color background;
   final Color foreground;
   final Color border;
+  final Gradient? gradient;
 
   const AppButtonColors({
     required this.background,
     required this.foreground,
     required this.border,
+    this.gradient,
   });
 }
 

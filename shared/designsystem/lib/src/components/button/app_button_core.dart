@@ -33,7 +33,7 @@ class AppButtonCore extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final bool shrinkWrap;
 
-  static const double _disabledOpacity = 0.38;
+  static const double _disabledOpacity = 1;
   static const double _hoverOverlayOpacity = 0.08;
 
   @override
@@ -52,12 +52,60 @@ class AppButtonCore extends StatelessWidget {
     final textStyle = _textStyleFor(height, typography);
 
     final isInteractive = onPressed != null && !isLoading;
+    final hasGradient =
+        variant == AppButtonVariant.filled && colors.gradient != null;
 
-    final effectiveForeground = isInteractive ? colors.foreground : colors.foreground.withValues(alpha: _disabledOpacity);
+    if (hasGradient) {
+      return Opacity(
+        opacity: isInteractive ? 1.0 : _disabledOpacity,
+        child: SizedBox(
+          height: shrinkWrap ? null : dims.height,
+          width: width,
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              gradient: colors.gradient,
+              shape: _resolveShape(),
+            ),
+            child: ElevatedButton(
+              onPressed: isLoading ? null : onPressed,
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                foregroundColor: colors.foreground,
+                disabledBackgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                overlayColor: colors.foreground.withValues(
+                  alpha: _hoverOverlayOpacity,
+                ),
+                shape: _resolveShape(),
+                padding: padding,
+                tapTargetSize: shrinkWrap
+                    ? MaterialTapTargetSize.shrinkWrap
+                    : null,
+                minimumSize: shrinkWrap ? Size.zero : null,
+              ),
+              child: _buildChild(
+                colors.foreground,
+                dims.loadingSize,
+                textStyle,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
-    final disabledBackground = variant == AppButtonVariant.filled ? colors.background.withValues(alpha: _disabledOpacity) : Colors.transparent;
+    final effectiveForeground = isInteractive
+        ? colors.foreground
+        : colors.foreground.withValues(alpha: _disabledOpacity);
 
-    final overlayColor = variant == AppButtonVariant.filled ? null : colors.foreground.withValues(alpha: _hoverOverlayOpacity);
+    final disabledBackground = variant == AppButtonVariant.filled
+        ? colors.background.withValues(alpha: _disabledOpacity)
+        : Colors.transparent;
+
+    final overlayColor = variant == AppButtonVariant.filled
+        ? null
+        : colors.foreground.withValues(alpha: _hoverOverlayOpacity);
 
     return SizedBox(
       height: shrinkWrap ? null : dims.height,
@@ -68,7 +116,9 @@ class AppButtonCore extends StatelessWidget {
           elevation: 0,
           backgroundColor: colors.background,
           foregroundColor: colors.foreground,
-          disabledBackgroundColor: isLoading ? colors.background : disabledBackground,
+          disabledBackgroundColor: isLoading
+              ? colors.background
+              : disabledBackground,
           side: _resolveBorderSide(colors, isInteractive),
           overlayColor: overlayColor,
           shadowColor: Colors.transparent,
@@ -84,15 +134,19 @@ class AppButtonCore extends StatelessWidget {
 
   BorderSide? _resolveBorderSide(AppButtonColors colors, bool isInteractive) {
     if (variant != AppButtonVariant.outline) return null;
-    final color = isInteractive ? colors.border : colors.border.withValues(alpha: _disabledOpacity);
+    final color = isInteractive
+        ? colors.border
+        : colors.border.withValues(alpha: _disabledOpacity);
     return BorderSide(color: color);
   }
 
   OutlinedBorder _resolveShape() => switch (shape) {
-    AppButtonShape.rounded => RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+    AppButtonShape.rounded => RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(5),
+    ),
     AppButtonShape.pill => const StadiumBorder(),
     AppButtonShape.circle => const CircleBorder(),
-    AppButtonShape.sharp => const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+    AppButtonShape.sharp => const RoundedRectangleBorder(),
   };
 
   _ButtonDimensions _dimensionsFor(AppButtonHeight h) => switch (h) {
@@ -101,11 +155,12 @@ class AppButtonCore extends StatelessWidget {
     AppButtonHeight.lg => const _ButtonDimensions(height: 56, loadingSize: 20),
   };
 
-  TextStyle _textStyleFor(AppButtonHeight h, AppTypographyTheme t) => switch (h) {
-    AppButtonHeight.sm => t.labelSmall,
-    AppButtonHeight.md => t.labelMedium,
-    AppButtonHeight.lg => t.labelLarge,
-  };
+  TextStyle _textStyleFor(AppButtonHeight h, AppTypographyTheme t) =>
+      switch (h) {
+        AppButtonHeight.sm => t.labelSmall,
+        AppButtonHeight.md => t.labelMedium,
+        AppButtonHeight.lg => t.labelLarge,
+      };
 
   Widget _buildChild(
     Color contentColor,
@@ -119,7 +174,10 @@ class AppButtonCore extends StatelessWidget {
         children: [
           Text(
             'Processing...',
-            style: textStyle.copyWith(color: contentColor),
+            style: textStyle.copyWith(
+              color: contentColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(width: 8),
           SizedBox(
@@ -135,7 +193,10 @@ class AppButtonCore extends StatelessWidget {
     }
 
     return DefaultTextStyle(
-      style: textStyle.copyWith(color: contentColor),
+      style: textStyle.copyWith(
+        color: contentColor,
+        fontWeight: FontWeight.bold,
+      ),
       child: IconTheme.merge(
         data: IconThemeData(color: contentColor),
         child: Row(

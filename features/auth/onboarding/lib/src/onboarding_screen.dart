@@ -73,8 +73,7 @@ class OnboardingScreen extends StatelessWidget {
                   _buildPagerView(onboardingPagerList),
                   // Page indicator dots
                   _buildPageIndicator(context, onboardingPagerList.length),
-                  SizedBox(height: AppSpacing.s32.h),
-                  // Animated "Get Started" button
+                  SizedBox(height: AppSpacing.s48.h),
                   _buildAnimatedButton(),
                   SizedBox(height: screenSize.height * 0.1),
                 ],
@@ -171,11 +170,11 @@ class OnboardingScreen extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               margin: EdgeInsets.only(right: AppSpacing.s8.w),
               width: 30.w,
-              height: 3.h,
+              height: 5.h,
               decoration: BoxDecoration(
                 color: isActive
-                    ? colorScheme.borderBrand
-                    : colorScheme.borderPrimary,
+                    ? colorScheme.contentWarning
+                    : colorScheme.contentOnBrand,
                 borderRadius: BorderRadius.circular(5.r),
               ),
             );

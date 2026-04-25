@@ -28,15 +28,15 @@ class SharedPrefManager {
       _prefs?.setStringList(key, value) ?? Future.value(false);
 
   // ── Read ───────────────────────────────────────────────────────────────────
-  String? getString(String key) => _prefs?.getString(key);
+  String getString(String key) => _prefs?.getString(key) ?? '';
 
-  int? getInt(String key) => _prefs?.getInt(key);
+  int getInt(String key) => _prefs?.getInt(key) ?? 0;
 
-  double? getDouble(String key) => _prefs?.getDouble(key);
+  double getDouble(String key) => _prefs?.getDouble(key) ?? 0.0;
 
-  bool? getBool(String key) => _prefs?.getBool(key);
+  bool getBool(String key) => _prefs?.getBool(key) ?? false;
 
-  List<String>? getStringList(String key) => _prefs?.getStringList(key);
+  List<String> getStringList(String key) => _prefs?.getStringList(key) ?? [];
 
   // ── Existence ──────────────────────────────────────────────────────────────
   bool containsKey(String key) => _prefs?.containsKey(key) ?? false;

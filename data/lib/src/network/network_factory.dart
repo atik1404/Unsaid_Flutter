@@ -20,7 +20,7 @@ final class NetworkFactory {
       ),
     );
     if (kDebugMode) {
-      Logcat.log('AuthToken: ${pref.getString(SharedPrefKeys.authToken)}');
+      AppLog.log('AuthToken: ${pref.getString(SharedPrefKeys.authToken)}');
       dio.interceptors.add(
         LogInterceptor(requestBody: true, responseBody: true),
       );
