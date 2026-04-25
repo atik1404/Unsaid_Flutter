@@ -50,5 +50,33 @@
     "action_retry": "Try Again",
     "@action_retry": {
         "description": "Label for retry button on error screens"
+    },
+    "login_title": "Let's Get You In",
+    "@login_title": {
+        "description": "Login screen main heading"
+    },
+    "login_subtitle": "Sign in to connect through honest, anonymous conversations.",
+    "@login_subtitle": {
+        "description": "Login screen subtitle below heading"
+    },
+    "login_label_phone": "Phone number",
+    "@login_label_phone": {
+        "description": "Label above the phone number input field"
+    },
+    "login_hint_phone": "Enter your phone number",
+    "@login_hint_phone": {
+        "description": "Hint text inside the phone number input field"
+    },
+    "login_label_password": "Password",
+    "@login_label_password": {
+        "description": "Label above the password input field"
+    },
+    "login_hint_password": "Enter your password",
+    "@login_hint_password": {
+        "description": "Hint text inside the password input field"
+    },
+    "login_button": "Login",
+    "@login_button": {
+        "description": "Login submit button label"
     }
 }

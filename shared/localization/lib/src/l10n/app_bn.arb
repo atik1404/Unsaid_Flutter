@@ -44,8 +44,36 @@
         "description": "Description for the third onboarding page"
     },
     "onboarding_get_started": "শুরু করুন",
-    "action_retry": "Try Again",
+    "action_retry": "আবার চেষ্টা করুন",
     "@action_retry": {
         "description": "Label for retry button on error screens"
+    },
+    "login_title": "আসুন, লগইন করি",
+    "@login_title": {
+        "description": "Login screen main heading"
+    },
+    "login_subtitle": "সৎ, বেনামি কথোপকথনের মাধ্যমে সংযুক্ত হতে সাইন ইন করুন।",
+    "@login_subtitle": {
+        "description": "Login screen subtitle below heading"
+    },
+    "login_label_phone": "ফোন নম্বর",
+    "@login_label_phone": {
+        "description": "Label above the phone number input field"
+    },
+    "login_hint_phone": "আপনার ফোন নম্বর দিন",
+    "@login_hint_phone": {
+        "description": "Hint text inside the phone number input field"
+    },
+    "login_label_password": "পাসওয়ার্ড",
+    "@login_label_password": {
+        "description": "Label above the password input field"
+    },
+    "login_hint_password": "আপনার পাসওয়ার্ড দিন",
+    "@login_hint_password": {
+        "description": "Hint text inside the password input field"
+    },
+    "login_button": "লগইন",
+    "@login_button": {
+        "description": "Login submit button label"
     }
 }

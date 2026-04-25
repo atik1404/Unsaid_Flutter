@@ -58,4 +58,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get action_retry => 'Try Again';
+
+  @override
+  String get login_title => 'Let\'s Get You In';
+
+  @override
+  String get login_subtitle =>
+      'Sign in to connect through honest, anonymous conversations.';
+
+  @override
+  String get login_label_phone => 'Phone number';
+
+  @override
+  String get login_hint_phone => 'Enter your phone number';
+
+  @override
+  String get login_label_password => 'Password';
+
+  @override
+  String get login_hint_password => 'Enter your password';
+
+  @override
+  String get login_button => 'Login';
 }

@@ -187,6 +187,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try Again'**
   String get action_retry;
+
+  /// Login screen main heading
+  ///
+  /// In en, this message translates to:
+  /// **'Let's Get You In'**
+  String get login_title;
+
+  /// Login screen subtitle below heading
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to connect through honest, anonymous conversations.'**
+  String get login_subtitle;
+
+  /// Label above the phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get login_label_phone;
+
+  /// Hint text inside the phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get login_hint_phone;
+
+  /// Label above the password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get login_label_password;
+
+  /// Hint text inside the password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get login_hint_password;
+
+  /// Login submit button label
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login_button;
 }
 
 class _AppLocalizationsDelegate

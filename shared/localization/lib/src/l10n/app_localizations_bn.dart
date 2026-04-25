@@ -58,5 +58,27 @@ class AppLocalizationsBn extends AppLocalizations {
   String get onboarding_get_started => 'শুরু করুন';
 
   @override
-  String get action_retry => 'Try Again';
+  String get action_retry => 'আবার চেষ্টা করুন';
+
+  @override
+  String get login_title => 'আসুন, লগইন করি';
+
+  @override
+  String get login_subtitle =>
+      'সৎ, বেনামি কথোপকথনের মাধ্যমে সংযুক্ত হতে সাইন ইন করুন।';
+
+  @override
+  String get login_label_phone => 'ফোন নম্বর';
+
+  @override
+  String get login_hint_phone => 'আপনার ফোন নম্বর দিন';
+
+  @override
+  String get login_label_password => 'পাসওয়ার্ড';
+
+  @override
+  String get login_hint_password => 'আপনার পাসওয়ার্ড দিন';
+
+  @override
+  String get login_button => 'লগইন';
 }

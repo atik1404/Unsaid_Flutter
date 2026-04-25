@@ -1,6 +1,7 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localization/localization.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,7 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginUi(BuildContext context) {
-    final topMargin = MediaQuery.sizeOf(context).height * 0.1;
     return Stack(
       children: [
         const Positioned.fill(
@@ -47,16 +47,18 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           _buildLoginHeader(context),
           gap,
-          const AppText.bodySmall(
-            "Phone number",
+          AppText.bodySmall(
+            context.l10n.login_label_phone,
             textWeight: AppTextWeight.light,
+            color: context.colorScheme.contentInfo,
           ),
           const SizedBox(height: AppSpacing.s8),
           _buildPhoneNumber(context),
           gap,
-          const AppText.bodySmall(
-            "Password",
+          AppText.bodySmall(
+            context.l10n.login_label_password,
             textWeight: AppTextWeight.light,
+            color: context.colorScheme.contentInfo,
           ),
           const SizedBox(height: AppSpacing.s8),
           _buildPassword(context),
@@ -79,13 +81,13 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 120.h,
         ),
         const SizedBox(height: AppSpacing.s16),
-        const AppText.titleLarge(
-          "Let’s Get You In",
+        AppText.titleLarge(
+          context.l10n.login_title,
           textWeight: AppTextWeight.extraBold,
         ),
         const SizedBox(height: AppSpacing.s8),
         AppText.bodyLarge(
-          "Sign in to connect through honest, anonymous conversations.",
+          context.l10n.login_subtitle,
           textAlign: TextAlign.center,
           textWeight: AppTextWeight.light,
           color: context.colorScheme.contentInfo,
@@ -95,22 +97,22 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildPhoneNumber(BuildContext context) {
-    return const AppInputField(
-      hint: "Enter your phone number",
+    return AppInputField(
+      hint: context.l10n.login_hint_phone,
       keyboardType: TextInputType.phone,
     );
   }
 
   Widget _buildPassword(BuildContext context) {
-    return const AppInputField(
-      hint: "Enter your password",
+    return AppInputField(
+      hint: context.l10n.login_hint_password,
       obscureText: true,
     );
   }
 
   Widget _buildLoginButton(BuildContext context) {
     return AppFilledButton.text(
-      "Login",
+      context.l10n.login_button,
       onPressed: () {
         // Handle login logic
       },
