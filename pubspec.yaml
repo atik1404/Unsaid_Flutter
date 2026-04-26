@@ -28,6 +28,7 @@ workspace:
 
   # features
   - features/auth/login/
+  - features/auth/signup/
   - features/auth/splash/
   - features/auth/onboarding/
 

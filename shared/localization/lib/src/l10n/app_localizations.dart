@@ -265,6 +265,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Facebook'**
   String get login_facebook;
+
+  /// Signup screen main heading
+  ///
+  /// In en, this message translates to:
+  /// **'Create an Account'**
+  String get signup_title;
+
+  /// Signup screen subtitle below heading
+  ///
+  /// In en, this message translates to:
+  /// **'Join us to connect through honest, anonymous conversations.'**
+  String get signup_subtitle;
+
+  /// Label above the full name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get signup_label_name;
+
+  /// Hint text inside the full name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name'**
+  String get signup_hint_name;
+
+  /// Label above the phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get signup_label_phone;
+
+  /// Hint text inside the phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get signup_hint_phone;
+
+  /// Label above the email input field
+  ///
+  /// In en, this message translates to:
+  /// **'Email (Optional)'**
+  String get signup_label_email;
+
+  /// Hint text inside the email input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address'**
+  String get signup_hint_email;
+
+  /// Label above the password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get signup_label_password;
+
+  /// Hint text inside the password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Create a password'**
+  String get signup_hint_password;
+
+  /// Sign up submit button label
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signup_button;
+
+  /// Prompt shown before the sign in action on the sign up screen
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get signup_already_have_account;
+
+  /// Call to action for navigating to sign in from the sign up screen
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signup_sign_in;
 }
 
 class _AppLocalizationsDelegate

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:login/login.dart';
 import 'package:navigation/navigation.dart';
 import 'package:onboarding/onboarding.dart';
+import 'package:signup/signup.dart';
 import 'package:splash/splash.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
@@ -11,6 +12,7 @@ Future<void> registerNavigationModule(GetIt locator) async {
     ...SplashScreenRouter().routes(),
     ...LoginScreenRouter().routes(),
     ...OnboardingScreenRouter().routes(),
+    ...SignupScreenRouter().routes(),
   ];
 
   locator.registerSingleton<GoRouter>(

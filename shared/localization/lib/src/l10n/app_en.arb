@@ -102,5 +102,57 @@
     "login_facebook": "Facebook",
     "@login_facebook": {
         "description": "Facebook sign in provider button label"
+    },
+    "signup_title": "Create an Account",
+    "@signup_title": {
+        "description": "Signup screen main heading"
+    },
+    "signup_subtitle": "Join us to connect through honest, anonymous conversations.",
+    "@signup_subtitle": {
+        "description": "Signup screen subtitle below heading"
+    },
+    "signup_label_name": "Full Name",
+    "@signup_label_name": {
+        "description": "Label above the full name input field"
+    },
+    "signup_hint_name": "Enter your full name",
+    "@signup_hint_name": {
+        "description": "Hint text inside the full name input field"
+    },
+    "signup_label_phone": "Phone number",
+    "@signup_label_phone": {
+        "description": "Label above the phone number input field"
+    },
+    "signup_hint_phone": "Enter your phone number",
+    "@signup_hint_phone": {
+        "description": "Hint text inside the phone number input field"
+    },
+    "signup_label_email": "Email (Optional)",
+    "@signup_label_email": {
+        "description": "Label above the email input field"
+    },
+    "signup_hint_email": "Enter your email address",
+    "@signup_hint_email": {
+        "description": "Hint text inside the email input field"
+    },
+    "signup_label_password": "Password",
+    "@signup_label_password": {
+        "description": "Label above the password input field"
+    },
+    "signup_hint_password": "Create a password",
+    "@signup_hint_password": {
+        "description": "Hint text inside the password input field"
+    },
+    "signup_button": "Sign Up",
+    "@signup_button": {
+        "description": "Sign up submit button label"
+    },
+    "signup_already_have_account": "Already have an account?",
+    "@signup_already_have_account": {
+        "description": "Prompt shown before the sign in action on the sign up screen"
+    },
+    "signup_sign_in": "Sign In",
+    "@signup_sign_in": {
+        "description": "Call to action for navigating to sign in from the sign up screen"
     }
 }

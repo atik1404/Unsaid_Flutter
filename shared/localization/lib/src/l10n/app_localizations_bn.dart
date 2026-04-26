@@ -99,4 +99,44 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get login_facebook => 'ফেসবুক';
+
+  @override
+  String get signup_title => 'Create an Account';
+
+  @override
+  String get signup_subtitle =>
+      'Join us to connect through honest, anonymous conversations.';
+
+  @override
+  String get signup_label_name => 'Full Name';
+
+  @override
+  String get signup_hint_name => 'Enter your full name';
+
+  @override
+  String get signup_label_phone => 'Phone number';
+
+  @override
+  String get signup_hint_phone => 'Enter your phone number';
+
+  @override
+  String get signup_label_email => 'Email (Optional)';
+
+  @override
+  String get signup_hint_email => 'Enter your email address';
+
+  @override
+  String get signup_label_password => 'Password';
+
+  @override
+  String get signup_hint_password => 'Create a password';
+
+  @override
+  String get signup_button => 'Sign Up';
+
+  @override
+  String get signup_already_have_account => 'Already have an account?';
+
+  @override
+  String get signup_sign_in => 'Sign In';
 }

@@ -1,7 +1,9 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
+import 'package:navigation/navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,11 +16,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: _buildLoginUi(context),
+      body: _buildLoginUi(),
     );
   }
 
-  Widget _buildLoginUi(BuildContext context) {
+  Widget _buildLoginUi() {
     final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
 
     return Stack(
@@ -139,9 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginButton(BuildContext context) {
     return AppFilledButton.text(
       context.l10n.login_button,
-      onPressed: () {
-        // Handle login logic
-      },
+      onPressed: () {},
     );
   }
 
@@ -156,7 +156,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         AppTextButton(
           context.l10n.login_sign_up,
-          onPressed: () {},
+          onPressed: () {
+            context.goNamed(AppRouteName.signupScreen);
+          },
           style: const AppTextButtonStyle(
             intent: AppButtonIntent.secondary(),
           ),
