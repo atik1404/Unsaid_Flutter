@@ -154,5 +154,13 @@
     "signup_sign_in": "Sign In",
     "@signup_sign_in": {
         "description": "Call to action for navigating to sign in from the sign up screen"
+    },
+    "home_title": "Home",
+    "@home_title": {
+        "description": "Title for the Home screen"
+    },
+    "home_no_more_posts": "No more posts to load.",
+    "@home_no_more_posts": {
+        "description": "Message shown when the end of the post list is reached"
     }
 }

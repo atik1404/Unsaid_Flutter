@@ -138,4 +138,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signup_sign_in => 'Sign In';
+
+  @override
+  String get home_title => 'Home';
+
+  @override
+  String get home_no_more_posts => 'No more posts to load.';
 }

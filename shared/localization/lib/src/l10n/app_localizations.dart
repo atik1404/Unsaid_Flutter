@@ -343,6 +343,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign In'**
   String get signup_sign_in;
+
+  /// Title for the Home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home_title;
+
+  /// Message shown when the end of the post list is reached
+  ///
+  /// In en, this message translates to:
+  /// **'No more posts to load.'**
+  String get home_no_more_posts;
 }
 
 class _AppLocalizationsDelegate

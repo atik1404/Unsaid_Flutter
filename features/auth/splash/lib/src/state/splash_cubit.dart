@@ -10,7 +10,7 @@ class SplashCubit extends Cubit<SplashState> {
     Future.microtask(checkAuthorization);
   }
 
-  Future<void> checkAuthorization() async {
+  void checkAuthorization() {
     emit(const SplashState.loading());
 
     final isAuthorized = sharedPref.getBool(SharedPrefKeys.isAuthorized);

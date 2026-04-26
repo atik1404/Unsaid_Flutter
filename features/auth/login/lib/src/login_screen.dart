@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:common/common.dart';
+import 'package:sharedpref/sharedpref.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -142,7 +144,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginButton(BuildContext context) {
     return AppFilledButton.text(
       context.l10n.login_button,
-      onPressed: () {},
+      onPressed: () {
+        final sharedPref = GetIt.I.get<SharedPrefManager>();
+        sharedPref.setBool(SharedPrefKeys.isAuthorized, value: true);
+        context.goNamed(AppRouteName.homeScreen);
+      },
     );
   }
 

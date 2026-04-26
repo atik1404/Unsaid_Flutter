@@ -33,6 +33,7 @@ dependencies:
 
   # Navigation & feature route registration
   navigation: ^0.0.1
+  home: ^0.0.1
   splash: ^0.0.1
   login: ^0.0.1
   onboarding: ^0.0.1
