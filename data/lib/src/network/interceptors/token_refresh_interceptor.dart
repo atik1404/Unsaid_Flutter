@@ -23,7 +23,7 @@ final class TokenRefreshInterceptor extends Interceptor {
       return handler.next(options);
     }
     final token = _prefm.getString('accessToken');
-    if (token != null) {
+    if (token != '') {
       options.headers['Authorization'] = 'Bearer $token';
     }
     handler.next(options);
@@ -91,7 +91,7 @@ final class TokenRefreshInterceptor extends Interceptor {
   Future<Map<String, dynamic>?> _refreshToken() async {
     try {
       final refreshToken = _prefm.getString('refreshToken');
-      if (refreshToken == null) return null;
+      if (refreshToken == '') return null;
 
       // Separate Dio instance to avoid infinite loops
       final tokenDio = Dio(BaseOptions(baseUrl: "https://api.example.com"));
@@ -112,9 +112,7 @@ final class TokenRefreshInterceptor extends Interceptor {
   }
 
   bool _isWhitelisted(String path) {
-    return path.contains('login') ||
-        path.contains('refresh-token') ||
-        path.contains('register');
+    return path.contains('login') || path.contains('refresh-token') || path.contains('register');
   }
 }
 

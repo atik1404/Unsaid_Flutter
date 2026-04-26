@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
+import 'package:common/common.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -183,14 +184,18 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               child: AppFilledButton.text(
                 context.l10n.login_google,
-                onPressed: () {},
+                onPressed: () {
+                  AppLog.log('google login');
+                },
               ),
             ),
             SizedBox(width: AppSpacing.s16.w),
             Expanded(
               child: AppFilledButton.text(
                 context.l10n.login_facebook,
-                onPressed: () {},
+                onPressed: () {
+                  AppLog.log('facebook login');
+                },
               ),
             ),
           ],
