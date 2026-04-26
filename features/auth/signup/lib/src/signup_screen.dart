@@ -48,6 +48,20 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
             height: double.infinity,
           ),
         ),
+        Positioned(
+          top: MediaQuery.paddingOf(context).top + AppSpacing.s16.h,
+          left: AppSpacing.s16.w,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.goNamed(AppRouteName.loginScreen);
+              }
+            },
+          ),
+        ),
         LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
@@ -133,8 +147,9 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
 
         _buildSignupButton(context),
         gap,
-        gap,
         _buildSignInPrompt(context),
+        gap,
+        _buildSocialSignupOptions(context),
       ],
     );
   }
@@ -224,6 +239,38 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
           style: const AppTextButtonStyle(
             intent: AppButtonIntent.secondary(),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialSignupOptions(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: AppSpacing.s24.h),
+        AppText.bodySmall(
+          context.l10n.login_social_sign_in,
+          textWeight: AppTextWeight.extraBold,
+          color: context.colorScheme.contentInfo,
+        ),
+        SizedBox(height: AppSpacing.s32.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: AppFilledButton.text(
+                context.l10n.login_google,
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(width: AppSpacing.s16.w),
+            Expanded(
+              child: AppFilledButton.text(
+                context.l10n.login_facebook,
+                onPressed: () {},
+              ),
+            ),
+          ],
         ),
       ],
     );
