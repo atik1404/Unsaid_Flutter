@@ -13,6 +13,7 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color backgroundSuccess;
   final Color backgroundWarning;
   final Color backgroundInfo;
+  final Color backgroundBadge;
 
   // Overlay
   final Color overlay; // scrim behind modals/dialogs (use with opacity)
@@ -54,6 +55,7 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
     required this.backgroundSuccess,
     required this.backgroundWarning,
     required this.backgroundInfo,
+    required this.backgroundBadge,
     required this.overlay,
     required this.contentPrimary,
     required this.contentSecondary,
@@ -97,6 +99,7 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
       backgroundSuccess: AppColors.success500,
       backgroundWarning: AppColors.warning500,
       backgroundInfo: AppColors.neutral300,
+      backgroundBadge: AppColors.brand50,
       overlay: AppColors.neutral800,
       contentPrimary: AppColors.neutral900,
       contentSecondary: AppColors.neutral500,

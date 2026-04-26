@@ -36,33 +36,35 @@ class PostCard extends StatelessWidget {
                   textWeight: AppTextWeight.bold,
                 ),
               ),
-              AppText.labelSmall(
-                Jiffy.parseFromDateTime(post.dateTime).yMMMMEEEEd,
-                color: context.colorScheme.contentInfo,
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.s12.w,
+                  vertical: AppSpacing.s4.h,
+                ),
+                decoration: BoxDecoration(
+                  color: context.colorScheme.backgroundBadge,
+                  borderRadius: BorderRadius.circular(AppSpacing.s8.r),
+                ),
+                child: AppText.captionSmall(
+                  post.tag,
+                  color: context.colorScheme.contentBrand,
+                  textWeight: AppTextWeight.bold,
+                ),
               ),
             ],
           ),
+          AppText.labelSmall(
+            Jiffy.parseFromDateTime(post.dateTime).yMMMMEEEEd,
+            color: context.colorScheme.contentSecondary,
+            textWeight: AppTextWeight.light,
+          ),
           SizedBox(height: AppSpacing.s8.h),
-          AppText.bodyMedium(
+          AppText.bodySmall(
             post.description,
             color: context.colorScheme.contentPrimary,
+            textWeight: AppTextWeight.medium,
           ),
           SizedBox(height: AppSpacing.s12.h),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.s12.w,
-              vertical: AppSpacing.s4.h,
-            ),
-            decoration: BoxDecoration(
-              color: context.colorScheme.borderPrimary,
-              borderRadius: BorderRadius.circular(AppSpacing.s8.r),
-            ),
-            child: AppText.labelSmall(
-              post.tag,
-              color: context.colorScheme.contentPrimary,
-              textWeight: AppTextWeight.bold,
-            ),
-          ),
         ],
       ),
     );
