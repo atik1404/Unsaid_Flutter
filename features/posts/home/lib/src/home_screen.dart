@@ -1,45 +1,34 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home/src/state/post_model.dart';
+import 'package:home/src/widgets/post_card.dart';
 import 'package:localization/localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_cubit.dart';
 import 'package:home/src/state/home_state.dart';
-import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeCubit()..loadPosts(),
-      child: const _HomeScreenView(),
-    );
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenView extends StatefulWidget {
-  const _HomeScreenView();
-
-  @override
-  State<_HomeScreenView> createState() => _HomeScreenViewState();
-}
-
-class _HomeScreenViewState extends State<_HomeScreenView> {
+class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    context.read<HomeCubit>().loadPosts();
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
   }
 
@@ -87,87 +76,25 @@ class _HomeScreenViewState extends State<_HomeScreenView> {
           return ListView.separated(
             controller: _scrollController,
             padding: EdgeInsets.all(AppSpacing.s16.r),
-            itemCount: state.hasReachedMax ? state.posts.length : state.posts.length + 1,
-            separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s16.h),
+            itemCount: state.hasReachedMax
+                ? state.posts.length
+                : state.posts.length + 1,
+            separatorBuilder: (context, index) =>
+                SizedBox(height: AppSpacing.s16.h),
             itemBuilder: (context, index) {
               if (index >= state.posts.length) {
                 return const Center(
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(AppSpacing.s16),
                     child: CircularProgressIndicator(),
                   ),
                 );
               }
               final post = state.posts[index];
-              return _PostCard(post: post);
+              return PostCard(post: post);
             },
           );
         },
-      ),
-    );
-  }
-}
-
-class _PostCard extends StatelessWidget {
-  final PostModel post;
-
-  const _PostCard({required this.post});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(AppSpacing.s16.r),
-      decoration: BoxDecoration(
-        color: context.colorScheme.white,
-        borderRadius: BorderRadius.circular(AppSpacing.s12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: AppText.titleSmall(
-                  post.title,
-                  textWeight: AppTextWeight.bold,
-                ),
-              ),
-              AppText.labelSmall(
-                DateFormat('MMM dd, yyyy - hh:mm a').format(post.dateTime),
-                color: context.colorScheme.contentInfo,
-              ),
-            ],
-          ),
-          SizedBox(height: AppSpacing.s8.h),
-          AppText.bodyMedium(
-            post.description,
-            color: context.colorScheme.contentPrimary,
-          ),
-          SizedBox(height: AppSpacing.s12.h),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.s12.w,
-              vertical: AppSpacing.s4.h,
-            ),
-            decoration: BoxDecoration(
-              color: context.colorScheme.borderBrand.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(AppSpacing.s8.r),
-            ),
-            child: AppText.labelSmall(
-              post.tag,
-              color: context.colorScheme.contentPrimary,
-              textWeight: AppTextWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }
