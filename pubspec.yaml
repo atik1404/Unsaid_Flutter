@@ -31,9 +31,13 @@ workspace:
   - features/auth/signup/
   - features/auth/splash/
   - features/auth/onboarding/
+  - features/auth/setting/
+  - features/auth/profile/
+  - features/auth/change_password/
 
   - features/posts/home/
   - features/posts/create_post/
+  - features/posts/post_details/
 
 environment:
   sdk: ^3.11.4

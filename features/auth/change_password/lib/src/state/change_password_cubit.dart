@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:change_password/src/state/change_password_state.dart';
 
@@ -22,6 +23,9 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     required String confirmPassword,
   }) async {
     emit(state.copyWith(isLoading: true, errorMessage: null, isSuccess: false));
+    AppLog.log(
+      'oldPassword: $oldPassword, newPassword: $newPassword, confirmPassword: $confirmPassword',
+    );
 
     // Validate that new and confirm passwords match
     if (newPassword != confirmPassword) {

@@ -144,4 +144,92 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_no_more_posts => 'No more posts to load.';
+
+  @override
+  String get setting_title => 'Settings';
+
+  @override
+  String get setting_menu_profile => 'Profile';
+
+  @override
+  String get setting_menu_change_password => 'Change Password';
+
+  @override
+  String get setting_menu_change_language => 'Change Language';
+
+  @override
+  String get setting_menu_logout => 'Logout';
+
+  @override
+  String get setting_logout_confirm_title => 'Logout';
+
+  @override
+  String get setting_logout_confirm_message =>
+      'Are you sure you want to logout?';
+
+  @override
+  String get setting_logout_confirm_yes => 'Yes, Logout';
+
+  @override
+  String get setting_logout_confirm_no => 'Cancel';
+
+  @override
+  String get profile_title => 'Profile';
+
+  @override
+  String get profile_label_name => 'Full Name';
+
+  @override
+  String get profile_label_email => 'Email';
+
+  @override
+  String get profile_label_phone => 'Phone Number';
+
+  @override
+  String get profile_label_bio => 'Bio';
+
+  @override
+  String get profile_section_posts => 'My Posts';
+
+  @override
+  String get profile_no_posts => 'No posts yet.';
+
+  @override
+  String get change_password_title => 'Change Password';
+
+  @override
+  String get change_password_label_old => 'Old Password';
+
+  @override
+  String get change_password_hint_old => 'Enter your old password';
+
+  @override
+  String get change_password_label_new => 'New Password';
+
+  @override
+  String get change_password_hint_new => 'Enter your new password';
+
+  @override
+  String get change_password_label_confirm => 'Confirm Password';
+
+  @override
+  String get change_password_hint_confirm => 'Re-enter your new password';
+
+  @override
+  String get change_password_button => 'Update Password';
+
+  @override
+  String get change_password_success => 'Password updated successfully.';
+
+  @override
+  String get change_password_error_mismatch => 'Passwords do not match.';
+
+  @override
+  String get post_details_title => 'Post Details';
+
+  @override
+  String get post_details_posted_by => 'Posted by';
+
+  @override
+  String get post_details_posted_on => 'Posted on';
 }

@@ -355,6 +355,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No more posts to load.'**
   String get home_no_more_posts;
+
+  /// Title for the Settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get setting_title;
+
+  /// Menu item label to navigate to the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get setting_menu_profile;
+
+  /// Menu item label to navigate to the Change Password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get setting_menu_change_password;
+
+  /// Menu item label to navigate to the Change Language screen
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get setting_menu_change_language;
+
+  /// Menu item label for logging out
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get setting_menu_logout;
+
+  /// Title for the logout confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get setting_logout_confirm_title;
+
+  /// Confirmation message shown in the logout dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get setting_logout_confirm_message;
+
+  /// Affirmative action label in the logout dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, Logout'**
+  String get setting_logout_confirm_yes;
+
+  /// Dismissive action label in the logout dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get setting_logout_confirm_no;
+
+  /// Title for the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile_title;
+
+  /// Label for the user's full name field on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get profile_label_name;
+
+  /// Label for the user's email field on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profile_label_email;
+
+  /// Label for the user's phone number field on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get profile_label_phone;
+
+  /// Label for the user's bio field on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get profile_label_bio;
+
+  /// Section heading for the user's own posts on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'My Posts'**
+  String get profile_section_posts;
+
+  /// Empty state message when the user has no posts
+  ///
+  /// In en, this message translates to:
+  /// **'No posts yet.'**
+  String get profile_no_posts;
+
+  /// Title for the Change Password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get change_password_title;
+
+  /// Label above the old password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Old Password'**
+  String get change_password_label_old;
+
+  /// Hint text inside the old password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your old password'**
+  String get change_password_hint_old;
+
+  /// Label above the new password input field
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get change_password_label_new;
+
+  /// Hint text inside the new password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new password'**
+  String get change_password_hint_new;
+
+  /// Label above the confirm password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get change_password_label_confirm;
+
+  /// Hint text inside the confirm password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter your new password'**
+  String get change_password_hint_confirm;
+
+  /// Submit button label on the Change Password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Update Password'**
+  String get change_password_button;
+
+  /// Success message shown after a password change
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated successfully.'**
+  String get change_password_success;
+
+  /// Validation error when new and confirm passwords differ
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get change_password_error_mismatch;
+
+  /// Title for the Post Details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Post Details'**
+  String get post_details_title;
+
+  /// Label before the author name on the Post Details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Posted by'**
+  String get post_details_posted_by;
+
+  /// Label before the publication date on the Post Details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Posted on'**
+  String get post_details_posted_on;
 }
 
 class _AppLocalizationsDelegate
