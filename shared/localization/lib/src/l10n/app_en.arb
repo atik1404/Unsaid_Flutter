@@ -162,5 +162,125 @@
     "home_no_more_posts": "No more posts to load.",
     "@home_no_more_posts": {
         "description": "Message shown when the end of the post list is reached"
+    },
+
+    "setting_title": "Settings",
+    "@setting_title": {
+        "description": "Title for the Settings screen"
+    },
+    "setting_menu_profile": "Profile",
+    "@setting_menu_profile": {
+        "description": "Menu item label to navigate to the Profile screen"
+    },
+    "setting_menu_change_password": "Change Password",
+    "@setting_menu_change_password": {
+        "description": "Menu item label to navigate to the Change Password screen"
+    },
+    "setting_menu_change_language": "Change Language",
+    "@setting_menu_change_language": {
+        "description": "Menu item label to navigate to the Change Language screen"
+    },
+    "setting_menu_logout": "Logout",
+    "@setting_menu_logout": {
+        "description": "Menu item label for logging out"
+    },
+    "setting_logout_confirm_title": "Logout",
+    "@setting_logout_confirm_title": {
+        "description": "Title for the logout confirmation dialog"
+    },
+    "setting_logout_confirm_message": "Are you sure you want to logout?",
+    "@setting_logout_confirm_message": {
+        "description": "Confirmation message shown in the logout dialog"
+    },
+    "setting_logout_confirm_yes": "Yes, Logout",
+    "@setting_logout_confirm_yes": {
+        "description": "Affirmative action label in the logout dialog"
+    },
+    "setting_logout_confirm_no": "Cancel",
+    "@setting_logout_confirm_no": {
+        "description": "Dismissive action label in the logout dialog"
+    },
+
+    "profile_title": "Profile",
+    "@profile_title": {
+        "description": "Title for the Profile screen"
+    },
+    "profile_label_name": "Full Name",
+    "@profile_label_name": {
+        "description": "Label for the user's full name field on the Profile screen"
+    },
+    "profile_label_email": "Email",
+    "@profile_label_email": {
+        "description": "Label for the user's email field on the Profile screen"
+    },
+    "profile_label_phone": "Phone Number",
+    "@profile_label_phone": {
+        "description": "Label for the user's phone number field on the Profile screen"
+    },
+    "profile_label_bio": "Bio",
+    "@profile_label_bio": {
+        "description": "Label for the user's bio field on the Profile screen"
+    },
+    "profile_section_posts": "My Posts",
+    "@profile_section_posts": {
+        "description": "Section heading for the user's own posts on the Profile screen"
+    },
+    "profile_no_posts": "No posts yet.",
+    "@profile_no_posts": {
+        "description": "Empty state message when the user has no posts"
+    },
+
+    "change_password_title": "Change Password",
+    "@change_password_title": {
+        "description": "Title for the Change Password screen"
+    },
+    "change_password_label_old": "Old Password",
+    "@change_password_label_old": {
+        "description": "Label above the old password input field"
+    },
+    "change_password_hint_old": "Enter your old password",
+    "@change_password_hint_old": {
+        "description": "Hint text inside the old password input field"
+    },
+    "change_password_label_new": "New Password",
+    "@change_password_label_new": {
+        "description": "Label above the new password input field"
+    },
+    "change_password_hint_new": "Enter your new password",
+    "@change_password_hint_new": {
+        "description": "Hint text inside the new password input field"
+    },
+    "change_password_label_confirm": "Confirm Password",
+    "@change_password_label_confirm": {
+        "description": "Label above the confirm password input field"
+    },
+    "change_password_hint_confirm": "Re-enter your new password",
+    "@change_password_hint_confirm": {
+        "description": "Hint text inside the confirm password input field"
+    },
+    "change_password_button": "Update Password",
+    "@change_password_button": {
+        "description": "Submit button label on the Change Password screen"
+    },
+    "change_password_success": "Password updated successfully.",
+    "@change_password_success": {
+        "description": "Success message shown after a password change"
+    },
+    "change_password_error_mismatch": "Passwords do not match.",
+    "@change_password_error_mismatch": {
+        "description": "Validation error when new and confirm passwords differ"
+    },
+
+    "post_details_title": "Post Details",
+    "@post_details_title": {
+        "description": "Title for the Post Details screen"
+    },
+    "post_details_posted_by": "Posted by",
+    "@post_details_posted_by": {
+        "description": "Label before the author name on the Post Details screen"
+    },
+    "post_details_posted_on": "Posted on",
+    "@post_details_posted_on": {
+        "description": "Label before the publication date on the Post Details screen"
     }
 }
