@@ -1,5 +1,4 @@
-import 'package:designsystem/src/components/text/app_text.dart';
-import 'package:designsystem/src/components/topbar/app_topbar_theme.dart';
+import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
@@ -51,7 +50,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppTopBarTheme>()!;
+    final theme = context.topBarTheme;
     final bg = backgroundColor ?? theme.backgroundColor;
     final fg = foregroundColor ?? theme.foregroundColor;
     final elev = elevation ?? theme.elevation;
@@ -87,17 +86,14 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     if (leading != null) return leading;
     if (!automaticallyImplyLeading) return null;
     if (!showBackButton) return null;
-    if (!Navigator.of(context).canPop()) return null;
 
     // BackButton is platform-adaptive and handles RTL correctly.
-    return IconButton(
-      icon: Icon(
-        Icons.arrow_back_ios_new,
-        size: 20,
+    return AppIconButton(
+      AppImage.asset(
+        AppDrawables.icBack,
         color: foregroundColor,
       ),
       onPressed: onBackPressed ?? () => Navigator.of(context).maybePop(),
-      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
     );
   }
 

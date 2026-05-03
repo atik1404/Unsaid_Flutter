@@ -1,12 +1,9 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppImage extends StatelessWidget {
   final ImageSource _source;
   final String? _path;
-  final Uint8List? _bytes;
   final double? width;
   final double? height;
   final BoxFit? fit;
@@ -57,7 +54,6 @@ class AppImage extends StatelessWidget {
     this.excludeFromSemantics = false,
   }) : _source = ImageSource.asset,
        _path = path,
-       _bytes = null,
        headers = null,
        loadingBuilder = null;
 
@@ -87,99 +83,92 @@ class AppImage extends StatelessWidget {
     this.excludeFromSemantics = false,
   }) : _source = ImageSource.network,
        _path = url,
-       _bytes = null,
        package = null,
        bundle = null;
 
-  const AppImage.file(
-    String filePath, {
-    super.key,
-    this.width,
-    this.height,
-    this.fit,
-    this.color,
-    this.colorBlendMode,
-    this.alignment = Alignment.center,
-    this.semanticLabel,
-    this.frameBuilder,
-    this.errorBuilder,
-    this.filterQuality = FilterQuality.medium,
-    this.isAntiAlias = false,
-    this.cacheWidth,
-    this.cacheHeight,
-    this.scale = 1.0,
-    this.repeat = ImageRepeat.noRepeat,
-    this.centerSlice,
-    this.matchTextDirection = false,
-    this.gaplessPlayback = false,
-    this.excludeFromSemantics = false,
-  }) : _source = ImageSource.file,
-       _path = filePath,
-       _bytes = null,
-       package = null,
-       bundle = null,
-       headers = null,
-       loadingBuilder = null;
+  Widget _defaultFrameBuilder(
+    BuildContext context,
+    Widget child,
+    int? frame,
+    bool wasSynchronouslyLoaded,
+  ) {
+    if (wasSynchronouslyLoaded) return child;
+    return AnimatedOpacity(
+      opacity: frame == null ? 0.0 : 1.0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      child: child,
+    );
+  }
 
-  const AppImage.memory(
-    Uint8List bytes, {
-    super.key,
-    this.width,
-    this.height,
-    this.fit,
-    this.color,
-    this.colorBlendMode,
-    this.alignment = Alignment.center,
-    this.semanticLabel,
-    this.frameBuilder,
-    this.errorBuilder,
-    this.filterQuality = FilterQuality.medium,
-    this.isAntiAlias = false,
-    this.cacheWidth,
-    this.cacheHeight,
-    this.scale = 1.0,
-    this.repeat = ImageRepeat.noRepeat,
-    this.centerSlice,
-    this.matchTextDirection = false,
-    this.gaplessPlayback = false,
-    this.excludeFromSemantics = false,
-  }) : _source = ImageSource.memory,
-       _bytes = bytes,
-       _path = null,
-       package = null,
-       bundle = null,
-       headers = null,
-       loadingBuilder = null;
+  Widget _defaultLoadingBuilder(
+    BuildContext context,
+    Widget child,
+    ImageChunkEvent? loadingProgress,
+  ) {
+    if (loadingProgress == null) return child;
+    return Center(
+      child: CircularProgressIndicator(
+        value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null,
+      ),
+    );
+  }
+
+  Widget _defaultErrorBuilder(
+    BuildContext context,
+    Object error,
+    StackTrace? stackTrace,
+  ) {
+    return const Center(child: Icon(Icons.broken_image_outlined));
+  }
 
   @override
   Widget build(BuildContext context) {
+    final path = _path!;
+    final effectiveFrameBuilder = frameBuilder ?? _defaultFrameBuilder;
+    final effectiveLoadingBuilder = loadingBuilder ?? _defaultLoadingBuilder;
+    final effectiveErrorBuilder = errorBuilder ?? _defaultErrorBuilder;
     return switch (_source) {
-      ImageSource.asset => Image.asset(
-        _path!,
-        width: width,
-        height: height,
-        fit: fit,
-        color: color,
-        colorBlendMode: colorBlendMode,
-        alignment: alignment,
-        semanticLabel: semanticLabel,
-        package: package,
-        bundle: bundle,
-        frameBuilder: frameBuilder,
-        errorBuilder: errorBuilder,
-        filterQuality: filterQuality,
-        isAntiAlias: isAntiAlias,
-        cacheWidth: cacheWidth,
-        cacheHeight: cacheHeight,
-        scale: scale,
-        repeat: repeat,
-        centerSlice: centerSlice,
-        matchTextDirection: matchTextDirection,
-        gaplessPlayback: gaplessPlayback,
-        excludeFromSemantics: excludeFromSemantics,
-      ),
+      ImageSource.asset =>
+        path.endsWith('.svg')
+            ? SvgPicture.asset(
+                path,
+                width: width,
+                height: height,
+                fit: fit ?? BoxFit.contain,
+                alignment: alignment,
+                semanticsLabel: semanticLabel,
+                package: package,
+                bundle: bundle,
+                colorFilter: color != null ? ColorFilter.mode(color!, colorBlendMode ?? BlendMode.srcIn) : null,
+                excludeFromSemantics: excludeFromSemantics,
+              )
+            : Image.asset(
+                path,
+                width: width,
+                height: height,
+                fit: fit,
+                color: color,
+                colorBlendMode: colorBlendMode,
+                alignment: alignment,
+                semanticLabel: semanticLabel,
+                package: package,
+                bundle: bundle,
+                frameBuilder: effectiveFrameBuilder,
+                errorBuilder: effectiveErrorBuilder,
+                filterQuality: filterQuality,
+                isAntiAlias: isAntiAlias,
+                cacheWidth: cacheWidth,
+                cacheHeight: cacheHeight,
+                scale: scale,
+                repeat: repeat,
+                centerSlice: centerSlice,
+                matchTextDirection: matchTextDirection,
+                gaplessPlayback: gaplessPlayback,
+                excludeFromSemantics: excludeFromSemantics,
+              ),
       ImageSource.network => Image.network(
-        _path!,
+        path,
         width: width,
         height: height,
         fit: fit,
@@ -188,53 +177,9 @@ class AppImage extends StatelessWidget {
         alignment: alignment,
         semanticLabel: semanticLabel,
         headers: headers,
-        frameBuilder: frameBuilder,
-        loadingBuilder: loadingBuilder,
-        errorBuilder: errorBuilder,
-        filterQuality: filterQuality,
-        isAntiAlias: isAntiAlias,
-        cacheWidth: cacheWidth,
-        cacheHeight: cacheHeight,
-        scale: scale,
-        repeat: repeat,
-        centerSlice: centerSlice,
-        matchTextDirection: matchTextDirection,
-        gaplessPlayback: gaplessPlayback,
-        excludeFromSemantics: excludeFromSemantics,
-      ),
-      ImageSource.file => Image.file(
-        File(_path!),
-        width: width,
-        height: height,
-        fit: fit,
-        color: color,
-        colorBlendMode: colorBlendMode,
-        alignment: alignment,
-        semanticLabel: semanticLabel,
-        frameBuilder: frameBuilder,
-        errorBuilder: errorBuilder,
-        filterQuality: filterQuality,
-        isAntiAlias: isAntiAlias,
-        cacheWidth: cacheWidth,
-        cacheHeight: cacheHeight,
-        scale: scale,
-        repeat: repeat,
-        centerSlice: centerSlice,
-        matchTextDirection: matchTextDirection,
-        gaplessPlayback: gaplessPlayback,
-        excludeFromSemantics: excludeFromSemantics,
-      ),
-      ImageSource.memory => Image.memory(
-        _bytes!,
-        width: width,
-        height: height,
-        fit: fit,
-        color: color,
-        colorBlendMode: colorBlendMode,
-        alignment: alignment,
-        semanticLabel: semanticLabel,
-        frameBuilder: frameBuilder,
-        errorBuilder: errorBuilder,
+        frameBuilder: effectiveFrameBuilder,
+        loadingBuilder: effectiveLoadingBuilder,
+        errorBuilder: effectiveErrorBuilder,
         filterQuality: filterQuality,
         isAntiAlias: isAntiAlias,
         cacheWidth: cacheWidth,
@@ -250,4 +195,4 @@ class AppImage extends StatelessWidget {
   }
 }
 
-enum ImageSource { asset, network, file, memory }
+enum ImageSource { asset, network }

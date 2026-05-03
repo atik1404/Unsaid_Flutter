@@ -48,8 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: AppText.titleMedium(
+      appBar: AppTopBar(
+        onBackPressed: () {},
+        titleWidget: AppText.titleMedium(
           context.l10n.home_title,
           textWeight: AppTextWeight.extraBold,
         ),

@@ -13,8 +13,7 @@ class AppErrorScreen extends StatefulWidget {
   State<AppErrorScreen> createState() => _AppErrorScreenState();
 }
 
-class _AppErrorScreenState extends State<AppErrorScreen>
-    with SingleTickerProviderStateMixin {
+class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _floatAnimation;
 
@@ -43,7 +42,7 @@ class _AppErrorScreenState extends State<AppErrorScreen>
       body: Stack(
         children: [
           const Positioned.fill(
-            child: AppSvg.asset(
+            child: AppImage.asset(
               AppDrawables.appBackground,
               fit: BoxFit.cover,
             ),
@@ -133,8 +132,7 @@ class StaggeredFadeSlide extends StatelessWidget {
       duration: duration,
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
-        final adjustedValue =
-            (value - delay).clamp(0.0, 1.0) * (1 / remainingTime);
+        final adjustedValue = (value - delay).clamp(0.0, 1.0) * (1 / remainingTime);
 
         return Transform.translate(
           offset: Offset(0, 20 * (1 - adjustedValue)),

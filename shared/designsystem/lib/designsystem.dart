@@ -1,4 +1,3 @@
-export 'src/components/image/app_svg.dart';
 export 'src/components/image/app_image.dart';
 export 'src/resources/app_drawables.dart';
 export 'src/theme/app_theme.dart';
@@ -12,12 +11,15 @@ export 'src/components/button/app_icon_button.dart';
 export 'src/components/button/app_text_button.dart';
 export 'src/components/button/app_button_enums.dart';
 export 'src/components/button/app_button_intent.dart';
+export 'src/components/icon/app_icon.dart';
 
 export 'src/components/inputfiled/app_input_field.dart';
 export 'src/components/card/app_card.dart';
 export 'src/components/scaffold/app_scaffold.dart';
 export 'src/components/text/app_text.dart';
 export 'src/components/text/app_text_weight.dart';
+
+export 'src/components/topbar/app_topbar.dart';
 
 //tokens
 export 'src/tokens/app_spacing.dart';
