@@ -98,7 +98,7 @@ class _AppInputFieldState extends State<AppInputField> {
   Widget build(BuildContext context) {
     final theme = context.inputTheme;
     final typography = context.typography;
-    final colors = theme.colors;
+    final colors = _resolveColors(widget.variant);
     final spec = AppInputFieldSizeSpec.of(widget.size);
     final state = _resolveState();
 
@@ -183,6 +183,15 @@ class _AppInputFieldState extends State<AppInputField> {
     );
   }
 
+  AppInputFieldColors _resolveColors(AppInputFieldVariant varient) {
+    return switch (varient) {
+      AppInputFieldVariant.outline ||
+      AppInputFieldVariant.underline ||
+      AppInputFieldVariant.filled => context.inputTheme.colors,
+      AppInputFieldVariant.filledOpt => context.inputTheme.optColors,
+    };
+  }
+
   _InputVisualState _resolveState() {
     if (!widget.enabled) return _InputVisualState.disabled;
     if (_hasError) return _InputVisualState.error;
@@ -242,7 +251,8 @@ class _AppInputFieldState extends State<AppInputField> {
     return switch (widget.variant) {
       AppInputFieldVariant.underline => UnderlineInputBorder(borderSide: side),
       AppInputFieldVariant.outline ||
-      AppInputFieldVariant.filled => OutlineInputBorder(
+      AppInputFieldVariant.filled ||
+      AppInputFieldVariant.filledOpt => OutlineInputBorder(
         borderRadius: _radiusFor(spec),
         borderSide: side,
       ),

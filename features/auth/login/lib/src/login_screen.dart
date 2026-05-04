@@ -14,6 +14,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _obscurePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -129,13 +131,25 @@ class _LoginScreenState extends State<LoginScreen> {
     return AppInputField(
       hint: context.l10n.login_hint_phone,
       keyboardType: TextInputType.phone,
+      variant: AppInputFieldVariant.filledOpt,
     );
   }
 
   Widget _buildPassword(BuildContext context) {
     return AppInputField(
       hint: context.l10n.login_hint_password,
-      obscureText: true,
+      obscureText: _obscurePassword,
+      variant: AppInputFieldVariant.filledOpt,
+      suffixIcon: AppIcon(
+        GestureDetector(
+          onTap: () => setState(() => _obscurePassword = !_obscurePassword),
+          child: Icon(
+            _obscurePassword
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
+          ),
+        ),
+      ),
     );
   }
 
@@ -160,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
         AppTextButton(
           context.l10n.login_sign_up,
           onPressed: () {
-            context.goNamed(AppRouteName.signupScreen);
+            context.pushNamed(AppRouteName.signupScreen);
           },
           style: const AppTextButtonStyle(
             intent: AppButtonIntent.secondary(),

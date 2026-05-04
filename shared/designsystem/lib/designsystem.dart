@@ -14,6 +14,7 @@ export 'src/components/button/app_button_intent.dart';
 export 'src/components/icon/app_icon.dart';
 
 export 'src/components/inputfiled/app_input_field.dart';
+export 'src/components/inputfiled/app_input_field_enums.dart';
 export 'src/components/card/app_card.dart';
 export 'src/components/scaffold/app_scaffold.dart';
 export 'src/components/text/app_text.dart';

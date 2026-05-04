@@ -5,18 +5,20 @@ import 'package:flutter/material.dart';
 
 final class AppInputFieldTheme extends ThemeExtension<AppInputFieldTheme> {
   final AppInputFieldColors colors;
+  final AppInputFieldColors optColors;
   final double focusedBorderWidth;
   final double defaultBorderWidth;
 
   const AppInputFieldTheme({
     required this.colors,
+    required this.optColors,
     this.focusedBorderWidth = AppBorderWidth.thick,
     this.defaultBorderWidth = AppBorderWidth.thin,
   });
 
-  factory AppInputFieldTheme.light() => const AppInputFieldTheme(
-    colors: AppInputFieldColors(
-      fill: AppColors.neutral100,
+  factory AppInputFieldTheme.light() => AppInputFieldTheme(
+    colors: const AppInputFieldColors(
+      fill: AppColors.white,
       fillDisabled: AppColors.neutral100,
       borderDefault: AppColors.neutral300,
       borderHover: AppColors.neutral400,
@@ -25,6 +27,30 @@ final class AppInputFieldTheme extends ThemeExtension<AppInputFieldTheme> {
       borderErrorFocused: AppColors.error600,
       borderDisabled: AppColors.neutral200,
       text: AppColors.neutral900,
+      textDisabled: AppColors.neutral400,
+      placeholder: AppColors.neutral400,
+      label: AppColors.neutral400,
+      labelFocused: AppColors.neutral400,
+      labelError: AppColors.error500,
+      labelDisabled: AppColors.neutral400,
+      helper: AppColors.neutral600,
+      helperError: AppColors.error500,
+      icon: AppColors.neutral500,
+      iconFocused: AppColors.brand500,
+      iconError: AppColors.error500,
+      iconDisabled: AppColors.neutral300,
+      cursor: AppColors.brand500,
+    ),
+    optColors: AppInputFieldColors(
+      fill: AppColors.white.withAlpha(50),
+      fillDisabled: AppColors.neutral100,
+      borderDefault: AppColors.neutral300,
+      borderHover: AppColors.neutral400,
+      borderFocused: AppColors.brand500,
+      borderError: AppColors.error500,
+      borderErrorFocused: AppColors.error600,
+      borderDisabled: AppColors.neutral200,
+      text: AppColors.white,
       textDisabled: AppColors.neutral400,
       placeholder: AppColors.neutral400,
       label: AppColors.neutral400,
@@ -48,11 +74,13 @@ final class AppInputFieldTheme extends ThemeExtension<AppInputFieldTheme> {
   @override
   ThemeExtension<AppInputFieldTheme> copyWith({
     AppInputFieldColors? colors,
+    AppInputFieldColors? optColors,
     double? focusedBorderWidth,
     double? defaultBorderWidth,
   }) {
     return AppInputFieldTheme(
       colors: colors ?? this.colors,
+      optColors: optColors ?? this.optColors,
       focusedBorderWidth: focusedBorderWidth ?? this.focusedBorderWidth,
       defaultBorderWidth: defaultBorderWidth ?? this.defaultBorderWidth,
     );
