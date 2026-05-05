@@ -42,7 +42,7 @@ class PostCard extends StatelessWidget {
                   vertical: AppSpacing.s4.h,
                 ),
                 decoration: BoxDecoration(
-                  color: context.colorScheme.backgroundBadge,
+                  color: context.colorScheme.backgroundPrimary,
                   borderRadius: BorderRadius.circular(AppSpacing.s8.r),
                 ),
                 child: AppText.captionSmall(

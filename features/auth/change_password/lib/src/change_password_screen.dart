@@ -17,12 +17,11 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: AppText.titleMedium(
+      appBar: AppTopBar(
+        titleWidget: AppText.titleMedium(
           context.l10n.change_password_title,
           textWeight: AppTextWeight.extraBold,
         ),
-        backgroundColor: context.colorScheme.backgroundBrand,
         elevation: 0,
       ),
       body: BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
@@ -32,17 +31,18 @@ class ChangePasswordScreen extends StatelessWidget {
             padding: EdgeInsets.all(AppSpacing.s24.r),
             child: PasswordForm(
               isLoading: state.isLoading,
-              onSubmit: ({
-                required oldPassword,
-                required newPassword,
-                required confirmPassword,
-              }) {
-                context.read<ChangePasswordCubit>().changePassword(
+              onSubmit:
+                  ({
+                    required oldPassword,
+                    required newPassword,
+                    required confirmPassword,
+                  }) {
+                    context.read<ChangePasswordCubit>().changePassword(
                       oldPassword: oldPassword,
                       newPassword: newPassword,
                       confirmPassword: confirmPassword,
                     );
-              },
+                  },
             ),
           );
         },
@@ -65,9 +65,7 @@ class ChangePasswordScreen extends StatelessWidget {
 
     if (state.errorMessage != null) {
       // Map known error codes to localised messages
-      final message = state.errorMessage == 'mismatch'
-          ? context.l10n.change_password_error_mismatch
-          : state.errorMessage!;
+      final message = state.errorMessage == 'mismatch' ? context.l10n.change_password_error_mismatch : state.errorMessage!;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message)),

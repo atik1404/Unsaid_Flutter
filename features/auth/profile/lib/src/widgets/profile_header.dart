@@ -93,7 +93,7 @@ class ProfileHeader extends StatelessWidget {
   Widget _buildAvatar(BuildContext context) {
     return CircleAvatar(
       radius: 48.r,
-      backgroundColor: context.colorScheme.backgroundBadge,
+      backgroundColor: context.colorScheme.backgroundPrimary,
       child: avatarUrl.isEmpty
           ? Icon(
               Icons.person,

@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context.l10n.home_title,
           textWeight: AppTextWeight.extraBold,
         ),
-        backgroundColor: context.colorScheme.backgroundBrand,
+        backgroundColor: context.colorScheme.backgroundPrimary,
         elevation: 0,
       ),
       body: BlocConsumer<HomeCubit, HomeState>(

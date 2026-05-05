@@ -34,7 +34,7 @@ class _SettingScreenState extends State<SettingScreen> {
           context.l10n.setting_title,
           textWeight: AppTextWeight.extraBold,
         ),
-        backgroundColor: context.colorScheme.backgroundBrand,
+        backgroundColor: context.colorScheme.backgroundPrimary,
         elevation: 0,
       ),
       body: BlocBuilder<SettingCubit, SettingState>(

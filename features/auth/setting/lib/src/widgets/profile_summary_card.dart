@@ -74,7 +74,7 @@ class ProfileSummaryCard extends StatelessWidget {
   Widget _buildAvatar(BuildContext context) {
     return CircleAvatar(
       radius: 32.r,
-      backgroundColor: context.colorScheme.backgroundBadge,
+      backgroundColor: context.colorScheme.backgroundPrimary,
       child: avatarUrl.isEmpty
           ? Icon(
               Icons.person,

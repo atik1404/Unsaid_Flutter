@@ -23,7 +23,7 @@ class PostDetailsScreen extends StatelessWidget {
           context.l10n.post_details_title,
           textWeight: AppTextWeight.extraBold,
         ),
-        backgroundColor: context.colorScheme.backgroundBrand,
+        backgroundColor: context.colorScheme.backgroundPrimary,
         elevation: 0,
       ),
       body: BlocBuilder<PostDetailsCubit, PostDetailsState>(

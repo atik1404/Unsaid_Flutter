@@ -29,12 +29,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: AppText.titleMedium(
+      appBar: AppTopBar(
+        titleWidget: AppText.titleMedium(
           context.l10n.profile_title,
           textWeight: AppTextWeight.extraBold,
         ),
-        backgroundColor: context.colorScheme.backgroundBrand,
         elevation: 0,
       ),
       body: BlocBuilder<ProfileCubit, ProfileState>(
