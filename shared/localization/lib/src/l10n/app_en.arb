@@ -55,7 +55,7 @@
     "@login_title": {
         "description": "Login screen main heading"
     },
-    "login_subtitle": "Sign in to connect through honest, anonymous conversations.",
+    "login_subtitle": "Sign in to connect through honest, anonymous conversations. Shared moments, safe space.",
     "@login_subtitle": {
         "description": "Login screen subtitle below heading"
     },
@@ -163,7 +163,6 @@
     "@home_no_more_posts": {
         "description": "Message shown when the end of the post list is reached"
     },
-
     "setting_title": "Settings",
     "@setting_title": {
         "description": "Title for the Settings screen"
@@ -200,7 +199,6 @@
     "@setting_logout_confirm_no": {
         "description": "Dismissive action label in the logout dialog"
     },
-
     "profile_title": "Profile",
     "@profile_title": {
         "description": "Title for the Profile screen"
@@ -229,7 +227,6 @@
     "@profile_no_posts": {
         "description": "Empty state message when the user has no posts"
     },
-
     "change_password_title": "Change Password",
     "@change_password_title": {
         "description": "Title for the Change Password screen"
@@ -270,7 +267,6 @@
     "@change_password_error_mismatch": {
         "description": "Validation error when new and confirm passwords differ"
     },
-
     "post_details_title": "Post Details",
     "@post_details_title": {
         "description": "Title for the Post Details screen"

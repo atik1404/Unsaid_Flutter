@@ -197,7 +197,7 @@ abstract class AppLocalizations {
   /// Login screen subtitle below heading
   ///
   /// In en, this message translates to:
-  /// **'Sign in to connect through honest, anonymous conversations.'**
+  /// **'Sign in to connect through honest, anonymous conversations. Shared moments, safe space.'**
   String get login_subtitle;
 
   /// Label above the phone number input field

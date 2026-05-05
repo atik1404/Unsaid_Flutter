@@ -1,5 +1,6 @@
 import 'package:designsystem/src/components/icon/app_icon.dart';
 import 'package:designsystem/src/components/inputfiled/inputfield.dart';
+import 'package:designsystem/src/components/text/app_text_weight.dart';
 import 'package:designsystem/src/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -91,8 +92,7 @@ class _AppInputFieldState extends State<AppInputField> {
     super.dispose();
   }
 
-  bool get _hasError =>
-      widget.errorText != null && widget.errorText!.isNotEmpty;
+  bool get _hasError => widget.errorText != null && widget.errorText!.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,6 @@ class _AppInputFieldState extends State<AppInputField> {
     // Resolve typography
     final textStyle = typography.byIntent(spec.textIntent);
     final labelStyle = typography.byIntent(spec.labelIntent);
-    final helperStyle = typography.byIntent(spec.helperIntent);
 
     // Resolve state-dependent colors
     final iconColor = _iconColorFor(state, colors);
@@ -138,17 +137,19 @@ class _AppInputFieldState extends State<AppInputField> {
         errorText: widget.errorText,
         prefix: widget.prefix,
         suffix: widget.suffix,
+        counterText: '',
         prefixIcon: _wrapIcon(widget.prefixIcon, iconColor, spec.iconSize),
         suffixIcon: _wrapIcon(widget.suffixIcon, iconColor, spec.iconSize),
-        filled: widget.variant == AppInputFieldVariant.filled,
+        filled: widget.variant == AppInputFieldVariant.filled || widget.variant == AppInputFieldVariant.filledOpt,
         fillColor: fillColor,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         isDense: widget.size == AppInputFieldSize.sm,
         contentPadding: spec.contentPadding,
         labelStyle: labelStyle.copyWith(color: labelColor),
         floatingLabelStyle: labelStyle.copyWith(color: floatingLabelColor),
-        hintStyle: textStyle.copyWith(color: colors.placeholder),
-        helperStyle: helperStyle.copyWith(color: colors.helper),
-        errorStyle: helperStyle.copyWith(color: colors.helperError),
+        hintStyle: context.typography.bodySmall.copyWith(color: colors.placeholder, fontWeight: AppTextWeight.light.fontWeight),
+        helperStyle: context.typography.bodySmall.copyWith(color: colors.helper, fontWeight: AppTextWeight.light.fontWeight),
+        errorStyle: context.typography.bodySmall.copyWith(color: colors.helperError, fontWeight: AppTextWeight.light.fontWeight),
         border: _buildBorder(
           colors.borderDefault,
           theme.defaultBorderWidth,
@@ -185,9 +186,7 @@ class _AppInputFieldState extends State<AppInputField> {
 
   AppInputFieldColors _resolveColors(AppInputFieldVariant varient) {
     return switch (varient) {
-      AppInputFieldVariant.outline ||
-      AppInputFieldVariant.underline ||
-      AppInputFieldVariant.filled => context.inputTheme.colors,
+      AppInputFieldVariant.outline || AppInputFieldVariant.underline || AppInputFieldVariant.filled => context.inputTheme.colors,
       AppInputFieldVariant.filledOpt => context.inputTheme.optColors,
     };
   }
@@ -199,25 +198,22 @@ class _AppInputFieldState extends State<AppInputField> {
     return _InputVisualState.defaultState;
   }
 
-  Color _iconColorFor(_InputVisualState state, AppInputFieldColors c) =>
-      switch (state) {
-        _InputVisualState.disabled => c.iconDisabled,
-        _InputVisualState.error => c.iconError,
-        _InputVisualState.focused => c.iconFocused,
-        _InputVisualState.defaultState => c.icon,
-      };
+  Color _iconColorFor(_InputVisualState state, AppInputFieldColors c) => switch (state) {
+    _InputVisualState.disabled => c.iconDisabled,
+    _InputVisualState.error => c.iconError,
+    _InputVisualState.focused => c.iconFocused,
+    _InputVisualState.defaultState => c.icon,
+  };
 
-  Color _textColorFor(_InputVisualState state, AppInputFieldColors c) =>
-      switch (state) {
-        _InputVisualState.disabled => c.textDisabled,
-        _ => c.text,
-      };
+  Color _textColorFor(_InputVisualState state, AppInputFieldColors c) => switch (state) {
+    _InputVisualState.disabled => c.textDisabled,
+    _ => c.text,
+  };
 
-  Color _labelColorFor(_InputVisualState state, AppInputFieldColors c) =>
-      switch (state) {
-        _InputVisualState.disabled => c.labelDisabled,
-        _ => c.label,
-      };
+  Color _labelColorFor(_InputVisualState state, AppInputFieldColors c) => switch (state) {
+    _InputVisualState.disabled => c.labelDisabled,
+    _ => c.label,
+  };
 
   Color _floatingLabelColorFor(
     _InputVisualState state,
@@ -228,11 +224,10 @@ class _AppInputFieldState extends State<AppInputField> {
     _ => c.labelFocused,
   };
 
-  Color _fillColorFor(_InputVisualState state, AppInputFieldColors c) =>
-      switch (state) {
-        _InputVisualState.disabled => c.fillDisabled,
-        _ => c.fill,
-      };
+  Color _fillColorFor(_InputVisualState state, AppInputFieldColors c) => switch (state) {
+    _InputVisualState.disabled => c.fillDisabled,
+    _ => c.fill,
+  };
 
   Widget? _wrapIcon(Widget? icon, Color color, double size) {
     if (icon == null) return null;
@@ -250,9 +245,7 @@ class _AppInputFieldState extends State<AppInputField> {
     final side = BorderSide(color: color, width: width);
     return switch (widget.variant) {
       AppInputFieldVariant.underline => UnderlineInputBorder(borderSide: side),
-      AppInputFieldVariant.outline ||
-      AppInputFieldVariant.filled ||
-      AppInputFieldVariant.filledOpt => OutlineInputBorder(
+      AppInputFieldVariant.outline || AppInputFieldVariant.filled || AppInputFieldVariant.filledOpt => OutlineInputBorder(
         borderRadius: _radiusFor(spec),
         borderSide: side,
       ),

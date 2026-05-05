@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildLoginUi(),
+      //bottomNavigationBar: _buildLoginFooter(context),
     );
   }
 
@@ -46,7 +47,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 constraints: BoxConstraints(
                   minHeight: constraints.maxHeight - pagePadding.vertical,
                 ),
-                child: _buildLoginForm(context),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildLoginHeader(context),
+                    SizedBox(height: AppSpacing.s32.h),
+                    _buildLoginForm(context),
+                    _buildLoginFooter(context),
+                  ],
+                ),
               ),
             );
           },
@@ -57,14 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginForm(BuildContext context) {
     final gap = SizedBox(height: AppSpacing.s12.h);
-    final topMargin = MediaQuery.sizeOf(context).height * 0.07;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: topMargin),
-        _buildLoginHeader(context),
-        gap,
         gap,
         AppText.bodySmall(
           context.l10n.login_label_phone,
@@ -94,22 +102,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        gap,
-        gap,
-        _buildCreateAccount(context),
-        gap,
-        _buildSocialLoginOptions(context),
       ],
     );
   }
 
   Widget _buildLoginHeader(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         AppImage.asset(
           AppDrawables.logoTransparent,
-          width: 120.w,
-          height: 120.h,
+          width: 100.w,
+          height: 100.h,
         ),
         SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(
@@ -131,7 +135,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return AppInputField(
       hint: context.l10n.login_hint_phone,
       keyboardType: TextInputType.phone,
+      textInputAction: TextInputAction.next,
       variant: AppInputFieldVariant.filledOpt,
+      maxLength: 11,
     );
   }
 
@@ -140,13 +146,15 @@ class _LoginScreenState extends State<LoginScreen> {
       hint: context.l10n.login_hint_password,
       obscureText: _obscurePassword,
       variant: AppInputFieldVariant.filledOpt,
+      textInputAction: TextInputAction.done,
+      maxLength: 20,
       suffixIcon: AppIcon(
         GestureDetector(
-          onTap: () => setState(() => _obscurePassword = !_obscurePassword),
+          onTap: () {
+            setState(() => _obscurePassword = !_obscurePassword);
+          },
           child: Icon(
-            _obscurePassword
-                ? Icons.visibility_off_outlined
-                : Icons.visibility_outlined,
+            _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
           ),
         ),
       ),
@@ -159,6 +167,18 @@ class _LoginScreenState extends State<LoginScreen> {
       onPressed: () {
         context.goNamed(AppRouteName.homeScreen);
       },
+    );
+  }
+
+  Widget _buildLoginFooter(BuildContext context) {
+    final gap = SizedBox(height: AppSpacing.s12.h);
+    return Column(
+      children: [
+        gap,
+        _buildCreateAccount(context),
+        gap,
+        _buildSocialLoginOptions(context),
+      ],
     );
   }
 
@@ -187,13 +207,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSocialLoginOptions(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: AppSpacing.s24.h),
         AppText.bodySmall(
           context.l10n.login_social_sign_in,
           textWeight: AppTextWeight.extraBold,
           color: context.colorScheme.contentInfo,
         ),
-        SizedBox(height: AppSpacing.s32.h),
+        SizedBox(height: AppSpacing.s24.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

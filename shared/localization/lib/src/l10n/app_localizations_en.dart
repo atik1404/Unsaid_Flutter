@@ -64,7 +64,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login_subtitle =>
-      'Sign in to connect through honest, anonymous conversations.';
+      'Sign in to connect through honest, anonymous conversations. Shared moments, safe space.';
 
   @override
   String get login_label_phone => 'Phone number';
