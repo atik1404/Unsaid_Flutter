@@ -275,7 +275,7 @@ abstract class AppLocalizations {
   /// Signup screen subtitle below heading
   ///
   /// In en, this message translates to:
-  /// **'Join us to connect through honest, anonymous conversations.'**
+  /// **'Join us to connect through honest, anonymous conversations. Shared moments, safe space.'**
   String get signup_subtitle;
 
   /// Label above the full name input field

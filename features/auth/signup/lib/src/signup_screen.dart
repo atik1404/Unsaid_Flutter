@@ -14,10 +14,7 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => SignupCubit(),
-      child: const _SignupScreenView(),
-    );
+    return BlocProvider(create: (_) => SignupCubit(), child: const _SignupScreenView());
   }
 }
 
@@ -42,12 +39,7 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return Stack(
       children: [
         const Positioned.fill(
-          child: AppImage.asset(
-            AppDrawables.appBackground,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+          child: AppImage.asset(AppDrawables.appBackground, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
         ),
         LayoutBuilder(
           builder: (context, constraints) {
@@ -55,16 +47,11 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
               physics: const ClampingScrollPhysics(),
               padding: pagePadding,
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - pagePadding.vertical,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight - pagePadding.vertical),
                 child: BlocListener<SignupCubit, SignupState>(
                   listener: (context, state) {
                     if (state.errorMessage != null) {
-                      AppToast.toast(
-                        message: state.errorMessage!,
-                        toastType: ToastType.error,
-                      );
+                      AppToast.toast(message: state.errorMessage!, toastType: ToastType.error);
                     } else if (state.isSuccess) {
                       // Handle successful signup
                       context.goNamed(AppRouteName.homeScreen);
@@ -76,81 +63,48 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
             );
           },
         ),
-        Positioned(
-          top: pagePadding.top,
-          left: pagePadding.left,
-          child: SafeArea(
-            bottom: false,
-            child: AppIconButton(
-              AppIcon(AppImage.asset(AppDrawables.icBack)),
-              onPressed: () {
-                context.pop();
-              },
-            ),
-          ),
-        ),
       ],
     );
   }
 
   Widget _buildSignupForm(BuildContext context) {
     final gap = SizedBox(height: AppSpacing.s12.h);
-    final topMargin = MediaQuery.sizeOf(context).height * 0.1;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: topMargin),
         _buildSignupHeader(context),
         gap,
         gap,
 
         // Name
-        AppText.bodySmall(
-          context.l10n.signup_label_name,
-          textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
-        ),
+        AppText.bodySmall(context.l10n.signup_label_name, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildNameInput(context),
         gap,
 
         // Phone
-        AppText.bodySmall(
-          context.l10n.signup_label_phone,
-          textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
-        ),
+        AppText.bodySmall(context.l10n.signup_label_phone, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildPhoneInput(context),
         gap,
 
         // Email
-        AppText.bodySmall(
-          context.l10n.signup_label_email,
-          textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
-        ),
+        AppText.bodySmall(context.l10n.signup_label_email, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildEmailInput(context),
         gap,
 
         // Password
-        AppText.bodySmall(
-          context.l10n.signup_label_password,
-          textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
-        ),
+        AppText.bodySmall(context.l10n.signup_label_password, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildPasswordInput(context),
         gap,
         gap,
 
         _buildSignupButton(context),
-        gap,
-        _buildSignInPrompt(context),
-        gap,
-        _buildSocialSignupOptions(context),
+        _buildLoginFooter(context),
       ],
     );
   }
@@ -158,23 +112,11 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
   Widget _buildSignupHeader(BuildContext context) {
     return Column(
       children: [
-        AppImage.asset(
-          AppDrawables.logoTransparent,
-          width: 120.w,
-          height: 120.h,
-        ),
+        AppImage.asset(AppDrawables.logoTransparent, width: 100.w, height: 100.h),
         SizedBox(height: AppSpacing.s16.h),
-        AppText.titleLarge(
-          context.l10n.signup_title,
-          textWeight: AppTextWeight.extraBold,
-        ),
+        AppText.titleLarge(context.l10n.signup_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(
-          context.l10n.signup_subtitle,
-          textAlign: TextAlign.center,
-          textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
-        ),
+        AppText.bodySmall(context.l10n.signup_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
       ],
     );
   }
@@ -183,7 +125,9 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return AppInputField(
       hint: context.l10n.signup_hint_name,
       keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.next,
       onChanged: (value) => context.read<SignupCubit>().updateName(value),
+      variant: AppInputFieldVariant.filledOpt,
     );
   }
 
@@ -191,7 +135,9 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return AppInputField(
       hint: context.l10n.signup_hint_phone,
       keyboardType: TextInputType.phone,
+      textInputAction: TextInputAction.next,
       onChanged: (value) => context.read<SignupCubit>().updatePhone(value),
+      variant: AppInputFieldVariant.filledOpt,
     );
   }
 
@@ -199,7 +145,9 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return AppInputField(
       hint: context.l10n.signup_hint_email,
       keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
       onChanged: (value) => context.read<SignupCubit>().updateEmail(value),
+      variant: AppInputFieldVariant.filledOpt,
     );
   }
 
@@ -207,13 +155,10 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return AppInputField(
       hint: context.l10n.signup_hint_password,
       obscureText: _obscurePassword,
+      textInputAction: TextInputAction.done,
+      variant: AppInputFieldVariant.filledOpt,
       suffixIcon: AppIcon(
-        GestureDetector(
-          onTap: () => setState(() => _obscurePassword = !_obscurePassword),
-          child: Icon(
-            _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-          ),
-        ),
+        GestureDetector(onTap: () => setState(() => _obscurePassword = !_obscurePassword), child: Icon(_obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined)),
       ),
       onChanged: (value) => context.read<SignupCubit>().updatePassword(value),
     );
@@ -222,28 +167,25 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
   Widget _buildSignupButton(BuildContext context) {
     return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
-        return AppFilledButton.text(
-          context.l10n.signup_button,
-          isLoading: state.isSubmitting,
-          onPressed: () => context.read<SignupCubit>().submit(),
-        );
+        return AppFilledButton.text(context.l10n.signup_button, isLoading: state.isSubmitting, onPressed: () => context.read<SignupCubit>().submit());
       },
     );
+  }
+
+  Widget _buildLoginFooter(BuildContext context) {
+    final gap = SizedBox(height: AppSpacing.s12.h);
+    return Column(children: [gap, _buildSignInPrompt(context), _buildSocialSignupOptions(context)]);
   }
 
   Widget _buildSignInPrompt(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppText.bodySmall(
-          context.l10n.signup_already_have_account,
-          textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
-        ),
+        AppText.bodySmall(context.l10n.signup_already_have_account, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
         AppTextButton(
           context.l10n.signup_sign_in,
           onPressed: () {
-            context.goNamed(AppRouteName.loginScreen);
+            context.pop();
           },
           style: const AppTextButtonStyle(intent: AppButtonIntent.secondary()),
         ),
@@ -252,31 +194,18 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
   }
 
   Widget _buildSocialSignupOptions(BuildContext context) {
+    final gap = SizedBox(height: AppSpacing.s12.h);
     return Column(
       children: [
-        SizedBox(height: AppSpacing.s24.h),
-        AppText.bodySmall(
-          context.l10n.login_social_sign_in,
-          textWeight: AppTextWeight.extraBold,
-          color: context.colorScheme.contentInfo,
-        ),
-        SizedBox(height: AppSpacing.s32.h),
+        gap,
+        AppText.bodySmall(context.l10n.login_social_sign_in, textWeight: AppTextWeight.extraBold, color: context.colorScheme.contentInfo),
+        gap,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: AppFilledButton.text(
-                context.l10n.login_google,
-                onPressed: () {},
-              ),
-            ),
+            Expanded(child: AppFilledButton.text(context.l10n.login_google, onPressed: () {})),
             SizedBox(width: AppSpacing.s16.w),
-            Expanded(
-              child: AppFilledButton.text(
-                context.l10n.login_facebook,
-                onPressed: () {},
-              ),
-            ),
+            Expanded(child: AppFilledButton.text(context.l10n.login_facebook, onPressed: () {})),
           ],
         ),
       ],

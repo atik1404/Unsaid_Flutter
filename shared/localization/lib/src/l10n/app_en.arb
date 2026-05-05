@@ -107,7 +107,7 @@
     "@signup_title": {
         "description": "Signup screen main heading"
     },
-    "signup_subtitle": "Join us to connect through honest, anonymous conversations.",
+    "signup_subtitle": "Join us to connect through honest, anonymous conversations. Shared moments, safe space.",
     "@signup_subtitle": {
         "description": "Signup screen subtitle below heading"
     },

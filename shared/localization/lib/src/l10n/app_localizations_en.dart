@@ -104,7 +104,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signup_subtitle =>
-      'Join us to connect through honest, anonymous conversations.';
+      'Join us to connect through honest, anonymous conversations. Shared moments, safe space.';
 
   @override
   String get signup_label_name => 'Full Name';
