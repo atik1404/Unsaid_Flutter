@@ -14,6 +14,7 @@ class AppImage extends StatelessWidget {
   final String? package;
   final AssetBundle? bundle;
   final Map<String, String>? headers;
+  // ignore: avoid_positional_boolean_parameters
   final Widget Function(BuildContext, Widget, int?, bool)? frameBuilder;
   final Widget Function(BuildContext, Widget, ImageChunkEvent?)? loadingBuilder;
   final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
@@ -87,7 +88,7 @@ class AppImage extends StatelessWidget {
        bundle = null;
 
   Widget _defaultFrameBuilder(
-    BuildContext context,
+    BuildContext _,
     Widget child,
     int? frame,
     bool wasSynchronouslyLoaded,
@@ -102,7 +103,7 @@ class AppImage extends StatelessWidget {
   }
 
   Widget _defaultLoadingBuilder(
-    BuildContext context,
+    BuildContext _,
     Widget child,
     ImageChunkEvent? loadingProgress,
   ) {
@@ -115,9 +116,9 @@ class AppImage extends StatelessWidget {
   }
 
   Widget _defaultErrorBuilder(
-    BuildContext context,
-    Object error,
-    StackTrace? stackTrace,
+    BuildContext _,
+    Object _,
+    StackTrace? _,
   ) {
     return const Center(child: Icon(Icons.broken_image_outlined));
   }

@@ -21,16 +21,9 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color contentWarning; // warning-colored content
   final Color contentInfo; // info-colored content
 
-  // Content on filled intent surfaces
-  final Color contentOnBrand;
-  final Color contentOnError;
-  final Color contentOnSuccess;
-  final Color contentOnWarning;
-  final Color contentOnInfo;
-
   // Borders & divider
   final Color borderPrimary; // standard borders
-  final Color borderSubtle; // light dividers, separators
+  final Color borderSecondary; // light dividers, separators
   final Color borderBrand; // brand-colored border & divider
   final Color borderFocused; // keyboard/accessibility focus rings
   final Color borderError; // error-colored border & divider
@@ -52,13 +45,8 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
     required this.contentSuccess,
     required this.contentWarning,
     required this.contentInfo,
-    required this.contentOnBrand,
-    required this.contentOnError,
-    required this.contentOnSuccess,
-    required this.contentOnWarning,
-    required this.contentOnInfo,
     required this.borderPrimary,
-    required this.borderSubtle,
+    required this.borderSecondary,
     required this.borderBrand,
     required this.borderFocused,
     required this.borderError,
@@ -90,13 +78,9 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
       contentSuccess: AppColors.success500,
       contentWarning: AppColors.warning500,
       contentInfo: AppColors.neutral300,
-      contentOnBrand: AppColors.white,
-      contentOnError: AppColors.white,
-      contentOnSuccess: AppColors.white,
-      contentOnWarning: AppColors.white,
-      contentOnInfo: AppColors.neutral900,
+
       borderPrimary: AppColors.neutral200,
-      borderSubtle: AppColors.neutral100,
+      borderSecondary: AppColors.neutral100,
       borderBrand: AppColors.brand500,
       borderFocused: AppColors.brand500,
       borderError: AppColors.error500,

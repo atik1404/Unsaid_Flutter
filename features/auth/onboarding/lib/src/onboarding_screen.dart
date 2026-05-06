@@ -48,9 +48,7 @@ class OnboardingScreen extends StatelessWidget {
         // Listen for navigation events to next screen
         if (state.shouldNavigateToNextScreen) {
           context.goNamed(AppRouteName.loginScreen);
-          context
-              .read<OnboardingCubit>()
-              .resetState(); //reset state after navigation
+          context.read<OnboardingCubit>().resetState(); //reset state after navigation
         }
       },
       child: AppScaffold(
@@ -94,8 +92,7 @@ class OnboardingScreen extends StatelessWidget {
           return PageView.builder(
             itemCount: onboardingPagerList.length,
             controller: PageController(initialPage: state.currentPage),
-            itemBuilder: (context, index) =>
-                _buildPageItem(context, onboardingPagerList[index]),
+            itemBuilder: (context, index) => _buildPageItem(context, onboardingPagerList[index]),
             onPageChanged: (index) {
               // Notify cubit about page change
               context.read<OnboardingCubit>().onPageChanged(
@@ -172,9 +169,7 @@ class OnboardingScreen extends StatelessWidget {
               width: 30.w,
               height: 5.h,
               decoration: BoxDecoration(
-                color: isActive
-                    ? colorScheme.contentWarning
-                    : colorScheme.contentOnBrand,
+                color: isActive ? colorScheme.contentWarning : colorScheme.contentBrand,
                 borderRadius: BorderRadius.circular(5.r),
               ),
             );

@@ -35,7 +35,7 @@ class SettingMenuList extends StatelessWidget {
         itemCount: menuItems.length,
         separatorBuilder: (_, __) => Divider(
           height: 1,
-          color: context.colorScheme.borderSubtle,
+          color: context.colorScheme.borderSecondary,
         ),
         itemBuilder: (context, index) => menuItems[index],
       ),
@@ -130,9 +130,7 @@ class _SettingMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isDestructive
-        ? context.colorScheme.contentError
-        : context.colorScheme.contentPrimary;
+    final color = isDestructive ? context.colorScheme.contentError : context.colorScheme.contentPrimary;
 
     return InkWell(
       onTap: onTap,
