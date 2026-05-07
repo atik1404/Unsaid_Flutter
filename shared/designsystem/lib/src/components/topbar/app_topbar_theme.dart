@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
   final Color backgroundColor;
+  final Gradient backgroundGradient;
   final Color foregroundColor;
   final double elevation;
   final double? scrolledUnderElevation;
@@ -12,6 +13,7 @@ final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
 
   const AppTopBarTheme({
     required this.backgroundColor,
+    required this.backgroundGradient,
     required this.foregroundColor,
     this.elevation = 0,
     this.scrolledUnderElevation,
@@ -21,7 +23,12 @@ final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
 
   factory AppTopBarTheme.light() => const AppTopBarTheme(
     backgroundColor: AppColors.white,
-    foregroundColor: AppColors.neutral900,
+    backgroundGradient: LinearGradient(
+      colors: [AppColors.brand500, AppColors.brand300],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+    foregroundColor: AppColors.white,
     scrolledUnderElevation: AppElevation.card,
     surfaceTintColor: AppColors.transparent,
   );
@@ -33,6 +40,7 @@ final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
   @override
   ThemeExtension<AppTopBarTheme> copyWith({
     Color? backgroundColor,
+    Gradient? backgroundGradient,
     Color? foregroundColor,
     double? elevation,
     double? scrolledUnderElevation,
@@ -41,10 +49,10 @@ final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
   }) {
     return AppTopBarTheme(
       backgroundColor: backgroundColor ?? this.backgroundColor,
+      backgroundGradient: backgroundGradient ?? this.backgroundGradient,
       foregroundColor: foregroundColor ?? this.foregroundColor,
       elevation: elevation ?? this.elevation,
-      scrolledUnderElevation:
-          scrolledUnderElevation ?? this.scrolledUnderElevation,
+      scrolledUnderElevation: scrolledUnderElevation ?? this.scrolledUnderElevation,
       shadowColor: shadowColor ?? this.shadowColor,
       surfaceTintColor: surfaceTintColor ?? this.surfaceTintColor,
     );

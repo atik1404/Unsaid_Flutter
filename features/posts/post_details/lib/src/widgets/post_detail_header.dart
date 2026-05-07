@@ -78,7 +78,7 @@ class PostDetailHeader extends StatelessWidget {
               AppText.bodySmall(
                 '${context.l10n.post_details_posted_on} '
                 '${Jiffy.parseFromDateTime(post.dateTime).yMMMMEEEEd}',
-                color: context.colorScheme.contentSecondary,
+                color: context.colorScheme.contentSuccess,
                 textWeight: AppTextWeight.medium,
               ),
             ],

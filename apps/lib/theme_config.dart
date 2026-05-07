@@ -1,9 +1,7 @@
 part of 'app_entry.dart';
 
 ThemeData _buildAppTheme(Brightness brightness) {
-  final appTheme = (brightness == Brightness.dark)
-      ? AppTheme.dark()
-      : AppTheme.light();
+  final appTheme = (brightness == Brightness.dark) ? AppTheme.dark() : AppTheme.light();
   final white = appTheme.colorSchemeTheme.contentWarning;
 
   return ThemeData(

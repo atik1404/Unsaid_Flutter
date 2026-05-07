@@ -9,6 +9,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
 
   final bool showBackButton;
+  final bool enableGradient;
   final bool centerTitle;
   final bool automaticallyImplyLeading;
 
@@ -34,11 +35,12 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.bottom,
     this.showBackButton = true,
+    this.enableGradient = true,
     this.centerTitle = true,
     this.automaticallyImplyLeading = true,
     this.backgroundColor,
     this.foregroundColor,
-    this.elevation,
+    this.elevation = 10,
     this.toolbarHeight,
     this.onBackPressed,
     this.actionSpacing = 4,
@@ -71,6 +73,13 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
       bottom: bottom,
       iconTheme: IconThemeData(color: fg),
       actionsIconTheme: IconThemeData(color: fg),
+      flexibleSpace: enableGradient
+          ? Container(
+              decoration: BoxDecoration(
+                gradient: theme.backgroundGradient,
+              ),
+            )
+          : null,
     );
   }
 

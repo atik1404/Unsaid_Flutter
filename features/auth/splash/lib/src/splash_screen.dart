@@ -16,9 +16,8 @@ class SplashScreen extends StatelessWidget {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         state.maybeMap(
-          navigateToOnboarding: (_) =>
-              context.goNamed(AppRouteName.onboardingScreen),
-          navigateToLogin: (_) => context.goNamed(AppRouteName.loginScreen),
+          navigateToOnboarding: (_) => context.goNamed(AppRouteName.onboardingScreen),
+          navigateToLogin: (_) => context.goNamed(AppRouteName.homeScreen), //context.goNamed(AppRouteName.loginScreen),
           navigateToHome: (_) => context.goNamed(AppRouteName.homeScreen),
           orElse: () {},
         );

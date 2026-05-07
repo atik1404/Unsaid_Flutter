@@ -54,8 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context.l10n.home_title,
           textWeight: AppTextWeight.extraBold,
         ),
-        backgroundColor: context.colorScheme.backgroundPrimary,
-        elevation: 0,
+        leading: const AppIcon(Icon(Icons.menu)),
       ),
       body: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
@@ -77,11 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView.separated(
             controller: _scrollController,
             padding: EdgeInsets.all(AppSpacing.s16.r),
-            itemCount: state.hasReachedMax
-                ? state.posts.length
-                : state.posts.length + 1,
-            separatorBuilder: (context, index) =>
-                SizedBox(height: AppSpacing.s16.h),
+            itemCount: state.hasReachedMax ? state.posts.length : state.posts.length + 1,
+            separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s16.h),
             itemBuilder: (context, index) {
               if (index >= state.posts.length) {
                 return const Center(
