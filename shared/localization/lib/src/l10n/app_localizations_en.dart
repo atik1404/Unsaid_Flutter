@@ -232,4 +232,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get post_details_posted_on => 'Posted on';
+
+  @override
+  String get app_title => 'Foundry Flutter';
+
+  @override
+  String get nav_unknown_screen => 'Unknown screen';
+
+  @override
+  String get nav_back => 'Back';
+
+  @override
+  String get splash_brand_name => 'Unsaid';
+
+  @override
+  String get splash_tagline_primary =>
+      'Things you couldn\'t say anywhere else.';
+
+  @override
+  String get splash_tagline_secondary => 'Shed your identity, not your voice';
+
+  @override
+  String get home_no_posts_available => 'No posts available.';
+
+  @override
+  String get home_error_load_posts => 'Failed to load posts.';
+
+  @override
+  String home_mock_post_title(int page, int index) {
+    return 'Post Title $page-$index';
+  }
+
+  @override
+  String home_mock_post_description(int page, int index) {
+    return 'This is the description for post $page-$index. It contains some interesting content about the topic discussed.';
+  }
+
+  @override
+  String home_mock_post_tag(int tagNumber) {
+    return 'Tag $tagNumber';
+  }
+
+  @override
+  String profile_mock_post_title(int index) {
+    return 'My Post $index';
+  }
+
+  @override
+  String profile_mock_post_description(int index) {
+    return 'This is a description for my post $index. It shares thoughts and ideas about everyday topics.';
+  }
+
+  @override
+  String get profile_mock_tag_personal => 'Personal';
+
+  @override
+  String get profile_mock_user_name => 'John Doe';
+
+  @override
+  String get profile_mock_user_bio =>
+      'Flutter developer | Open-source enthusiast';
+
+  @override
+  String get signup_error_required_fields =>
+      'Please fill in all required fields.';
+
+  @override
+  String get post_details_author_anonymous => 'Anonymous';
 }

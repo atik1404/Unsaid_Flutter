@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:splash/src/state/splash_cubit.dart';
 import 'package:splash/src/state/splash_state.dart';
@@ -84,8 +85,8 @@ class SplashScreen extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: AppSpacing.s48),
-        const AppText.headlineLarge(
-          'Unsaid',
+        AppText.headlineLarge(
+          context.l10n.splash_brand_name,
           textWeight: AppTextWeight.extraBold,
         ),
         const SizedBox(height: AppSpacing.s12),
@@ -93,14 +94,14 @@ class SplashScreen extends StatelessWidget {
           textAlign: TextAlign.center,
           textWeight: AppTextWeight.light,
           color: context.colorScheme.white,
-          'Things you couldn’t say anywhere else.',
+          context.l10n.splash_tagline_primary,
         ),
         const SizedBox(height: AppSpacing.s12),
         AppText.bodyLarge(
           textAlign: TextAlign.center,
           textWeight: AppTextWeight.light,
           color: context.colorScheme.white,
-          'Shed your identity, not your voice',
+          context.l10n.splash_tagline_secondary,
         ),
         const SizedBox(height: AppSpacing.s48),
       ],

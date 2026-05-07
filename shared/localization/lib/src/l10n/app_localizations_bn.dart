@@ -101,136 +101,202 @@ class AppLocalizationsBn extends AppLocalizations {
   String get login_facebook => 'ফেসবুক';
 
   @override
-  String get signup_title => 'Create an Account';
+  String get signup_title => 'অ্যাকাউন্ট তৈরি করুন';
 
   @override
   String get signup_subtitle =>
-      'Join us to connect through honest, anonymous conversations. Shared moments, safe space.';
+      'সৎ, বেনামি কথোপকথনের মাধ্যমে যুক্ত হতে আমাদের সঙ্গে থাকুন।';
 
   @override
-  String get signup_label_name => 'Full Name';
+  String get signup_label_name => 'পূর্ণ নাম';
 
   @override
-  String get signup_hint_name => 'Enter your full name';
+  String get signup_hint_name => 'আপনার পূর্ণ নাম লিখুন';
 
   @override
-  String get signup_label_phone => 'Phone number';
+  String get signup_label_phone => 'ফোন নম্বর';
 
   @override
-  String get signup_hint_phone => 'Enter your phone number';
+  String get signup_hint_phone => 'আপনার ফোন নম্বর লিখুন';
 
   @override
-  String get signup_label_email => 'Email (Optional)';
+  String get signup_label_email => 'ইমেইল (ঐচ্ছিক)';
 
   @override
-  String get signup_hint_email => 'Enter your email address';
+  String get signup_hint_email => 'আপনার ইমেইল ঠিকানা লিখুন';
 
   @override
-  String get signup_label_password => 'Password';
+  String get signup_label_password => 'পাসওয়ার্ড';
 
   @override
-  String get signup_hint_password => 'Create a password';
+  String get signup_hint_password => 'একটি পাসওয়ার্ড তৈরি করুন';
 
   @override
-  String get signup_button => 'Sign Up';
+  String get signup_button => 'সাইন আপ';
 
   @override
-  String get signup_already_have_account => 'Already have an account?';
+  String get signup_already_have_account => 'আগে থেকেই অ্যাকাউন্ট আছে?';
 
   @override
-  String get signup_sign_in => 'Sign In';
+  String get signup_sign_in => 'সাইন ইন';
 
   @override
-  String get home_title => 'Home';
+  String get home_title => 'হোম';
 
   @override
-  String get home_no_more_posts => 'No more posts to load.';
+  String get home_no_more_posts => 'লোড করার জন্য আর পোস্ট নেই।';
 
   @override
-  String get setting_title => 'Settings';
+  String get setting_title => 'সেটিংস';
 
   @override
-  String get setting_menu_profile => 'Profile';
+  String get setting_menu_profile => 'প্রোফাইল';
 
   @override
-  String get setting_menu_change_password => 'Change Password';
+  String get setting_menu_change_password => 'পাসওয়ার্ড পরিবর্তন';
 
   @override
-  String get setting_menu_change_language => 'Change Language';
+  String get setting_menu_change_language => 'ভাষা পরিবর্তন';
 
   @override
-  String get setting_menu_logout => 'Logout';
+  String get setting_menu_logout => 'লগআউট';
 
   @override
-  String get setting_logout_confirm_title => 'Logout';
+  String get setting_logout_confirm_title => 'লগআউট';
 
   @override
   String get setting_logout_confirm_message =>
-      'Are you sure you want to logout?';
+      'আপনি কি নিশ্চিতভাবে লগআউট করতে চান?';
 
   @override
-  String get setting_logout_confirm_yes => 'Yes, Logout';
+  String get setting_logout_confirm_yes => 'হ্যাঁ, লগআউট';
 
   @override
-  String get setting_logout_confirm_no => 'Cancel';
+  String get setting_logout_confirm_no => 'বাতিল';
 
   @override
-  String get profile_title => 'Profile';
+  String get profile_title => 'প্রোফাইল';
 
   @override
-  String get profile_label_name => 'Full Name';
+  String get profile_label_name => 'পূর্ণ নাম';
 
   @override
-  String get profile_label_email => 'Email';
+  String get profile_label_email => 'ইমেইল';
 
   @override
-  String get profile_label_phone => 'Phone Number';
+  String get profile_label_phone => 'ফোন নম্বর';
 
   @override
-  String get profile_label_bio => 'Bio';
+  String get profile_label_bio => 'বায়ো';
 
   @override
-  String get profile_section_posts => 'My Posts';
+  String get profile_section_posts => 'আমার পোস্ট';
 
   @override
-  String get profile_no_posts => 'No posts yet.';
+  String get profile_no_posts => 'এখনও কোনো পোস্ট নেই।';
 
   @override
-  String get change_password_title => 'Change Password';
+  String get change_password_title => 'পাসওয়ার্ড পরিবর্তন';
 
   @override
-  String get change_password_label_old => 'Old Password';
+  String get change_password_label_old => 'পুরোনো পাসওয়ার্ড';
 
   @override
-  String get change_password_hint_old => 'Enter your old password';
+  String get change_password_hint_old => 'আপনার পুরোনো পাসওয়ার্ড লিখুন';
 
   @override
-  String get change_password_label_new => 'New Password';
+  String get change_password_label_new => 'নতুন পাসওয়ার্ড';
 
   @override
-  String get change_password_hint_new => 'Enter your new password';
+  String get change_password_hint_new => 'আপনার নতুন পাসওয়ার্ড লিখুন';
 
   @override
-  String get change_password_label_confirm => 'Confirm Password';
+  String get change_password_label_confirm => 'পাসওয়ার্ড নিশ্চিত করুন';
 
   @override
-  String get change_password_hint_confirm => 'Re-enter your new password';
+  String get change_password_hint_confirm => 'নতুন পাসওয়ার্ড আবার লিখুন';
 
   @override
-  String get change_password_button => 'Update Password';
+  String get change_password_button => 'পাসওয়ার্ড আপডেট করুন';
 
   @override
-  String get change_password_success => 'Password updated successfully.';
+  String get change_password_success => 'পাসওয়ার্ড সফলভাবে আপডেট হয়েছে।';
 
   @override
-  String get change_password_error_mismatch => 'Passwords do not match.';
+  String get change_password_error_mismatch => 'পাসওয়ার্ড মিলছে না।';
 
   @override
-  String get post_details_title => 'Post Details';
+  String get post_details_title => 'পোস্ট বিস্তারিত';
 
   @override
-  String get post_details_posted_by => 'Posted by';
+  String get post_details_posted_by => 'পোস্ট করেছেন';
 
   @override
-  String get post_details_posted_on => 'Posted on';
+  String get post_details_posted_on => 'পোস্টের তারিখ';
+
+  @override
+  String get app_title => 'ফাউন্ড্রি ফ্লাটার';
+
+  @override
+  String get nav_unknown_screen => 'অজানা স্ক্রিন';
+
+  @override
+  String get nav_back => 'ফিরে যান';
+
+  @override
+  String get splash_brand_name => 'আনসেইড';
+
+  @override
+  String get splash_tagline_primary =>
+      'যা আপনি কোথাও বলতে পারেননি, সেগুলো এখানে বলুন।';
+
+  @override
+  String get splash_tagline_secondary => 'পরিচয় নয়, কণ্ঠটাই থাকুক';
+
+  @override
+  String get home_no_posts_available => 'কোনো পোস্ট পাওয়া যায়নি।';
+
+  @override
+  String get home_error_load_posts => 'পোস্ট লোড করা যায়নি।';
+
+  @override
+  String home_mock_post_title(int page, int index) {
+    return 'পোস্ট শিরোনাম $page-$index';
+  }
+
+  @override
+  String home_mock_post_description(int page, int index) {
+    return 'এটি পোস্ট $page-$index এর বর্ণনা। এখানে আলোচিত বিষয় সম্পর্কে কিছু আকর্ষণীয় তথ্য রয়েছে।';
+  }
+
+  @override
+  String home_mock_post_tag(int tagNumber) {
+    return 'ট্যাগ $tagNumber';
+  }
+
+  @override
+  String profile_mock_post_title(int index) {
+    return 'আমার পোস্ট $index';
+  }
+
+  @override
+  String profile_mock_post_description(int index) {
+    return 'এটি আমার পোস্ট $index এর বর্ণনা। এতে দৈনন্দিন বিষয় নিয়ে ভাবনা ও ধারণা শেয়ার করা হয়েছে।';
+  }
+
+  @override
+  String get profile_mock_tag_personal => 'ব্যক্তিগত';
+
+  @override
+  String get profile_mock_user_name => 'জন ডো';
+
+  @override
+  String get profile_mock_user_bio => 'ফ্লাটার ডেভেলপার | ওপেন সোর্স অনুরাগী';
+
+  @override
+  String get signup_error_required_fields =>
+      'অনুগ্রহ করে সব প্রয়োজনীয় ঘর পূরণ করুন।';
+
+  @override
+  String get post_details_author_anonymous => 'বেনামী';
 }

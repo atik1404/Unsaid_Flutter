@@ -529,6 +529,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Posted on'**
   String get post_details_posted_on;
+
+  /// Application title
+  ///
+  /// In en, this message translates to:
+  /// **'Foundry Flutter'**
+  String get app_title;
+
+  /// Fallback message on the router error screen when route details are unavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown screen'**
+  String get nav_unknown_screen;
+
+  /// Back button label on the router error screen
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get nav_back;
+
+  /// Primary brand wordmark shown on splash
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaid'**
+  String get splash_brand_name;
+
+  /// First tagline on splash screen
+  ///
+  /// In en, this message translates to:
+  /// **'Things you couldn\'t say anywhere else.'**
+  String get splash_tagline_primary;
+
+  /// Second tagline on splash screen
+  ///
+  /// In en, this message translates to:
+  /// **'Shed your identity, not your voice'**
+  String get splash_tagline_secondary;
+
+  /// Empty state text when home feed has no posts
+  ///
+  /// In en, this message translates to:
+  /// **'No posts available.'**
+  String get home_no_posts_available;
+
+  /// Error shown when posts cannot be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load posts.'**
+  String get home_error_load_posts;
+
+  /// Mock title template for generated home posts
+  ///
+  /// In en, this message translates to:
+  /// **'Post Title {page}-{index}'**
+  String home_mock_post_title(int page, int index);
+
+  /// Mock description template for generated home posts
+  ///
+  /// In en, this message translates to:
+  /// **'This is the description for post {page}-{index}. It contains some interesting content about the topic discussed.'**
+  String home_mock_post_description(int page, int index);
+
+  /// Mock tag template for generated home posts
+  ///
+  /// In en, this message translates to:
+  /// **'Tag {tagNumber}'**
+  String home_mock_post_tag(int tagNumber);
+
+  /// Mock title template for generated profile posts
+  ///
+  /// In en, this message translates to:
+  /// **'My Post {index}'**
+  String profile_mock_post_title(int index);
+
+  /// Mock description template for generated profile posts
+  ///
+  /// In en, this message translates to:
+  /// **'This is a description for my post {index}. It shares thoughts and ideas about everyday topics.'**
+  String profile_mock_post_description(int index);
+
+  /// Mock tag text for profile posts
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get profile_mock_tag_personal;
+
+  /// Mock profile user name
+  ///
+  /// In en, this message translates to:
+  /// **'John Doe'**
+  String get profile_mock_user_name;
+
+  /// Mock profile bio
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter developer | Open-source enthusiast'**
+  String get profile_mock_user_bio;
+
+  /// Validation error on signup when required inputs are missing
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all required fields.'**
+  String get signup_error_required_fields;
+
+  /// Fallback author name on post details
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous'**
+  String get post_details_author_anonymous;
 }
 
 class _AppLocalizationsDelegate

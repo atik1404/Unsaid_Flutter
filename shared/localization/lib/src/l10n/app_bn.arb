@@ -99,5 +99,284 @@
     "login_facebook": "ফেসবুক",
     "@login_facebook": {
         "description": "Facebook sign in provider button label"
+    },
+    "signup_title": "অ্যাকাউন্ট তৈরি করুন",
+    "@signup_title": {
+        "description": "Signup screen main heading"
+    },
+    "signup_subtitle": "সৎ, বেনামি কথোপকথনের মাধ্যমে যুক্ত হতে আমাদের সঙ্গে থাকুন।",
+    "@signup_subtitle": {
+        "description": "Signup screen subtitle below heading"
+    },
+    "signup_label_name": "পূর্ণ নাম",
+    "@signup_label_name": {
+        "description": "Label above the full name input field"
+    },
+    "signup_hint_name": "আপনার পূর্ণ নাম লিখুন",
+    "@signup_hint_name": {
+        "description": "Hint text inside the full name input field"
+    },
+    "signup_label_phone": "ফোন নম্বর",
+    "@signup_label_phone": {
+        "description": "Label above the phone number input field"
+    },
+    "signup_hint_phone": "আপনার ফোন নম্বর লিখুন",
+    "@signup_hint_phone": {
+        "description": "Hint text inside the phone number input field"
+    },
+    "signup_label_email": "ইমেইল (ঐচ্ছিক)",
+    "@signup_label_email": {
+        "description": "Label above the email input field"
+    },
+    "signup_hint_email": "আপনার ইমেইল ঠিকানা লিখুন",
+    "@signup_hint_email": {
+        "description": "Hint text inside the email input field"
+    },
+    "signup_label_password": "পাসওয়ার্ড",
+    "@signup_label_password": {
+        "description": "Label above the password input field"
+    },
+    "signup_hint_password": "একটি পাসওয়ার্ড তৈরি করুন",
+    "@signup_hint_password": {
+        "description": "Hint text inside the password input field"
+    },
+    "signup_button": "সাইন আপ",
+    "@signup_button": {
+        "description": "Sign up submit button label"
+    },
+    "signup_already_have_account": "আগে থেকেই অ্যাকাউন্ট আছে?",
+    "@signup_already_have_account": {
+        "description": "Prompt shown before the sign in action on the sign up screen"
+    },
+    "signup_sign_in": "সাইন ইন",
+    "@signup_sign_in": {
+        "description": "Call to action for navigating to sign in from the sign up screen"
+    },
+    "home_title": "হোম",
+    "@home_title": {
+        "description": "Title for the Home screen"
+    },
+    "home_no_more_posts": "লোড করার জন্য আর পোস্ট নেই।",
+    "@home_no_more_posts": {
+        "description": "Message shown when the end of the post list is reached"
+    },
+    "setting_title": "সেটিংস",
+    "@setting_title": {
+        "description": "Title for the Settings screen"
+    },
+    "setting_menu_profile": "প্রোফাইল",
+    "@setting_menu_profile": {
+        "description": "Menu item label to navigate to the Profile screen"
+    },
+    "setting_menu_change_password": "পাসওয়ার্ড পরিবর্তন",
+    "@setting_menu_change_password": {
+        "description": "Menu item label to navigate to the Change Password screen"
+    },
+    "setting_menu_change_language": "ভাষা পরিবর্তন",
+    "@setting_menu_change_language": {
+        "description": "Menu item label to navigate to the Change Language screen"
+    },
+    "setting_menu_logout": "লগআউট",
+    "@setting_menu_logout": {
+        "description": "Menu item label for logging out"
+    },
+    "setting_logout_confirm_title": "লগআউট",
+    "@setting_logout_confirm_title": {
+        "description": "Title for the logout confirmation dialog"
+    },
+    "setting_logout_confirm_message": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?",
+    "@setting_logout_confirm_message": {
+        "description": "Confirmation message shown in the logout dialog"
+    },
+    "setting_logout_confirm_yes": "হ্যাঁ, লগআউট",
+    "@setting_logout_confirm_yes": {
+        "description": "Affirmative action label in the logout dialog"
+    },
+    "setting_logout_confirm_no": "বাতিল",
+    "@setting_logout_confirm_no": {
+        "description": "Dismissive action label in the logout dialog"
+    },
+    "profile_title": "প্রোফাইল",
+    "@profile_title": {
+        "description": "Title for the Profile screen"
+    },
+    "profile_label_name": "পূর্ণ নাম",
+    "@profile_label_name": {
+        "description": "Label for the user's full name field on the Profile screen"
+    },
+    "profile_label_email": "ইমেইল",
+    "@profile_label_email": {
+        "description": "Label for the user's email field on the Profile screen"
+    },
+    "profile_label_phone": "ফোন নম্বর",
+    "@profile_label_phone": {
+        "description": "Label for the user's phone number field on the Profile screen"
+    },
+    "profile_label_bio": "বায়ো",
+    "@profile_label_bio": {
+        "description": "Label for the user's bio field on the Profile screen"
+    },
+    "profile_section_posts": "আমার পোস্ট",
+    "@profile_section_posts": {
+        "description": "Section heading for the user's own posts on the Profile screen"
+    },
+    "profile_no_posts": "এখনও কোনো পোস্ট নেই।",
+    "@profile_no_posts": {
+        "description": "Empty state message when the user has no posts"
+    },
+    "change_password_title": "পাসওয়ার্ড পরিবর্তন",
+    "@change_password_title": {
+        "description": "Title for the Change Password screen"
+    },
+    "change_password_label_old": "পুরোনো পাসওয়ার্ড",
+    "@change_password_label_old": {
+        "description": "Label above the old password input field"
+    },
+    "change_password_hint_old": "আপনার পুরোনো পাসওয়ার্ড লিখুন",
+    "@change_password_hint_old": {
+        "description": "Hint text inside the old password input field"
+    },
+    "change_password_label_new": "নতুন পাসওয়ার্ড",
+    "@change_password_label_new": {
+        "description": "Label above the new password input field"
+    },
+    "change_password_hint_new": "আপনার নতুন পাসওয়ার্ড লিখুন",
+    "@change_password_hint_new": {
+        "description": "Hint text inside the new password input field"
+    },
+    "change_password_label_confirm": "পাসওয়ার্ড নিশ্চিত করুন",
+    "@change_password_label_confirm": {
+        "description": "Label above the confirm password input field"
+    },
+    "change_password_hint_confirm": "নতুন পাসওয়ার্ড আবার লিখুন",
+    "@change_password_hint_confirm": {
+        "description": "Hint text inside the confirm password input field"
+    },
+    "change_password_button": "পাসওয়ার্ড আপডেট করুন",
+    "@change_password_button": {
+        "description": "Submit button label on the Change Password screen"
+    },
+    "change_password_success": "পাসওয়ার্ড সফলভাবে আপডেট হয়েছে।",
+    "@change_password_success": {
+        "description": "Success message shown after a password change"
+    },
+    "change_password_error_mismatch": "পাসওয়ার্ড মিলছে না।",
+    "@change_password_error_mismatch": {
+        "description": "Validation error when new and confirm passwords differ"
+    },
+    "post_details_title": "পোস্ট বিস্তারিত",
+    "@post_details_title": {
+        "description": "Title for the Post Details screen"
+    },
+    "post_details_posted_by": "পোস্ট করেছেন",
+    "@post_details_posted_by": {
+        "description": "Label before the author name on the Post Details screen"
+    },
+    "post_details_posted_on": "পোস্টের তারিখ",
+    "@post_details_posted_on": {
+        "description": "Label before the publication date on the Post Details screen"
+    },
+    "app_title": "ফাউন্ড্রি ফ্লাটার",
+    "@app_title": {
+        "description": "Application title"
+    },
+    "nav_unknown_screen": "অজানা স্ক্রিন",
+    "@nav_unknown_screen": {
+        "description": "Fallback message on the router error screen when route details are unavailable"
+    },
+    "nav_back": "ফিরে যান",
+    "@nav_back": {
+        "description": "Back button label on the router error screen"
+    },
+    "splash_brand_name": "আনসেইড",
+    "@splash_brand_name": {
+        "description": "Primary brand wordmark shown on splash"
+    },
+    "splash_tagline_primary": "যা আপনি কোথাও বলতে পারেননি, সেগুলো এখানে বলুন।",
+    "@splash_tagline_primary": {
+        "description": "First tagline on splash screen"
+    },
+    "splash_tagline_secondary": "পরিচয় নয়, কণ্ঠটাই থাকুক",
+    "@splash_tagline_secondary": {
+        "description": "Second tagline on splash screen"
+    },
+    "home_no_posts_available": "কোনো পোস্ট পাওয়া যায়নি।",
+    "@home_no_posts_available": {
+        "description": "Empty state text when home feed has no posts"
+    },
+    "home_error_load_posts": "পোস্ট লোড করা যায়নি।",
+    "@home_error_load_posts": {
+        "description": "Error shown when posts cannot be loaded"
+    },
+    "home_mock_post_title": "পোস্ট শিরোনাম {page}-{index}",
+    "@home_mock_post_title": {
+        "description": "Mock title template for generated home posts",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            },
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "home_mock_post_description": "এটি পোস্ট {page}-{index} এর বর্ণনা। এখানে আলোচিত বিষয় সম্পর্কে কিছু আকর্ষণীয় তথ্য রয়েছে।",
+    "@home_mock_post_description": {
+        "description": "Mock description template for generated home posts",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            },
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "home_mock_post_tag": "ট্যাগ {tagNumber}",
+    "@home_mock_post_tag": {
+        "description": "Mock tag template for generated home posts",
+        "placeholders": {
+            "tagNumber": {
+                "type": "int"
+            }
+        }
+    },
+    "profile_mock_post_title": "আমার পোস্ট {index}",
+    "@profile_mock_post_title": {
+        "description": "Mock title template for generated profile posts",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "profile_mock_post_description": "এটি আমার পোস্ট {index} এর বর্ণনা। এতে দৈনন্দিন বিষয় নিয়ে ভাবনা ও ধারণা শেয়ার করা হয়েছে।",
+    "@profile_mock_post_description": {
+        "description": "Mock description template for generated profile posts",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "profile_mock_tag_personal": "ব্যক্তিগত",
+    "@profile_mock_tag_personal": {
+        "description": "Mock tag text for profile posts"
+    },
+    "profile_mock_user_name": "জন ডো",
+    "@profile_mock_user_name": {
+        "description": "Mock profile user name"
+    },
+    "profile_mock_user_bio": "ফ্লাটার ডেভেলপার | ওপেন সোর্স অনুরাগী",
+    "@profile_mock_user_bio": {
+        "description": "Mock profile bio"
+    },
+    "signup_error_required_fields": "অনুগ্রহ করে সব প্রয়োজনীয় ঘর পূরণ করুন।",
+    "@signup_error_required_fields": {
+        "description": "Validation error on signup when required inputs are missing"
+    },
+    "post_details_author_anonymous": "বেনামী",
+    "@post_details_author_anonymous": {
+        "description": "Fallback author name on post details"
     }
 }

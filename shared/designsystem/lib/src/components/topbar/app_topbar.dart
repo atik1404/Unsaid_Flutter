@@ -1,4 +1,5 @@
 import 'package:designsystem/designsystem.dart';
+import 'package:designsystem/src/components/button/app_button_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
@@ -53,7 +54,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.topBarTheme;
-    final bg = backgroundColor ?? theme.backgroundColor;
+    final bg = Colors.transparent; //backgroundColor ?? theme.backgroundColor;
     final fg = foregroundColor ?? theme.foregroundColor;
     final elev = elevation ?? theme.elevation;
 
@@ -69,7 +70,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false, // we handle leading ourselves
       title: _buildTitle(fg),
       leading: _buildLeading(context, fg),
-      actions: _buildActions(),
+      actions: _buildActions(fg),
       bottom: bottom,
       iconTheme: IconThemeData(color: fg),
       actionsIconTheme: IconThemeData(color: fg),
@@ -106,12 +107,12 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  List<Widget>? _buildActions() {
+  List<Widget>? _buildActions(Color foregroundColor) {
     if (actions == null || actions!.isEmpty) return null;
 
     final spaced = <Widget>[];
     for (var i = 0; i < actions!.length; i++) {
-      spaced.add(actions![i]);
+      spaced.add(_withDefaultActionColor(actions![i], foregroundColor));
       if (i < actions!.length - 1) {
         spaced.add(SizedBox(width: actionSpacing));
       }
@@ -119,6 +120,31 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     // Trailing edge padding (RTL-safe via Padding + EdgeInsetsDirectional).
     spaced.add(SizedBox(width: trailingPadding));
     return spaced;
+  }
+
+  Widget _withDefaultActionColor(Widget action, Color foregroundColor) {
+    if (action is! AppIconButton) return action;
+
+    // Keep explicit secondary/custom intents unchanged.
+    if (action.intent is! AppButtonIntentPrimary) return action;
+
+    return AppIconButton(
+      action.icon,
+      onPressed: action.onPressed,
+      isLoading: action.isLoading,
+      padding: action.padding,
+      intent: _topBarIconIntent(foregroundColor),
+    );
+  }
+
+  AppButtonIntent _topBarIconIntent(Color foregroundColor) {
+    final variants = AppButtonVariantSet.standard(
+      solid: foregroundColor,
+      onSolid: foregroundColor,
+      outlineForeground: foregroundColor,
+      textForeground: foregroundColor,
+    );
+    return AppButtonIntent.custom(variants);
   }
 
   @override

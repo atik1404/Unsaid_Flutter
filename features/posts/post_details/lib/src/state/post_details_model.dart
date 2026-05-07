@@ -14,6 +14,6 @@ abstract class PostDetailsModel with _$PostDetailsModel {
     required DateTime dateTime,
     required String description,
     required String tag,
-    @Default('Anonymous') String author,
+    @Default('') String author,
   }) = _PostDetailsModel;
 }

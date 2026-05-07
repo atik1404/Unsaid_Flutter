@@ -16,6 +16,7 @@ class PostDetailHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authorName = post.author.isEmpty ? context.l10n.post_details_author_anonymous : post.author;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.s16.r),
@@ -58,7 +59,7 @@ class PostDetailHeader extends StatelessWidget {
               ),
               SizedBox(width: AppSpacing.s4.w),
               AppText.bodySmall(
-                '${context.l10n.post_details_posted_by} ${post.author}',
+                '${context.l10n.post_details_posted_by} $authorName',
                 color: context.colorScheme.contentSecondary,
                 textWeight: AppTextWeight.medium,
               ),

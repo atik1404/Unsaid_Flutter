@@ -1,11 +1,13 @@
 import 'package:designsystem/designsystem.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:home/src/widgets/category_list.dart';
 import 'package:home/src/widgets/post_card.dart';
-import 'package:localization/localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_cubit.dart';
 import 'package:home/src/state/home_state.dart';
+import 'package:localization/localization.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,51 +50,67 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s16.w),
       appBar: AppTopBar(
-        onBackPressed: () {},
-        titleWidget: AppText.titleMedium(
-          context.l10n.home_title,
-          textWeight: AppTextWeight.extraBold,
+        showBackButton: false,
+        centerTitle: false,
+        enableGradient: false,
+        titleWidget: AppText.displaySmall(
+          context.l10n.splash_brand_name,
+          color: context.colorScheme.contentBrand,
         ),
-        leading: const AppIcon(Icon(Icons.menu)),
+        foregroundColor: context.colorScheme.contentTertiary,
+        actionSpacing: AppSpacing.s16.w,
+        actions: [
+          AppIconButton(
+            const AppIcon(
+              Icon(CupertinoIcons.search),
+            ),
+            onPressed: () {},
+          ),
+          AppIconButton(const AppIcon(Icon(CupertinoIcons.bell)), onPressed: () {}),
+          AppIconButton(const AppIcon(Icon(CupertinoIcons.chat_bubble)), onPressed: () {}),
+        ],
       ),
-      body: BlocConsumer<HomeCubit, HomeState>(
-        listener: (context, state) {
-          if (state.errorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage!)),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state.posts.isEmpty && state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state.posts.isEmpty) {
-            return const Center(child: Text('No posts available.'));
-          }
-
-          return ListView.separated(
-            controller: _scrollController,
-            padding: EdgeInsets.all(AppSpacing.s16.r),
-            itemCount: state.hasReachedMax ? state.posts.length : state.posts.length + 1,
-            separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s16.h),
-            itemBuilder: (context, index) {
-              if (index >= state.posts.length) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(AppSpacing.s16),
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-              final post = state.posts[index];
-              return PostCard(post: post);
-            },
-          );
-        },
+      body: Column(
+        children: [
+          CategoryList(),
+          //Expanded(child: _buildPostList()),
+        ],
       ),
+    );
+  }
+
+  Widget _buildPostList() {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        if (state.posts.isEmpty && state.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.posts.isEmpty) {
+          return Center(child: Text(context.l10n.home_no_posts_available));
+        }
+
+        return ListView.separated(
+          controller: _scrollController,
+          padding: EdgeInsets.all(AppSpacing.s16.r),
+          itemCount: state.hasReachedMax ? state.posts.length : state.posts.length + 1,
+          separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s16.h),
+          itemBuilder: (context, index) {
+            if (index >= state.posts.length) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(AppSpacing.s16),
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+            final post = state.posts[index];
+            return PostCard(post: post);
+          },
+        );
+      },
     );
   }
 }

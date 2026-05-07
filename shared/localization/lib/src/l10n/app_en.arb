@@ -278,5 +278,108 @@
     "post_details_posted_on": "Posted on",
     "@post_details_posted_on": {
         "description": "Label before the publication date on the Post Details screen"
+    },
+    "app_title": "Foundry Flutter",
+    "@app_title": {
+        "description": "Application title"
+    },
+    "nav_unknown_screen": "Unknown screen",
+    "@nav_unknown_screen": {
+        "description": "Fallback message on the router error screen when route details are unavailable"
+    },
+    "nav_back": "Back",
+    "@nav_back": {
+        "description": "Back button label on the router error screen"
+    },
+    "splash_brand_name": "Unsaid",
+    "@splash_brand_name": {
+        "description": "Primary brand wordmark shown on splash"
+    },
+    "splash_tagline_primary": "Things you couldn't say anywhere else.",
+    "@splash_tagline_primary": {
+        "description": "First tagline on splash screen"
+    },
+    "splash_tagline_secondary": "Shed your identity, not your voice",
+    "@splash_tagline_secondary": {
+        "description": "Second tagline on splash screen"
+    },
+    "home_no_posts_available": "No posts available.",
+    "@home_no_posts_available": {
+        "description": "Empty state text when home feed has no posts"
+    },
+    "home_error_load_posts": "Failed to load posts.",
+    "@home_error_load_posts": {
+        "description": "Error shown when posts cannot be loaded"
+    },
+    "home_mock_post_title": "Post Title {page}-{index}",
+    "@home_mock_post_title": {
+        "description": "Mock title template for generated home posts",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            },
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "home_mock_post_description": "This is the description for post {page}-{index}. It contains some interesting content about the topic discussed.",
+    "@home_mock_post_description": {
+        "description": "Mock description template for generated home posts",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            },
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "home_mock_post_tag": "Tag {tagNumber}",
+    "@home_mock_post_tag": {
+        "description": "Mock tag template for generated home posts",
+        "placeholders": {
+            "tagNumber": {
+                "type": "int"
+            }
+        }
+    },
+    "profile_mock_post_title": "My Post {index}",
+    "@profile_mock_post_title": {
+        "description": "Mock title template for generated profile posts",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "profile_mock_post_description": "This is a description for my post {index}. It shares thoughts and ideas about everyday topics.",
+    "@profile_mock_post_description": {
+        "description": "Mock description template for generated profile posts",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "profile_mock_tag_personal": "Personal",
+    "@profile_mock_tag_personal": {
+        "description": "Mock tag text for profile posts"
+    },
+    "profile_mock_user_name": "John Doe",
+    "@profile_mock_user_name": {
+        "description": "Mock profile user name"
+    },
+    "profile_mock_user_bio": "Flutter developer | Open-source enthusiast",
+    "@profile_mock_user_bio": {
+        "description": "Mock profile bio"
+    },
+    "signup_error_required_fields": "Please fill in all required fields.",
+    "@signup_error_required_fields": {
+        "description": "Validation error on signup when required inputs are missing"
+    },
+    "post_details_author_anonymous": "Anonymous",
+    "@post_details_author_anonymous": {
+        "description": "Fallback author name on post details"
     }
 }
