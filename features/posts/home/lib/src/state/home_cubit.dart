@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_state.dart';
 import 'package:home/src/state/post_model.dart';
@@ -16,14 +17,14 @@ class HomeCubit extends Cubit<HomeState> {
 
       // Simulate fetching data based on current page
       final newPosts = List.generate(
-        10,
+        50,
         (index) => PostModel(
           id: '${state.currentPage}_$index',
           title: 'Post Title ${state.currentPage}-${index + 1}',
           dateTime: DateTime.now().subtract(Duration(days: index)),
           description:
               'This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.',
-          tag: 'Tag ${index % 3 + 1}',
+          tag: MoodType.values[index % MoodType.values.length].name.toUpperCase(),
         ),
       );
 

@@ -7,6 +7,7 @@ import 'package:designsystem/src/components/topbar/app_topbar_theme.dart';
 import 'package:designsystem/src/components/typography/typography.dart';
 import 'package:designsystem/src/theme/app_color_scheme.dart';
 import 'package:designsystem/src/theme/app_theme.dart';
+import 'package:designsystem/src/theme/mode_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 extension AppThemeExtension on BuildContext {
@@ -17,6 +18,8 @@ extension AppThemeExtension on BuildContext {
   AppTagTheme get tagTheme => theme.extension<AppTheme>()!.tagTheme;
 
   AppColorScheme get appColors => theme.extension<AppTheme>()!.colorSchemeTheme;
+
+  ModeColorScheme get modeColors => theme.extension<AppTheme>()!.modeColorScheme;
 
   AppInputFieldTheme get inputTheme => theme.extension<AppTheme>()!.inputFieldTheme;
 

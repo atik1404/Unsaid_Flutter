@@ -9,6 +9,7 @@ class AppTag extends StatelessWidget {
   final Widget child;
   final Widget? leading;
   final Widget? trailing;
+  final Color? backgroundColor;
   final bool tintLeadingTrailing;
 
   const AppTag({
@@ -20,6 +21,7 @@ class AppTag extends StatelessWidget {
     required this.child,
     this.leading,
     this.trailing,
+    this.backgroundColor,
     this.tintLeadingTrailing = true,
   });
 
@@ -32,10 +34,11 @@ class AppTag extends StatelessWidget {
       AppTagVariant.outline => variants.outline,
       AppTagVariant.filledOutline => variants.filledOutline,
     };
+    final bgColor = backgroundColor ?? colors.background;
 
     return Material(
       shape: _resolveShape(colors.border),
-      color: colors.background,
+      color: bgColor,
       child: Padding(
         padding: padding ?? _defaultPaddingFor(shape),
         child: IconTheme.merge(
@@ -72,7 +75,7 @@ class AppTag extends StatelessWidget {
   }
 
   ShapeBorder _resolveShape(Color borderColor) {
-    final side = BorderSide(color: borderColor, width: 1);
+    final side = BorderSide(color: borderColor);
     return switch (shape) {
       AppTagShape.pill => StadiumBorder(side: side),
       AppTagShape.rounded => RoundedRectangleBorder(

@@ -1,3 +1,4 @@
+import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 
 /// A flat set of colors for one specific (intent + variant) combination.
@@ -44,7 +45,7 @@ final class AppTagVariantSet {
       filled: AppTagColors(
         background: solid,
         foreground: onSolid,
-        border: solid,
+        border: AppColors.transparent,
       ),
       outline: AppTagColors(
         background: Colors.transparent,

@@ -6,12 +6,14 @@ import 'package:designsystem/src/components/tag/app_tag_theme.dart';
 import 'package:designsystem/src/components/topbar/app_topbar_theme.dart';
 import 'package:designsystem/src/components/typography/typography.dart';
 import 'package:designsystem/src/theme/app_color_scheme.dart';
+import 'package:designsystem/src/theme/mode_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 final class AppTheme extends ThemeExtension<AppTheme> {
   final AppTypographyTheme typographyTheme;
   final AppTagTheme tagTheme;
   final AppColorScheme colorSchemeTheme;
+  final ModeColorScheme modeColorScheme;
   final AppInputFieldTheme inputFieldTheme;
   final AppButtonTheme buttonTheme;
   final AppCardTheme cardTheme;
@@ -22,6 +24,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
     required this.typographyTheme,
     required this.tagTheme,
     required this.colorSchemeTheme,
+    required this.modeColorScheme,
     required this.inputFieldTheme,
     required this.buttonTheme,
     required this.cardTheme,
@@ -34,6 +37,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
     AppTypographyTheme? typographyTheme,
     AppTagTheme? tagTheme,
     AppColorScheme? colorSchemeTheme,
+    ModeColorScheme? modeColorScheme,
     AppInputFieldTheme? inputFieldTheme,
     AppButtonTheme? buttonTheme,
     AppCardTheme? cardTheme,
@@ -44,6 +48,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
       typographyTheme: this.typographyTheme,
       tagTheme: tagTheme ?? this.tagTheme,
       colorSchemeTheme: colorSchemeTheme ?? this.colorSchemeTheme,
+      modeColorScheme: modeColorScheme ?? this.modeColorScheme,
       inputFieldTheme: inputFieldTheme ?? this.inputFieldTheme,
       buttonTheme: buttonTheme ?? this.buttonTheme,
       cardTheme: cardTheme ?? this.cardTheme,
@@ -67,6 +72,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
       typographyTheme: AppTypographyTheme.standard(),
       tagTheme: AppTagTheme.light(),
       colorSchemeTheme: AppColorScheme.light(),
+      modeColorScheme: ModeColorScheme.light(),
       inputFieldTheme: AppInputFieldTheme.light(),
       buttonTheme: AppButtonTheme.light(),
       cardTheme: AppCardTheme.light(),

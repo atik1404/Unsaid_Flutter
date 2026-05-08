@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,13 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = _getTagColor(post.tag, context);
+
     return Container(
       padding: EdgeInsets.only(left: AppSpacing.s2.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppRadius.r16.r),
-        color: context.appColors.contentBrand,
+        color: colors.$2,
       ),
       child: AppCard.rounded(
         variant: AppCardVariant.outline,
@@ -55,7 +58,7 @@ class PostCard extends StatelessWidget {
           child: _buildHeaderTitle(context),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context, "LOVE"),
+        _buildTag(context, post.tag),
       ],
     );
   }
@@ -79,12 +82,13 @@ class PostCard extends StatelessWidget {
   }
 
   Widget _buildTag(BuildContext context, String tag) {
+    final colors = _getTagColor(tag, context);
     return AppTag(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
-      intent: AppTagIntent.love,
+      backgroundColor: colors.$1,
       child: AppText.captionSmall(
         tag,
-        color: context.appColors.contentError,
+        color: colors.$2,
       ),
     );
   }
@@ -133,5 +137,21 @@ class PostCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  (Color, Color) _getTagColor(String tag, BuildContext context) {
+    final colors = context.modeColors;
+    final mood = MoodTypeX.fromString(tag) ?? MoodType.neutral;
+
+    return switch (mood) {
+      MoodType.love => (colors.love.backgroundColor, colors.love.textColor),
+      MoodType.angry => (colors.angry.backgroundColor, colors.angry.textColor),
+      MoodType.happy => (colors.happy.backgroundColor, colors.happy.textColor),
+      MoodType.sad => (colors.sad.backgroundColor, colors.sad.textColor),
+      MoodType.lonely => (colors.lonely.backgroundColor, colors.lonely.textColor),
+      MoodType.excited => (colors.excited.backgroundColor, colors.excited.textColor),
+      MoodType.dark => (colors.dark.backgroundColor, colors.dark.textColor),
+      MoodType.neutral => (colors.dark.backgroundColor, colors.dark.textColor),
+    };
   }
 }
