@@ -1,5 +1,4 @@
-import 'package:designsystem/src/components/card/app_card_enums.dart';
-import 'package:designsystem/src/components/card/card.dart';
+import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 
 class AppCard extends StatelessWidget {
@@ -68,7 +67,6 @@ class AppCard extends StatelessWidget {
       horizontal: 16,
       vertical: 8,
     ),
-    double? elevation,
     double? width,
     double? height,
     VoidCallback? onTap,
@@ -117,7 +115,7 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppCardTheme>()!;
+    final theme = context.cardTheme;
     final variants = theme.byTone(tone);
     final colors = switch (variant) {
       AppCardVariant.filled => variants.filled,
@@ -159,9 +157,7 @@ class AppCard extends StatelessWidget {
   }
 
   ShapeBorder _resolveShape(Color borderColor) {
-    final side = borderColor == Colors.transparent
-        ? BorderSide.none
-        : BorderSide(color: borderColor, width: 1);
+    final side = borderColor == Colors.transparent ? BorderSide.none : BorderSide(color: borderColor);
 
     return switch (_shape) {
       AppCardShape.pill => StadiumBorder(side: side),

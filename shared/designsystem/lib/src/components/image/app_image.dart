@@ -28,6 +28,10 @@ class AppImage extends StatelessWidget {
   final bool matchTextDirection;
   final bool gaplessPlayback;
   final bool excludeFromSemantics;
+  final ImageShape shape;
+  final double borderRadius;
+  final Color? borderColor;
+  final double borderWidth;
 
   const AppImage.asset(
     String path, {
@@ -53,6 +57,10 @@ class AppImage extends StatelessWidget {
     this.matchTextDirection = false,
     this.gaplessPlayback = false,
     this.excludeFromSemantics = false,
+    this.shape = ImageShape.rectangle,
+    this.borderRadius = 8.0,
+    this.borderColor,
+    this.borderWidth = 0.0,
   }) : _source = ImageSource.asset,
        _path = path,
        headers = null,
@@ -82,6 +90,10 @@ class AppImage extends StatelessWidget {
     this.matchTextDirection = false,
     this.gaplessPlayback = false,
     this.excludeFromSemantics = false,
+    this.shape = ImageShape.rectangle,
+    this.borderRadius = 8.0,
+    this.borderColor,
+    this.borderWidth = 0.0,
   }) : _source = ImageSource.network,
        _path = url,
        package = null,
@@ -123,13 +135,38 @@ class AppImage extends StatelessWidget {
     return const Center(child: Icon(Icons.broken_image_outlined));
   }
 
+  Widget _applyShape(Widget child) {
+    final border = borderColor != null ? Border.all(color: borderColor!, width: borderWidth) : null;
+
+    return switch (shape) {
+      ImageShape.rectangle => DecoratedBox(
+        decoration: BoxDecoration(border: border),
+        child: child,
+      ),
+      ImageShape.circle => DecoratedBox(
+        decoration: BoxDecoration(shape: BoxShape.circle, border: border),
+        child: ClipOval(child: child),
+      ),
+      ImageShape.rounded => DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+          border: border,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(borderRadius),
+          child: child,
+        ),
+      ),
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final path = _path!;
     final effectiveFrameBuilder = frameBuilder ?? _defaultFrameBuilder;
     final effectiveLoadingBuilder = loadingBuilder ?? _defaultLoadingBuilder;
     final effectiveErrorBuilder = errorBuilder ?? _defaultErrorBuilder;
-    return switch (_source) {
+    return _applyShape(switch (_source) {
       ImageSource.asset =>
         path.endsWith('.svg')
             ? SvgPicture.asset(
@@ -192,8 +229,10 @@ class AppImage extends StatelessWidget {
         gaplessPlayback: gaplessPlayback,
         excludeFromSemantics: excludeFromSemantics,
       ),
-    };
+    });
   }
 }
 
 enum ImageSource { asset, network }
+
+enum ImageShape { rectangle, circle, rounded }

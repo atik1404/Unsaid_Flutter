@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppTopBar(
         showBackButton: false,
         centerTitle: false,
-        enableGradient: false,
+        backgroundColor: context.scaffoldTheme.backgroundColor,
         titleWidget: AppText.displaySmall(
           context.l10n.splash_brand_name,
           color: context.colorScheme.contentBrand,
@@ -75,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           CategoryList(),
-          //Expanded(child: _buildPostList()),
+          SizedBox(height: AppSpacing.s16.h),
+          Expanded(child: _buildPostList()),
         ],
       ),
     );
@@ -94,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
         return ListView.separated(
           controller: _scrollController,
-          padding: EdgeInsets.all(AppSpacing.s16.r),
           itemCount: state.hasReachedMax ? state.posts.length : state.posts.length + 1,
           separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s16.h),
           itemBuilder: (context, index) {

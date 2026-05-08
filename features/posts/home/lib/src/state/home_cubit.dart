@@ -21,7 +21,8 @@ class HomeCubit extends Cubit<HomeState> {
           id: '${state.currentPage}_$index',
           title: 'Post Title ${state.currentPage}-${index + 1}',
           dateTime: DateTime.now().subtract(Duration(days: index)),
-          description: 'This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.',
+          description:
+              'This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.',
           tag: 'Tag ${index % 3 + 1}',
         ),
       );

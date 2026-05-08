@@ -20,8 +20,8 @@ final class AppCardTheme extends ThemeExtension<AppCardTheme> {
 
   factory AppCardTheme.light() => AppCardTheme(
     neutral: AppCardVariantSet.standard(
-      surface: AppColors.warning300,
-      border: AppColors.warning300,
+      surface: AppColors.white,
+      border: AppColors.neutral100,
     ),
   );
 

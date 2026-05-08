@@ -1,4 +1,4 @@
-import 'package:designsystem/src/components/tag/tag.dart';
+import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 
 class AppTag extends StatelessWidget {
@@ -25,7 +25,7 @@ class AppTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppTagTheme>()!;
+    final theme = context.tagTheme;
     final variants = theme.byIntent(intent);
     final colors = switch (variant) {
       AppTagVariant.filled => variants.filled,
@@ -81,7 +81,6 @@ class AppTag extends StatelessWidget {
       ),
       AppTagShape.circle => CircleBorder(side: side),
       AppTagShape.sharp => RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero,
         side: side,
       ),
     };

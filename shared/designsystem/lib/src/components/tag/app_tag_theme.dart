@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 final class AppTagTheme extends ThemeExtension<AppTagTheme> {
   final AppTagVariantSet brand;
   final AppTagVariantSet info;
+  final AppTagVariantSet love;
 
-  const AppTagTheme({required this.brand, required this.info});
+  const AppTagTheme({required this.brand, required this.info, required this.love});
 
   AppTagVariantSet byIntent(AppTagIntent intent) => switch (intent) {
     AppTagIntent.brand => brand,
     AppTagIntent.info => info,
+    AppTagIntent.love => love,
   };
 
   factory AppTagTheme.light() => AppTagTheme(
@@ -21,6 +23,10 @@ final class AppTagTheme extends ThemeExtension<AppTagTheme> {
     info: AppTagVariantSet.standard(
       solid: AppColors.neutral200,
       onSolid: AppColors.black,
+    ),
+    love: AppTagVariantSet.standard(
+      solid: AppColors.secondary50,
+      onSolid: AppColors.secondary500,
     ),
   );
 

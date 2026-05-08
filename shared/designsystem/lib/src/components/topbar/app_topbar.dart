@@ -36,7 +36,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.bottom,
     this.showBackButton = true,
-    this.enableGradient = true,
+    this.enableGradient = false,
     this.centerTitle = true,
     this.automaticallyImplyLeading = true,
     this.backgroundColor,
@@ -54,7 +54,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.topBarTheme;
-    final bg = Colors.transparent; //backgroundColor ?? theme.backgroundColor;
+    final bg = backgroundColor ?? theme.backgroundColor;
     final fg = foregroundColor ?? theme.foregroundColor;
     final elev = elevation ?? theme.elevation;
 

@@ -1,5 +1,8 @@
 final class AppSpacing {
   AppSpacing._();
+  static const double zero = 0;
+  static const double s1 = 1;
+  static const double s2 = 2;
   static const double s4 = 4;
   static const double s8 = 8;
   static const double s12 = 12;

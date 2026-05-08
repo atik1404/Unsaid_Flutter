@@ -38,13 +38,13 @@ class AppCardVariantSet {
     return AppCardVariantSet(
       filled: AppCardColors(
         background: surface,
-        border: Colors.transparent,
+        border: border,
         shadow: shadowColor,
       ),
       outline: AppCardColors(
-        background: Colors.transparent,
+        background: surface,
         border: border,
-        shadow: Colors.transparent,
+        shadow: shadow ?? Colors.transparent,
       ),
       filledOutline: AppCardColors(
         background: softSurface ?? surface.withValues(alpha: 0.12),
