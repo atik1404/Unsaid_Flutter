@@ -93,14 +93,14 @@ class SplashScreen extends StatelessWidget {
         AppText.bodyLarge(
           textAlign: TextAlign.center,
           textWeight: AppTextWeight.light,
-          color: context.colorScheme.white,
+          color: context.appColors.white,
           context.l10n.splash_tagline_primary,
         ),
         const SizedBox(height: AppSpacing.s12),
         AppText.bodyLarge(
           textAlign: TextAlign.center,
           textWeight: AppTextWeight.light,
-          color: context.colorScheme.white,
+          color: context.appColors.white,
           context.l10n.splash_tagline_secondary,
         ),
         const SizedBox(height: AppSpacing.s48),

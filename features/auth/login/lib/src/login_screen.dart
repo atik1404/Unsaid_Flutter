@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
         AppText.bodySmall(
           context.l10n.login_label_phone,
           textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
         SizedBox(height: AppSpacing.s4.h),
         _buildPhoneNumber(context),
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
         AppText.bodySmall(
           context.l10n.login_label_password,
           textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
         SizedBox(height: AppSpacing.s4.h),
         _buildPassword(context),
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context.l10n.login_subtitle,
           textAlign: TextAlign.center,
           textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
       ],
     );
@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
         AppText.bodySmall(
           context.l10n.login_create_account_prompt,
           textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
         AppTextButton(
           context.l10n.login_sign_up,
@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
         AppText.bodySmall(
           context.l10n.login_social_sign_in,
           textWeight: AppTextWeight.extraBold,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
         SizedBox(height: AppSpacing.s24.h),
         Row(

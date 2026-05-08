@@ -43,10 +43,10 @@ class CategoryList extends StatelessWidget {
           horizontal: AppSpacing.s8.w,
         ),
         decoration: BoxDecoration(
-          color: isCategorySelected ? context.colorScheme.borderCard : context.colorScheme.surfaceSecondary,
+          color: isCategorySelected ? context.appColors.borderCard : context.appColors.surfaceSecondary,
           borderRadius: BorderRadius.circular(AppRadius.rFull),
           border: Border.all(
-            color: isCategorySelected ? context.colorScheme.borderPrimary : context.colorScheme.borderSecondary,
+            color: isCategorySelected ? context.appColors.borderPrimary : context.appColors.borderSecondary,
           ),
         ),
         child: Center(
@@ -54,13 +54,13 @@ class CategoryList extends StatelessWidget {
             text: AppText.captionSmall(
               category,
               textAlign: TextAlign.center,
-              color: isCategorySelected ? context.colorScheme.contentPrimary : context.colorScheme.contentSecondary,
+              color: isCategorySelected ? context.appColors.contentPrimary : context.appColors.contentSecondary,
             ),
             leadingWidget: AppIcon(
               Icon(
                 CupertinoIcons.heart,
                 size: IconSizes.indicator,
-                color: context.colorScheme.contentTertiary,
+                color: context.appColors.contentTertiary,
               ),
             ),
           ),

@@ -132,7 +132,7 @@ class OnboardingScreen extends StatelessWidget {
               item.subTitle,
               textAlign: TextAlign.center,
               textWeight: AppTextWeight.semiBold,
-              color: context.colorScheme.contentTertiary,
+              color: context.appColors.contentTertiary,
             ),
             SizedBox(height: AppSpacing.s16.h),
             // Description text
@@ -140,7 +140,7 @@ class OnboardingScreen extends StatelessWidget {
               item.description,
               textAlign: TextAlign.center,
               textWeight: AppTextWeight.light,
-              color: context.colorScheme.contentTertiary,
+              color: context.appColors.contentTertiary,
             ),
           ],
         ),
@@ -153,7 +153,7 @@ class OnboardingScreen extends StatelessWidget {
     BuildContext context,
     int length,
   ) {
-    final colorScheme = context.colorScheme;
+    final colorScheme = context.appColors;
 
     return BlocBuilder<OnboardingCubit, OnboardingState>(
       buildWhen: (prev, curr) => prev.currentPage != curr.currentPage,

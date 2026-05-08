@@ -17,11 +17,11 @@ class PostDetailContent extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.s16.r),
       decoration: BoxDecoration(
-        color: context.colorScheme.white,
+        color: context.appColors.white,
         borderRadius: BorderRadius.circular(AppSpacing.s16.r),
         boxShadow: [
           BoxShadow(
-            color: context.colorScheme.borderPrimary,
+            color: context.appColors.borderPrimary,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -29,7 +29,7 @@ class PostDetailContent extends StatelessWidget {
       ),
       child: AppText.bodySmall(
         description,
-        color: context.colorScheme.contentPrimary,
+        color: context.appColors.contentPrimary,
         textWeight: AppTextWeight.medium,
       ),
     );

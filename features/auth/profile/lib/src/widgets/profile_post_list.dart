@@ -35,8 +35,7 @@ class ProfilePostList extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: posts.length,
             separatorBuilder: (_, __) => SizedBox(height: AppSpacing.s12.h),
-            itemBuilder: (context, index) =>
-                ProfilePostCard(post: posts[index]),
+            itemBuilder: (context, index) => ProfilePostCard(post: posts[index]),
           ),
       ],
     );
@@ -49,7 +48,7 @@ class ProfilePostList extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: AppSpacing.s32.h),
         child: AppText.bodySmall(
           context.l10n.profile_no_posts,
-          color: context.colorScheme.contentSecondary,
+          color: context.appColors.contentSecondary,
           textWeight: AppTextWeight.medium,
         ),
       ),

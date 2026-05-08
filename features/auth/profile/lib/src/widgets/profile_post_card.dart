@@ -19,11 +19,11 @@ class ProfilePostCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(AppSpacing.s16.r),
       decoration: BoxDecoration(
-        color: context.colorScheme.white,
+        color: context.appColors.white,
         borderRadius: BorderRadius.circular(AppSpacing.s12.r),
         boxShadow: [
           BoxShadow(
-            color: context.colorScheme.borderPrimary,
+            color: context.appColors.borderPrimary,
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -49,7 +49,7 @@ class ProfilePostCard extends StatelessWidget {
           // Date
           AppText.labelSmall(
             Jiffy.parseFromDateTime(post.dateTime).yMMMMEEEEd,
-            color: context.colorScheme.contentSecondary,
+            color: context.appColors.contentSecondary,
             textWeight: AppTextWeight.light,
           ),
           SizedBox(height: AppSpacing.s8.h),
@@ -57,7 +57,7 @@ class ProfilePostCard extends StatelessWidget {
           // Description
           AppText.bodySmall(
             post.description,
-            color: context.colorScheme.contentPrimary,
+            color: context.appColors.contentPrimary,
             textWeight: AppTextWeight.medium,
           ),
         ],
@@ -73,12 +73,12 @@ class ProfilePostCard extends StatelessWidget {
         vertical: AppSpacing.s4.h,
       ),
       decoration: BoxDecoration(
-        color: context.colorScheme.backgroundPrimary,
+        color: context.appColors.backgroundPrimary,
         borderRadius: BorderRadius.circular(AppSpacing.s8.r),
       ),
       child: AppText.captionSmall(
         post.tag,
-        color: context.colorScheme.contentBrand,
+        color: context.appColors.contentBrand,
         textWeight: AppTextWeight.bold,
       ),
     );

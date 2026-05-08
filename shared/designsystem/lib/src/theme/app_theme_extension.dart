@@ -16,7 +16,7 @@ extension AppThemeExtension on BuildContext {
 
   AppTagTheme get tagTheme => theme.extension<AppTheme>()!.tagTheme;
 
-  AppColorScheme get colorScheme => theme.extension<AppTheme>()!.colorSchemeTheme;
+  AppColorScheme get appColors => theme.extension<AppTheme>()!.colorSchemeTheme;
 
   AppInputFieldTheme get inputTheme => theme.extension<AppTheme>()!.inputFieldTheme;
 

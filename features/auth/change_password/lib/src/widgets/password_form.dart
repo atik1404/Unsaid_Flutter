@@ -15,7 +15,8 @@ class PasswordForm extends StatefulWidget {
     required String oldPassword,
     required String newPassword,
     required String confirmPassword,
-  }) onSubmit;
+  })
+  onSubmit;
 
   /// Whether the form is currently submitting (disables the button).
   final bool isLoading;
@@ -54,7 +55,7 @@ class _PasswordFormState extends State<PasswordForm> {
         AppText.bodySmall(
           context.l10n.change_password_label_old,
           textWeight: AppTextWeight.medium,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
         SizedBox(height: AppSpacing.s4.h),
         AppInputField(
@@ -68,7 +69,7 @@ class _PasswordFormState extends State<PasswordForm> {
         AppText.bodySmall(
           context.l10n.change_password_label_new,
           textWeight: AppTextWeight.medium,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
         SizedBox(height: AppSpacing.s4.h),
         AppInputField(
@@ -82,7 +83,7 @@ class _PasswordFormState extends State<PasswordForm> {
         AppText.bodySmall(
           context.l10n.change_password_label_confirm,
           textWeight: AppTextWeight.medium,
-          color: context.colorScheme.contentInfo,
+          color: context.appColors.contentInfo,
         ),
         SizedBox(height: AppSpacing.s4.h),
         AppInputField(

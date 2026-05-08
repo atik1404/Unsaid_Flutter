@@ -16,7 +16,7 @@ class PostCard extends StatelessWidget {
       padding: EdgeInsets.only(left: AppSpacing.s2.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppRadius.r16.r),
-        color: context.colorScheme.contentBrand,
+        color: context.appColors.contentBrand,
       ),
       child: AppCard.rounded(
         variant: AppCardVariant.outline,
@@ -29,7 +29,7 @@ class PostCard extends StatelessWidget {
             SizedBox(height: AppSpacing.s8.h),
             AppText.bodySmall(
               post.description,
-              color: context.colorScheme.contentPrimary,
+              color: context.appColors.contentPrimary,
             ),
             SizedBox(height: AppSpacing.s12.h),
             _buildBottomActionsButton(context),
@@ -48,7 +48,7 @@ class PostCard extends StatelessWidget {
           height: IconSizes.prominent,
           shape: ImageShape.circle,
           fit: BoxFit.cover,
-          borderColor: context.colorScheme.borderSecondary,
+          borderColor: context.appColors.borderSecondary,
         ),
         SizedBox(width: AppSpacing.s8.w),
         Expanded(
@@ -67,12 +67,12 @@ class PostCard extends StatelessWidget {
         AppText.bodySmall(
           "Ghoost_8821",
           textWeight: AppTextWeight.regular,
-          color: context.colorScheme.contentPrimary,
+          color: context.appColors.contentPrimary,
         ),
         AppText.captionSmall(
           "7 min ago",
           textWeight: AppTextWeight.light,
-          color: context.colorScheme.contentSecondary,
+          color: context.appColors.contentSecondary,
         ),
       ],
     );
@@ -84,7 +84,7 @@ class PostCard extends StatelessWidget {
       intent: AppTagIntent.love,
       child: AppText.captionSmall(
         tag,
-        color: context.colorScheme.contentError,
+        color: context.appColors.contentError,
       ),
     );
   }
@@ -94,32 +94,32 @@ class PostCard extends StatelessWidget {
       spacing: AppSpacing.s12,
       children: [
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: context.colorScheme.contentTertiary),
+          text: AppText.captionSmall("205", color: context.appColors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             Icons.thumb_up_alt_sharp,
             size: IconSizes.inline,
-            color: context.colorScheme.contentTertiary,
+            color: context.appColors.contentTertiary,
           ),
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: context.colorScheme.contentTertiary),
+          text: AppText.captionSmall("205", color: context.appColors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.heart,
             size: IconSizes.inline,
-            color: context.colorScheme.contentTertiary,
+            color: context.appColors.contentTertiary,
           ),
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: context.colorScheme.contentTertiary),
+          text: AppText.captionSmall("205", color: context.appColors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.chat_bubble,
             size: IconSizes.inline,
-            color: context.colorScheme.contentTertiary,
+            color: context.appColors.contentTertiary,
           ),
         ),
 

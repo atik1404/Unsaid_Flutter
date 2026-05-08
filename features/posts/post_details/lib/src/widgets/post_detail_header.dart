@@ -21,11 +21,11 @@ class PostDetailHeader extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.s16.r),
       decoration: BoxDecoration(
-        color: context.colorScheme.white,
+        color: context.appColors.white,
         borderRadius: BorderRadius.circular(AppSpacing.s16.r),
         boxShadow: [
           BoxShadow(
-            color: context.colorScheme.borderPrimary,
+            color: context.appColors.borderPrimary,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -55,12 +55,12 @@ class PostDetailHeader extends StatelessWidget {
               Icon(
                 Icons.person_outline,
                 size: 18.r,
-                color: context.colorScheme.contentSecondary,
+                color: context.appColors.contentSecondary,
               ),
               SizedBox(width: AppSpacing.s4.w),
               AppText.bodySmall(
                 '${context.l10n.post_details_posted_by} $authorName',
-                color: context.colorScheme.contentSecondary,
+                color: context.appColors.contentSecondary,
                 textWeight: AppTextWeight.medium,
               ),
             ],
@@ -73,13 +73,13 @@ class PostDetailHeader extends StatelessWidget {
               Icon(
                 Icons.calendar_today_outlined,
                 size: 18.r,
-                color: context.colorScheme.contentSecondary,
+                color: context.appColors.contentSecondary,
               ),
               SizedBox(width: AppSpacing.s4.w),
               AppText.bodySmall(
                 '${context.l10n.post_details_posted_on} '
                 '${Jiffy.parseFromDateTime(post.dateTime).yMMMMEEEEd}',
-                color: context.colorScheme.contentSuccess,
+                color: context.appColors.contentSuccess,
                 textWeight: AppTextWeight.medium,
               ),
             ],
@@ -97,12 +97,12 @@ class PostDetailHeader extends StatelessWidget {
         vertical: AppSpacing.s4.h,
       ),
       decoration: BoxDecoration(
-        color: context.colorScheme.backgroundPrimary,
+        color: context.appColors.backgroundPrimary,
         borderRadius: BorderRadius.circular(AppSpacing.s8.r),
       ),
       child: AppText.captionSmall(
         post.tag,
-        color: context.colorScheme.contentBrand,
+        color: context.appColors.contentBrand,
         textWeight: AppTextWeight.bold,
       ),
     );

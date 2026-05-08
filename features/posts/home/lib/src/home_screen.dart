@@ -57,9 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: context.scaffoldTheme.backgroundColor,
         titleWidget: AppText.displaySmall(
           context.l10n.splash_brand_name,
-          color: context.colorScheme.contentBrand,
+          color: context.appColors.contentBrand,
         ),
-        foregroundColor: context.colorScheme.contentTertiary,
+        foregroundColor: context.appColors.contentTertiary,
         actionSpacing: AppSpacing.s16.w,
         actions: [
           AppIconButton(

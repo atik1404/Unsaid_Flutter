@@ -79,25 +79,25 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
         gap,
 
         // Name
-        AppText.bodySmall(context.l10n.signup_label_name, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
+        AppText.bodySmall(context.l10n.signup_label_name, textWeight: AppTextWeight.light, color: context.appColors.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildNameInput(context),
         gap,
 
         // Phone
-        AppText.bodySmall(context.l10n.signup_label_phone, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
+        AppText.bodySmall(context.l10n.signup_label_phone, textWeight: AppTextWeight.light, color: context.appColors.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildPhoneInput(context),
         gap,
 
         // Email
-        AppText.bodySmall(context.l10n.signup_label_email, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
+        AppText.bodySmall(context.l10n.signup_label_email, textWeight: AppTextWeight.light, color: context.appColors.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildEmailInput(context),
         gap,
 
         // Password
-        AppText.bodySmall(context.l10n.signup_label_password, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
+        AppText.bodySmall(context.l10n.signup_label_password, textWeight: AppTextWeight.light, color: context.appColors.contentInfo),
         SizedBox(height: AppSpacing.s4.h),
         _buildPasswordInput(context),
         gap,
@@ -116,7 +116,7 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
         SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(context.l10n.signup_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.signup_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
+        AppText.bodySmall(context.l10n.signup_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentInfo),
       ],
     );
   }
@@ -181,7 +181,7 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppText.bodySmall(context.l10n.signup_already_have_account, textWeight: AppTextWeight.light, color: context.colorScheme.contentInfo),
+        AppText.bodySmall(context.l10n.signup_already_have_account, textWeight: AppTextWeight.light, color: context.appColors.contentInfo),
         AppTextButton(
           context.l10n.signup_sign_in,
           onPressed: () {
@@ -198,7 +198,7 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return Column(
       children: [
         gap,
-        AppText.bodySmall(context.l10n.login_social_sign_in, textWeight: AppTextWeight.extraBold, color: context.colorScheme.contentInfo),
+        AppText.bodySmall(context.l10n.login_social_sign_in, textWeight: AppTextWeight.extraBold, color: context.appColors.contentInfo),
         gap,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

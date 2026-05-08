@@ -19,11 +19,11 @@ class SettingMenuList extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.colorScheme.white,
+        color: context.appColors.white,
         borderRadius: BorderRadius.circular(AppSpacing.s16.r),
         boxShadow: [
           BoxShadow(
-            color: context.colorScheme.borderPrimary,
+            color: context.appColors.borderPrimary,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -35,7 +35,7 @@ class SettingMenuList extends StatelessWidget {
         itemCount: menuItems.length,
         separatorBuilder: (_, __) => Divider(
           height: 1,
-          color: context.colorScheme.borderSecondary,
+          color: context.appColors.borderSecondary,
         ),
         itemBuilder: (context, index) => menuItems[index],
       ),
@@ -82,7 +82,7 @@ class SettingMenuList extends StatelessWidget {
         ),
         content: AppText.bodySmall(
           context.l10n.setting_logout_confirm_message,
-          color: context.colorScheme.contentSecondary,
+          color: context.appColors.contentSecondary,
         ),
         actions: [
           TextButton(
@@ -100,7 +100,7 @@ class SettingMenuList extends StatelessWidget {
             },
             child: AppText.bodySmall(
               context.l10n.setting_logout_confirm_yes,
-              color: context.colorScheme.contentError,
+              color: context.appColors.contentError,
               textWeight: AppTextWeight.bold,
             ),
           ),
@@ -130,7 +130,7 @@ class _SettingMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isDestructive ? context.colorScheme.contentError : context.colorScheme.contentPrimary;
+    final color = isDestructive ? context.appColors.contentError : context.appColors.contentPrimary;
 
     return InkWell(
       onTap: onTap,
@@ -154,7 +154,7 @@ class _SettingMenuItem extends StatelessWidget {
             if (!isDestructive)
               Icon(
                 Icons.chevron_right,
-                color: context.colorScheme.contentSecondary,
+                color: context.appColors.contentSecondary,
                 size: 24.r,
               ),
           ],

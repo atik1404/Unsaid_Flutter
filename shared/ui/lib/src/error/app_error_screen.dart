@@ -68,7 +68,7 @@ class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProvid
                     widget.title ?? context.l10n.message_connection_timeout,
                     textAlign: TextAlign.center,
                     textWeight: AppTextWeight.bold,
-                    color: context.colorScheme.contentError,
+                    color: context.appColors.contentError,
                     maxLines: 1,
                   ),
                 ),
@@ -82,7 +82,7 @@ class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProvid
                     widget.message ?? context.l10n.message_something_went_wrong,
                     textAlign: TextAlign.center,
                     textWeight: AppTextWeight.regular,
-                    color: context.colorScheme.white,
+                    color: context.appColors.white,
                     maxLines: 5,
                   ),
                 ),
@@ -154,7 +154,7 @@ class _AnimatedIconHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = context.colorScheme;
+    final colorScheme = context.appColors;
 
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),

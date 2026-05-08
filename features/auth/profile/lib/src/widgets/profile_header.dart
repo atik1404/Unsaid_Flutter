@@ -38,11 +38,11 @@ class ProfileHeader extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.s24.r),
       decoration: BoxDecoration(
-        color: context.colorScheme.white,
+        color: context.appColors.white,
         borderRadius: BorderRadius.circular(AppSpacing.s16.r),
         boxShadow: [
           BoxShadow(
-            color: context.colorScheme.borderPrimary,
+            color: context.appColors.borderPrimary,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -64,7 +64,7 @@ class ProfileHeader extends StatelessWidget {
           // Bio
           AppText.bodySmall(
             bio,
-            color: context.colorScheme.contentSecondary,
+            color: context.appColors.contentSecondary,
             textWeight: AppTextWeight.medium,
             textAlign: TextAlign.center,
           ),
@@ -93,12 +93,12 @@ class ProfileHeader extends StatelessWidget {
   Widget _buildAvatar(BuildContext context) {
     return CircleAvatar(
       radius: 48.r,
-      backgroundColor: context.colorScheme.backgroundPrimary,
+      backgroundColor: context.appColors.backgroundPrimary,
       child: avatarUrl.isEmpty
           ? Icon(
               Icons.person,
               size: 48.r,
-              color: context.colorScheme.contentBrand,
+              color: context.appColors.contentBrand,
             )
           : null,
     );
@@ -116,12 +116,12 @@ class ProfileHeader extends StatelessWidget {
         Icon(
           icon,
           size: 20.r,
-          color: context.colorScheme.contentSecondary,
+          color: context.appColors.contentSecondary,
         ),
         SizedBox(width: AppSpacing.s8.w),
         AppText.captionSmall(
           '$label: ',
-          color: context.colorScheme.contentSecondary,
+          color: context.appColors.contentSecondary,
           textWeight: AppTextWeight.medium,
         ),
         Expanded(
