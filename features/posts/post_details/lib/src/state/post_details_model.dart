@@ -11,7 +11,7 @@ abstract class PostDetailsModel with _$PostDetailsModel {
   const factory PostDetailsModel({
     required String id,
     required String title,
-    required DateTime dateTime,
+    required String dateTime,
     required String description,
     required String tag,
     @Default('') String author,

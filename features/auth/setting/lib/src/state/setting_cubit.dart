@@ -21,8 +21,8 @@ class SettingCubit extends Cubit<SettingState> {
     emit(
       state.copyWith(
         isLoading: false,
-        userName: 'John Doe',
-        userEmail: 'john.doe@example.com',
+        userName: 'Atik Faysal',
+        userEmail: 'atik.faysal@example.com',
         avatarUrl: '',
       ),
     );

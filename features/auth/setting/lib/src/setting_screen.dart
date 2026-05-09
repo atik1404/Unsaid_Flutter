@@ -29,12 +29,14 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: AppText.titleMedium(
+      appBar: AppTopBar(
+        titleWidget: AppText.displaySmall(
           context.l10n.setting_title,
           textWeight: AppTextWeight.extraBold,
+          color: context.appColors.contentBrand,
         ),
-        backgroundColor: context.appColors.backgroundPrimary,
+        backgroundColor: context.scaffoldTheme.backgroundColor,
+        foregroundColor: context.appColors.brand,
         elevation: 0,
       ),
       body: BlocBuilder<SettingCubit, SettingState>(

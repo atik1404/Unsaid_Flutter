@@ -5,8 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:post_details/src/state/post_details_cubit.dart';
 import 'package:post_details/src/state/post_details_state.dart';
-import 'package:post_details/src/widgets/post_detail_content.dart';
-import 'package:post_details/src/widgets/post_detail_header.dart';
+import 'package:post_details/src/widgets/comment_input_box.dart';
+import 'package:post_details/src/widgets/comments_card.dart';
+import 'package:post_details/src/widgets/post_details_card.dart';
 
 /// The Post Details screen.
 ///
@@ -18,13 +19,13 @@ class PostDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: AppText.titleMedium(
+      appBar: AppTopBar(
+        backgroundColor: context.scaffoldTheme.backgroundColor,
+        titleWidget: AppText.displaySmall(
           context.l10n.post_details_title,
-          textWeight: AppTextWeight.extraBold,
+          color: context.appColors.contentBrand,
         ),
-        backgroundColor: context.appColors.backgroundPrimary,
-        elevation: 0,
+        foregroundColor: context.appColors.brand,
       ),
       body: BlocBuilder<PostDetailsCubit, PostDetailsState>(
         builder: (context, state) {
@@ -32,23 +33,43 @@ class PostDetailsScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final post = state.post!;
-
           return SingleChildScrollView(
             padding: EdgeInsets.all(AppSpacing.s16.r),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Post title, tag, author, date
-                PostDetailHeader(post: post),
+                const PostDetailsCard(),
                 SizedBox(height: AppSpacing.s16.h),
-
-                // Full description
-                PostDetailContent(description: post.description),
+                _buildReplyCountText(context, 19),
+                SizedBox(height: AppSpacing.s8.h),
+                _buildCommentsSection(),
               ],
             ),
           );
         },
       ),
+
+      bottomNavigationBar: const CommentInputBox(),
+    );
+  }
+
+  Widget _buildCommentsSection() {
+    return ListView.separated(
+      itemCount: 5,
+      shrinkWrap: true,
+      separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s8.h),
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return const CommentsCard();
+      },
+    );
+  }
+
+  Widget _buildReplyCountText(BuildContext context, int count) {
+    return AppText.captionMedium(
+      "- $count REPLIES -",
+      color: context.appColors.contentPrimary,
+      textWeight: AppTextWeight.light,
     );
   }
 }

@@ -2,46 +2,37 @@ import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home/src/state/post_model.dart';
 import 'package:ui/ui.dart';
 
-class PostCard extends StatelessWidget {
-  final PostModel post;
-  final VoidCallback? onTap;
-
-  const PostCard({super.key, required this.post, required this.onTap});
+final class PostDetailsCard extends StatelessWidget {
+  const PostDetailsCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final colors = _getTagColor(post.tag, context);
+    final colors = _getTagColor(MoodType.happy.name, context);
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.only(left: AppSpacing.s2.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppRadius.r16.r),
-          color: colors.$2,
-        ),
-        child: AppCard.rounded(
-          variant: AppCardVariant.outline,
-          cornerRadius: AppCardCornerRadius.lg,
-          padding: EdgeInsets.all(AppSpacing.s12.r),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildPostHeader(context, colors.$2),
-              SizedBox(height: AppSpacing.s8.h),
-              AppText.bodySmall(
-                post.description,
-                color: context.appColors.contentPrimary,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(height: AppSpacing.s12.h),
-              _buildBottomActionsButton(context),
-            ],
-          ),
+    return Container(
+      padding: EdgeInsets.only(left: AppSpacing.s2.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppRadius.r16.r),
+        color: colors.$2,
+      ),
+      child: AppCard.rounded(
+        variant: AppCardVariant.outline,
+        cornerRadius: AppCardCornerRadius.lg,
+        padding: EdgeInsets.all(AppSpacing.s12.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildPostHeader(context, colors.$2),
+            SizedBox(height: AppSpacing.s8.h),
+            AppText.bodySmall(
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+              color: context.appColors.contentPrimary,
+            ),
+            SizedBox(height: AppSpacing.s12.h),
+            _buildBottomActionsButton(context),
+          ],
         ),
       ),
     );
@@ -65,7 +56,7 @@ class PostCard extends StatelessWidget {
           child: _buildHeaderTitle(context),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context, post.tag),
+        _buildTag(context, MoodType.happy.name),
       ],
     );
   }
@@ -136,17 +127,6 @@ class PostCard extends StatelessWidget {
             color: colors.contentTertiary,
           ),
         ),
-
-        // const Spacer(),
-        // AppIconButton(
-        //   AppImage.asset(
-        //     AppDrawables.icSend,
-        //     width: IconSizes.inline,
-        //     height: IconSizes.inline,
-        //     color: colors.contentTertiary,
-        //   ),
-        //   onPressed: null,
-        // ),
       ],
     );
   }

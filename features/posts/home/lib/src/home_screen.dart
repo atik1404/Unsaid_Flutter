@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.s16.w),
       appBar: AppTopBar(
         showBackButton: false,
-        centerTitle: false,
         backgroundColor: context.scaffoldTheme.backgroundColor,
         titleWidget: AppText.displaySmall(
           context.l10n.splash_brand_name,
@@ -63,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         foregroundColor: context.appColors.contentTertiary,
         actionSpacing: AppSpacing.s16.w,
+        trailingPadding: AppSpacing.s16.w,
         actions: [
           AppIconButton(
             const AppIcon(
@@ -71,7 +71,12 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {},
           ),
           AppIconButton(const AppIcon(Icon(CupertinoIcons.bell)), onPressed: () {}),
-          AppIconButton(const AppIcon(Icon(CupertinoIcons.settings)), onPressed: () {}),
+          AppIconButton(
+            const AppIcon(Icon(CupertinoIcons.settings)),
+            onPressed: () {
+              context.pushNamed(AppRouteName.settingScreen);
+            },
+          ),
         ],
       ),
       body: Column(

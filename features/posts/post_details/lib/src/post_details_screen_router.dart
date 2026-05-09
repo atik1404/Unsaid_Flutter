@@ -17,8 +17,9 @@ final class PostDetailsScreenRouter implements BaseRouter {
         path: AppRouteName.postDetailsPath,
         name: AppRouteName.postDetailsScreen,
         builder: (context, state) {
+          final postId = state.extra as String?;
           return BlocProvider(
-            create: (_) => PostDetailsCubit(),
+            create: (_) => PostDetailsCubit()..fetchPostDetails(postId ?? ''),
             child: const PostDetailsScreen(),
           );
         },

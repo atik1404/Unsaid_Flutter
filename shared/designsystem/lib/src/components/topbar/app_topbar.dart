@@ -37,7 +37,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     this.bottom,
     this.showBackButton = true,
     this.enableGradient = false,
-    this.centerTitle = true,
+    this.centerTitle = false,
     this.automaticallyImplyLeading = true,
     this.backgroundColor,
     this.foregroundColor,

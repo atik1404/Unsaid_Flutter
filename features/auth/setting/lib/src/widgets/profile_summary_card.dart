@@ -26,19 +26,9 @@ class ProfileSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(AppSpacing.s16.r),
-      decoration: BoxDecoration(
-        color: context.appColors.white,
-        borderRadius: BorderRadius.circular(AppSpacing.s16.r),
-        boxShadow: [
-          BoxShadow(
-            color: context.appColors.borderPrimary,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return AppCard.rounded(
+      variant: AppCardVariant.outline,
+      cornerRadius: AppCardCornerRadius.lg,
       child: Row(
         children: [
           // Avatar circle
@@ -72,16 +62,15 @@ class ProfileSummaryCard extends StatelessWidget {
   ///
   /// Uses a default person icon when [avatarUrl] is empty.
   Widget _buildAvatar(BuildContext context) {
-    return CircleAvatar(
-      radius: 32.r,
-      backgroundColor: context.appColors.backgroundPrimary,
-      child: avatarUrl.isEmpty
-          ? Icon(
-              Icons.person,
-              size: 32.r,
-              color: context.appColors.contentBrand,
-            )
-          : null,
+    return AppImage.network(
+      'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+      width: IconSizes.prominent,
+      height: IconSizes.prominent,
+      shape: ImageShape.circle,
+      fit: BoxFit.cover,
+      borderColor: context.appColors.borderBrand,
+      borderWidth: 1,
+      padding: EdgeInsets.all(AppSpacing.s2.r),
     );
   }
 }

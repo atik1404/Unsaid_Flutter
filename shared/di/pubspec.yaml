@@ -40,6 +40,7 @@ dependencies:
   onboarding: ^0.0.1
   signup: ^0.0.1
   post_details: ^0.0.1
+  setting: ^0.0.1
 
   dio: ^5.9.2
   go_router: ^17.2.0

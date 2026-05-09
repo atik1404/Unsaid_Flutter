@@ -9,6 +9,7 @@ import 'package:signup/signup.dart';
 import 'package:splash/splash.dart';
 import 'package:home/home.dart';
 import 'package:post_details/post_details.dart';
+import 'package:setting/setting.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
   final routers = [
@@ -19,6 +20,7 @@ Future<void> registerNavigationModule(GetIt locator) async {
     ...HomeScreenRouter().routes(
       children: [
         ...PostDetailsScreenRouter().routes(),
+        ...SettingScreenRouter().routes(),
       ],
     ),
   ];
