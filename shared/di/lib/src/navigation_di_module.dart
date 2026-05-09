@@ -8,6 +8,7 @@ import 'package:onboarding/onboarding.dart';
 import 'package:signup/signup.dart';
 import 'package:splash/splash.dart';
 import 'package:home/home.dart';
+import 'package:post_details/post_details.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
   final routers = [
@@ -15,7 +16,11 @@ Future<void> registerNavigationModule(GetIt locator) async {
     ...LoginScreenRouter().routes(),
     ...OnboardingScreenRouter().routes(),
     ...SignupScreenRouter().routes(),
-    ...HomeScreenRouter().routes(),
+    ...HomeScreenRouter().routes(
+      children: [
+        ...PostDetailsScreenRouter().routes(),
+      ],
+    ),
   ];
 
   locator.registerSingleton<GoRouter>(

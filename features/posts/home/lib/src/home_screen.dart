@@ -2,12 +2,14 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:home/src/widgets/mood_list.dart';
 import 'package:home/src/widgets/post_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_cubit.dart';
 import 'package:home/src/state/home_state.dart';
 import 'package:localization/localization.dart';
+import 'package:navigation/navigation.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -113,7 +115,12 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             final post = state.posts[index];
-            return PostCard(post: post);
+            return PostCard(
+              post: post,
+              onTap: () {
+                context.pushNamed(AppRouteName.postDetailsScreen);
+              },
+            );
           },
         );
       },

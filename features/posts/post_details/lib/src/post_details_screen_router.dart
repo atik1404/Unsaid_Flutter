@@ -17,10 +17,8 @@ final class PostDetailsScreenRouter implements BaseRouter {
         path: AppRouteName.postDetailsPath,
         name: AppRouteName.postDetailsScreen,
         builder: (context, state) {
-          final post = state.extra as PostDetailsModel;
-
           return BlocProvider(
-            create: (_) => PostDetailsCubit()..setPost(post),
+            create: (_) => PostDetailsCubit(),
             child: const PostDetailsScreen(),
           );
         },
