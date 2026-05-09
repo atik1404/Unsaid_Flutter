@@ -28,41 +28,29 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginUi() {
     final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
 
-    return Stack(
-      children: [
-        // const Positioned.fill(
-        //   child: AppImage.asset(
-        //     AppDrawables.appBackground,
-        //     fit: BoxFit.cover,
-        //     width: double.infinity,
-        //     height: double.infinity,
-        //   ),
-        // ),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              padding: pagePadding,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - pagePadding.vertical,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildLoginHeader(context),
-                    SizedBox(height: AppSpacing.s32.h),
-                    _buildLoginForm(context),
-                    _buildLoginFooter(context),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          padding: pagePadding,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight - pagePadding.vertical,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildLoginHeader(context),
+                SizedBox(height: AppSpacing.s32.h),
+                _buildLoginForm(context),
+                _buildLoginFooter(context),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

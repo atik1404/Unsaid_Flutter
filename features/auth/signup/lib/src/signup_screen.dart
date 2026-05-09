@@ -30,40 +30,33 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(body: _buildSignupUi(context));
+    return AppScaffold(body: _buildSignupUi(context), enableGradientBackground: true);
   }
 
   Widget _buildSignupUi(BuildContext context) {
     final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
 
-    return Stack(
-      children: [
-        const Positioned.fill(
-          child: AppImage.asset(AppDrawables.appBackground, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
-        ),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              padding: pagePadding,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight - pagePadding.vertical),
-                child: BlocListener<SignupCubit, SignupState>(
-                  listener: (context, state) {
-                    if (state.errorMessage != null) {
-                      AppToast.toast(message: state.errorMessage!, toastType: ToastType.error);
-                    } else if (state.isSuccess) {
-                      // Handle successful signup
-                      context.goNamed(AppRouteName.homeScreen);
-                    }
-                  },
-                  child: _buildSignupForm(context),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          padding: pagePadding,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight - pagePadding.vertical),
+            child: BlocListener<SignupCubit, SignupState>(
+              listener: (context, state) {
+                if (state.errorMessage != null) {
+                  AppToast.toast(message: state.errorMessage!, toastType: ToastType.error);
+                } else if (state.isSuccess) {
+                  // Handle successful signup
+                  context.goNamed(AppRouteName.homeScreen);
+                }
+              },
+              child: _buildSignupForm(context),
+            ),
+          ),
+        );
+      },
     );
   }
 

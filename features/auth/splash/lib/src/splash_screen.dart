@@ -43,14 +43,6 @@ class SplashScreen extends StatelessWidget {
 
         return Stack(
           children: [
-            // const Positioned.fill(
-            //   child: AppImage.asset(
-            //     AppDrawables.appBackground,
-            //     fit: BoxFit.cover,
-            //     width: double.infinity,
-            //     height: double.infinity,
-            //   ),
-            // ),
             Positioned(
               top: topMargin,
               left: 0,
@@ -66,12 +58,14 @@ class SplashScreen extends StatelessWidget {
 
             Center(child: _buildContent(context)),
 
-            const Positioned(
+            Positioned(
               bottom: AppSpacing.s48,
               left: 0,
               right: 0,
               child: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: context.appColors.white,
+                ),
               ),
             ),
           ],
