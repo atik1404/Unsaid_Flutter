@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_state.dart';
@@ -15,6 +17,9 @@ class HomeCubit extends Cubit<HomeState> {
       // Simulate network delay
       await Future.delayed(const Duration(seconds: 1));
 
+      final random = Random();
+      final moods = MoodType.values.where((mood) => mood != MoodType.all).toList();
+
       // Simulate fetching data based on current page
       final newPosts = List.generate(
         50,
@@ -24,7 +29,7 @@ class HomeCubit extends Cubit<HomeState> {
           dateTime: DateTime.now().subtract(Duration(days: index)),
           description:
               'This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.This is the description for post ${state.currentPage}-${index + 1}. It contains some interesting content about the topic discussed.',
-          tag: MoodType.values[index % MoodType.values.length].name.toUpperCase(),
+          tag: moods[random.nextInt(moods.length)].name.toUpperCase(),
         ),
       );
 

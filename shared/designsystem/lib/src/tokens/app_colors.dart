@@ -88,6 +88,17 @@ final class AppColors {
   static const success800 = Color(0xFF085D3A); // #085D3A
   static const success900 = Color(0xFF074D31); // #074D31
 
+  static const blue50 = Color(0xFFE6EFFF);
+  static const blue100 = Color(0xFFB2CEFF);
+  static const blue200 = Color(0xFF8CB6FF);
+  static const blue300 = Color(0xFF5895FF);
+  static const blue400 = Color(0xFF3781FF);
+  static const blue500 = Color(0xFF0561FF);
+  static const blue600 = Color(0xFF0558E8);
+  static const blue700 = Color(0xFF0445B5);
+  static const blue800 = Color(0xFF03358C);
+  static const blue900 = Color(0xFF02296B);
+
   // ─── Extended — Dark theme surfaces ───────────────────────────────────────
   // Colors used in the VOID dark UI that fall between the main brand scale steps.
   static const darkSurfaceDeep = Color(0xFF0D0D1C); // #0D0D1C — deep card / feed bg (darker than brand800)

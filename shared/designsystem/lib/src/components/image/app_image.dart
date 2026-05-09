@@ -8,16 +8,13 @@ class AppImage extends StatelessWidget {
   final double? height;
   final BoxFit? fit;
   final Color? color;
+  final EdgeInsetsGeometry? padding;
   final BlendMode? colorBlendMode;
   final AlignmentGeometry alignment;
   final String? semanticLabel;
   final String? package;
   final AssetBundle? bundle;
   final Map<String, String>? headers;
-  // ignore: avoid_positional_boolean_parameters
-  final Widget Function(BuildContext, Widget, int?, bool)? frameBuilder;
-  final Widget Function(BuildContext, Widget, ImageChunkEvent?)? loadingBuilder;
-  final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
   final FilterQuality filterQuality;
   final bool isAntiAlias;
   final int? cacheWidth;
@@ -32,6 +29,11 @@ class AppImage extends StatelessWidget {
   final double borderRadius;
   final Color? borderColor;
   final double borderWidth;
+
+  // ignore: avoid_positional_boolean_parameters
+  final Widget Function(BuildContext, Widget, int?, bool)? frameBuilder;
+  final Widget Function(BuildContext, Widget, ImageChunkEvent?)? loadingBuilder;
+  final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
 
   const AppImage.asset(
     String path, {
@@ -61,6 +63,7 @@ class AppImage extends StatelessWidget {
     this.borderRadius = 8.0,
     this.borderColor,
     this.borderWidth = 0.0,
+    this.padding,
   }) : _source = ImageSource.asset,
        _path = path,
        headers = null,
@@ -94,6 +97,7 @@ class AppImage extends StatelessWidget {
     this.borderRadius = 8.0,
     this.borderColor,
     this.borderWidth = 0.0,
+    this.padding,
   }) : _source = ImageSource.network,
        _path = url,
        package = null,
@@ -139,19 +143,24 @@ class AppImage extends StatelessWidget {
     final border = borderColor != null ? Border.all(color: borderColor!, width: borderWidth) : null;
 
     return switch (shape) {
-      ImageShape.rectangle => DecoratedBox(
-        decoration: BoxDecoration(border: border),
+      ImageShape.rectangle => Container(
+        padding: padding ?? EdgeInsets.zero,
+        decoration: borderColor != null ? BoxDecoration(border: border) : null,
         child: child,
       ),
-      ImageShape.circle => DecoratedBox(
-        decoration: BoxDecoration(shape: BoxShape.circle, border: border),
+      ImageShape.circle => Container(
+        padding: padding ?? EdgeInsets.zero,
+        decoration: borderColor != null ? BoxDecoration(shape: BoxShape.circle, border: border) : null,
         child: ClipOval(child: child),
       ),
-      ImageShape.rounded => DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius),
-          border: border,
-        ),
+      ImageShape.rounded => Container(
+        padding: padding ?? EdgeInsets.zero,
+        decoration: borderColor != null
+            ? BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius),
+                border: border,
+              )
+            : null,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(borderRadius),
           child: child,

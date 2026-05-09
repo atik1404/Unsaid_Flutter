@@ -1,7 +1,6 @@
 import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home/src/state/post_model.dart';
 import 'package:ui/ui.dart';
@@ -28,7 +27,7 @@ class PostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildPostHeader(context),
+            _buildPostHeader(context, colors.$2),
             SizedBox(height: AppSpacing.s8.h),
             AppText.bodySmall(
               post.description,
@@ -42,7 +41,7 @@ class PostCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPostHeader(BuildContext context) {
+  Widget _buildPostHeader(BuildContext context, Color borderColor) {
     return Row(
       children: [
         AppImage.network(
@@ -51,7 +50,9 @@ class PostCard extends StatelessWidget {
           height: IconSizes.prominent,
           shape: ImageShape.circle,
           fit: BoxFit.cover,
-          borderColor: context.appColors.borderSecondary,
+          borderColor: borderColor,
+          borderWidth: 1,
+          padding: EdgeInsets.all(AppSpacing.s2.r),
         ),
         SizedBox(width: AppSpacing.s8.w),
         Expanded(
@@ -94,44 +95,49 @@ class PostCard extends StatelessWidget {
   }
 
   Widget _buildBottomActionsButton(BuildContext context) {
+    final colors = context.appColors;
+
     return Row(
       spacing: AppSpacing.s12,
       children: [
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: context.appColors.contentTertiary),
+          text: AppText.captionSmall("205", color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
-          leadingWidget: Icon(
-            Icons.thumb_up_alt_sharp,
-            size: IconSizes.inline,
-            color: context.appColors.contentTertiary,
+          leadingWidget: AppImage.asset(
+            AppDrawables.icFlame,
+            width: IconSizes.inline,
+            height: IconSizes.inline,
+            color: colors.contentTertiary,
           ),
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: context.appColors.contentTertiary),
+          text: AppText.captionSmall("111", color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.heart,
             size: IconSizes.inline,
-            color: context.appColors.contentTertiary,
+            color: colors.contentTertiary,
           ),
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: context.appColors.contentTertiary),
+          text: AppText.captionSmall("222", color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.chat_bubble,
             size: IconSizes.inline,
-            color: context.appColors.contentTertiary,
+            color: colors.contentTertiary,
           ),
         ),
 
         const Spacer(),
-        const AppIconButton(
-          Icon(
-            Icons.send,
-            size: IconSizes.inline,
+        AppIconButton(
+          AppImage.asset(
+            AppDrawables.icSend,
+            width: IconSizes.inline,
+            height: IconSizes.inline,
+            color: colors.contentTertiary,
           ),
           onPressed: null,
         ),
@@ -152,6 +158,8 @@ class PostCard extends StatelessWidget {
       MoodType.excited => (colors.excited.backgroundColor, colors.excited.textColor),
       MoodType.dark => (colors.dark.backgroundColor, colors.dark.textColor),
       MoodType.neutral => (colors.dark.backgroundColor, colors.dark.textColor),
+      MoodType.all => (colors.dark.backgroundColor, colors.dark.textColor),
+      MoodType.confused => (colors.dark.backgroundColor, colors.dark.textColor),
     };
   }
 }

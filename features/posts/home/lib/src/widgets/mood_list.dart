@@ -1,18 +1,14 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:home/src/model/mood_model.dart';
 import 'package:ui/ui.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CategoryList extends StatelessWidget {
-  final category = [
-    "ALL",
-    "RAGE",
-    "LOVE",
-    "RANT",
-    "DARK",
-  ];
+class MoodList extends StatelessWidget {
+  final category = moods;
 
-  CategoryList({super.key});
+  MoodList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +27,11 @@ class CategoryList extends StatelessWidget {
 
   Widget _buildCategoryItem(
     BuildContext context,
-    String category,
+    MoodModel mood,
   ) {
-    final isCategorySelected = category == "ALL";
+    final isCategorySelected = mood.name == MoodType.all;
+
+    final effectiveIcon = mood.name == MoodType.all ? null : mood.icon;
 
     return GestureDetector(
       onTap: () {},
@@ -52,17 +50,19 @@ class CategoryList extends StatelessWidget {
         child: Center(
           child: InlineIconLabel(
             text: AppText.captionSmall(
-              category,
+              mood.name.name.toUpperCase(),
               textAlign: TextAlign.center,
               color: isCategorySelected ? context.appColors.contentPrimary : context.appColors.contentSecondary,
             ),
-            leadingWidget: AppIcon(
-              Icon(
-                CupertinoIcons.heart,
-                size: IconSizes.indicator,
-                color: context.appColors.contentTertiary,
-              ),
-            ),
+            leadingWidget: effectiveIcon != null
+                ? AppImage.asset(
+                    effectiveIcon,
+                    width: IconSizes.inline,
+                    height: IconSizes.inline,
+                    color: isCategorySelected ? context.appColors.contentPrimary : context.appColors.contentSecondary,
+                  )
+                : null,
+            horizontalGap: AppSpacing.s4.w,
           ),
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home/src/widgets/category_list.dart';
+import 'package:home/src/widgets/mood_list.dart';
 import 'package:home/src/widgets/post_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_cubit.dart';
@@ -69,12 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {},
           ),
           AppIconButton(const AppIcon(Icon(CupertinoIcons.bell)), onPressed: () {}),
-          AppIconButton(const AppIcon(Icon(CupertinoIcons.chat_bubble)), onPressed: () {}),
+          AppIconButton(const AppIcon(Icon(CupertinoIcons.settings)), onPressed: () {}),
         ],
       ),
       body: Column(
         children: [
-          CategoryList(),
+          MoodList(),
           SizedBox(height: AppSpacing.s16.h),
           Expanded(child: _buildPostList()),
         ],
