@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      enableGradientBackground: true,
       body: _buildLoginUi(),
       //bottomNavigationBar: _buildLoginFooter(context),
     );
@@ -29,15 +30,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Stack(
       children: [
-        const Positioned.fill(
-          child: AppImage.asset(
-            AppDrawables.appBackground,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-        ),
-
+        // const Positioned.fill(
+        //   child: AppImage.asset(
+        //     AppDrawables.appBackground,
+        //     fit: BoxFit.cover,
+        //     width: double.infinity,
+        //     height: double.infinity,
+        //   ),
+        // ),
         LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(

@@ -18,12 +18,13 @@ class SplashScreen extends StatelessWidget {
       listener: (context, state) {
         state.maybeMap(
           navigateToOnboarding: (_) => context.goNamed(AppRouteName.onboardingScreen),
-          navigateToLogin: (_) => context.goNamed(AppRouteName.homeScreen), //context.goNamed(AppRouteName.loginScreen),
+          navigateToLogin: (_) => context.goNamed(AppRouteName.loginScreen),
           navigateToHome: (_) => context.goNamed(AppRouteName.homeScreen),
           orElse: () {},
         );
       },
       child: AppScaffold(
+        enableGradientBackground: true,
         body: _buildMainContent(context),
       ),
     );
@@ -42,15 +43,14 @@ class SplashScreen extends StatelessWidget {
 
         return Stack(
           children: [
-            const Positioned.fill(
-              child: AppImage.asset(
-                AppDrawables.appBackground,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-
+            // const Positioned.fill(
+            //   child: AppImage.asset(
+            //     AppDrawables.appBackground,
+            //     fit: BoxFit.cover,
+            //     width: double.infinity,
+            //     height: double.infinity,
+            //   ),
+            // ),
             Positioned(
               top: topMargin,
               left: 0,

@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 
 final class AppScaffoldTheme extends ThemeExtension<AppScaffoldTheme> {
   final Color backgroundColor;
+  final Gradient? gradientColor;
   final SystemUiOverlayStyle overlayStyle;
 
   const AppScaffoldTheme({
     required this.backgroundColor,
     required this.overlayStyle,
+    this.gradientColor,
   });
 
   factory AppScaffoldTheme.light() => AppScaffoldTheme(
@@ -16,6 +18,11 @@ final class AppScaffoldTheme extends ThemeExtension<AppScaffoldTheme> {
     overlayStyle: SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: AppColors.transparent,
       systemNavigationBarColor: AppColors.neutral50,
+    ),
+    gradientColor: const LinearGradient(
+      colors: [AppColors.brand700, AppColors.brand400],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
     ),
   );
 

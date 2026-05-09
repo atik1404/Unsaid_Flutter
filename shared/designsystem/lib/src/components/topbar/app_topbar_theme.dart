@@ -24,7 +24,7 @@ final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
   factory AppTopBarTheme.light() => const AppTopBarTheme(
     backgroundColor: AppColors.white,
     backgroundGradient: LinearGradient(
-      colors: [AppColors.brand500, AppColors.brand300],
+      colors: [AppColors.brand700, AppColors.brand400],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     ),

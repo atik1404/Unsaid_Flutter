@@ -11,6 +11,7 @@ class AppScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Widget? bottomSheet;
   final bool extendBodyBehindAppBar;
+  final bool enableGradientBackground;
 
   // Behavior
   final bool resizeToAvoidBottomInset;
@@ -32,6 +33,7 @@ class AppScaffold extends StatelessWidget {
     this.bottomSheet,
     this.extendBodyBehindAppBar = false,
     this.resizeToAvoidBottomInset = true,
+    this.enableGradientBackground = false,
     this.safeAreaTop = false,
     this.safeAreaBottom = false,
     this.padding,
@@ -43,6 +45,7 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.scaffoldTheme;
+    final hasGradientBackground = enableGradientBackground && theme.gradientColor != null;
 
     // The body, with optional padding and selection support.
     var content = body;
@@ -63,7 +66,7 @@ class AppScaffold extends StatelessWidget {
     );
 
     Widget scaffold = Scaffold(
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: hasGradientBackground ? Colors.transparent : theme.backgroundColor,
       appBar: appBar,
       body: content,
       floatingActionButton: floatingActionButton,
@@ -72,6 +75,13 @@ class AppScaffold extends StatelessWidget {
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
     );
+
+    if (hasGradientBackground) {
+      scaffold = DecoratedBox(
+        decoration: BoxDecoration(gradient: theme.gradientColor),
+        child: scaffold,
+      );
+    }
 
     // Keyboard dismissal: translucent so empty space is hit-testable.
     if (dismissKeyboardOnTap) {
