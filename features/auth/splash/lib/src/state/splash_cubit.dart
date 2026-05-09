@@ -20,7 +20,7 @@ class SplashCubit extends Cubit<SplashState> {
 
     await Future.delayed(const Duration(seconds: 3));
 
-    if (isAuthorized == true) {
+    if (isAuthorized) {
       fetchProfile();
     } else {
       if (!isIntroScreenVisible) {
