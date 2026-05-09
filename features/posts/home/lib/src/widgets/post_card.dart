@@ -131,16 +131,16 @@ class PostCard extends StatelessWidget {
           ),
         ),
 
-        const Spacer(),
-        AppIconButton(
-          AppImage.asset(
-            AppDrawables.icSend,
-            width: IconSizes.inline,
-            height: IconSizes.inline,
-            color: colors.contentTertiary,
-          ),
-          onPressed: null,
-        ),
+        // const Spacer(),
+        // AppIconButton(
+        //   AppImage.asset(
+        //     AppDrawables.icSend,
+        //     width: IconSizes.inline,
+        //     height: IconSizes.inline,
+        //     color: colors.contentTertiary,
+        //   ),
+        //   onPressed: null,
+        // ),
       ],
     );
   }
@@ -157,9 +157,9 @@ class PostCard extends StatelessWidget {
       MoodType.lonely => (colors.lonely.backgroundColor, colors.lonely.textColor),
       MoodType.excited => (colors.excited.backgroundColor, colors.excited.textColor),
       MoodType.dark => (colors.dark.backgroundColor, colors.dark.textColor),
-      MoodType.neutral => (colors.dark.backgroundColor, colors.dark.textColor),
-      MoodType.all => (colors.dark.backgroundColor, colors.dark.textColor),
-      MoodType.confused => (colors.dark.backgroundColor, colors.dark.textColor),
+      MoodType.neutral => (colors.neutral.backgroundColor, colors.neutral.textColor),
+      MoodType.all => (context.appColors.backgroundPrimary, context.appColors.contentPrimary),
+      MoodType.confused => (colors.confused.backgroundColor, colors.confused.textColor),
     };
   }
 }

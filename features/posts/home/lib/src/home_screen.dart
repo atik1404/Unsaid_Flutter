@@ -79,6 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(child: _buildPostList()),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        shape: const CircleBorder(),
+        backgroundColor: context.appColors.contentBrand,
+        child: Icon(CupertinoIcons.add, color: context.appColors.white),
+      ),
     );
   }
 
