@@ -1,9 +1,6 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:localization/localization.dart';
-import 'package:navigation/navigation.dart';
 
 /// A vertical list of menu items on the Settings screen.
 ///
@@ -15,151 +12,111 @@ class SettingMenuList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final menuItems = _buildMenuItems(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTitle(context, title: 'IDENTITY'),
+        SizedBox(height: AppSpacing.s4.h),
+        _buildIdentityMenuCard(context),
+        SizedBox(height: AppSpacing.s12.h),
+        _buildTitle(context, title: 'PRIVACY'),
+        SizedBox(height: AppSpacing.s4.h),
+        _buildPrivacyMenuCard(context),
 
-    return Container(
-      decoration: BoxDecoration(
-        color: context.appColors.white,
-        borderRadius: BorderRadius.circular(AppSpacing.s16.r),
-        boxShadow: [
-          BoxShadow(
-            color: context.appColors.borderPrimary,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: menuItems.length,
-        separatorBuilder: (_, __) => Divider(
-          height: 1,
-          color: context.appColors.borderSecondary,
-        ),
-        itemBuilder: (context, index) => menuItems[index],
-      ),
+        SizedBox(height: AppSpacing.s12.h),
+        _buildTitle(context, title: 'PRIVACY'),
+        SizedBox(height: AppSpacing.s4.h),
+        _buildPrivacyMenuCard(context),
+      ],
     );
   }
 
-  /// Assembles the list of menu row widgets.
-  List<Widget> _buildMenuItems(BuildContext context) {
-    return [
-      _SettingMenuItem(
-        icon: Icons.person_outline,
-        label: context.l10n.setting_menu_profile,
-        onTap: () => context.pushNamed(AppRouteName.profileScreen),
-      ),
-      _SettingMenuItem(
-        icon: Icons.lock_outline,
-        label: context.l10n.setting_menu_change_password,
-        onTap: () => context.pushNamed(AppRouteName.changePasswordScreen),
-      ),
-      _SettingMenuItem(
-        icon: Icons.language,
-        label: context.l10n.setting_menu_change_language,
-        onTap: () {
-          // TODO: Implement language picker
-        },
-      ),
-      _SettingMenuItem(
-        icon: Icons.logout,
-        label: context.l10n.setting_menu_logout,
-        isDestructive: true,
-        onTap: () => _showLogoutConfirmation(context),
-      ),
-    ];
-  }
-
-  /// Shows a confirmation dialog before logging the user out.
-  void _showLogoutConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: AppText.titleSmall(
-          context.l10n.setting_logout_confirm_title,
-          textWeight: AppTextWeight.bold,
-        ),
-        content: AppText.bodySmall(
-          context.l10n.setting_logout_confirm_message,
-          color: context.appColors.contentSecondary,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: AppText.bodySmall(
-              context.l10n.setting_logout_confirm_no,
-              textWeight: AppTextWeight.medium,
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(dialogContext).pop();
-              // TODO: Clear session and navigate to login
-              context.goNamed(AppRouteName.loginScreen);
+  Widget _buildIdentityMenuCard(BuildContext context) {
+    return AppCard.rounded(
+      cornerRadius: AppCardCornerRadius.lg,
+      child: Column(
+        children: [
+          _buildMenuItem(
+            context,
+            label: 'Regenarate alias',
+            icon: Icons.refresh,
+            onTap: () {
+              // Handle tap
             },
-            child: AppText.bodySmall(
-              context.l10n.setting_logout_confirm_yes,
-              color: context.appColors.contentError,
-              textWeight: AppTextWeight.bold,
-            ),
+          ),
+          const AppDivider(),
+          _buildMenuItem(
+            context,
+            label: 'Change avatar',
+            icon: Icons.person,
+            onTap: () {
+              // Handle tap
+            },
           ),
         ],
       ),
     );
   }
-}
 
-/// A single row inside the settings menu list.
-///
-/// Displays an [icon], [label], and an optional trailing chevron.
-/// When [isDestructive] is true, the icon and label are rendered
-/// in the error colour to signal a destructive action (e.g. logout).
-class _SettingMenuItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  final bool isDestructive;
-
-  const _SettingMenuItem({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    this.isDestructive = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final color = isDestructive ? context.appColors.contentError : context.appColors.contentPrimary;
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppSpacing.s12.r),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSpacing.s16.w,
-          vertical: AppSpacing.s16.h,
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: color, size: 24.r),
-            SizedBox(width: AppSpacing.s16.w),
-            Expanded(
-              child: AppText.bodySmall(
-                label,
-                color: color,
-                textWeight: AppTextWeight.medium,
-              ),
-            ),
-            if (!isDestructive)
-              Icon(
-                Icons.chevron_right,
-                color: context.appColors.contentSecondary,
-                size: 24.r,
-              ),
-          ],
-        ),
+  Widget _buildPrivacyMenuCard(BuildContext context) {
+    return AppCard.rounded(
+      cornerRadius: AppCardCornerRadius.lg,
+      child: Column(
+        children: [
+          _buildToggleMenuItem(
+            context,
+            label: 'Regenarate alias',
+            icon: Icons.refresh,
+            value: true,
+            onChanged: (value) {
+              // Handle toggle change
+            },
+          ),
+          const AppDivider(),
+          _buildToggleMenuItem(
+            context,
+            label: 'Regenarate alias',
+            icon: Icons.refresh,
+            value: true,
+            onChanged: (value) {
+              // Handle toggle change
+            },
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildMenuItem(BuildContext context, {required String label, required IconData icon, VoidCallback? onTap}) {
+    return ListTile(
+      leading: Icon(icon, color: context.appColors.brand),
+      title: AppText.bodyMedium(label, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
+      subtitle: AppText.captionSmall('Currently: ghost_8899', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+      trailing: Icon(Icons.chevron_right, color: context.appColors.contentTertiary),
+      onTap: onTap,
+    );
+  }
+
+  Widget _buildToggleMenuItem(
+    BuildContext context, {
+    required String label,
+    required IconData icon,
+    required bool value,
+    ValueChanged<bool>? onChanged,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: context.appColors.brand),
+      title: AppText.bodyMedium(label, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
+      subtitle: AppText.captionSmall('Currently: ghost_8899', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+      trailing: Transform.scale(
+        scale: 0.7, // Adjust this value (e.g. 0.7 = smaller, 1.2 = larger)
+        child: Switch.adaptive(value: true, onChanged: (value) {}),
+      ),
+      onTap: onChanged == null ? null : () => onChanged(!value),
+    );
+  }
+
+  Widget _buildTitle(BuildContext context, {required String title}) {
+    return AppText.captionMedium(title, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light);
   }
 }

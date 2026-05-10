@@ -27,6 +27,7 @@ class ProfileSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard.rounded(
+      padding: EdgeInsets.all(AppSpacing.s16.r),
       variant: AppCardVariant.outline,
       cornerRadius: AppCardCornerRadius.lg,
       child: Row(

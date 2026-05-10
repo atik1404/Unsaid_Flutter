@@ -1,5 +1,6 @@
 import 'package:designsystem/src/components/button/button.dart';
 import 'package:designsystem/src/components/card/card.dart';
+import 'package:designsystem/src/components/divider/app_divider_theme.dart';
 import 'package:designsystem/src/components/inputfiled/inputfield.dart';
 import 'package:designsystem/src/components/scaffold/app_scaffold_theme.dart';
 import 'package:designsystem/src/components/tag/app_tag_theme.dart';
@@ -30,4 +31,6 @@ extension AppThemeExtension on BuildContext {
   AppTopBarTheme get topBarTheme => theme.extension<AppTheme>()!.topBarTheme;
 
   AppScaffoldTheme get scaffoldTheme => theme.extension<AppTheme>()!.scaffoldTheme;
+
+  AppDividerTheme get dividerTheme => theme.extension<AppTheme>()!.dividerTheme;
 }

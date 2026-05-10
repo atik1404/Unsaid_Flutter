@@ -1,5 +1,6 @@
 import 'package:designsystem/src/components/button/button.dart';
 import 'package:designsystem/src/components/card/card.dart';
+import 'package:designsystem/src/components/divider/app_divider_theme.dart';
 import 'package:designsystem/src/components/inputfiled/inputfield.dart';
 import 'package:designsystem/src/components/scaffold/app_scaffold_theme.dart';
 import 'package:designsystem/src/components/tag/app_tag_theme.dart';
@@ -19,6 +20,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
   final AppCardTheme cardTheme;
   final AppTopBarTheme topBarTheme;
   final AppScaffoldTheme scaffoldTheme;
+  final AppDividerTheme dividerTheme;
 
   const AppTheme._({
     required this.typographyTheme,
@@ -30,6 +32,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
     required this.cardTheme,
     required this.topBarTheme,
     required this.scaffoldTheme,
+    required this.dividerTheme,
   });
 
   @override
@@ -43,6 +46,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
     AppCardTheme? cardTheme,
     AppTopBarTheme? topBarTheme,
     AppScaffoldTheme? scaffoldTheme,
+    AppDividerTheme? dividerTheme,
   }) {
     return AppTheme._(
       typographyTheme: this.typographyTheme,
@@ -54,6 +58,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
       cardTheme: cardTheme ?? this.cardTheme,
       topBarTheme: topBarTheme ?? this.topBarTheme,
       scaffoldTheme: scaffoldTheme ?? this.scaffoldTheme,
+      dividerTheme: dividerTheme ?? this.dividerTheme,
     );
   }
 
@@ -78,6 +83,7 @@ final class AppTheme extends ThemeExtension<AppTheme> {
       cardTheme: AppCardTheme.light(),
       topBarTheme: AppTopBarTheme.light(),
       scaffoldTheme: AppScaffoldTheme.light(),
+      dividerTheme: AppDividerTheme.light(),
     );
   }
 

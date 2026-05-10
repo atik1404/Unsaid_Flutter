@@ -15,6 +15,7 @@ class SettingCubit extends Cubit<SettingState> {
   void loadUserProfile() async {
     emit(state.copyWith(isLoading: true));
 
+
     // Simulate a network call
     await Future.delayed(const Duration(milliseconds: 500));
 
