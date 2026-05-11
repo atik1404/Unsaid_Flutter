@@ -24,6 +24,7 @@ export 'src/components/topbar/app_topbar.dart';
 export 'src/components/card/card.dart';
 export 'src/components/tag/tag.dart';
 export 'src/components/divider/divider.dart';
+export 'src/components/richtext/rich_text.dart';
 
 //tokens
 export 'src/tokens/app_border_width.dart';
