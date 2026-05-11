@@ -3,6 +3,7 @@ import 'package:designsystem/src/components/card/card.dart';
 import 'package:designsystem/src/components/divider/app_divider_theme.dart';
 import 'package:designsystem/src/components/inputfiled/inputfield.dart';
 import 'package:designsystem/src/components/scaffold/app_scaffold_theme.dart';
+import 'package:designsystem/src/components/switch/app_switch_theme.dart';
 import 'package:designsystem/src/components/tag/app_tag_theme.dart';
 import 'package:designsystem/src/components/topbar/app_topbar_theme.dart';
 import 'package:designsystem/src/components/typography/typography.dart';
@@ -33,4 +34,6 @@ extension AppThemeExtension on BuildContext {
   AppScaffoldTheme get scaffoldTheme => theme.extension<AppTheme>()!.scaffoldTheme;
 
   AppDividerTheme get dividerTheme => theme.extension<AppTheme>()!.dividerTheme;
+
+  AppSwitchTheme get switchTheme => theme.extension<AppTheme>()!.switchTheme;
 }

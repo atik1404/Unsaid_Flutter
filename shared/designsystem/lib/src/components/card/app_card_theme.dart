@@ -4,24 +4,48 @@ import 'package:designsystem/src/tokens/app_elevation.dart';
 import 'package:flutter/material.dart';
 
 final class AppCardTheme extends ThemeExtension<AppCardTheme> {
-  final AppCardVariantSet neutral;
+  final AppCardVariantSet warning;
+  final AppCardVariantSet primary;
+  final AppCardVariantSet secondary;
+  final AppCardVariantSet danzer;
 
   const AppCardTheme({
-    required this.neutral,
+    required this.warning,
+    required this.primary,
+    required this.secondary,
+    required this.danzer,
   });
 
   AppCardVariantSet byTone(AppCardTone tone) => switch (tone) {
-    AppCardTone.warning => neutral,
+    AppCardTone.warning => warning,
+    AppCardTone.primary => primary,
+    AppCardTone.secondary => secondary,
+    AppCardTone.danzer => danzer,
   };
 
   double defaultElevationFor(AppCardTone tone) => switch (tone) {
     AppCardTone.warning => AppElevation.flat,
+    AppCardTone.primary => AppElevation.flat,
+    AppCardTone.secondary => AppElevation.flat,
+    AppCardTone.danzer => AppElevation.flat,
   };
 
   factory AppCardTheme.light() => AppCardTheme(
-    neutral: AppCardVariantSet.standard(
+    warning: AppCardVariantSet.standard(
       surface: AppColors.white,
       border: AppColors.neutral100,
+    ),
+    primary: AppCardVariantSet.standard(
+      surface: AppColors.white,
+      border: AppColors.neutral100,
+    ),
+    secondary: AppCardVariantSet.standard(
+      surface: AppColors.white,
+      border: AppColors.neutral100,
+    ),
+    danzer: AppCardVariantSet.standard(
+      surface: AppColors.error50,
+      border: AppColors.error200,
     ),
   );
 
