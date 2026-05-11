@@ -1,5 +1,5 @@
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 
@@ -36,6 +36,10 @@ class _PasswordFormState extends State<PasswordForm> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool _oldPasswordVisible = true;
+  bool _newPasswordVisible = true;
+  bool _confirmPasswordVisible = true;
+
   @override
   void dispose() {
     _oldPasswordController.dispose();
@@ -52,44 +56,41 @@ class _PasswordFormState extends State<PasswordForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Old password
-        AppText.bodySmall(
-          context.l10n.change_password_label_old,
-          textWeight: AppTextWeight.medium,
-          color: context.appColors.contentInfo,
-        ),
+        _buildTitle(context, context.l10n.change_password_label_old),
         SizedBox(height: AppSpacing.s4.h),
-        AppInputField(
-          controller: _oldPasswordController,
+        _buildPasswordField(
+          context: context,
           hint: context.l10n.change_password_hint_old,
-          obscureText: true,
+          isPasswordVisible: _oldPasswordVisible,
+          onToggleVisibility: () {
+            setState(() => _oldPasswordVisible = !_oldPasswordVisible);
+          },
         ),
         gap,
 
         // New password
-        AppText.bodySmall(
-          context.l10n.change_password_label_new,
-          textWeight: AppTextWeight.medium,
-          color: context.appColors.contentInfo,
-        ),
+        _buildTitle(context, context.l10n.change_password_label_new),
         SizedBox(height: AppSpacing.s4.h),
-        AppInputField(
-          controller: _newPasswordController,
+        _buildPasswordField(
+          context: context,
           hint: context.l10n.change_password_hint_new,
-          obscureText: true,
+          isPasswordVisible: _newPasswordVisible,
+          onToggleVisibility: () {
+            setState(() => _newPasswordVisible = !_newPasswordVisible);
+          },
         ),
         gap,
 
         // Confirm password
-        AppText.bodySmall(
-          context.l10n.change_password_label_confirm,
-          textWeight: AppTextWeight.medium,
-          color: context.appColors.contentInfo,
-        ),
+        _buildTitle(context, context.l10n.change_password_label_confirm),
         SizedBox(height: AppSpacing.s4.h),
-        AppInputField(
-          controller: _confirmPasswordController,
+        _buildPasswordField(
+          context: context,
+          isPasswordVisible: _confirmPasswordVisible,
           hint: context.l10n.change_password_hint_confirm,
-          obscureText: true,
+          onToggleVisibility: () {
+            setState(() => _confirmPasswordVisible = !_confirmPasswordVisible);
+          },
         ),
         SizedBox(height: AppSpacing.s32.h),
 
@@ -99,6 +100,30 @@ class _PasswordFormState extends State<PasswordForm> {
           onPressed: widget.isLoading ? null : _handleSubmit,
         ),
       ],
+    );
+  }
+
+  Widget _buildTitle(BuildContext context, String text) {
+    return AppText.bodySmall(
+      text,
+      textWeight: AppTextWeight.medium,
+      color: context.appColors.contentTertiary,
+    );
+  }
+
+  Widget _buildPasswordField({required BuildContext context, required String hint, required bool isPasswordVisible, required VoidCallback onToggleVisibility}) {
+    return AppInputField(
+      hint: hint,
+      obscureText: true,
+      variant: AppInputFieldVariant.filled,
+      textInputAction: TextInputAction.done,
+      maxLength: 20,
+      suffixIcon: AppIcon(
+        GestureDetector(
+          onTap: onToggleVisibility,
+          child: Icon(isPasswordVisible ? CupertinoIcons.eye_slash : CupertinoIcons.eye),
+        ),
+      ),
     );
   }
 

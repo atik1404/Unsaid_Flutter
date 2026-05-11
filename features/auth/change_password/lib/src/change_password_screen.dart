@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
+import 'package:ui/ui.dart';
 
 /// The Change Password screen.
 ///
@@ -18,11 +19,13 @@ class ChangePasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: AppText.titleMedium(
+        titleWidget: AppText.displaySmall(
           context.l10n.change_password_title,
           textWeight: AppTextWeight.extraBold,
         ),
         elevation: 0,
+        backgroundColor: context.scaffoldTheme.backgroundColor,
+        foregroundColor: context.appColors.brand,
       ),
       body: BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
         listener: _handleStateChanges,
@@ -50,15 +53,13 @@ class ChangePasswordScreen extends StatelessWidget {
     );
   }
 
-  /// Reacts to cubit state changes by showing snack-bar feedback.
+  /// Reacts to cubit state changes by showing toast feedback.
   void _handleStateChanges(
     BuildContext context,
     ChangePasswordState state,
   ) {
     if (state.isSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.change_password_success)),
-      );
+      AppToast.toast(message: context.l10n.change_password_success, toastType: ToastType.success);
       // Reset so the form can be reused
       context.read<ChangePasswordCubit>().resetState();
     }
@@ -67,9 +68,7 @@ class ChangePasswordScreen extends StatelessWidget {
       // Map known error codes to localised messages
       final message = state.errorMessage == 'mismatch' ? context.l10n.change_password_error_mismatch : state.errorMessage!;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      AppToast.toast(message: message, toastType: ToastType.error);
     }
   }
 }

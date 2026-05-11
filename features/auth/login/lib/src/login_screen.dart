@@ -1,5 +1,5 @@
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
             setState(() => _obscurePassword = !_obscurePassword);
           },
           child: Icon(
-            _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+            _obscurePassword ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
           ),
         ),
       ),

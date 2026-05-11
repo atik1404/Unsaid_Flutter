@@ -3,6 +3,8 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:navigation/navigation.dart';
 
 /// A vertical list of menu items on the Settings screen.
 ///
@@ -90,7 +92,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
             subTitle: '••••••••',
             icon: CupertinoIcons.lock,
             onTap: () {
-              AppLog.log('Changing password...');
+              context.pushNamed(AppRouteName.changePasswordScreen);
             },
           ),
           const AppDivider(),

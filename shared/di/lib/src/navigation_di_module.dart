@@ -1,3 +1,4 @@
+import 'package:change_password/change_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,7 @@ Future<void> registerNavigationModule(GetIt locator) async {
       children: [
         ...PostDetailsScreenRouter().routes(),
         ...SettingScreenRouter().routes(),
+        ...ChangePasswordScreenRouter().routes(),
       ],
     ),
   ];
