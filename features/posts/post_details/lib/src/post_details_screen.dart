@@ -24,6 +24,7 @@ class PostDetailsScreen extends StatelessWidget {
         titleWidget: AppText.displaySmall(
           context.l10n.post_details_title,
           color: context.appColors.contentBrand,
+          textWeight: AppTextWeight.extraBold,
         ),
         foregroundColor: context.appColors.brand,
       ),

@@ -1,4 +1,6 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,29 +9,41 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// Each item has an icon, label, and trailing chevron (except Logout).
 /// Tapping a row navigates to the corresponding screen or triggers
 /// the logout confirmation dialog.
-class SettingMenuList extends StatelessWidget {
+class SettingMenuList extends StatefulWidget {
   const SettingMenuList({super.key});
 
   @override
+  State<SettingMenuList> createState() => _SettingMenuListState();
+}
+
+class _SettingMenuListState extends State<SettingMenuList> {
+  bool _allowAnonymousDMs = true;
+  bool _ghostMode = true;
+  bool _pushNotifications = true;
+  bool _sound = true;
+
+  @override
   Widget build(BuildContext context) {
+    final gapLarge = SizedBox(height: AppSpacing.s12.h);
+    final gapSmall = SizedBox(height: AppSpacing.s4.h);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildTitle(context, title: 'IDENTITY', textColor: context.appColors.contentSecondary),
-        SizedBox(height: AppSpacing.s4.h),
+        _buildTitle(title: 'IDENTITY', textColor: context.appColors.contentSecondary),
+        gapSmall,
         _buildIdentityMenuCard(context),
-        SizedBox(height: AppSpacing.s12.h),
-        _buildTitle(context, title: 'PRIVACY', textColor: context.appColors.contentSecondary),
-        SizedBox(height: AppSpacing.s4.h),
+        gapLarge,
+        _buildTitle(title: 'PRIVACY', textColor: context.appColors.contentSecondary),
+        gapSmall,
         _buildPrivacyMenuCard(context),
 
-        SizedBox(height: AppSpacing.s12.h),
-        _buildTitle(context, title: 'PRIVACY', textColor: context.appColors.contentSecondary),
-        SizedBox(height: AppSpacing.s4.h),
-        _buildPrivacyMenuCard(context),
-        SizedBox(height: AppSpacing.s12.h),
-        _buildTitle(context, title: 'DANZER ZONE', textColor: context.appColors.contentError),
-        SizedBox(height: AppSpacing.s4.h),
+        gapLarge,
+        _buildTitle(title: 'NOTIFICATION', textColor: context.appColors.contentSecondary),
+        gapSmall,
+        _buildNotificationMenuCard(context),
+        gapLarge,
+        _buildTitle(title: 'DANZER ZONE', textColor: context.appColors.contentError),
+        gapSmall,
         _buildDanzerZoneMenuCard(context),
       ],
     );
@@ -42,19 +56,40 @@ class SettingMenuList extends StatelessWidget {
         children: [
           _buildMenuItem(
             context,
-            label: 'Regenarate alias',
-            icon: Icons.refresh,
+            label: 'Profile',
+            icon: CupertinoIcons.refresh,
             onTap: () {
-              // Handle tap
+              AppLog.log('Regenerating alias...');
+            },
+          ),
+          const AppDivider(),
+          _buildMenuItem(
+            context,
+            label: 'Regenarate alias',
+            subTitle: 'Currently: ghost_8899',
+            icon: CupertinoIcons.refresh,
+            onTap: () {
+              AppLog.log('Regenerating alias...');
             },
           ),
           const AppDivider(),
           _buildMenuItem(
             context,
             label: 'Change avatar',
-            icon: Icons.person,
+            subTitle: 'Ghost, skull, alien, robot',
+            icon: CupertinoIcons.person,
             onTap: () {
-              // Handle tap
+              AppLog.log('Changing avatar...');
+            },
+          ),
+          const AppDivider(),
+          _buildMenuItem(
+            context,
+            label: 'Change password',
+            subTitle: '••••••••',
+            icon: CupertinoIcons.lock,
+            onTap: () {
+              AppLog.log('Changing password...');
             },
           ),
         ],
@@ -69,21 +104,56 @@ class SettingMenuList extends StatelessWidget {
         children: [
           _buildToggleMenuItem(
             context,
-            label: 'Regenarate alias',
-            icon: Icons.refresh,
-            value: true,
+            label: 'Allow anonymous DMs',
+            subTitle: 'Strangers can message you.',
+            icon: CupertinoIcons.chat_bubble,
+            value: _allowAnonymousDMs,
             onChanged: (value) {
-              // Handle toggle change
+              setState(() => _allowAnonymousDMs = value);
+              AppLog.log('Toggling anonymous DMs: $value');
             },
           ),
           const AppDivider(),
           _buildToggleMenuItem(
             context,
-            label: 'Regenarate alias',
-            icon: Icons.refresh,
-            value: true,
+            label: 'Ghost mode',
+            subTitle: 'Hide your online status.',
+            icon: Icons.visibility_off,
+            value: _ghostMode,
             onChanged: (value) {
-              // Handle toggle change
+              setState(() => _ghostMode = value);
+              AppLog.log('Toggling ghost mode: $value');
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNotificationMenuCard(BuildContext context) {
+    return AppCard.rounded(
+      cornerRadius: AppCardCornerRadius.lg,
+      child: Column(
+        children: [
+          _buildToggleMenuItem(
+            context,
+            label: 'Push notifications',
+            icon: CupertinoIcons.bell,
+            value: _pushNotifications,
+            onChanged: (value) {
+              setState(() => _pushNotifications = value);
+              AppLog.log('Toggling push notifications: $value');
+            },
+          ),
+          const AppDivider(),
+          _buildToggleMenuItem(
+            context,
+            label: 'Sound',
+            icon: CupertinoIcons.volume_up,
+            value: _sound,
+            onChanged: (value) {
+              setState(() => _sound = value);
+              AppLog.log('Toggling sound: $value');
             },
           ),
         ],
@@ -99,19 +169,31 @@ class SettingMenuList extends StatelessWidget {
         children: [
           _buildMenuItem(
             context,
-            label: 'Regenarate alias',
-            icon: Icons.refresh,
+            label: 'Wipe all my posts',
+            subTitle: 'Permanently delete all your posts.',
+            icon: CupertinoIcons.delete,
             onTap: () {
-              // Handle tap
+              AppLog.log('Wiping all posts...');
             },
           ),
           const AppDivider(),
           _buildMenuItem(
             context,
-            label: 'Change avatar',
-            icon: Icons.person,
+            label: 'Delete ghost account',
+            subTitle: 'Permanently delete ghost account.',
+            icon: CupertinoIcons.delete_simple,
             onTap: () {
-              // Handle tap
+              AppLog.log('Deleting ghost account...');
+            },
+          ),
+          const AppDivider(),
+          _buildMenuItem(
+            context,
+            label: 'Sign out',
+            subTitle: 'Sign out of your account.',
+            icon: CupertinoIcons.arrow_right_square,
+            onTap: () {
+              AppLog.log('Signing out...');
             },
           ),
         ],
@@ -119,11 +201,11 @@ class SettingMenuList extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, {required String label, required IconData icon, VoidCallback? onTap}) {
+  Widget _buildMenuItem(BuildContext context, {required String label, String? subTitle, required IconData icon, VoidCallback? onTap}) {
     return ListTile(
       leading: Icon(icon, color: context.appColors.brand),
       title: AppText.bodyMedium(label, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-      subtitle: AppText.captionSmall('Currently: ghost_8899', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+      subtitle: subTitle != null ? AppText.captionSmall(subTitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light) : null,
       trailing: Icon(Icons.chevron_right, color: context.appColors.contentTertiary),
       onTap: onTap,
     );
@@ -132,6 +214,7 @@ class SettingMenuList extends StatelessWidget {
   Widget _buildToggleMenuItem(
     BuildContext context, {
     required String label,
+    String? subTitle,
     required IconData icon,
     required bool value,
     ValueChanged<bool>? onChanged,
@@ -139,9 +222,9 @@ class SettingMenuList extends StatelessWidget {
     return ListTile(
       leading: Icon(icon, color: context.appColors.brand),
       title: AppText.bodyMedium(label, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-      subtitle: AppText.captionSmall('Currently: ghost_8899', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+      subtitle: subTitle != null ? AppText.captionSmall(subTitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light) : null,
       trailing: AppSwitch(
-        value: true,
+        value: value,
         onChanged: onChanged,
         size: AppSwitchSize.sm,
       ),
@@ -149,7 +232,7 @@ class SettingMenuList extends StatelessWidget {
     );
   }
 
-  Widget _buildTitle(BuildContext context, {required String title, required Color textColor}) {
+  Widget _buildTitle({required String title, required Color textColor}) {
     return AppText.captionMedium(title, color: textColor, textWeight: AppTextWeight.light);
   }
 }

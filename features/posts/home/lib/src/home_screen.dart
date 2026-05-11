@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
         titleWidget: AppText.displaySmall(
           context.l10n.splash_brand_name,
           color: context.appColors.contentBrand,
+          textWeight: AppTextWeight.extraBold,
         ),
         foregroundColor: context.appColors.contentTertiary,
         actionSpacing: AppSpacing.s16.w,
