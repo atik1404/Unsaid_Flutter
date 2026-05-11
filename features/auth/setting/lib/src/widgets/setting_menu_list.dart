@@ -36,18 +36,22 @@ class _SettingMenuListState extends State<SettingMenuList> {
         gapSmall,
         _buildIdentityMenuCard(context),
         gapLarge,
-        _buildTitle(title: 'PRIVACY', textColor: context.appColors.contentSecondary),
-        gapSmall,
-        _buildPrivacyMenuCard(context),
-
-        gapLarge,
         _buildTitle(title: 'NOTIFICATION', textColor: context.appColors.contentSecondary),
         gapSmall,
         _buildNotificationMenuCard(context),
+
+        gapLarge,
+        _buildTitle(title: 'PRIVACY', textColor: context.appColors.contentSecondary),
+        gapSmall,
+        _buildPrivacyMenuCard(context),
         gapLarge,
         _buildTitle(title: 'DANZER ZONE', textColor: context.appColors.contentError),
         gapSmall,
         _buildDanzerZoneMenuCard(context),
+
+        gapLarge,
+        gapLarge,
+        gapLarge,
       ],
     );
   }
@@ -60,7 +64,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
           _buildMenuItem(
             context,
             label: 'Profile',
-            icon: CupertinoIcons.refresh,
+            icon: CupertinoIcons.profile_circled,
             onTap: () {
               AppLog.log('Regenerating alias...');
             },
@@ -80,7 +84,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
             context,
             label: 'Change avatar',
             subTitle: 'Ghost, skull, alien, robot',
-            icon: CupertinoIcons.person,
+            icon: CupertinoIcons.photo,
             onTap: () {
               AppLog.log('Changing avatar...');
             },
@@ -188,29 +192,33 @@ class _SettingMenuListState extends State<SettingMenuList> {
             context,
             label: 'Wipe all my posts',
             subTitle: 'Permanently delete all your posts.',
-            icon: CupertinoIcons.delete,
+            icon: CupertinoIcons.bin_xmark,
             onTap: () {
               AppLog.log('Wiping all posts...');
             },
           ),
-          const AppDivider(),
+          AppDivider(
+            colorOverride: context.appColors.borderPrimary,
+          ),
           _buildMenuItem(
             context,
             label: 'Delete ghost account',
             subTitle: 'Permanently delete ghost account.',
-            icon: CupertinoIcons.delete_simple,
+            icon: CupertinoIcons.trash,
             onTap: () {
-              AppLog.log('Deleting ghost account...');
+              context.goNamed(AppRouteName.loginScreen);
             },
           ),
-          const AppDivider(),
+          AppDivider(
+            colorOverride: context.appColors.borderPrimary,
+          ),
           _buildMenuItem(
             context,
             label: 'Sign out',
             subTitle: 'Sign out of your account.',
             icon: CupertinoIcons.arrow_right_square,
             onTap: () {
-              AppLog.log('Signing out...');
+              context.goNamed(AppRouteName.loginScreen);
             },
           ),
         ],
@@ -232,7 +240,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
     BuildContext context,
   ) {
     return ListTile(
-      leading: Icon(CupertinoIcons.waveform_circle, color: context.appColors.brand),
+      leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
       title: AppText.bodyMedium("Language", color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
       subtitle: AppText.captionSmall('Change app language', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
       trailing: Icon(Icons.chevron_right, color: context.appColors.contentTertiary),

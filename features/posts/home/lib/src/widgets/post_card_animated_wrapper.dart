@@ -43,8 +43,8 @@ class _PostCardAnimatedWrapperState extends State<PostCardAnimatedWrapper> with 
           CurvedAnimation(parent: _controller, curve: Curves.easeOut),
         );
 
-    // Stagger each card by 60ms so the list cascades in gracefully.
-    final staggerDelay = Duration(milliseconds: widget.index * 60);
+    // Stagger each card by 10ms so the list cascades in gracefully.
+    final staggerDelay = Duration(milliseconds: widget.index * 10);
     Future.delayed(staggerDelay, () {
       if (mounted) _controller.forward();
     });

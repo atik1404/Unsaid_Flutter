@@ -59,7 +59,6 @@ class _PasswordFormState extends State<PasswordForm> {
         _buildTitle(context, context.l10n.change_password_label_old),
         SizedBox(height: AppSpacing.s4.h),
         _buildPasswordField(
-          context: context,
           hint: context.l10n.change_password_hint_old,
           isPasswordVisible: _oldPasswordVisible,
           onToggleVisibility: () {
@@ -72,7 +71,6 @@ class _PasswordFormState extends State<PasswordForm> {
         _buildTitle(context, context.l10n.change_password_label_new),
         SizedBox(height: AppSpacing.s4.h),
         _buildPasswordField(
-          context: context,
           hint: context.l10n.change_password_hint_new,
           isPasswordVisible: _newPasswordVisible,
           onToggleVisibility: () {
@@ -85,7 +83,6 @@ class _PasswordFormState extends State<PasswordForm> {
         _buildTitle(context, context.l10n.change_password_label_confirm),
         SizedBox(height: AppSpacing.s4.h),
         _buildPasswordField(
-          context: context,
           isPasswordVisible: _confirmPasswordVisible,
           hint: context.l10n.change_password_hint_confirm,
           onToggleVisibility: () {
@@ -111,10 +108,10 @@ class _PasswordFormState extends State<PasswordForm> {
     );
   }
 
-  Widget _buildPasswordField({required BuildContext context, required String hint, required bool isPasswordVisible, required VoidCallback onToggleVisibility}) {
+  Widget _buildPasswordField({required String hint, required bool isPasswordVisible, required VoidCallback onToggleVisibility}) {
     return AppInputField(
       hint: hint,
-      obscureText: true,
+      obscureText: !isPasswordVisible,
       variant: AppInputFieldVariant.filled,
       textInputAction: TextInputAction.done,
       maxLength: 20,

@@ -8,7 +8,6 @@ import 'package:home/src/widgets/post_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_cubit.dart';
 import 'package:home/src/state/home_state.dart';
-import 'package:home/src/widgets/post_card_animated_wrapper.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 
@@ -122,15 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             final post = state.posts[index];
-            return PostCardAnimatedWrapper(
-              key: ValueKey(post.id), // Ensure each wrapper has a unique key based on the post ID
-              index: index,
-              child: PostCard(
-                post: post,
-                onTap: () {
-                  context.pushNamed(AppRouteName.postDetailsScreen);
-                },
-              ),
+            return PostCard(
+              post: post,
+              onTap: () {
+                context.pushNamed(AppRouteName.postDetailsScreen);
+              },
             );
           },
         );

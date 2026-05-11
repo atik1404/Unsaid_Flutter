@@ -44,12 +44,13 @@ class ProfileSummaryCard extends StatelessWidget {
                 AppText.titleSmall(
                   name,
                   textWeight: AppTextWeight.bold,
+                  color: context.appColors.contentBrand,
                 ),
                 SizedBox(height: AppSpacing.s4.h),
                 AppText.bodySmall(
                   email,
                   color: context.appColors.contentSecondary,
-                  textWeight: AppTextWeight.medium,
+                  textWeight: AppTextWeight.light,
                 ),
               ],
             ),

@@ -13,12 +13,6 @@ class SettingCubit extends Cubit<SettingState> {
   /// In a real app this would call a repository; here we simulate
   /// the fetch with a short delay.
   void loadUserProfile() async {
-    emit(state.copyWith(isLoading: true));
-
-
-    // Simulate a network call
-    await Future.delayed(const Duration(milliseconds: 500));
-
     emit(
       state.copyWith(
         isLoading: false,

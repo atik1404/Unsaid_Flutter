@@ -41,12 +41,8 @@ class _SettingScreenState extends State<SettingScreen> {
       ),
       body: BlocBuilder<SettingCubit, SettingState>(
         builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
           return SingleChildScrollView(
-            padding: EdgeInsets.all(AppSpacing.s16.r),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.s16.w, vertical: AppSpacing.s16.h),
             child: Column(
               children: [
                 // User profile summary at the top
