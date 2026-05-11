@@ -21,6 +21,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
   bool _ghostMode = true;
   bool _pushNotifications = true;
   bool _sound = true;
+  bool _darkMode = true;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +91,20 @@ class _SettingMenuListState extends State<SettingMenuList> {
             icon: CupertinoIcons.lock,
             onTap: () {
               AppLog.log('Changing password...');
+            },
+          ),
+          const AppDivider(),
+          _buildLanguageChangeMenu(context),
+          const AppDivider(),
+          _buildToggleMenuItem(
+            context,
+            label: 'Dark mode',
+            subTitle: 'Follow system theme',
+            icon: CupertinoIcons.moon,
+            value: _darkMode,
+            onChanged: (value) {
+              setState(() => _darkMode = value);
+              AppLog.log('Toggling dark mode: $value');
             },
           ),
         ],
@@ -208,6 +223,18 @@ class _SettingMenuListState extends State<SettingMenuList> {
       subtitle: subTitle != null ? AppText.captionSmall(subTitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light) : null,
       trailing: Icon(Icons.chevron_right, color: context.appColors.contentTertiary),
       onTap: onTap,
+    );
+  }
+
+  Widget _buildLanguageChangeMenu(
+    BuildContext context,
+  ) {
+    return ListTile(
+      leading: Icon(CupertinoIcons.waveform_circle, color: context.appColors.brand),
+      title: AppText.bodyMedium("Language", color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
+      subtitle: AppText.captionSmall('Change app language', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+      trailing: Icon(Icons.chevron_right, color: context.appColors.contentTertiary),
+      onTap: () {},
     );
   }
 
