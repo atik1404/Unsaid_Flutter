@@ -88,7 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.pushNamed(AppRouteName.createPostScreen);
+        },
         shape: const CircleBorder(),
         backgroundColor: context.appColors.contentBrand,
         child: Icon(CupertinoIcons.add, color: context.appColors.white),

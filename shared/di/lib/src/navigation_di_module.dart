@@ -11,6 +11,8 @@ import 'package:splash/splash.dart';
 import 'package:home/home.dart';
 import 'package:post_details/post_details.dart';
 import 'package:setting/setting.dart';
+import 'package:create_post/create_post.dart';
+import 'package:profile/profile.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
   final routers = [
@@ -23,6 +25,8 @@ Future<void> registerNavigationModule(GetIt locator) async {
         ...PostDetailsScreenRouter().routes(),
         ...SettingScreenRouter().routes(),
         ...ChangePasswordScreenRouter().routes(),
+        ...CreatePostScreenRouter().routes(),
+        ...ProfileScreenRouter().routes(),
       ],
     ),
   ];

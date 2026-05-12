@@ -66,7 +66,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
             label: 'Profile',
             icon: CupertinoIcons.profile_circled,
             onTap: () {
-              AppLog.log('Regenerating alias...');
+              context.pushNamed(AppRouteName.profileScreen);
             },
           ),
           const AppDivider(),

@@ -10,12 +10,16 @@ final class AppRouteName {
   static const String homeScreen = 'homeScreen';
   static const String homePath = '/home';
 
+  static const String createPostScreen = 'createPostScreen';
+  static const String createPostPath = '/create-post';
+
   static const String settingScreen = 'settingScreen';
   static const String settingPath = '/setting';
   static const String profileScreen = 'profileScreen';
   static const String profilePath = '/profile';
   static const String changePasswordScreen = 'changePasswordScreen';
   static const String changePasswordPath = '/change-password';
+
   static const String postDetailsScreen = 'postDetailsScreen';
   static const String postDetailsPath = '/post-details';
 }
