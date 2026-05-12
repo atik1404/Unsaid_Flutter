@@ -15,7 +15,7 @@ class LanguagePillToggle extends StatelessWidget {
       height: AppSpacing.s32.h,
       decoration: BoxDecoration(
         color: colors.surfaceSecondary,
-        borderRadius: BorderRadius.circular(AppRadius.rFull.r),
+        borderRadius: BorderRadius.circular(AppRadius.r8.r),
         border: Border.all(color: colors.borderPrimary),
       ),
       child: Row(
@@ -46,7 +46,7 @@ class LanguagePillToggle extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s8.h),
         decoration: BoxDecoration(
           color: selected ? colors.brand : colors.surfaceSecondary,
-          borderRadius: BorderRadius.circular(AppRadius.rFull.r),
+          borderRadius: BorderRadius.circular(AppRadius.r8.r),
         ),
         child: AppText.captionSmall(
           label,

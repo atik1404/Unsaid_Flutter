@@ -6,9 +6,16 @@ class CreatePostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
+    return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: AppText.displaySmall('Create Post'),
+        titleWidget: AppText.displaySmall(
+          'New Post',
+          textWeight: AppTextWeight.extraBold,
+          color: context.appColors.contentBrand,
+        ),
+        backgroundColor: context.scaffoldTheme.backgroundColor,
+        foregroundColor: context.appColors.brand,
+        elevation: 0,
       ),
       body: Center(
         child: AppText.bodyMedium('This is the Create Post Screen'),

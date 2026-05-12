@@ -27,6 +27,7 @@ dependencies:
   code_analyzer: ^0.0.1
   designsystem: ^0.0.1
   localization: ^0.0.1
+  common: ^0.0.1
 
   flutter_svg: ^2.2.4
   flutter_screenutil: ^5.9.3

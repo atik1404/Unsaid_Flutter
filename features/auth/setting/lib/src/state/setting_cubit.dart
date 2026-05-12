@@ -12,7 +12,7 @@ class SettingCubit extends Cubit<SettingState> {
   ///
   /// In a real app this would call a repository; here we simulate
   /// the fetch with a short delay.
-  void loadUserProfile() async {
+  void loadUserProfile() {
     emit(
       state.copyWith(
         isLoading: false,
