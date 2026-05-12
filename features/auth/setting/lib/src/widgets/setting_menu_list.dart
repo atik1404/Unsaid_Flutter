@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
+import 'package:setting/src/widgets/language_pill_toggle.dart';
 
 /// A vertical list of menu items on the Settings screen.
 ///
@@ -24,6 +25,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
   bool _pushNotifications = true;
   bool _sound = true;
   bool _darkMode = true;
+  bool _isEnglish = true;
 
   @override
   Widget build(BuildContext context) {
@@ -241,10 +243,12 @@ class _SettingMenuListState extends State<SettingMenuList> {
   ) {
     return ListTile(
       leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
-      title: AppText.bodyMedium("Language", color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
+      title: AppText.bodyMedium('Language', color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
       subtitle: AppText.captionSmall('Change app language', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
-      trailing: Icon(Icons.chevron_right, color: context.appColors.contentTertiary),
-      onTap: () {},
+      trailing: LanguagePillToggle(
+        isEnglish: _isEnglish,
+        onToggle: (isEnglish) => setState(() => _isEnglish = isEnglish),
+      ),
     );
   }
 
