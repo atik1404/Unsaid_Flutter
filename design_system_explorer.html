@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design System Explorer — VOID App</title>
+    <style>
+        /* ── Reset & base ─────────────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --brand-900: #0B0B14;
+            --brand-800: #111120;
+            --brand-700: #1A1A2E;
+            --brand-600: #5B21B6;
+            --brand-500: #6D3FD4;
+            --brand-400: #8A50E0;
+            --brand-300: #9D71F0;
+            --brand-200: #C4A8F0;
+            --brand-100: #E8E2FF;
+            --brand-50: #F5F0FF;
+            --neutral-900: #3D3060;
+            --neutral-500: #8878AA;
+            --neutral-300: #C0B8D8;
+            --neutral-100: #EDE8FF;
+            --neutral-50: #F5F3FF;
+            --pink-500: #EC4899;
+            --red-500: #E25448;
+            --green-500: #17B26A;
+            --orange-500: #F97316;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --transition: 0.2s ease;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--neutral-50);
+            color: var(--neutral-900);
+            min-height: 100vh;
+        }
+
+        /* ── Layout ───────────────────────────────────────────────────────────── */
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar nav ──────────────────────────────────────────────────────── */
+        .sidebar {
+            width: 220px;
+            min-height: 100vh;
+            background: var(--brand-800);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            padding: 24px 20px 16px;
+            border-bottom: 1px solid var(--brand-700);
+        }
+
+        .sidebar-logo h2 {
+            color: var(--white);
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar-logo span {
+            color: var(--brand-300);
+            font-size: 11px;
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .nav-section {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-section-label {
+            padding: 8px 20px 4px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            color: var(--brand-300);
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            cursor: pointer;
+            color: var(--neutral-300);
+            font-size: 13px;
+            font-weight: 400;
+            border-left: 3px solid transparent;
+            transition: all var(--transition);
+            user-select: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+        }
+
+        .nav-item.active {
+            background: rgba(109, 63, 212, 0.25);
+            color: var(--white);
+            border-left-color: var(--brand-400);
+            font-weight: 500;
+        }
+
+        .nav-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ── Main content ─────────────────────────────────────────────────────── */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px 40px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--neutral-900);
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            margin-top: 6px;
+            color: var(--neutral-500);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .breadcrumb {
+            font-size: 11px;
+            color: var(--neutral-500);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb span {
+            color: var(--brand-500);
+            font-weight: 500;
+        }
+
+        /* ── Section heading ──────────────────────────────────────────────────── */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: var(--neutral-500);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--neutral-100);
+        }
+
+        /* ── Cards ────────────────────────────────────────────────────────────── */
+        .card-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .card-grid.cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .card-grid.cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .card-grid.cols-5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .card-grid.auto {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--neutral-100);
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .card.sm {
+            padding: 14px 16px;
+        }
+
+        /* ── Color palette ────────────────────────────────────────────────────── */
+        .color-scale {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            flex: 1;
+            min-width: 60px;
+            height: 56px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 6px;
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition), box-shadow var(--transition);
+            cursor: default;
+        }
+
+        .color-swatch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-swatch .sw-label {
+            font-size: 9px;
+            font-weight: 600;
+            line-height: 1;
+            border-radius: 3px;
+            padding: 2px 4px;
+            display: inline-block;
+        }
+
+        .semantic-colors {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .sem-color-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+            border: 1px solid var(--neutral-100);
+            border-radius: 8px;
+            padding: 10px 14px;
+        }
+
+        .sem-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .sem-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--neutral-900);
+        }
+
+        .sem-val {
+            font-size: 10px;
+            color: var(--neutral-500);
+            font-family: 'Courier New', monospace;
+            margin-top: 1px;
+        }
+
+        /* ── Typography scale ─────────────────────────────────────────────────── */
+        .type-scale {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .type-row {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            padding: 14px 20px;
+            border-radius: 8px;
+            background: var(--white);
+            border: 1px solid var(--neutral-100);
+            transition: background var(--transition);
+        }
+
+        .type-row:hover {
+            background: var(--brand-50);
+        }
+
+        .type-meta {
+            min-width: 160px;
+            flex-shrink: 0;
+        }
+
+        .type-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--brand-500);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .type-spec {
+            font-size: 10px;
+            color: var(--neutral-500);
+            margin-top: 2px;
+        }
+
+        .type-preview {
+            flex: 1;
+            color: var(--neutral-900);
+        }
+
+        /* ── Spacing ──────────────────────────────────────────────────────────── */
+        .spacing-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--neutral-100);
+        }
+
+        .spacing-name {
+            min-width: 60px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--brand-500);
+        }
+
+        .spacing-px {
+            min-width: 36px;
+            font-size: 11px;
+            color: var(--neutral-500);
+        }
+
+        .spacing-bar {
+            height: 8px;
+            background: var(--brand-400);
+            border-radius: 4px;
+        }
+
+        /* ── Radius ───────────────────────────────────────────────────────────── */
+        .radius-grid {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .radius-card {
+            background: var(--white);
+            border: 1px solid var(--neutral-100);
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .radius-box {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--brand-400), var(--brand-300));
+        }
+
+        .radius-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .radius-val {
+            font-size: 10px;
+            color: var(--neutral-500);
+        }
+
+        /* ── Shadows ──────────────────────────────────────────────────────────── */
+        .shadow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .shadow-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shadow-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            background: var(--white);
+        }
+
+        .shadow-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .shadow-desc {
+            font-size: 10px;
+            color: var(--neutral-500);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* ── Icon sizes ───────────────────────────────────────────────────────── */
+        .icon-size-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: var(--white);
+            border: 1px solid var(--neutral-100);
+            margin-bottom: 6px;
+        }
+
+        .icon-preview {
+            background: var(--brand-50);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .icon-preview svg {
+            fill: var(--brand-500);
+        }
+
+        .icon-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .icon-px {
+            font-size: 11px;
+            color: var(--neutral-500);
+        }
+
+        .icon-use {
+            font-size: 10px;
+            color: var(--neutral-500);
+            margin-top: 2px;
+        }
+
+        /* ── Border width ─────────────────────────────────────────────────────── */
+        .bw-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .bw-name {
+            min-width: 70px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--brand-500);
+        }
+
+        .bw-val {
+            min-width: 30px;
+            font-size: 11px;
+            color: var(--neutral-500);
+        }
+
+        .bw-line {
+            height: 1px;
+            flex: 1;
+            background: var(--neutral-900);
+        }
+
+        /* ── Component chips ──────────────────────────────────────────────────── */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .component-card {
+            background: var(--white);
+            border: 1px solid var(--neutral-100);
+            border-radius: var(--radius);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .component-card:hover {
+            border-color: var(--brand-300);
+            box-shadow: 0 4px 12px rgba(109, 63, 212, 0.1);
+        }
+
+        .comp-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--brand-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .comp-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .comp-files {
+            font-size: 10px;
+            color: var(--neutral-500);
+            line-height: 1.5;
+        }
+
+        .comp-tag {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 999px;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            background: var(--brand-50);
+            color: var(--brand-500);
+            width: fit-content;
+        }
+
+        /* ── Architecture diagram ─────────────────────────────────────────────── */
+        .arch-diagram {
+            background: var(--white);
+            border: 1px solid var(--neutral-100);
+            border-radius: 16px;
+            padding: 32px;
+            overflow-x: auto;
+        }
+
+        .arch-layer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .arch-node {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1.5px solid;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+
+        .arch-arrow {
+            text-align: center;
+            font-size: 18px;
+            color: var(--neutral-300);
+            line-height: 1;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .arch-arrow-label {
+            font-size: 10px;
+            color: var(--neutral-500);
+        }
+
+        .layer-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: var(--neutral-500);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        /* ── Theme mode toggle preview ────────────────────────────────────────── */
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            padding: 6px 16px;
+            border-radius: 999px;
+            border: 1.5px solid var(--neutral-100);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            background: var(--white);
+            color: var(--neutral-500);
+        }
+
+        .mode-btn.active {
+            background: var(--brand-500);
+            border-color: var(--brand-500);
+            color: var(--white);
+        }
+
+        /* ── Pill badge ───────────────────────────────────────────────────────── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .badge-token {
+            background: #E8E2FF;
+            color: var(--brand-500);
+        }
+
+        .badge-theme {
+            background: #DCFAE6;
+            color: #085D3A;
+        }
+
+        .badge-comp {
+            background: #FFF0F0;
+            color: #C43C32;
+        }
+
+        /* ── Elevation ────────────────────────────────────────────────────────── */
+        .elevation-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .elevation-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .elevation-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 10px;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brand-500);
+        }
+
+        .elevation-name {
+            font-size: 10px;
+            color: var(--neutral-500);
+            font-weight: 600;
+        }
+
+        /* ── Responsive ───────────────────────────────────────────────────────── */
+        @media (max-width: 900px) {
+            .card-grid.cols-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card-grid.cols-5 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .main {
+                padding: 20px 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .card-grid.cols-2,
+            .card-grid.cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <!-- ════════════════════════════ SIDEBAR ════════════════════════════ -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">
+                <h2>Design System</h2>
+                <span>VOID App · Flutter</span>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-label">Overview</div>
+                <div class="nav-item active" onclick="showPage('architecture',this)">
+                    <div class="nav-dot" style="background:#9D71F0"></div> Architecture
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-label">Tokens</div>
+                <div class="nav-item" onclick="showPage('colors',this)">
+                    <div class="nav-dot" style="background:#6D3FD4"></div> Colors
+                </div>
+                <div class="nav-item" onclick="showPage('typography',this)">
+                    <div class="nav-dot" style="background:#8A50E0"></div> Typography
+                </div>
+                <div class="nav-item" onclick="showPage('spacing',this)">
+                    <div class="nav-dot" style="background:#EC4899"></div> Spacing
+                </div>
+                <div class="nav-item" onclick="showPage('radius',this)">
+                    <div class="nav-dot" style="background:#F97316"></div> Radius
+                </div>
+                <div class="nav-item" onclick="showPage('shadows',this)">
+                    <div class="nav-dot" style="background:#8878AA"></div> Shadows & Elevation
+                </div>
+                <div class="nav-item" onclick="showPage('borders',this)">
+                    <div class="nav-dot" style="background:#17B26A"></div> Border Width
+                </div>
+                <div class="nav-item" onclick="showPage('icons',this)">
+                    <div class="nav-dot" style="background:#E25448"></div> Icon Sizes
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-label">Theme</div>
+                <div class="nav-item" onclick="showPage('colorscheme',this)">
+                    <div class="nav-dot" style="background:#6D3FD4"></div> Color Scheme
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-label">Components</div>
+                <div class="nav-item" onclick="showPage('components',this)">
+                    <div class="nav-dot" style="background:#C4A8F0"></div> All Components
+                </div>
+            </div>
+        </nav>
+
+        <!-- ════════════════════════════ MAIN ════════════════════════════ -->
+        <main class="main">
+
+            <!-- ── ARCHITECTURE ──────────────────────────────────────────────── -->
+            <div id="page-architecture" class="page active">
+                <div class="page-header">
+                    <div class="breadcrumb">Design System <span>/ Overview</span></div>
+                    <h1>System Architecture</h1>
+                    <p>How tokens, theme, and components relate to each other in the <code>shared/designsystem</code>
+                        package.</p>
+                </div>
+
+                <div class="arch-diagram">
+                    <!-- Layer: App -->
+                    <div class="layer-label">APP LAYER</div>
+                    <div class="arch-layer">
+                        <div class="arch-node" style="background:#F5F0FF;border-color:#6D3FD4;color:#6D3FD4">
+                            apps/lib/theme_config.dart<br><span style="font-size:10px;font-weight:400">ThemeData +
+                                fontFamily</span>
+                        </div>
+                        <div class="arch-node" style="background:#F5F0FF;border-color:#6D3FD4;color:#6D3FD4">
+                            AppEntry (MaterialApp)<br><span style="font-size:10px;font-weight:400">locale,
+                                extensions</span>
+                        </div>
+                    </div>
+
+                    <div class="arch-arrow">↓ <span class="arch-arrow-label">consumes
+                            ThemeExtension&lt;AppTheme&gt;</span></div>
+
+                    <!-- Layer: Theme -->
+                    <div class="layer-label">THEME LAYER</div>
+                    <div class="arch-layer">
+                        <div class="arch-node" style="background:#DCFAE6;border-color:#17B26A;color:#085D3A">
+                            AppTheme<br><span style="font-size:10px;font-weight:400">ThemeExtension root</span>
+                        </div>
+                        <div class="arch-node" style="background:#DCFAE6;border-color:#17B26A;color:#085D3A">
+                            AppColorScheme<br><span style="font-size:10px;font-weight:400">surfaces · content ·
+                                borders</span>
+                        </div>
+                        <div class="arch-node" style="background:#DCFAE6;border-color:#17B26A;color:#085D3A">
+                            ModeColorScheme<br><span style="font-size:10px;font-weight:400">light / dark values</span>
+                        </div>
+                    </div>
+                    <div class="arch-layer" style="margin-top:8px">
+                        <div class="arch-node" style="background:#DCFAE6;border-color:#17B26A;color:#085D3A">
+                            AppTypographyTheme<br><span style="font-size:10px;font-weight:400">18 text styles</span>
+                        </div>
+                        <div class="arch-node" style="background:#DCFAE6;border-color:#17B26A;color:#085D3A">
+                            AppButtonTheme<br><span style="font-size:10px;font-weight:400">primary · secondary</span>
+                        </div>
+                        <div class="arch-node" style="background:#DCFAE6;border-color:#17B26A;color:#085D3A">
+                            AppInputFieldTheme<br><span style="font-size:10px;font-weight:400">colors · sizes</span>
+                        </div>
+                        <div class="arch-node" style="background:#DCFAE6;border-color:#17B26A;color:#085D3A">
+                            AppCardTheme<br><span style="font-size:10px;font-weight:400">tones · radiuses</span>
+                        </div>
+                    </div>
+
+                    <div class="arch-arrow" style="margin-top:10px">↓ <span class="arch-arrow-label">built from
+                            primitive design tokens</span></div>
+
+                    <!-- Layer: Tokens -->
+                    <div class="layer-label">TOKEN LAYER</div>
+                    <div class="arch-layer">
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppColors<br><span style="font-size:10px;font-weight:400">neutral · brand · semantic
+                                palettes</span>
+                        </div>
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppFontFamily<br><span style="font-size:10px;font-weight:400">Inter · JetBrainsMono</span>
+                        </div>
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppFontSize<br><span style="font-size:10px;font-weight:400">s8 → s48 (14 steps)</span>
+                        </div>
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppSpacing<br><span style="font-size:10px;font-weight:400">0 → 48 (10 steps)</span>
+                        </div>
+                    </div>
+                    <div class="arch-layer" style="margin-top:8px">
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppRadius<br><span style="font-size:10px;font-weight:400">r2 → rFull</span>
+                        </div>
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppShadows<br><span style="font-size:10px;font-weight:400">none → overlay</span>
+                        </div>
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppElevation<br><span style="font-size:10px;font-weight:400">flat → overlay</span>
+                        </div>
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            AppBorderWidth<br><span style="font-size:10px;font-weight:400">none → heavy</span>
+                        </div>
+                        <div class="arch-node" style="background:#FFF8F0;border-color:#F97316;color:#D95D08">
+                            IconSizes<br><span style="font-size:10px;font-weight:400">12 → 96 (8 steps)</span>
+                        </div>
+                    </div>
+
+                    <div class="arch-arrow" style="margin-top:10px">↓ <span class="arch-arrow-label">consumed by UI
+                            components</span></div>
+
+                    <!-- Layer: Components -->
+                    <div class="layer-label">COMPONENT LAYER</div>
+                    <div class="arch-layer">
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppButton
+                        </div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppCard
+                        </div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppText
+                        </div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">
+                            AppInputField</div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppSwitch
+                        </div>
+                    </div>
+                    <div class="arch-layer" style="margin-top:8px">
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppTopBar
+                        </div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppDivider
+                        </div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppTag
+                        </div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppImage
+                        </div>
+                        <div class="arch-node" style="background:#FFF0F0;border-color:#E25448;color:#C43C32">AppScaffold
+                        </div>
+                    </div>
+
+                    <div class="arch-arrow" style="margin-top:10px">↑ <span class="arch-arrow-label">context.typography
+                            · context.appColors · context.theme</span></div>
+                    <div class="layer-label">EXTENSION ACCESS (AppThemeExtension on BuildContext)</div>
+                </div>
+
+                <!-- Quick-stat cards -->
+                <div class="card-grid cols-4" style="margin-top:28px">
+                    <div class="card sm" style="border-left:3px solid var(--brand-500)">
+                        <div style="font-size:28px;font-weight:800;color:var(--brand-500)">9</div>
+                        <div style="font-size:12px;color:var(--neutral-500);margin-top:4px">Token files</div>
+                    </div>
+                    <div class="card sm" style="border-left:3px solid var(--green-500)">
+                        <div style="font-size:28px;font-weight:800;color:var(--green-500)">4</div>
+                        <div style="font-size:12px;color:var(--neutral-500);margin-top:4px">Theme files</div>
+                    </div>
+                    <div class="card sm" style="border-left:3px solid var(--red-500)">
+                        <div style="font-size:28px;font-weight:800;color:var(--red-500)">13</div>
+                        <div style="font-size:12px;color:var(--neutral-500);margin-top:4px">Components</div>
+                    </div>
+                    <div class="card sm" style="border-left:3px solid var(--pink-500)">
+                        <div style="font-size:28px;font-weight:800;color:var(--pink-500)">18</div>
+                        <div style="font-size:12px;color:var(--neutral-500);margin-top:4px">Text styles</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── COLORS ──────────────────────────────────────────────────────── -->
+            <div id="page-colors" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Tokens <span>/ Colors</span></div>
+                    <h1>Color Palette</h1>
+                    <p>All raw color constants defined in <code>AppColors</code>. Each scale runs 50–900.</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Neutral — Purple-tinted gray scale</div>
+                    <div class="color-scale">
+                        <div class="color-swatch" style="background:#F5F3FF"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#3D3060">50</span></div>
+                        <div class="color-swatch" style="background:#EDE8FF"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#3D3060">100</span></div>
+                        <div class="color-swatch" style="background:#E8E4F0"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#3D3060">200</span></div>
+                        <div class="color-swatch" style="background:#C0B8D8"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#3D3060">300</span></div>
+                        <div class="color-swatch" style="background:#B0A8CC"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#3D3060">400</span></div>
+                        <div class="color-swatch" style="background:#8878AA"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.1);color:#fff">500</span></div>
+                        <div class="color-swatch" style="background:#7070A0"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.1);color:#fff">600</span></div>
+                        <div class="color-swatch" style="background:#46466A"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.2);color:#fff">700</span></div>
+                        <div class="color-swatch" style="background:#25253A"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.2);color:#fff">800</span></div>
+                        <div class="color-swatch" style="background:#3D3060"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.2);color:#fff">900</span></div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Brand — VOID Purple</div>
+                    <div class="color-scale">
+                        <div class="color-swatch" style="background:#F5F0FF"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#6D3FD4">50</span></div>
+                        <div class="color-swatch" style="background:#E8E2FF"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#6D3FD4">100</span></div>
+                        <div class="color-swatch" style="background:#C4A8F0"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#6D3FD4">200</span></div>
+                        <div class="color-swatch" style="background:#9D71F0"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.3);color:#fff">300</span></div>
+                        <div class="color-swatch" style="background:#8A50E0"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.3);color:#fff">400</span></div>
+                        <div class="color-swatch" style="background:#6D3FD4"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.25);color:#fff">500 ★</span></div>
+                        <div class="color-swatch" style="background:#5B21B6"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.2);color:#fff">600</span></div>
+                        <div class="color-swatch" style="background:#1A1A2E"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.15);color:#fff">700</span></div>
+                        <div class="color-swatch" style="background:#111120"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.15);color:#fff">800</span></div>
+                        <div class="color-swatch" style="background:#0B0B14"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.15);color:#fff">900</span></div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Secondary — Love Pink</div>
+                    <div class="color-scale">
+                        <div class="color-swatch" style="background:#FFF0F8"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#D43585">50</span></div>
+                        <div class="color-swatch" style="background:#FFD6EE"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#D43585">100</span></div>
+                        <div class="color-swatch" style="background:#F0A8CC"><span class="sw-label"
+                                style="background:rgba(0,0,0,0.08);color:#D43585">200</span></div>
+                        <div class="color-swatch" style="background:#F06CB8"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.3);color:#fff">300</span></div>
+                        <div class="color-swatch" style="background:#F050A5"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.3);color:#fff">400</span></div>
+                        <div class="color-swatch" style="background:#EC4899"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.25);color:#fff">500 ★</span></div>
+                        <div class="color-swatch" style="background:#D43585"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.2);color:#fff">600</span></div>
+                        <div class="color-swatch" style="background:#B82270"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.2);color:#fff">700</span></div>
+                        <div class="color-swatch" style="background:#8A1455"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.2);color:#fff">800</span></div>
+                        <div class="color-swatch" style="background:#5C0A38"><span class="sw-label"
+                                style="background:rgba(255,255,255,0.2);color:#fff">900</span></div>
+                    </div>
+                </div>
+
+                <div class="card-grid cols-2" style="gap:24px">
+                    <div class="section" style="margin-bottom:0">
+                        <div class="section-title">Error — Rage Red</div>
+                        <div class="color-scale">
+                            <div class="color-swatch" style="background:#FFF0F0;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#C43C32">50</span></div>
+                            <div class="color-swatch" style="background:#FFD9D6;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#C43C32">100</span></div>
+                            <div class="color-swatch" style="background:#FFADA8;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#C43C32">200</span></div>
+                            <div class="color-swatch" style="background:#FF8880;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.3);color:#fff">300</span></div>
+                            <div class="color-swatch" style="background:#EE6A5E;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.3);color:#fff">400</span></div>
+                            <div class="color-swatch" style="background:#E25448;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.2);color:#fff">500 ★</span></div>
+                            <div class="color-swatch" style="background:#C43C32;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.2);color:#fff">600</span></div>
+                        </div>
+                    </div>
+                    <div class="section" style="margin-bottom:0">
+                        <div class="section-title">Success — Green</div>
+                        <div class="color-scale">
+                            <div class="color-swatch" style="background:#ECFDF3;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#085D3A">50</span></div>
+                            <div class="color-swatch" style="background:#DCFAE6;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#085D3A">100</span></div>
+                            <div class="color-swatch" style="background:#ABEFC6;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#085D3A">200</span></div>
+                            <div class="color-swatch" style="background:#75E0A7;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#085D3A">300</span></div>
+                            <div class="color-swatch" style="background:#47CD89;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#085D3A">400</span></div>
+                            <div class="color-swatch" style="background:#17B26A;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.2);color:#fff">500 ★</span></div>
+                            <div class="color-swatch" style="background:#079455;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.2);color:#fff">700</span></div>
+                        </div>
+                    </div>
+                    <div class="section" style="margin-bottom:0">
+                        <div class="section-title">Warning — Rant Orange</div>
+                        <div class="color-scale">
+                            <div class="color-swatch" style="background:#FFF8F0;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#D95D08">50</span></div>
+                            <div class="color-swatch" style="background:#FEEBD8;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#D95D08">100</span></div>
+                            <div class="color-swatch" style="background:#FED7B0;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#D95D08">200</span></div>
+                            <div class="color-swatch" style="background:#FDC088;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#D95D08">300</span></div>
+                            <div class="color-swatch" style="background:#FCA85A;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.1);color:#D95D08">400</span></div>
+                            <div class="color-swatch" style="background:#F97316;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.25);color:#fff">500 ★</span></div>
+                            <div class="color-swatch" style="background:#D95D08;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.2);color:#fff">600</span></div>
+                        </div>
+                    </div>
+                    <div class="section" style="margin-bottom:0">
+                        <div class="section-title">Blue</div>
+                        <div class="color-scale">
+                            <div class="color-swatch" style="background:#E6EFFF;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#0558E8">50</span></div>
+                            <div class="color-swatch" style="background:#B2CEFF;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#0558E8">100</span></div>
+                            <div class="color-swatch" style="background:#8CB6FF;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(0,0,0,0.08);color:#0558E8">200</span></div>
+                            <div class="color-swatch" style="background:#5895FF;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.3);color:#fff">300</span></div>
+                            <div class="color-swatch" style="background:#3781FF;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.3);color:#fff">400</span></div>
+                            <div class="color-swatch" style="background:#0561FF;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.2);color:#fff">500 ★</span></div>
+                            <div class="color-swatch" style="background:#0445B5;min-width:30px"><span class="sw-label"
+                                    style="background:rgba(255,255,255,0.2);color:#fff">700</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── TYPOGRAPHY ──────────────────────────────────────────────────── -->
+            <div id="page-typography" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Tokens <span>/ Typography</span></div>
+                    <h1>Typography Scale</h1>
+                    <p>18 named styles across 6 semantic categories. Primary font: <strong>Inter</strong>. Display font:
+                        <strong>Inter</strong>. Mono: <strong>JetBrainsMono</strong>.</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Display — Hero moments, splash screens</div>
+                    <div class="type-scale">
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">displayLarge</div>
+                                <div class="type-spec">Inter · 48px · Bold · -0.5ls · 1.15lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:48px;font-weight:700;letter-spacing:-0.5px;line-height:1.15">Aa</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">displayMedium</div>
+                                <div class="type-spec">Inter · 40px · Bold · -0.5ls · 1.15lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:40px;font-weight:700;letter-spacing:-0.5px;line-height:1.15">Aa</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">displaySmall</div>
+                                <div class="type-spec">Inter · 32px · SemiBold · -0.25ls · 1.15lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:32px;font-weight:600;letter-spacing:-0.25px;line-height:1.15">Aa</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Headline — Screen titles, section headers</div>
+                    <div class="type-scale">
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">headlineLarge</div>
+                                <div class="type-spec">Inter · 28px · SemiBold · -0.25ls · 1.25lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:28px;font-weight:600;letter-spacing:-0.25px;line-height:1.25">Headline
+                                Large</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">headlineMedium</div>
+                                <div class="type-spec">Inter · 24px · SemiBold · 0ls · 1.25lh</div>
+                            </div>
+                            <div class="type-preview" style="font-size:24px;font-weight:600;line-height:1.25">Headline
+                                Medium</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">headlineSmall</div>
+                                <div class="type-spec">Inter · 20px · SemiBold · 0ls · 1.25lh</div>
+                            </div>
+                            <div class="type-preview" style="font-size:20px;font-weight:600;line-height:1.25">Headline
+                                Small</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Title — Card titles, dialog titles, app bars</div>
+                    <div class="type-scale">
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">titleLarge</div>
+                                <div class="type-spec">Inter · 18px · SemiBold · 0ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview" style="font-size:18px;font-weight:600;line-height:1.4">Title Large
+                            </div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">titleMedium</div>
+                                <div class="type-spec">Inter · 16px · Medium · 0ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview" style="font-size:16px;font-weight:500;line-height:1.4">Title
+                                Medium</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">titleSmall</div>
+                                <div class="type-spec">Inter · 14px · Medium · +0.15ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:14px;font-weight:500;letter-spacing:0.15px;line-height:1.4">Title Small
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Body — Paragraphs, descriptions, list items</div>
+                    <div class="type-scale">
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">bodyLarge</div>
+                                <div class="type-spec">Inter · 16px · Regular · 0ls · 1.5lh</div>
+                            </div>
+                            <div class="type-preview" style="font-size:16px;font-weight:400;line-height:1.5">Body text
+                                for reading longer content.</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">bodyMedium</div>
+                                <div class="type-spec">Inter · 14px · Regular · 0ls · 1.5lh</div>
+                            </div>
+                            <div class="type-preview" style="font-size:14px;font-weight:400;line-height:1.5">Standard
+                                body text used in most UI content.</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">bodySmall</div>
+                                <div class="type-spec">Inter · 12px · Regular · +0.4ls · 1.5lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:12px;font-weight:400;letter-spacing:0.4px;line-height:1.5">Compact body
+                                text, subtitles in list tiles.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Label — Buttons, chips, tabs, form labels</div>
+                    <div class="type-scale">
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">labelLarge</div>
+                                <div class="type-spec">Inter · 14px · SemiBold · +0.15ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:14px;font-weight:600;letter-spacing:0.15px;line-height:1.4">BUTTON
+                                LABEL</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">labelMedium</div>
+                                <div class="type-spec">Inter · 12px · SemiBold · +0.4ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:12px;font-weight:600;letter-spacing:0.4px;line-height:1.4">Tab / Chip
+                                Label</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">labelSmall</div>
+                                <div class="type-spec">Inter · 11px · Medium · +0.4ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:11px;font-weight:500;letter-spacing:0.4px;line-height:1.4">Small label
+                                text</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Caption — Timestamps, helper text, metadata</div>
+                    <div class="type-scale">
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">captionLarge</div>
+                                <div class="type-spec">Inter · 11px · Regular · +0.4ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:11px;font-weight:400;letter-spacing:0.4px;line-height:1.4;color:#8878AA">
+                                CATEGORY TAG / CAPTION</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">captionMedium</div>
+                                <div class="type-spec">Inter · 10px · Regular · +0.4ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:10px;font-weight:400;letter-spacing:0.4px;line-height:1.4;color:#8878AA">
+                                Timestamp · Helper text · Metadata</div>
+                        </div>
+                        <div class="type-row">
+                            <div class="type-meta">
+                                <div class="type-name">captionSmall</div>
+                                <div class="type-spec">Inter · 9px · Regular · +0.4ls · 1.4lh</div>
+                            </div>
+                            <div class="type-preview"
+                                style="font-size:9px;font-weight:400;letter-spacing:0.4px;line-height:1.4;color:#8878AA">
+                                Micro caption · Legal / status bar text</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SPACING ─────────────────────────────────────────────────────── -->
+            <div id="page-spacing" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Tokens <span>/ Spacing</span></div>
+                    <h1>Spacing Scale</h1>
+                    <p>All values from <code>AppSpacing</code>. Used with <code>flutter_screenutil</code>
+                        (<code>.w</code> / <code>.h</code>) for adaptive sizing.</p>
+                </div>
+                <div class="card" style="max-width:600px">
+                    <div class="spacing-row">
+                        <div class="spacing-name">zero</div>
+                        <div class="spacing-px">0px</div>
+                        <div class="spacing-bar" style="width:0px;min-width:2px;opacity:0.3"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s1</div>
+                        <div class="spacing-px">1px</div>
+                        <div class="spacing-bar" style="width:4px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s2</div>
+                        <div class="spacing-px">2px</div>
+                        <div class="spacing-bar" style="width:8px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s4</div>
+                        <div class="spacing-px">4px</div>
+                        <div class="spacing-bar" style="width:16px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s8</div>
+                        <div class="spacing-px">8px</div>
+                        <div class="spacing-bar" style="width:32px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s12</div>
+                        <div class="spacing-px">12px</div>
+                        <div class="spacing-bar" style="width:48px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s16</div>
+                        <div class="spacing-px">16px</div>
+                        <div class="spacing-bar" style="width:64px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s24</div>
+                        <div class="spacing-px">24px</div>
+                        <div class="spacing-bar" style="width:96px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s32</div>
+                        <div class="spacing-px">32px</div>
+                        <div class="spacing-bar" style="width:128px"></div>
+                    </div>
+                    <div class="spacing-row">
+                        <div class="spacing-name">s48</div>
+                        <div class="spacing-px">48px</div>
+                        <div class="spacing-bar" style="width:192px"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── RADIUS ──────────────────────────────────────────────────────── -->
+            <div id="page-radius" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Tokens <span>/ Radius</span></div>
+                    <h1>Border Radius</h1>
+                    <p>Defined in <code>AppRadius</code>. <code>rFull</code> = 999 (pill shape).</p>
+                </div>
+                <div class="radius-grid">
+                    <div class="radius-card" style="border-radius:4px;border:1px solid var(--neutral-100)">
+                        <div class="radius-box" style="border-radius:4px"></div>
+                        <div class="radius-label">r2 / r4</div>
+                        <div class="radius-val">4px</div>
+                    </div>
+                    <div class="radius-card" style="border-radius:8px;border:1px solid var(--neutral-100)">
+                        <div class="radius-box" style="border-radius:8px"></div>
+                        <div class="radius-label">r8</div>
+                        <div class="radius-val">8px</div>
+                    </div>
+                    <div class="radius-card" style="border-radius:12px;border:1px solid var(--neutral-100)">
+                        <div class="radius-box" style="border-radius:12px"></div>
+                        <div class="radius-label">r12</div>
+                        <div class="radius-val">12px</div>
+                    </div>
+                    <div class="radius-card" style="border-radius:16px;border:1px solid var(--neutral-100)">
+                        <div class="radius-box" style="border-radius:16px"></div>
+                        <div class="radius-label">r16</div>
+                        <div class="radius-val">16px</div>
+                    </div>
+                    <div class="radius-card" style="border-radius:999px;border:1px solid var(--neutral-100)">
+                        <div class="radius-box" style="border-radius:999px"></div>
+                        <div class="radius-label">rFull</div>
+                        <div class="radius-val">999px (pill)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SHADOWS & ELEVATION ────────────────────────────────────────── -->
+            <div id="page-shadows" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Tokens <span>/ Shadows & Elevation</span></div>
+                    <h1>Shadows &amp; Elevation</h1>
+                    <p><code>AppShadows</code> for <code>BoxShadow</code> lists · <code>AppElevation</code> for Material
+                        elevation values.</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">AppShadows</div>
+                    <div class="shadow-grid">
+                        <div class="shadow-card" style="background:var(--neutral-50)">
+                            <div class="shadow-box" style="box-shadow:none;border:1px solid var(--neutral-100)"></div>
+                            <div class="shadow-name">none</div>
+                            <div class="shadow-desc">Flat surfaces or explicitly clear a shadow</div>
+                        </div>
+                        <div class="shadow-card" style="background:var(--neutral-50)">
+                            <div class="shadow-box" style="box-shadow:0 1px 2px rgba(0,0,0,0.06)"></div>
+                            <div class="shadow-name">resting</div>
+                            <div class="shadow-desc">Cards at rest, list items, subtle lift</div>
+                        </div>
+                        <div class="shadow-card" style="background:var(--neutral-50)">
+                            <div class="shadow-box"
+                                style="box-shadow:0 2px 4px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04)"></div>
+                            <div class="shadow-name">raised</div>
+                            <div class="shadow-desc">Default for elevated cards and small popovers</div>
+                        </div>
+                        <div class="shadow-card" style="background:var(--neutral-50)">
+                            <div class="shadow-box"
+                                style="box-shadow:0 4px 8px rgba(0,0,0,0.10),0 2px 4px rgba(0,0,0,0.06)"></div>
+                            <div class="shadow-name">floating</div>
+                            <div class="shadow-desc">Dropdowns, menus, tooltips, popovers</div>
+                        </div>
+                        <div class="shadow-card" style="background:var(--neutral-50)">
+                            <div class="shadow-box"
+                                style="box-shadow:0 8px 24px rgba(0,0,0,0.12),0 4px 8px rgba(0,0,0,0.08)"></div>
+                            <div class="shadow-name">modal</div>
+                            <div class="shadow-desc">Bottom sheets, dialogs, full-screen overlays</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">AppElevation (Material dp values)</div>
+                    <div class="elevation-row">
+                        <div class="elevation-item">
+                            <div class="elevation-box" style="box-shadow:none;border:1px solid var(--neutral-100)">0
+                            </div>
+                            <div class="elevation-name">flat</div>
+                        </div>
+                        <div class="elevation-item">
+                            <div class="elevation-box" style="box-shadow:0 1px 2px rgba(0,0,0,0.06)">1</div>
+                            <div class="elevation-name">raised</div>
+                        </div>
+                        <div class="elevation-item">
+                            <div class="elevation-box" style="box-shadow:0 2px 4px rgba(0,0,0,0.08)">2</div>
+                            <div class="elevation-name">card</div>
+                        </div>
+                        <div class="elevation-item">
+                            <div class="elevation-box" style="box-shadow:0 4px 8px rgba(0,0,0,0.10)">4</div>
+                            <div class="elevation-name">popover</div>
+                        </div>
+                        <div class="elevation-item">
+                            <div class="elevation-box" style="box-shadow:0 8px 16px rgba(0,0,0,0.12)">8</div>
+                            <div class="elevation-name">modal</div>
+                        </div>
+                        <div class="elevation-item">
+                            <div class="elevation-box" style="box-shadow:0 16px 32px rgba(0,0,0,0.14)">16</div>
+                            <div class="elevation-name">overlay</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── BORDERS ─────────────────────────────────────────────────────── -->
+            <div id="page-borders" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Tokens <span>/ Border Width</span></div>
+                    <h1>Border Width</h1>
+                    <p>Defined in <code>AppBorderWidth</code>. Used for input fields, focused rings, and dividers.</p>
+                </div>
+                <div class="card" style="max-width:500px">
+                    <div class="bw-row">
+                        <div class="bw-name">none</div>
+                        <div class="bw-val">0</div>
+                        <div class="bw-line" style="height:0px;border-top:1px dashed var(--neutral-100)"></div>
+                    </div>
+                    <div class="bw-row">
+                        <div class="bw-name">thin</div>
+                        <div class="bw-val">1px</div>
+                        <div class="bw-line" style="height:1px"></div>
+                    </div>
+                    <div class="bw-row">
+                        <div class="bw-name">regular</div>
+                        <div class="bw-val">1.5px</div>
+                        <div class="bw-line" style="height:1.5px"></div>
+                    </div>
+                    <div class="bw-row">
+                        <div class="bw-name">thick</div>
+                        <div class="bw-val">2px</div>
+                        <div class="bw-line" style="height:2px"></div>
+                    </div>
+                    <div class="bw-row">
+                        <div class="bw-name">heavy</div>
+                        <div class="bw-val">3px</div>
+                        <div class="bw-line" style="height:3px"></div>
+                    </div>
+                </div>
+                <div style="margin-top:20px;font-size:12px;color:var(--neutral-500)">
+                    Usage: <code>thin</code> = default borders · <code>thick</code> = focused input ring ·
+                    <code>heavy</code> = pronounced dividers
+                </div>
+            </div>
+
+            <!-- ── ICON SIZES ──────────────────────────────────────────────────── -->
+            <div id="page-icons" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Tokens <span>/ Icon Sizes</span></div>
+                    <h1>Icon Sizes</h1>
+                    <p>8 semantic steps in <code>IconSizes</code> from micro indicators to splash-screen display icons.
+                    </p>
+                </div>
+                <div style="max-width:600px">
+                    <div class="icon-size-row">
+                        <div class="icon-preview" style="width:24px;height:24px"><svg width="12" height="12"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">indicator</div>
+                            <div class="icon-px">12px</div>
+                            <div class="icon-use">Micro status dots, dense indicators</div>
+                        </div>
+                    </div>
+                    <div class="icon-size-row">
+                        <div class="icon-preview" style="width:28px;height:28px"><svg width="16" height="16"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">inline</div>
+                            <div class="icon-px">16px</div>
+                            <div class="icon-use">Inline with body text, chip/tag leading icons</div>
+                        </div>
+                    </div>
+                    <div class="icon-size-row">
+                        <div class="icon-preview" style="width:32px;height:32px"><svg width="20" height="20"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">dense</div>
+                            <div class="icon-px">20px</div>
+                            <div class="icon-use">Inline with titles, small buttons, dense toolbars</div>
+                        </div>
+                    </div>
+                    <div class="icon-size-row" style="border:1.5px solid var(--brand-300)">
+                        <div class="icon-preview" style="width:36px;height:36px"><svg width="24" height="24"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">standard ★</div>
+                            <div class="icon-px">24px</div>
+                            <div class="icon-use">Toolbar actions, list leading, standard buttons</div>
+                        </div>
+                    </div>
+                    <div class="icon-size-row">
+                        <div class="icon-preview" style="width:44px;height:44px"><svg width="32" height="32"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">prominent</div>
+                            <div class="icon-px">32px</div>
+                            <div class="icon-use">Prominent list items, large buttons, card headers</div>
+                        </div>
+                    </div>
+                    <div class="icon-size-row">
+                        <div class="icon-preview" style="width:60px;height:60px"><svg width="48" height="48"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">feature</div>
+                            <div class="icon-px">48px</div>
+                            <div class="icon-use">Feature icons, empty states, large avatars</div>
+                        </div>
+                    </div>
+                    <div class="icon-size-row">
+                        <div class="icon-preview" style="width:76px;height:76px"><svg width="64" height="64"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">hero</div>
+                            <div class="icon-px">64px</div>
+                            <div class="icon-use">Hero illustrations, onboarding</div>
+                        </div>
+                    </div>
+                    <div class="icon-size-row">
+                        <div class="icon-preview" style="width:108px;height:108px"><svg width="96" height="96"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg></div>
+                        <div>
+                            <div class="icon-name">display</div>
+                            <div class="icon-px">96px</div>
+                            <div class="icon-use">Splash screens, full-page empty states</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── COLOR SCHEME ────────────────────────────────────────────────── -->
+            <div id="page-colorscheme" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Theme <span>/ Color Scheme</span></div>
+                    <h1>Color Scheme</h1>
+                    <p>Semantic color tokens in <code>AppColorScheme</code>. Consumed via
+                        <code>context.appColors</code>.</p>
+                </div>
+
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('light',this)">☀ Light</button>
+                    <button class="mode-btn" onclick="showMode('dark',this)">🌙 Dark</button>
+                </div>
+
+                <div id="scheme-light">
+                    <div class="section">
+                        <div class="section-title">Backgrounds</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#FFFFFF;border:1px solid #EDE8FF"></div>
+                                <div>
+                                    <div class="sem-name">backgroundPrimary</div>
+                                    <div class="sem-val">#FFFFFF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#F5F3FF"></div>
+                                <div>
+                                    <div class="sem-name">backgroundSecondary</div>
+                                    <div class="sem-val">#F5F3FF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#EDE8FF"></div>
+                                <div>
+                                    <div class="sem-name">backgroundTertiary</div>
+                                    <div class="sem-val">#EDE8FF</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Surfaces</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#FFFFFF;border:1px solid #EDE8FF"></div>
+                                <div>
+                                    <div class="sem-name">surfacePrimary</div>
+                                    <div class="sem-val">#FFFFFF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#F5F3FF"></div>
+                                <div>
+                                    <div class="sem-name">surfaceSecondary</div>
+                                    <div class="sem-val">#F5F3FF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#EDE8FF"></div>
+                                <div>
+                                    <div class="sem-name">surfaceTertiary</div>
+                                    <div class="sem-val">#EDE8FF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#FFFFFF;border:1px solid #EDE8FF"></div>
+                                <div>
+                                    <div class="sem-name">surfaceDeep</div>
+                                    <div class="sem-val">#FFFFFF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#F5F0FF"></div>
+                                <div>
+                                    <div class="sem-name">surfaceAvatar</div>
+                                    <div class="sem-val">#F5F0FF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#FFF0F0"></div>
+                                <div>
+                                    <div class="sem-name">surfaceDestructive</div>
+                                    <div class="sem-val">#FFF0F0</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#FAF8FF"></div>
+                                <div>
+                                    <div class="sem-name">surfaceInput</div>
+                                    <div class="sem-val">#FAF8FF</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Content (text + icons)</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#3D3060"></div>
+                                <div>
+                                    <div class="sem-name">contentPrimary</div>
+                                    <div class="sem-val">#3D3060 — high emphasis</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#8878AA"></div>
+                                <div>
+                                    <div class="sem-name">contentSecondary</div>
+                                    <div class="sem-val">#8878AA — medium emphasis</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#B0A8CC"></div>
+                                <div>
+                                    <div class="sem-name">contentTertiary</div>
+                                    <div class="sem-val">#B0A8CC — low emphasis</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#C0B8D8"></div>
+                                <div>
+                                    <div class="sem-name">contentDisabled</div>
+                                    <div class="sem-val">#C0B8D8 — non-interactive</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#6D3FD4"></div>
+                                <div>
+                                    <div class="sem-name">contentBrand</div>
+                                    <div class="sem-val">#6D3FD4</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#E25448"></div>
+                                <div>
+                                    <div class="sem-name">contentError</div>
+                                    <div class="sem-val">#E25448</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#17B26A"></div>
+                                <div>
+                                    <div class="sem-name">contentSuccess</div>
+                                    <div class="sem-val">#17B26A</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#F97316"></div>
+                                <div>
+                                    <div class="sem-name">contentWarning</div>
+                                    <div class="sem-val">#F97316</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#EC4899"></div>
+                                <div>
+                                    <div class="sem-name">contentInfo</div>
+                                    <div class="sem-val">#EC4899</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#A09AB8"></div>
+                                <div>
+                                    <div class="sem-name">contentSubtle</div>
+                                    <div class="sem-val">#A09AB8 — captions</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Borders</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#E8E4F0"></div>
+                                <div>
+                                    <div class="sem-name">borderPrimary</div>
+                                    <div class="sem-val">#E8E4F0</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#EDE8FF"></div>
+                                <div>
+                                    <div class="sem-name">borderSecondary</div>
+                                    <div class="sem-val">#EDE8FF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#6D3FD4"></div>
+                                <div>
+                                    <div class="sem-name">borderBrand</div>
+                                    <div class="sem-val">#6D3FD4</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#6D3FD4"></div>
+                                <div>
+                                    <div class="sem-name">borderFocused</div>
+                                    <div class="sem-val">#6D3FD4</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#E25448"></div>
+                                <div>
+                                    <div class="sem-name">borderError</div>
+                                    <div class="sem-val">#E25448</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#EDE8FF"></div>
+                                <div>
+                                    <div class="sem-name">borderInner</div>
+                                    <div class="sem-val">#EDE8FF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#E8E2FF"></div>
+                                <div>
+                                    <div class="sem-name">borderCard</div>
+                                    <div class="sem-val">#E8E2FF</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#DDD8F5"></div>
+                                <div>
+                                    <div class="sem-name">borderBrandMuted</div>
+                                    <div class="sem-val">#DDD8F5</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Global</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#6D3FD4"></div>
+                                <div>
+                                    <div class="sem-name">brand</div>
+                                    <div class="sem-val">#6D3FD4</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row">
+                                <div class="sem-swatch" style="background:#EC4899"></div>
+                                <div>
+                                    <div class="sem-name">secondary</div>
+                                    <div class="sem-val">#EC4899</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scheme-dark" style="display:none">
+                    <div class="section">
+                        <div class="section-title">Backgrounds</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#0B0B14"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">backgroundPrimary</div>
+                                    <div class="sem-val">#0B0B14</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#111120"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">backgroundSecondary</div>
+                                    <div class="sem-val">#111120</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#1A1A2E"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">backgroundTertiary</div>
+                                    <div class="sem-val">#1A1A2E</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Content (dark)</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#C0B8D8"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">contentPrimary</div>
+                                    <div class="sem-val">#C0B8D8</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#7070A0"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">contentSecondary</div>
+                                    <div class="sem-val">#7070A0</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#46466A"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">contentTertiary</div>
+                                    <div class="sem-val">#46466A</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#9D71F0"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">contentBrand</div>
+                                    <div class="sem-val">#9D71F0</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#35354E"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">contentSubtle</div>
+                                    <div class="sem-val">#35354E</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Borders (dark)</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#25253A"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">borderPrimary</div>
+                                    <div class="sem-val">#25253A</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#1A1A2E"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">borderSecondary</div>
+                                    <div class="sem-val">#1A1A2E</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#9D71F0"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">borderBrand</div>
+                                    <div class="sem-val">#9D71F0</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#1E1E30"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">borderInner</div>
+                                    <div class="sem-val">#1E1E30</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#6B21A8"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">borderBrandMuted</div>
+                                    <div class="sem-val">#6B21A8</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Global (dark)</div>
+                        <div class="semantic-colors">
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#9D71F0"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">brand</div>
+                                    <div class="sem-val">#9D71F0</div>
+                                </div>
+                            </div>
+                            <div class="sem-color-row" style="background:#1A1A2E;border-color:#25253A">
+                                <div class="sem-swatch" style="background:#EC4899"></div>
+                                <div>
+                                    <div class="sem-name" style="color:#C0B8D8">secondary</div>
+                                    <div class="sem-val">#EC4899</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── COMPONENTS ──────────────────────────────────────────────────── -->
+            <div id="page-components" class="page">
+                <div class="page-header">
+                    <div class="breadcrumb">Components <span>/ All</span></div>
+                    <h1>Component Library</h1>
+                    <p>13 component groups in <code>shared/designsystem/lib/src/components/</code>. Each has its own
+                        theme extension consumed via <code>AppTheme</code>.</p>
+                </div>
+
+                <div class="component-grid">
+                    <div class="component-card">
+                        <div class="comp-icon">🔘</div>
+                        <div class="comp-name">AppButton</div>
+                        <div class="comp-tag">AppButtonTheme</div>
+                        <div class="comp-files">
+                            app_filled_button.dart<br>app_outline_button.dart<br>app_text_button.dart<br>app_icon_button.dart<br>app_button_intent.dart<br>app_button_colors.dart
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">🃏</div>
+                        <div class="comp-name">AppCard</div>
+                        <div class="comp-tag">AppCardTheme</div>
+                        <div class="comp-files">
+                            app_card.dart<br>app_card_theme.dart<br>app_card_tone.dart<br>app_card_corner_radius.dart
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">―</div>
+                        <div class="comp-name">AppDivider</div>
+                        <div class="comp-tag">AppDividerTheme</div>
+                        <div class="comp-files">app_divider.dart<br>app_divider_theme.dart<br>app_divider_size.dart
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">⭐</div>
+                        <div class="comp-name">AppIcon</div>
+                        <div class="comp-tag">IconSizes</div>
+                        <div class="comp-files">app_icon.dart<br>icon_sizes.dart</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">🖼</div>
+                        <div class="comp-name">AppImage</div>
+                        <div class="comp-tag">Tokens</div>
+                        <div class="comp-files">app_image.dart<br>app_image_shape.dart</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">✏️</div>
+                        <div class="comp-name">AppInputField</div>
+                        <div class="comp-tag">AppInputFieldTheme</div>
+                        <div class="comp-files">
+                            app_input_field.dart<br>app_input_field_theme.dart<br>app_input_field_size_spec.dart<br>app_input_field_colors.dart
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">📝</div>
+                        <div class="comp-name">AppRichText</div>
+                        <div class="comp-tag">Typography</div>
+                        <div class="comp-files">app_rich_text.dart</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">📱</div>
+                        <div class="comp-name">AppScaffold</div>
+                        <div class="comp-tag">AppScaffoldTheme</div>
+                        <div class="comp-files">app_scaffold.dart<br>app_scaffold_theme.dart</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">🔛</div>
+                        <div class="comp-name">AppSwitch</div>
+                        <div class="comp-tag">AppSwitchTheme</div>
+                        <div class="comp-files">
+                            app_switch.dart<br>app_switch_theme.dart<br>app_switch_colors.dart<br>app_switch_enums.dart
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">🏷</div>
+                        <div class="comp-name">AppTag</div>
+                        <div class="comp-tag">AppTagTheme</div>
+                        <div class="comp-files">
+                            app_tag.dart<br>app_tag_theme.dart<br>app_tag_colors.dart<br>app_tag_enums.dart</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">🔤</div>
+                        <div class="comp-name">AppText</div>
+                        <div class="comp-tag">AppTypographyTheme</div>
+                        <div class="comp-files">
+                            app_text.dart<br>app_text_weight.dart<br>app_text_style.dart<br>app_typography_intent.dart
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">🔝</div>
+                        <div class="comp-name">AppTopBar</div>
+                        <div class="comp-tag">AppTopBarTheme</div>
+                        <div class="comp-files">app_top_bar.dart<br>app_topbar_theme.dart</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="comp-icon">🎨</div>
+                        <div class="comp-name">Typography</div>
+                        <div class="comp-tag">AppTypographyTheme</div>
+                        <div class="comp-files">
+                            app_text_style.dart<br>app_typography_theme.dart<br>app_typography_intent.dart<br>typography_tokens.dart
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" style="margin-top:32px">
+                    <div class="section-title">How theme extensions wire up</div>
+                    <div class="card">
+                        <div style="font-size:13px;line-height:2;color:var(--neutral-900)">
+                            <span style="color:var(--brand-500);font-weight:600">AppTheme</span> (ThemeExtension)
+                            <br>├── <span style="color:var(--green-500);font-weight:600">typographyTheme</span>:
+                            AppTypographyTheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">tagTheme</span>: AppTagTheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">colorSchemeTheme</span>:
+                            AppColorScheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">modeColorScheme</span>:
+                            ModeColorScheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">inputFieldTheme</span>:
+                            AppInputFieldTheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">buttonTheme</span>:
+                            AppButtonTheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">cardTheme</span>: AppCardTheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">dividerTheme</span>:
+                            AppDividerTheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">scaffoldTheme</span>:
+                            AppScaffoldTheme
+                            <br>├── <span style="color:var(--green-500);font-weight:600">switchTheme</span>:
+                            AppSwitchTheme
+                            <br>└── <span style="color:var(--green-500);font-weight:600">topBarTheme</span>:
+                            AppTopBarTheme
+                            <br><br>
+                            <strong>Access via BuildContext:</strong><br>
+                            <code
+                                style="background:var(--brand-50);padding:2px 6px;border-radius:4px;font-size:12px">context.typography</code>
+                            <code
+                                style="background:var(--brand-50);padding:2px 6px;border-radius:4px;font-size:12px">context.appColors</code>
+                            <code
+                                style="background:var(--brand-50);padding:2px 6px;border-radius:4px;font-size:12px">context.theme</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function showPage(id, navEl) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
+            navEl.classList.add('active');
+        }
+
+        function showMode(mode, btn) {
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('scheme-light').style.display = mode === 'light' ? '' : 'none';
+            document.getElementById('scheme-dark').style.display = mode === 'dark' ? '' : 'none';
+        }
+    </script>
+</body>
+
+</html>

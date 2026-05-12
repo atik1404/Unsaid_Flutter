@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flutter Multi-Package — Design System & Architecture</title>
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #17171f;
+    --surface2: #1e1e2a;
+    --surface3: #26263a;
+    --border: #2e2e45;
+    --brand: #6D3FD4;
+    --brand-light: #9D71F0;
+    --brand-dim: rgba(109,63,212,0.15);
+    --pink: #EC4899;
+    --pink-dim: rgba(236,72,153,0.15);
+    --red: #E25448;
+    --orange: #F97316;
+    --green: #17B26A;
+    --blue: #3B82F6;
+    --text: #e8e8f0;
+    --text2: #a0a0b8;
+    --text3: #606078;
+    --radius: 12px;
+    --font: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+  }
+
+  /* ─── NAV ─────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,15,19,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
+    height: 56px;
+    overflow-x: auto;
+  }
+
+  nav .logo {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--brand-light);
+    white-space: nowrap;
+    margin-right: 16px;
+    letter-spacing: -0.3px;
+  }
+
+  nav button {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--text2);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.18s;
+    font-family: var(--font);
+  }
+  nav button:hover { color: var(--text); background: var(--surface2); }
+  nav button.active { color: var(--brand-light); border-color: var(--brand); background: var(--brand-dim); }
+
+  /* ─── SECTIONS ────────────────────────────── */
+  section { display: none; padding: 40px 32px 80px; max-width: 1400px; margin: 0 auto; }
+  section.active { display: block; }
+
+  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+  h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--text); }
+  h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .subtitle { color: var(--text2); font-size: 14px; margin-bottom: 36px; }
+
+  /* ─── GRID HELPERS ───────────────────────── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .grid3, .grid4 { grid-template-columns: 1fr 1fr; } .grid2 { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .grid3, .grid4 { grid-template-columns: 1fr; } }
+
+  /* ─── CARD ───────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .card-sm { padding: 14px 16px; }
+
+  /* ─── SECTION DIVIDER ────────────────────── */
+  .section-block { margin-bottom: 48px; }
+  .section-block h2 { border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
+
+  /* ═══════════════════════════════════════════
+     OVERVIEW — Architecture diagram
+  ══════════════════════════════════════════════ */
+  .arch-container { position: relative; width: 100%; overflow-x: auto; }
+
+  .arch-svg-wrap { min-width: 900px; }
+
+  /* ─── PACKAGE LAYERS ─────────────────────── */
+  .layers { display: flex; flex-direction: column; gap: 12px; }
+
+  .layer {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    background: var(--surface);
+  }
+
+  .layer-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .layer-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .pkg-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid;
+    cursor: default;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .pkg-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+
+  .pkg-chip.app    { background: rgba(109,63,212,0.18); border-color: var(--brand); color: var(--brand-light); }
+  .pkg-chip.feature { background: rgba(236,72,153,0.12); border-color: var(--pink); color: #f472b6; }
+  .pkg-chip.shared { background: rgba(23,178,106,0.12); border-color: var(--green); color: #4ade80; }
+  .pkg-chip.data   { background: rgba(59,130,246,0.12); border-color: var(--blue); color: #60a5fa; }
+  .pkg-chip.cache  { background: rgba(249,115,22,0.12); border-color: var(--orange); color: #fb923c; }
+  .pkg-chip.core   { background: rgba(160,160,184,0.1); border-color: var(--border); color: var(--text2); }
+
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* dependency arrows legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+  .legend-color { width: 20px; height: 3px; border-radius: 2px; }
+
+  /* dep table */
+  .dep-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .dep-table th { text-align: left; padding: 8px 12px; background: var(--surface2); color: var(--text2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .dep-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .dep-table tr:last-child td { border-bottom: none; }
+  .dep-table tr:hover td { background: var(--surface2); }
+  .dep-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px; font-family: var(--mono); }
+
+  /* ═══════════════════════════════════════════
+     COLORS
+  ══════════════════════════════════════════════ */
+  .color-palette { display: flex; flex-direction: column; gap: 6px; }
+
+  .color-scale { display: flex; gap: 4px; }
+  .color-scale-label { font-size: 12px; color: var(--text2); min-width: 90px; line-height: 32px; }
+
+  .swatch {
+    flex: 1;
+    height: 32px;
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.15s;
+    min-width: 28px;
+  }
+  .swatch:hover { transform: scaleY(1.3); z-index: 1; }
+  .swatch::after {
+    content: attr(data-hex);
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    font-family: var(--mono);
+  }
+  .swatch:hover::after { opacity: 1; }
+
+  .semantic-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; }
+  .semantic-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .semantic-dot { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+  .semantic-name { font-weight: 500; color: var(--text); }
+  .semantic-hex { color: var(--text3); font-family: var(--mono); font-size: 11px; }
+
+  /* ═══════════════════════════════════════════
+     TYPOGRAPHY
+  ══════════════════════════════════════════════ */
+  .type-scale { display: flex; flex-direction: column; gap: 6px; }
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .type-meta { width: 140px; flex-shrink: 0; }
+  .type-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); }
+  .type-spec { font-size: 11px; color: var(--text2); font-family: var(--mono); margin-top: 2px; }
+  .type-preview { flex: 1; color: var(--text); }
+
+  .weight-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+  .weight-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .weight-sample { font-size: 32px; margin-bottom: 8px; }
+  .weight-name { font-size: 12px; color: var(--text2); }
+  .weight-num { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+
+  /* ═══════════════════════════════════════════
+     SPACING & TOKENS
+  ══════════════════════════════════════════════ */
+  .token-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .token-name { font-family: var(--mono); font-size: 13px; color: var(--brand-light); width: 80px; }
+  .token-value { font-size: 12px; color: var(--text2); width: 60px; }
+  .token-bar-wrap { flex: 1; }
+  .token-bar { height: 16px; border-radius: 4px; background: var(--brand); opacity: 0.7; min-width: 4px; }
+
+  .radius-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 16px; }
+  .radius-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+  }
+  .radius-demo {
+    width: 48px;
+    height: 48px;
+    background: var(--brand-dim);
+    border: 2px solid var(--brand);
+  }
+  .radius-label { font-family: var(--mono); font-size: 12px; color: var(--brand-light); }
+  .radius-val { font-size: 11px; color: var(--text3); }
+
+  .elevation-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 16px; }
+  .elev-card {
+    background: var(--surface2);
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .elev-demo {
+    width: 48px;
+    height: 48px;
+    background: var(--surface3);
+    border-radius: 8px;
+  }
+  .elev-label { font-family: var(--mono); font-size: 12px; color: var(--text2); }
+  .elev-val { font-size: 11px; color: var(--text3); }
+
+  /* ═══════════════════════════════════════════
+     COMPONENTS
+  ══════════════════════════════════════════════ */
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+
+  .comp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .comp-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .comp-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .comp-title { font-weight: 600; font-size: 14px; }
+  .comp-subtitle { font-size: 12px; color: var(--text2); }
+  .comp-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .comp-preview { padding: 12px; background: var(--surface2); border-radius: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .comp-variants { display: flex; flex-wrap: wrap; gap: 6px; }
+  .variant-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface3);
+    color: var(--text2);
+    font-family: var(--mono);
+  }
+
+  /* ─── Simulated Flutter Widgets ─────────── */
+  .btn-filled { background: #6D3FD4; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; }
+  .btn-outline { background: transparent; color: #9D71F0; border: 2px solid #6D3FD4; padding: 9px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; }
+  .btn-text { background: transparent; color: #9D71F0; border: none; padding: 9px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; }
+  .btn-icon { background: var(--surface3); color: #9D71F0; border: none; width: 40px; height: 40px; border-radius: 8px; font-size: 18px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+
+  .input-demo {
+    background: var(--surface3);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+  }
+  .input-demo:focus { border-color: var(--brand); }
+
+  .tag-demo { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; gap: 4px; }
+  .tag-brand { background: var(--brand-dim); color: var(--brand-light); border: 1px solid var(--brand); }
+  .tag-pink { background: var(--pink-dim); color: #f472b6; border: 1px solid var(--pink); }
+  .tag-green { background: rgba(23,178,106,0.15); color: #4ade80; border: 1px solid var(--green); }
+  .tag-red { background: rgba(226,84,72,0.15); color: #f87171; border: 1px solid var(--red); }
+
+  .switch-demo { display: flex; align-items: center; gap: 10px; }
+  .switch-track { width: 44px; height: 24px; border-radius: 999px; background: var(--brand); position: relative; cursor: pointer; }
+  .switch-thumb { width: 20px; height: 20px; border-radius: 50%; background: #fff; position: absolute; top: 2px; left: 2px; transition: left 0.2s; }
+  .switch-track.off { background: var(--surface3); }
+  .switch-track.off .switch-thumb { left: calc(100% - 22px); }
+
+  .divider-h { width: 100%; height: 1px; background: var(--border); border-radius: 1px; }
+
+  .card-demo { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .topbar-demo { background: var(--surface2); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+  .topbar-back { width: 32px; height: 32px; background: var(--surface3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+  .text-demo-row { display: flex; flex-direction: column; gap: 4px; }
+  .rich-segment { display: inline; }
+  .rich-bold { font-weight: 700; color: var(--brand-light); }
+  .rich-normal { color: var(--text); }
+
+  /* ═══════════════════════════════════════════
+     FEATURES MAP
+  ══════════════════════════════════════════════ */
+  .feature-group { margin-bottom: 32px; }
+  .feature-group h2 { display: flex; align-items: center; gap: 10px; }
+  .group-badge { padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+
+  .feature-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 14px; }
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .feature-card h3 { font-size: 14px; font-weight: 600; color: var(--text); text-transform: none; letter-spacing: 0; margin-bottom: 6px; }
+  .feature-card p { font-size: 12px; color: var(--text2); margin-bottom: 10px; line-height: 1.5; }
+  .feature-screens { display: flex; flex-wrap: wrap; gap: 4px; }
+  .screen-chip {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface3);
+    color: var(--text2);
+    font-family: var(--mono);
+    border: 1px solid var(--border);
+  }
+  .state-chip { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-family: var(--mono); }
+  .state-bloc { background: rgba(109,63,212,0.15); color: var(--brand-light); }
+  .state-cubit { background: rgba(23,178,106,0.15); color: #4ade80; }
+
+  /* ═══════════════════════════════════════════
+     DEPENDENCY GRAPH (SVG-based)
+  ══════════════════════════════════════════════ */
+  #dep-svg { width: 100%; height: 620px; }
+
+  .graph-node { cursor: pointer; }
+  .graph-node rect { transition: fill 0.2s; }
+  .graph-node:hover rect { filter: brightness(1.3); }
+
+  /* ─── SCROLLBAR ──────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ─── RESPONSIVE NAV SCROLL ─────────────── */
+  nav { scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+
+  /* badge */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .badge-brand { background: var(--brand-dim); color: var(--brand-light); }
+  .badge-pink { background: var(--pink-dim); color: #f472b6; }
+  .badge-green { background: rgba(23,178,106,0.12); color: #4ade80; }
+  .badge-blue { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .badge-orange { background: rgba(249,115,22,0.12); color: #fb923c; }
+  .badge-gray { background: rgba(255,255,255,0.06); color: var(--text2); }
+
+  /* stat cards */
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 40px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .stat-num { font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+  .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .stat-brand { color: var(--brand-light); }
+  .stat-pink { color: #f472b6; }
+  .stat-green { color: #4ade80; }
+  .stat-blue { color: #60a5fa; }
+  .stat-orange { color: #fb923c; }
+
+  /* ─── FLOW ARROWS ─────────────────────────── */
+  .flow-diagram { display: flex; flex-direction: column; gap: 0; align-items: stretch; }
+  .flow-row { display: flex; align-items: center; gap: 0; }
+  .flow-node {
+    flex: 1;
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .flow-arrow { padding: 0 8px; color: var(--text3); font-size: 18px; flex-shrink: 0; }
+  .flow-down { text-align: center; color: var(--text3); font-size: 20px; padding: 4px 0; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">FlutterDS</div>
+  <button class="active" onclick="show('overview')">Overview</button>
+  <button onclick="show('architecture')">Architecture</button>
+  <button onclick="show('colors')">Colors</button>
+  <button onclick="show('typography')">Typography</button>
+  <button onclick="show('tokens')">Tokens</button>
+  <button onclick="show('components')">Components</button>
+  <button onclick="show('features')">Features</button>
+</nav>
+
+<!-- ════════════════════════════════════════
+     OVERVIEW
+═════════════════════════════════════════ -->
+<section id="overview" class="active">
+  <h1>Flutter Multi-Package Playground</h1>
+  <p class="subtitle">Melos monorepo · Clean Architecture · BLoC · Design System</p>
+
+  <div class="stats">
+    <div class="stat-card"><div class="stat-num stat-brand">27</div><div class="stat-label">Total packages</div></div>
+    <div class="stat-card"><div class="stat-num stat-pink">10</div><div class="stat-label">Feature packages</div></div>
+    <div class="stat-card"><div class="stat-num stat-green">14</div><div class="stat-label">DS Components</div></div>
+    <div class="stat-card"><div class="stat-num stat-blue">8</div><div class="stat-label">Token categories</div></div>
+    <div class="stat-card"><div class="stat-num stat-orange">3</div><div class="stat-label">Cache layers</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#a78bfa">2</div><div class="stat-label">App themes</div></div>
+  </div>
+
+  <div class="section-block">
+    <h2>Package Layers</h2>
+    <div class="layers">
+
+      <div class="layer">
+        <div class="layer-label" style="color:var(--brand-light)">App</div>
+        <div class="layer-row">
+          <span class="pkg-chip app"><span class="dot" style="background:var(--brand)"></span>app</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-label" style="color:#f472b6">Features</div>
+        <div class="layer-row">
+          <span class="pkg-chip feature">splash</span>
+          <span class="pkg-chip feature">login</span>
+          <span class="pkg-chip feature">signup</span>
+          <span class="pkg-chip feature">onboarding</span>
+          <span class="pkg-chip feature">profile</span>
+          <span class="pkg-chip feature">setting</span>
+          <span class="pkg-chip feature">change_password</span>
+          <span class="pkg-chip feature">home</span>
+          <span class="pkg-chip feature">create_post</span>
+          <span class="pkg-chip feature">post_details</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-label" style="color:#4ade80">Shared</div>
+        <div class="layer-row">
+          <span class="pkg-chip shared">designsystem</span>
+          <span class="pkg-chip shared">ui</span>
+          <span class="pkg-chip shared">navigation</span>
+          <span class="pkg-chip shared">di</span>
+          <span class="pkg-chip shared">localization</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-label" style="color:#60a5fa">Data / Domain</div>
+        <div class="layer-row">
+          <span class="pkg-chip data">data</span>
+          <span class="pkg-chip data">domain</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-label" style="color:#fb923c">Cache</div>
+        <div class="layer-row">
+          <span class="pkg-chip cache">database</span>
+          <span class="pkg-chip cache">sharedpref</span>
+          <span class="pkg-chip cache">secured</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-label" style="color:var(--text2)">Core</div>
+        <div class="layer-row">
+          <span class="pkg-chip core">common</span>
+          <span class="pkg-chip core">entity</span>
+          <span class="pkg-chip core">response</span>
+          <span class="pkg-chip core">code_analyzer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Clean Architecture Data Flow</h2>
+    <div class="card" style="padding:24px">
+      <div class="flow-diagram">
+        <div class="flow-row">
+          <div class="flow-node" style="border-color:#f472b6;background:rgba(236,72,153,0.1);color:#f472b6">Feature (UI / BLoC)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node" style="border-color:#60a5fa;background:rgba(59,130,246,0.1);color:#60a5fa">Domain (Use Cases)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node" style="border-color:#60a5fa;background:rgba(59,130,246,0.08);color:#60a5fa">Data (Repositories)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node" style="border-color:#fb923c;background:rgba(249,115,22,0.1);color:#fb923c">Cache / API</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--text2)">
+        <div><strong style="color:var(--text)">State mgmt:</strong> Flutter BLoC v9.1.1 + Freezed</div>
+        <div><strong style="color:var(--text)">DI:</strong> GetIt service locator</div>
+        <div><strong style="color:var(--text)">Routing:</strong> GoRouter v17.2.0</div>
+        <div><strong style="color:var(--text)">HTTP:</strong> Dio v5.9.2</div>
+        <div><strong style="color:var(--text)">Workspace:</strong> Melos monorepo</div>
+        <div><strong style="color:var(--text)">Analytics:</strong> Firebase suite</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     ARCHITECTURE
+═════════════════════════════════════════ -->
+<section id="architecture">
+  <h1>Package Architecture</h1>
+  <p class="subtitle">Dependency relationships across all 27 packages</p>
+
+  <!-- SVG Dependency Graph -->
+  <div class="section-block">
+    <h2>Dependency Graph</h2>
+    <div class="card" style="padding:16px;overflow:auto">
+      <svg id="dep-svg" viewBox="0 0 1100 600" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr-brand" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#6D3FD4" />
+          </marker>
+          <marker id="arr-pink" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#EC4899" />
+          </marker>
+          <marker id="arr-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#17B26A" />
+          </marker>
+          <marker id="arr-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#3B82F6" />
+          </marker>
+          <marker id="arr-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#606078" />
+          </marker>
+        </defs>
+
+        <!-- ── Layer labels ── -->
+        <text x="8" y="50" fill="#606078" font-size="10" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1">APP</text>
+        <text x="8" y="145" fill="#606078" font-size="10" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1">FEATURES</text>
+        <text x="8" y="270" fill="#606078" font-size="10" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1">SHARED</text>
+        <text x="8" y="380" fill="#606078" font-size="10" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1">DATA</text>
+        <text x="8" y="470" fill="#606078" font-size="10" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1">CACHE</text>
+        <text x="8" y="560" fill="#606078" font-size="10" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1">CORE</text>
+
+        <!-- ── Row 0: app ── -->
+        <!-- app node -->
+        <g class="graph-node" onclick="highlightNode('app')">
+          <rect x="460" y="22" width="80" height="32" rx="8" fill="rgba(109,63,212,0.25)" stroke="#6D3FD4" stroke-width="1.5"/>
+          <text x="500" y="42" text-anchor="middle" fill="#9D71F0" font-size="12" font-weight="600" font-family="Inter,sans-serif">app</text>
+        </g>
+
+        <!-- ── Row 1: features ── -->
+        <!-- auth group -->
+        <g class="graph-node"><rect x="60" y="110" width="84" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="102" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">splash</text></g>
+        <g class="graph-node"><rect x="155" y="110" width="68" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="189" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">login</text></g>
+        <g class="graph-node"><rect x="234" y="110" width="72" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="270" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">signup</text></g>
+        <g class="graph-node"><rect x="317" y="110" width="96" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="365" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">onboarding</text></g>
+        <g class="graph-node"><rect x="424" y="110" width="74" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="461" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">profile</text></g>
+        <g class="graph-node"><rect x="509" y="110" width="68" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="543" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">setting</text></g>
+        <g class="graph-node"><rect x="588" y="110" width="126" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="651" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">change_password</text></g>
+        <!-- post group -->
+        <g class="graph-node"><rect x="726" y="110" width="60" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="756" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">home</text></g>
+        <g class="graph-node"><rect x="797" y="110" width="90" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="842" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">create_post</text></g>
+        <g class="graph-node"><rect x="898" y="110" width="96" height="28" rx="7" fill="rgba(236,72,153,0.15)" stroke="#EC4899" stroke-width="1.5"/><text x="946" y="128" text-anchor="middle" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">post_details</text></g>
+
+        <!-- ── Row 2: shared ── -->
+        <g class="graph-node"><rect x="60" y="240" width="116" height="28" rx="7" fill="rgba(23,178,106,0.15)" stroke="#17B26A" stroke-width="1.5"/><text x="118" y="258" text-anchor="middle" fill="#4ade80" font-size="11" font-family="Inter,sans-serif">designsystem</text></g>
+        <g class="graph-node"><rect x="188" y="240" width="44" height="28" rx="7" fill="rgba(23,178,106,0.15)" stroke="#17B26A" stroke-width="1.5"/><text x="210" y="258" text-anchor="middle" fill="#4ade80" font-size="11" font-family="Inter,sans-serif">ui</text></g>
+        <g class="graph-node"><rect x="244" y="240" width="86" height="28" rx="7" fill="rgba(23,178,106,0.15)" stroke="#17B26A" stroke-width="1.5"/><text x="287" y="258" text-anchor="middle" fill="#4ade80" font-size="11" font-family="Inter,sans-serif">navigation</text></g>
+        <g class="graph-node"><rect x="342" y="240" width="36" height="28" rx="7" fill="rgba(23,178,106,0.15)" stroke="#17B26A" stroke-width="1.5"/><text x="360" y="258" text-anchor="middle" fill="#4ade80" font-size="11" font-family="Inter,sans-serif">di</text></g>
+        <g class="graph-node"><rect x="390" y="240" width="90" height="28" rx="7" fill="rgba(23,178,106,0.15)" stroke="#17B26A" stroke-width="1.5"/><text x="435" y="258" text-anchor="middle" fill="#4ade80" font-size="11" font-family="Inter,sans-serif">localization</text></g>
+
+        <!-- ── Row 3: data/domain ── -->
+        <g class="graph-node"><rect x="200" y="345" width="60" height="28" rx="7" fill="rgba(59,130,246,0.15)" stroke="#3B82F6" stroke-width="1.5"/><text x="230" y="363" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="Inter,sans-serif">data</text></g>
+        <g class="graph-node"><rect x="280" y="345" width="72" height="28" rx="7" fill="rgba(59,130,246,0.15)" stroke="#3B82F6" stroke-width="1.5"/><text x="316" y="363" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="Inter,sans-serif">domain</text></g>
+
+        <!-- ── Row 4: cache ── -->
+        <g class="graph-node"><rect x="120" y="436" width="76" height="28" rx="7" fill="rgba(249,115,22,0.15)" stroke="#F97316" stroke-width="1.5"/><text x="158" y="454" text-anchor="middle" fill="#fb923c" font-size="11" font-family="Inter,sans-serif">database</text></g>
+        <g class="graph-node"><rect x="210" y="436" width="78" height="28" rx="7" fill="rgba(249,115,22,0.15)" stroke="#F97316" stroke-width="1.5"/><text x="249" y="454" text-anchor="middle" fill="#fb923c" font-size="11" font-family="Inter,sans-serif">sharedpref</text></g>
+        <g class="graph-node"><rect x="302" y="436" width="68" height="28" rx="7" fill="rgba(249,115,22,0.15)" stroke="#F97316" stroke-width="1.5"/><text x="336" y="454" text-anchor="middle" fill="#fb923c" font-size="11" font-family="Inter,sans-serif">secured</text></g>
+
+        <!-- ── Row 5: core ── -->
+        <g class="graph-node"><rect x="60" y="528" width="72" height="28" rx="7" fill="rgba(160,160,184,0.1)" stroke="#2e2e45" stroke-width="1.5"/><text x="96" y="546" text-anchor="middle" fill="#a0a0b8" font-size="11" font-family="Inter,sans-serif">common</text></g>
+        <g class="graph-node"><rect x="144" y="528" width="56" height="28" rx="7" fill="rgba(160,160,184,0.1)" stroke="#2e2e45" stroke-width="1.5"/><text x="172" y="546" text-anchor="middle" fill="#a0a0b8" font-size="11" font-family="Inter,sans-serif">entity</text></g>
+        <g class="graph-node"><rect x="212" y="528" width="70" height="28" rx="7" fill="rgba(160,160,184,0.1)" stroke="#2e2e45" stroke-width="1.5"/><text x="247" y="546" text-anchor="middle" fill="#a0a0b8" font-size="11" font-family="Inter,sans-serif">response</text></g>
+        <g class="graph-node"><rect x="294" y="528" width="110" height="28" rx="7" fill="rgba(160,160,184,0.1)" stroke="#2e2e45" stroke-width="1.5"/><text x="349" y="546" text-anchor="middle" fill="#a0a0b8" font-size="11" font-family="Inter,sans-serif">code_analyzer</text></g>
+
+        <!-- ── ARROWS (simplified representative) ── -->
+        <!-- app → di -->
+        <line x1="480" y1="54" x2="360" y2="240" stroke="#6D3FD4" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr-brand)" opacity="0.5"/>
+        <!-- app → designsystem -->
+        <line x1="500" y1="54" x2="118" y2="240" stroke="#6D3FD4" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr-brand)" opacity="0.5"/>
+
+        <!-- features → shared (representative lines from home to DS, nav, ui) -->
+        <line x1="118" y1="138" x2="118" y2="240" stroke="#EC4899" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-pink)" opacity="0.4"/>
+        <line x1="756" y1="138" x2="400" y2="240" stroke="#EC4899" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-pink)" opacity="0.4"/>
+        <line x1="461" y1="138" x2="287" y2="240" stroke="#EC4899" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-pink)" opacity="0.4"/>
+
+        <!-- di → data, domain, features -->
+        <line x1="360" y1="268" x2="230" y2="345" stroke="#17B26A" stroke-width="1.5" marker-end="url(#arr-green)" opacity="0.6"/>
+        <line x1="370" y1="268" x2="316" y2="345" stroke="#17B26A" stroke-width="1.5" marker-end="url(#arr-green)" opacity="0.6"/>
+
+        <!-- ui → designsystem -->
+        <line x1="188" y1="254" x2="176" y2="254" stroke="#17B26A" stroke-width="1.5" marker-end="url(#arr-green)" opacity="0.6"/>
+
+        <!-- data → domain -->
+        <line x1="260" y1="359" x2="280" y2="359" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)" opacity="0.6"/>
+
+        <!-- data → sharedpref -->
+        <line x1="230" y1="373" x2="249" y2="436" stroke="#3B82F6" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)" opacity="0.4"/>
+
+        <!-- domain → entity -->
+        <line x1="316" y1="373" x2="200" y2="528" stroke="#3B82F6" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)" opacity="0.4"/>
+
+        <!-- all → code_analyzer (just from sharedpref as example) -->
+        <line x1="249" y1="464" x2="349" y2="528" stroke="#606078" stroke-width="1" stroke-dasharray="2,4" marker-end="url(#arr-gray)" opacity="0.3"/>
+        <line x1="158" y1="464" x2="349" y2="528" stroke="#606078" stroke-width="1" stroke-dasharray="2,4" marker-end="url(#arr-gray)" opacity="0.3"/>
+        <line x1="336" y1="464" x2="349" y2="528" stroke="#606078" stroke-width="1" stroke-dasharray="2,4" marker-end="url(#arr-gray)" opacity="0.3"/>
+
+        <!-- domain → common -->
+        <line x1="300" y1="373" x2="96" y2="528" stroke="#3B82F6" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)" opacity="0.4"/>
+
+        <!-- Legend -->
+        <rect x="700" y="380" width="380" height="150" rx="8" fill="rgba(23,23,31,0.8)" stroke="#2e2e45" stroke-width="1"/>
+        <text x="716" y="403" fill="#a0a0b8" font-size="10" font-weight="600" font-family="Inter,sans-serif" letter-spacing="0.5">LEGEND</text>
+
+        <rect x="716" y="418" width="16" height="16" rx="4" fill="rgba(109,63,212,0.25)" stroke="#6D3FD4"/>
+        <text x="738" y="430" fill="#9D71F0" font-size="11" font-family="Inter,sans-serif">App</text>
+
+        <rect x="716" y="440" width="16" height="16" rx="4" fill="rgba(236,72,153,0.15)" stroke="#EC4899"/>
+        <text x="738" y="452" fill="#f472b6" font-size="11" font-family="Inter,sans-serif">Feature packages</text>
+
+        <rect x="716" y="462" width="16" height="16" rx="4" fill="rgba(23,178,106,0.15)" stroke="#17B26A"/>
+        <text x="738" y="474" fill="#4ade80" font-size="11" font-family="Inter,sans-serif">Shared packages</text>
+
+        <rect x="716" y="484" width="16" height="16" rx="4" fill="rgba(59,130,246,0.15)" stroke="#3B82F6"/>
+        <text x="738" y="496" fill="#60a5fa" font-size="11" font-family="Inter,sans-serif">Data / Domain</text>
+
+        <rect x="716" y="506" width="16" height="16" rx="4" fill="rgba(249,115,22,0.15)" stroke="#F97316"/>
+        <text x="738" y="518" fill="#fb923c" font-size="11" font-family="Inter,sans-serif">Cache layers</text>
+
+        <rect x="830" y="418" width="16" height="16" rx="4" fill="rgba(160,160,184,0.1)" stroke="#2e2e45"/>
+        <text x="852" y="430" fill="#a0a0b8" font-size="11" font-family="Inter,sans-serif">Core packages</text>
+
+        <line x1="830" y1="450" x2="846" y2="450" stroke="#6D3FD4" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arr-brand)"/>
+        <text x="852" y="454" fill="#a0a0b8" font-size="11" font-family="Inter,sans-serif">depends on →</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Dependency Table -->
+  <div class="section-block">
+    <h2>Package Dependency Matrix</h2>
+    <div class="card" style="overflow-x:auto">
+      <table class="dep-table">
+        <thead><tr><th>Package</th><th>Type</th><th>Depends On</th></tr></thead>
+        <tbody>
+          <tr><td><strong>app</strong></td><td><span class="badge badge-brand">app</span></td><td>
+            <span class="dep-tag badge-brand">di</span>
+            <span class="dep-tag badge-green">designsystem</span>
+            <span class="dep-tag badge-green">localization</span>
+            <span class="dep-tag badge-gray">code_analyzer</span>
+          </td></tr>
+          <tr><td><strong>di</strong></td><td><span class="badge badge-green">shared</span></td><td>
+            <span class="dep-tag badge-blue">data</span>
+            <span class="dep-tag badge-blue">domain</span>
+            <span class="dep-tag badge-green">navigation</span>
+            <span class="dep-tag badge-orange">secured</span>
+            <span class="dep-tag badge-orange">sharedpref</span>
+            <span class="dep-tag badge-green">localization</span>
+            <span class="dep-tag" style="background:rgba(236,72,153,0.12);color:#f472b6">All features</span>
+          </td></tr>
+          <tr><td><strong>data</strong></td><td><span class="badge badge-blue">data</span></td><td>
+            <span class="dep-tag badge-blue">domain</span>
+            <span class="dep-tag badge-gray">entity</span>
+            <span class="dep-tag badge-gray">common</span>
+            <span class="dep-tag badge-gray">response</span>
+            <span class="dep-tag badge-orange">sharedpref</span>
+            <span class="dep-tag badge-gray">code_analyzer</span>
+          </td></tr>
+          <tr><td><strong>domain</strong></td><td><span class="badge badge-blue">data</span></td><td>
+            <span class="dep-tag badge-gray">entity</span>
+            <span class="dep-tag badge-gray">common</span>
+            <span class="dep-tag badge-gray">code_analyzer</span>
+          </td></tr>
+          <tr><td><strong>ui</strong></td><td><span class="badge badge-green">shared</span></td><td>
+            <span class="dep-tag badge-green">designsystem</span>
+            <span class="dep-tag badge-green">localization</span>
+            <span class="dep-tag badge-gray">code_analyzer</span>
+          </td></tr>
+          <tr><td><strong>Features (all)</strong></td><td><span class="badge badge-pink">feature</span></td><td>
+            <span class="dep-tag badge-green">designsystem</span>
+            <span class="dep-tag badge-green">ui</span>
+            <span class="dep-tag badge-green">navigation</span>
+            <span class="dep-tag badge-green">localization</span>
+            <span class="dep-tag badge-gray">entity</span>
+            <span class="dep-tag badge-gray">common</span>
+          </td></tr>
+          <tr><td><strong>localization</strong></td><td><span class="badge badge-green">shared</span></td><td>
+            <span class="dep-tag badge-gray">common</span>
+            <span class="dep-tag badge-gray">code_analyzer</span>
+          </td></tr>
+          <tr><td><strong>common / entity / response</strong></td><td><span class="badge badge-gray">core</span></td><td>
+            <span class="dep-tag badge-gray">code_analyzer</span>
+          </td></tr>
+          <tr><td><strong>code_analyzer</strong></td><td><span class="badge badge-gray">core</span></td><td><em style="color:var(--text3)">none (leaf)</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     COLORS
+═════════════════════════════════════════ -->
+<section id="colors">
+  <h1>Color System</h1>
+  <p class="subtitle">Full-scale palettes + semantic color scheme from AppColorScheme</p>
+
+  <div class="section-block">
+    <h2>Brand Palette — VOID Purple</h2>
+    <div class="color-palette">
+      <div class="color-scale">
+        <span class="color-scale-label">Neutral</span>
+        <div class="swatch" data-hex="#FAFAFA" style="background:#FAFAFA"></div>
+        <div class="swatch" data-hex="#F1F1F5" style="background:#F1F1F5"></div>
+        <div class="swatch" data-hex="#E4E4ED" style="background:#E4E4ED"></div>
+        <div class="swatch" data-hex="#C9C9D8" style="background:#C9C9D8"></div>
+        <div class="swatch" data-hex="#9B9BB0" style="background:#9B9BB0"></div>
+        <div class="swatch" data-hex="#6F6F84" style="background:#6F6F84"></div>
+        <div class="swatch" data-hex="#4D4D62" style="background:#4D4D62"></div>
+        <div class="swatch" data-hex="#32323F" style="background:#32323F"></div>
+        <div class="swatch" data-hex="#1E1E27" style="background:#1E1E27"></div>
+        <div class="swatch" data-hex="#0F0F14" style="background:#0F0F14"></div>
+      </div>
+      <div class="color-scale">
+        <span class="color-scale-label">Brand (VOID)</span>
+        <div class="swatch" data-hex="#F0EBFB" style="background:#F0EBFB"></div>
+        <div class="swatch" data-hex="#E0D4F7" style="background:#E0D4F7"></div>
+        <div class="swatch" data-hex="#C4ADEE" style="background:#C4ADEE"></div>
+        <div class="swatch" data-hex="#A886E6" style="background:#A886E6"></div>
+        <div class="swatch" data-hex="#8A5FDA" style="background:#8A5FDA"></div>
+        <div class="swatch" data-hex="#6D3FD4" style="background:#6D3FD4"></div>
+        <div class="swatch" data-hex="#5830AD" style="background:#5830AD"></div>
+        <div class="swatch" data-hex="#432387" style="background:#432387"></div>
+        <div class="swatch" data-hex="#2D1760" style="background:#2D1760"></div>
+        <div class="swatch" data-hex="#190C3A" style="background:#190C3A"></div>
+      </div>
+      <div class="color-scale">
+        <span class="color-scale-label">Secondary (Love)</span>
+        <div class="swatch" data-hex="#FDF2F8" style="background:#FDF2F8"></div>
+        <div class="swatch" data-hex="#FCE7F3" style="background:#FCE7F3"></div>
+        <div class="swatch" data-hex="#F9A8D4" style="background:#F9A8D4"></div>
+        <div class="swatch" data-hex="#F472B6" style="background:#F472B6"></div>
+        <div class="swatch" data-hex="#EC4899" style="background:#EC4899"></div>
+        <div class="swatch" data-hex="#DB2777" style="background:#DB2777"></div>
+        <div class="swatch" data-hex="#BE185D" style="background:#BE185D"></div>
+        <div class="swatch" data-hex="#9D174D" style="background:#9D174D"></div>
+        <div class="swatch" data-hex="#831843" style="background:#831843"></div>
+        <div class="swatch" data-hex="#500724" style="background:#500724"></div>
+      </div>
+      <div class="color-scale">
+        <span class="color-scale-label">Error (Rage)</span>
+        <div class="swatch" data-hex="#FEF2F2" style="background:#FEF2F2"></div>
+        <div class="swatch" data-hex="#FEE2E2" style="background:#FEE2E2"></div>
+        <div class="swatch" data-hex="#FECACA" style="background:#FECACA"></div>
+        <div class="swatch" data-hex="#FCA5A5" style="background:#FCA5A5"></div>
+        <div class="swatch" data-hex="#F87171" style="background:#F87171"></div>
+        <div class="swatch" data-hex="#E25448" style="background:#E25448"></div>
+        <div class="swatch" data-hex="#B91C1C" style="background:#B91C1C"></div>
+        <div class="swatch" data-hex="#991B1B" style="background:#991B1B"></div>
+        <div class="swatch" data-hex="#7F1D1D" style="background:#7F1D1D"></div>
+        <div class="swatch" data-hex="#450A0A" style="background:#450A0A"></div>
+      </div>
+      <div class="color-scale">
+        <span class="color-scale-label">Warning (Rant)</span>
+        <div class="swatch" data-hex="#FFF7ED" style="background:#FFF7ED"></div>
+        <div class="swatch" data-hex="#FFEDD5" style="background:#FFEDD5"></div>
+        <div class="swatch" data-hex="#FED7AA" style="background:#FED7AA"></div>
+        <div class="swatch" data-hex="#FDBA74" style="background:#FDBA74"></div>
+        <div class="swatch" data-hex="#FB923C" style="background:#FB923C"></div>
+        <div class="swatch" data-hex="#F97316" style="background:#F97316"></div>
+        <div class="swatch" data-hex="#EA580C" style="background:#EA580C"></div>
+        <div class="swatch" data-hex="#C2410C" style="background:#C2410C"></div>
+        <div class="swatch" data-hex="#9A3412" style="background:#9A3412"></div>
+        <div class="swatch" data-hex="#431407" style="background:#431407"></div>
+      </div>
+      <div class="color-scale">
+        <span class="color-scale-label">Success</span>
+        <div class="swatch" data-hex="#F0FDF4" style="background:#F0FDF4"></div>
+        <div class="swatch" data-hex="#DCFCE7" style="background:#DCFCE7"></div>
+        <div class="swatch" data-hex="#BBF7D0" style="background:#BBF7D0"></div>
+        <div class="swatch" data-hex="#86EFAC" style="background:#86EFAC"></div>
+        <div class="swatch" data-hex="#4ADE80" style="background:#4ADE80"></div>
+        <div class="swatch" data-hex="#17B26A" style="background:#17B26A"></div>
+        <div class="swatch" data-hex="#16A34A" style="background:#16A34A"></div>
+        <div class="swatch" data-hex="#15803D" style="background:#15803D"></div>
+        <div class="swatch" data-hex="#166534" style="background:#166534"></div>
+        <div class="swatch" data-hex="#052E16" style="background:#052E16"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Semantic Color Tokens (AppColorScheme)</h2>
+    <h3 style="margin-top:16px">Surfaces</h3>
+    <div class="semantic-colors">
+      <div class="semantic-item"><div class="semantic-dot" style="background:#FFFFFF"></div><div><div class="semantic-name">backgroundPrimary</div><div class="semantic-hex">#FFFFFF</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#F8F8FC"></div><div><div class="semantic-name">backgroundSecondary</div><div class="semantic-hex">#F8F8FC</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#F1F1F5"></div><div><div class="semantic-name">backgroundTertiary</div><div class="semantic-hex">#F1F1F5</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#FFFFFF"></div><div><div class="semantic-name">surfacePrimary</div><div class="semantic-hex">#FFFFFF</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#F8F8FC"></div><div><div class="semantic-name">surfaceSecondary</div><div class="semantic-hex">#F8F8FC</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#6D3FD4;opacity:0.1"></div><div><div class="semantic-name">surfaceDestructive</div><div class="semantic-hex">brand-50</div></div></div>
+    </div>
+    <h3 style="margin-top:20px">Content</h3>
+    <div class="semantic-colors">
+      <div class="semantic-item"><div class="semantic-dot" style="background:#0F0F14"></div><div><div class="semantic-name">contentPrimary</div><div class="semantic-hex">#0F0F14</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#4D4D62"></div><div><div class="semantic-name">contentSecondary</div><div class="semantic-hex">#4D4D62</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#6F6F84"></div><div><div class="semantic-name">contentTertiary</div><div class="semantic-hex">#6F6F84</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#9B9BB0"></div><div><div class="semantic-name">contentDisabled</div><div class="semantic-hex">#9B9BB0</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#6D3FD4"></div><div><div class="semantic-name">contentBrand</div><div class="semantic-hex">#6D3FD4</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#E25448"></div><div><div class="semantic-name">contentError</div><div class="semantic-hex">#E25448</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#17B26A"></div><div><div class="semantic-name">contentSuccess</div><div class="semantic-hex">#17B26A</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#F97316"></div><div><div class="semantic-name">contentWarning</div><div class="semantic-hex">#F97316</div></div></div>
+    </div>
+    <h3 style="margin-top:20px">Borders</h3>
+    <div class="semantic-colors">
+      <div class="semantic-item"><div class="semantic-dot" style="background:#E4E4ED;border:1px solid #ccc"></div><div><div class="semantic-name">borderPrimary</div><div class="semantic-hex">#E4E4ED</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#C9C9D8;border:1px solid #ccc"></div><div><div class="semantic-name">borderSecondary</div><div class="semantic-hex">#C9C9D8</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#6D3FD4"></div><div><div class="semantic-name">borderBrand</div><div class="semantic-hex">#6D3FD4</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#8A5FDA"></div><div><div class="semantic-name">borderFocused</div><div class="semantic-hex">#8A5FDA</div></div></div>
+      <div class="semantic-item"><div class="semantic-dot" style="background:#E25448"></div><div><div class="semantic-name">borderError</div><div class="semantic-hex">#E25448</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     TYPOGRAPHY
+═════════════════════════════════════════ -->
+<section id="typography">
+  <h1>Typography System</h1>
+  <p class="subtitle">Inter (primary) · Inter (display) · JetBrains Mono</p>
+
+  <div class="section-block">
+    <h2>Type Scale</h2>
+    <div class="type-scale">
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Display XL</div><div class="type-spec">48px / bold</div></div>
+        <div class="type-preview" style="font-size:48px;font-weight:700;letter-spacing:-0.5px;line-height:1.15">Headline</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Display LG</div><div class="type-spec">40px / bold</div></div>
+        <div class="type-preview" style="font-size:40px;font-weight:700;letter-spacing:-0.5px;line-height:1.15">Headline</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Heading 1</div><div class="type-spec">32px / semiBold</div></div>
+        <div class="type-preview" style="font-size:32px;font-weight:600;letter-spacing:-0.25px">Page Title</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Heading 2</div><div class="type-spec">24px / semiBold</div></div>
+        <div class="type-preview" style="font-size:24px;font-weight:600;letter-spacing:-0.25px">Section Header</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Heading 3</div><div class="type-spec">20px / semiBold</div></div>
+        <div class="type-preview" style="font-size:20px;font-weight:600">Subsection</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Body LG</div><div class="type-spec">18px / regular</div></div>
+        <div class="type-preview" style="font-size:18px;font-weight:400;line-height:1.5;color:var(--text2)">The quick brown fox jumps over the lazy dog.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Body MD</div><div class="type-spec">16px / regular</div></div>
+        <div class="type-preview" style="font-size:16px;font-weight:400;line-height:1.5;color:var(--text2)">The quick brown fox jumps over the lazy dog.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Body SM</div><div class="type-spec">14px / regular</div></div>
+        <div class="type-preview" style="font-size:14px;font-weight:400;line-height:1.5;color:var(--text2)">The quick brown fox jumps over the lazy dog.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Caption</div><div class="type-spec">12px / regular</div></div>
+        <div class="type-preview" style="font-size:12px;font-weight:400;color:var(--text3)">Supplemental information and metadata</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Label</div><div class="type-spec">11px / medium</div></div>
+        <div class="type-preview" style="font-size:11px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;color:var(--text3)">INPUT LABEL</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-label">Mono</div><div class="type-spec">13px / JetBrainsMono</div></div>
+        <div class="type-preview" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:#9D71F0">const value = token.brand500;</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Font Weights</h2>
+    <div class="weight-grid">
+      <div class="weight-card">
+        <div class="weight-sample" style="font-weight:400">Aa</div>
+        <div class="weight-name">Regular</div>
+        <div class="weight-num">400</div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-sample" style="font-weight:500">Aa</div>
+        <div class="weight-name">Medium</div>
+        <div class="weight-num">500</div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-sample" style="font-weight:600">Aa</div>
+        <div class="weight-name">SemiBold</div>
+        <div class="weight-num">600</div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-sample" style="font-weight:700">Aa</div>
+        <div class="weight-name">Bold</div>
+        <div class="weight-num">700</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Typography Intents</h2>
+    <div class="grid2">
+      <div class="card">
+        <div style="padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:8px;font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">AppTypographyIntent values</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px">
+          <div style="display:flex;gap:12px;align-items:baseline">
+            <span style="font-family:var(--mono);color:var(--brand-light);font-size:12px;width:100px">.displayXL</span>
+            <span style="font-size:32px;font-weight:700;letter-spacing:-0.5px">Display</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:baseline">
+            <span style="font-family:var(--mono);color:var(--brand-light);font-size:12px;width:100px">.h1</span>
+            <span style="font-size:24px;font-weight:600">Heading 1</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:baseline">
+            <span style="font-family:var(--mono);color:var(--brand-light);font-size:12px;width:100px">.bodyLG</span>
+            <span style="font-size:18px;color:var(--text2)">Body large</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:baseline">
+            <span style="font-family:var(--mono);color:var(--brand-light);font-size:12px;width:100px">.bodyMD</span>
+            <span style="font-size:16px;color:var(--text2)">Body medium</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:baseline">
+            <span style="font-family:var(--mono);color:var(--brand-light);font-size:12px;width:100px">.bodySM</span>
+            <span style="font-size:14px;color:var(--text2)">Body small</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:baseline">
+            <span style="font-family:var(--mono);color:var(--brand-light);font-size:12px;width:100px">.caption</span>
+            <span style="font-size:12px;color:var(--text3)">Caption text</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px;font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Spacing tokens</div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--text2)">
+          <div><span style="font-family:var(--mono);color:#9D71F0">letterSpacing.tighter</span> → <span style="font-family:var(--mono)">-0.5px</span></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">letterSpacing.tight</span> → <span style="font-family:var(--mono)">-0.25px</span></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">letterSpacing.normal</span> → <span style="font-family:var(--mono)">0px</span></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">letterSpacing.wide</span> → <span style="font-family:var(--mono)">0.15px</span></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">letterSpacing.wider</span> → <span style="font-family:var(--mono)">0.4px</span></div>
+          <div style="margin-top:10px"></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">lineHeight.tight</span> → <span style="font-family:var(--mono)">1.15</span></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">lineHeight.snug</span> → <span style="font-family:var(--mono)">1.25</span></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">lineHeight.normal</span> → <span style="font-family:var(--mono)">1.4</span></div>
+          <div><span style="font-family:var(--mono);color:#9D71F0">lineHeight.relaxed</span> → <span style="font-family:var(--mono)">1.5</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     TOKENS
+═════════════════════════════════════════ -->
+<section id="tokens">
+  <h1>Design Tokens</h1>
+  <p class="subtitle">Spacing · Border Radius · Elevation · Icon Sizes</p>
+
+  <div class="section-block">
+    <h2>Spacing Scale (AppSpacing)</h2>
+    <div class="card">
+      <div class="token-row"><span class="token-name">s0</span><span class="token-value">0px</span><div class="token-bar-wrap"><div class="token-bar" style="width:0px;min-width:2px;opacity:0.3"></div></div></div>
+      <div class="token-row"><span class="token-name">s1</span><span class="token-value">2px</span><div class="token-bar-wrap"><div class="token-bar" style="width:2px"></div></div></div>
+      <div class="token-row"><span class="token-name">s2</span><span class="token-value">4px</span><div class="token-bar-wrap"><div class="token-bar" style="width:4px"></div></div></div>
+      <div class="token-row"><span class="token-name">s4</span><span class="token-value">8px</span><div class="token-bar-wrap"><div class="token-bar" style="width:8px"></div></div></div>
+      <div class="token-row"><span class="token-name">s8</span><span class="token-value">16px</span><div class="token-bar-wrap"><div class="token-bar" style="width:16px"></div></div></div>
+      <div class="token-row"><span class="token-name">s12</span><span class="token-value">24px</span><div class="token-bar-wrap"><div class="token-bar" style="width:24px"></div></div></div>
+      <div class="token-row"><span class="token-name">s16</span><span class="token-value">32px</span><div class="token-bar-wrap"><div class="token-bar" style="width:32px"></div></div></div>
+      <div class="token-row"><span class="token-name">s24</span><span class="token-value">48px</span><div class="token-bar-wrap"><div class="token-bar" style="width:48px"></div></div></div>
+      <div class="token-row"><span class="token-name">s32</span><span class="token-value">64px</span><div class="token-bar-wrap"><div class="token-bar" style="width:64px"></div></div></div>
+      <div class="token-row"><span class="token-name">s48</span><span class="token-value">96px</span><div class="token-bar-wrap"><div class="token-bar" style="width:96px"></div></div></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Border Radius (AppRadius)</h2>
+    <div class="radius-grid">
+      <div class="radius-card"><div class="radius-demo" style="border-radius:2px"></div><div class="radius-label">r2</div><div class="radius-val">2px</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:4px"></div><div class="radius-label">r4</div><div class="radius-val">4px</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:8px"></div><div class="radius-label">r8</div><div class="radius-val">8px</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:12px"></div><div class="radius-label">r12</div><div class="radius-val">12px</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:16px"></div><div class="radius-label">r16</div><div class="radius-val">16px</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:999px"></div><div class="radius-label">rFull</div><div class="radius-val">999px</div></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Elevation (AppElevation)</h2>
+    <div class="elevation-grid">
+      <div class="elev-card"><div class="elev-demo" style="box-shadow:none"></div><div class="elev-label">flat</div><div class="elev-val">0dp</div></div>
+      <div class="elev-card"><div class="elev-demo" style="box-shadow:0 1px 3px rgba(0,0,0,0.4)"></div><div class="elev-label">raised</div><div class="elev-val">1dp</div></div>
+      <div class="elev-card"><div class="elev-demo" style="box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div><div class="elev-label">card</div><div class="elev-val">2dp</div></div>
+      <div class="elev-card"><div class="elev-demo" style="box-shadow:0 4px 16px rgba(0,0,0,0.5)"></div><div class="elev-label">popover</div><div class="elev-val">4dp</div></div>
+      <div class="elev-card"><div class="elev-demo" style="box-shadow:0 8px 24px rgba(0,0,0,0.6)"></div><div class="elev-label">modal</div><div class="elev-val">8dp</div></div>
+      <div class="elev-card"><div class="elev-demo" style="box-shadow:0 16px 48px rgba(0,0,0,0.7)"></div><div class="elev-label">overlay</div><div class="elev-val">16dp</div></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Icon Sizes (AppIconSize)</h2>
+    <div class="card">
+      <div style="display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:16px 0">
+        <div style="text-align:center"><div style="font-size:12px;width:12px;height:12px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">indicator</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">12px</div></div>
+        <div style="text-align:center"><div style="font-size:12px;width:16px;height:16px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">inline</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">16px</div></div>
+        <div style="text-align:center"><div style="font-size:12px;width:20px;height:20px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">dense</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">20px</div></div>
+        <div style="text-align:center"><div style="font-size:12px;width:24px;height:24px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">standard</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">24px</div></div>
+        <div style="text-align:center"><div style="font-size:12px;width:32px;height:32px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">prominent</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">32px</div></div>
+        <div style="text-align:center"><div style="font-size:12px;width:48px;height:48px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">feature</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">48px</div></div>
+        <div style="text-align:center"><div style="font-size:12px;width:64px;height:64px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">hero</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">64px</div></div>
+        <div style="text-align:center"><div style="font-size:12px;width:96px;height:96px;background:var(--brand-dim);border:1px solid var(--brand);border-radius:3px;margin:0 auto 6px"></div><div style="font-size:11px;color:var(--text2)">display</div><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">96px</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     COMPONENTS
+═════════════════════════════════════════ -->
+<section id="components">
+  <h1>Component Library</h1>
+  <p class="subtitle">14 component types — all themed via AppTheme extensions</p>
+
+  <div class="comp-grid">
+
+    <!-- BUTTON -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:var(--brand-dim)">🔘</div>
+        <div><div class="comp-title">Button</div><div class="comp-subtitle">app_filled_button, app_outline_button, app_text_button, app_icon_button</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview">
+          <button class="btn-filled">Filled</button>
+          <button class="btn-outline">Outline</button>
+          <button class="btn-text">Text</button>
+          <button class="btn-icon">+</button>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">filled</span>
+          <span class="variant-tag">outline</span>
+          <span class="variant-tag">text</span>
+          <span class="variant-tag">icon</span>
+          <span class="variant-tag">loading state</span>
+          <span class="variant-tag">disabled</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT FIELD -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(23,178,106,0.15)">✏️</div>
+        <div><div class="comp-title">Input Field</div><div class="comp-subtitle">app_input_field, app_input_field_enums, size_spec</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview" style="flex-direction:column;gap:8px">
+          <input class="input-demo" placeholder="Default input" />
+          <input class="input-demo" style="border-color:var(--brand)" placeholder="Focused" />
+          <input class="input-demo" style="border-color:var(--red)" placeholder="Error state" />
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">default</span>
+          <span class="variant-tag">focused</span>
+          <span class="variant-tag">error</span>
+          <span class="variant-tag">disabled</span>
+          <span class="variant-tag">password</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(59,130,246,0.15)">🃏</div>
+        <div><div class="comp-title">Card</div><div class="comp-subtitle">app_card, app_card_enums, app_card_theme</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview" style="flex-direction:column;gap:8px">
+          <div class="card-demo">
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px">Card title</div>
+            <div style="font-size:12px;color:var(--text2)">Card body content goes here</div>
+          </div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">default</span>
+          <span class="variant-tag">elevated</span>
+          <span class="variant-tag">outlined</span>
+          <span class="variant-tag">color variants</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXT -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(249,115,22,0.15)">T</div>
+        <div><div class="comp-title">AppText</div><div class="comp-subtitle">app_text, app_text_weight, app_typography_intent</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview" style="flex-direction:column;gap:4px;align-items:flex-start">
+          <div style="font-size:22px;font-weight:700;letter-spacing:-0.5px">Display</div>
+          <div style="font-size:18px;font-weight:600">Heading</div>
+          <div style="font-size:14px;color:var(--text2)">Body text content</div>
+          <div style="font-size:11px;color:var(--text3)">Caption</div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">intent system</span>
+          <span class="variant-tag">weight override</span>
+          <span class="variant-tag">color override</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAG -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:var(--pink-dim)">🏷️</div>
+        <div><div class="comp-title">Tag / Chip</div><div class="comp-subtitle">app_tag, app_tag_enums</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview">
+          <span class="tag-demo tag-brand">Brand</span>
+          <span class="tag-demo tag-pink">Love</span>
+          <span class="tag-demo tag-green">Success</span>
+          <span class="tag-demo tag-red">Error</span>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">brand</span>
+          <span class="variant-tag">secondary</span>
+          <span class="variant-tag">success</span>
+          <span class="variant-tag">error</span>
+          <span class="variant-tag">warning</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SWITCH -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(23,178,106,0.15)">⚡</div>
+        <div><div class="comp-title">Switch</div><div class="comp-subtitle">app_switch, app_switch_enums, app_switch_colors</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview">
+          <div class="switch-demo">
+            <div class="switch-track" onclick="this.classList.toggle('off')"><div class="switch-thumb"></div></div>
+            <span style="font-size:13px;color:var(--text2)">Toggle (click me)</span>
+          </div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">on</span>
+          <span class="variant-tag">off</span>
+          <span class="variant-tag">disabled</span>
+          <span class="variant-tag">custom colors</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOPBAR -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(109,63,212,0.15)">📱</div>
+        <div><div class="comp-title">TopBar</div><div class="comp-subtitle">app_topbar, app_topbar_theme</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview">
+          <div class="topbar-demo" style="width:100%">
+            <div class="topbar-back">←</div>
+            <div style="flex:1;font-weight:600;font-size:15px">Screen Title</div>
+            <div class="topbar-back">⋯</div>
+          </div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">back button</span>
+          <span class="variant-tag">title</span>
+          <span class="variant-tag">actions</span>
+          <span class="variant-tag">themed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(160,160,184,0.1)">—</div>
+        <div><div class="comp-title">Divider</div><div class="comp-subtitle">app_divider, app_divider_enums</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview" style="flex-direction:column;gap:10px;width:100%">
+          <div class="divider-h"></div>
+          <div class="divider-h" style="background:var(--brand);opacity:0.4"></div>
+          <div style="display:flex;align-items:center;gap:8px;width:100%">
+            <div class="divider-h" style="flex:1"></div>
+            <span style="font-size:11px;color:var(--text3)">OR</span>
+            <div class="divider-h" style="flex:1"></div>
+          </div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">horizontal</span>
+          <span class="variant-tag">with label</span>
+          <span class="variant-tag">color variants</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCAFFOLD -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(59,130,246,0.15)">🏗️</div>
+        <div><div class="comp-title">Scaffold</div><div class="comp-subtitle">app_scaffold, app_scaffold_theme</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview" style="flex-direction:column;gap:6px;width:100%">
+          <div style="background:var(--surface3);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--text2)">TopBar slot</div>
+          <div style="background:var(--surface3);border-radius:6px;padding:20px 10px;font-size:11px;color:var(--text3);text-align:center">Body content</div>
+          <div style="background:var(--surface3);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--text2)">Bottom slot</div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">themed bg</span>
+          <span class="variant-tag">safe area</span>
+          <span class="variant-tag">scroll support</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RICH TEXT -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(249,115,22,0.15)">📝</div>
+        <div><div class="comp-title">RichText</div><div class="comp-subtitle">app_rich_text, app_rich_text_segment</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview">
+          <div style="font-size:14px;line-height:1.5">
+            <span class="rich-normal">Welcome, </span>
+            <span class="rich-bold">@username</span>
+            <span class="rich-normal">! Check your </span>
+            <span style="color:var(--pink);font-weight:600">notifications</span>
+            <span class="rich-normal"> now.</span>
+          </div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">inline spans</span>
+          <span class="variant-tag">weight mix</span>
+          <span class="variant-tag">color mix</span>
+          <span class="variant-tag">tap targets</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ICON -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(236,72,153,0.15)">✦</div>
+        <div><div class="comp-title">AppIcon</div><div class="comp-subtitle">app_icon (SVG + icon size system)</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview" style="gap:16px;align-items:flex-end">
+          <div style="text-align:center"><div style="font-size:12px;color:var(--brand-light)">●</div><div style="font-size:10px;color:var(--text3)">12</div></div>
+          <div style="text-align:center"><div style="font-size:16px;color:var(--brand-light)">●</div><div style="font-size:10px;color:var(--text3)">16</div></div>
+          <div style="text-align:center"><div style="font-size:20px;color:var(--brand-light)">●</div><div style="font-size:10px;color:var(--text3)">20</div></div>
+          <div style="text-align:center"><div style="font-size:24px;color:var(--brand-light)">●</div><div style="font-size:10px;color:var(--text3)">24</div></div>
+          <div style="text-align:center"><div style="font-size:32px;color:var(--brand-light)">●</div><div style="font-size:10px;color:var(--text3)">32</div></div>
+          <div style="text-align:center"><div style="font-size:48px;color:var(--brand-light)">●</div><div style="font-size:10px;color:var(--text3)">48</div></div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">flutter_svg</span>
+          <span class="variant-tag">8 size steps</span>
+          <span class="variant-tag">color themed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE -->
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:rgba(59,130,246,0.15)">🖼️</div>
+        <div><div class="comp-title">AppImage</div><div class="comp-subtitle">app_image, ImageRepository, ImageUtils</div></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-preview">
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6D3FD4,#EC4899);display:flex;align-items:center;justify-content:center;font-size:24px">👤</div>
+          <div style="width:80px;height:56px;border-radius:8px;background:linear-gradient(135deg,#3B82F6,#17B26A);display:flex;align-items:center;justify-content:center;font-size:20px">🖼️</div>
+        </div>
+        <div class="comp-variants">
+          <span class="variant-tag">network</span>
+          <span class="variant-tag">local</span>
+          <span class="variant-tag">avatar</span>
+          <span class="variant-tag">compress</span>
+          <span class="variant-tag">placeholder</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Theme composition note -->
+  <div class="section-block" style="margin-top:40px">
+    <h2>Theme Composition</h2>
+    <div class="card">
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;font-family:var(--mono)">
+        <div style="color:#4ade80">AppTheme {</div>
+        <div style="padding-left:20px;color:var(--text2)">AppTypographyTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppTagTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppColorScheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">ModeColorScheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppInputFieldTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppButtonTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppCardTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppTopBarTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppScaffoldTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppDividerTheme,</div>
+        <div style="padding-left:20px;color:var(--text2)">AppSwitchTheme</div>
+        <div style="color:#4ade80">}</div>
+        <div style="margin-top:10px;color:var(--text3)">// accessed via context.appTheme extension</div>
+        <div style="color:var(--text3)">// AppTheme.light() · AppTheme.dark()</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     FEATURES
+═════════════════════════════════════════ -->
+<section id="features">
+  <h1>Feature Map</h1>
+  <p class="subtitle">10 feature packages across auth and posts domains</p>
+
+  <div class="feature-group">
+    <h2>
+      <span>Auth Features</span>
+      <span class="group-badge" style="background:var(--pink-dim);color:#f472b6">7 packages</span>
+    </h2>
+    <div class="feature-cards">
+      <div class="feature-card">
+        <h3>splash</h3>
+        <p>Initial app state check and authentication verification before routing.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">SplashScreen</span>
+          <span class="screen-chip">SplashScreenRouter</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-cubit">SplashCubit</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>login</h3>
+        <p>User login form with validation, error handling, and auth state management.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">LoginScreen</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>signup</h3>
+        <p>User registration form with field validation and account creation flow.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">SignUpScreen</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>onboarding</h3>
+        <p>Carousel-based onboarding pager shown to new users, with progress tracking.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">OnboardingScreen</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span> <span style="font-size:11px;color:var(--text3)">carousel_slider</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>profile</h3>
+        <p>User profile display showing user info and their own posts with date formatting.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">ProfileScreen</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span> <span style="font-size:11px;color:var(--text3)">jiffy</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>setting</h3>
+        <p>App settings menu — dark mode toggle, language picker, account actions.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">SettingScreen</span>
+          <span class="screen-chip">SettingMenuList</span>
+          <span class="screen-chip">LanguagePillToggle</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>change_password</h3>
+        <p>Password change form with old/new/confirm fields, visibility toggles, and toast feedback.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">ChangePasswordScreen</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-group">
+    <h2>
+      <span>Post Features</span>
+      <span class="group-badge" style="background:rgba(109,63,212,0.15);color:var(--brand-light)">3 packages</span>
+    </h2>
+    <div class="feature-cards">
+      <div class="feature-card">
+        <h3>home</h3>
+        <p>Posts feed with mood filter, animated post cards, and infinite scroll.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">HomeScreen</span>
+          <span class="screen-chip">MoodList</span>
+          <span class="screen-chip">PostCard</span>
+          <span class="screen-chip">PostCardAnimatedWrapper</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-cubit">HomeCubit</span> <span style="font-size:11px;color:var(--text3)">jiffy · intl</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>create_post</h3>
+        <p>Create new post form with image picker, compression, and mood tagging.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">CreatePostScreen</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span> <span style="font-size:11px;color:var(--text3)">image_picker · compress</span></div>
+      </div>
+      <div class="feature-card">
+        <h3>post_details</h3>
+        <p>Single post detail view with full content, metadata, and interaction actions.</p>
+        <div class="feature-screens">
+          <span class="screen-chip">PostDetailsScreen</span>
+        </div>
+        <div style="margin-top:8px"><span class="state-chip state-bloc">BLoC</span> <span style="font-size:11px;color:var(--text3)">jiffy</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared cross-feature libs -->
+  <div class="section-block">
+    <h2>Cross-Feature Dependencies</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Every feature uses</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+          <span class="dep-tag badge-green">designsystem</span>
+          <span class="dep-tag badge-green">ui</span>
+          <span class="dep-tag badge-green">navigation</span>
+          <span class="dep-tag badge-green">localization</span>
+          <span class="dep-tag badge-gray">entity</span>
+          <span class="dep-tag badge-gray">common</span>
+          <span class="dep-tag badge-gray">code_analyzer</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Shared infrastructure</h3>
+        <div style="margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8">
+          <div><strong style="color:var(--text)">GoRouter</strong> — app-wide navigation, type-safe routes</div>
+          <div><strong style="color:var(--text)">GetIt</strong> — service locator DI, wired in di package</div>
+          <div><strong style="color:var(--text)">flutter_bloc</strong> — BLoC + Cubit state management</div>
+          <div><strong style="color:var(--text)">Formz</strong> — form field validation</div>
+          <div><strong style="color:var(--text)">Fluttertoast</strong> — toast notifications via AppToast</div>
+          <div><strong style="color:var(--text)">Firebase</strong> — analytics, crashlytics, messaging</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const btns = document.querySelectorAll('nav button');
+    const map = { overview:0, architecture:1, colors:2, typography:3, tokens:4, components:5, features:6 };
+    btns[map[id]].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Switch toggle animation polish
+  document.querySelectorAll('.switch-track').forEach(track => {
+    track.addEventListener('click', () => {
+      const thumb = track.querySelector('.switch-thumb');
+      if (track.classList.contains('off')) {
+        track.classList.remove('off');
+        thumb.style.left = '2px';
+      } else {
+        track.classList.add('off');
+        thumb.style.left = 'calc(100% - 22px)';
+      }
+    });
+  });
+
+  // Swatch copy to clipboard
+  document.querySelectorAll('.swatch').forEach(s => {
+    s.title = s.dataset.hex;
+    s.addEventListener('click', () => {
+      navigator.clipboard?.writeText(s.dataset.hex);
+    });
+  });
+</script>
+</body>
+</html>
