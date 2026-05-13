@@ -378,5 +378,83 @@
     "post_details_author_anonymous": "বেনামী",
     "@post_details_author_anonymous": {
         "description": "Fallback author name on post details"
+    },
+    "forgot_password_title": "পাসওয়ার্ড রিসেট করুন",
+    "@forgot_password_title": {
+        "description": "Forgot password screen main heading"
+    },
+    "forgot_password_subtitle": "চিন্তা নেই! আপনার নিবন্ধিত ফোন নম্বর লিখুন এবং আমরা একটি ওয়ান-টাইম কোড পাঠাবো।",
+    "@forgot_password_subtitle": {
+        "description": "Forgot password screen subtitle below heading"
+    },
+    "forgot_password_label_phone": "ফোন নম্বর",
+    "@forgot_password_label_phone": {
+        "description": "Label above the phone number input field on forgot password screen"
+    },
+    "forgot_password_hint_phone": "আপনার নিবন্ধিত ফোন নম্বর লিখুন",
+    "@forgot_password_hint_phone": {
+        "description": "Hint text inside the phone number input field on forgot password screen"
+    },
+    "forgot_password_button": "ওটিপি পাঠান",
+    "@forgot_password_button": {
+        "description": "Submit button label on forgot password screen"
+    },
+    "forgot_password_back_to_login": "সাইন ইনে ফিরুন",
+    "@forgot_password_back_to_login": {
+        "description": "Link to navigate back to login from forgot password screen"
+    },
+    "forgot_password_error_empty_phone": "অনুগ্রহ করে আপনার ফোন নম্বর লিখুন।",
+    "@forgot_password_error_empty_phone": {
+        "description": "Validation error when phone number is empty on forgot password screen"
+    },
+    "forgot_password_success": "ওটিপি পাঠানো হয়েছে! যাচাইকরণ কোডের জন্য আপনার ফোন দেখুন।",
+    "@forgot_password_success": {
+        "description": "Success message after OTP is sent from forgot password screen"
+    },
+    "otp_title": "আপনার নম্বর যাচাই করুন",
+    "@otp_title": {
+        "description": "OTP verification screen main heading"
+    },
+    "otp_subtitle": "আমরা {phone}-এ একটি ৬-সংখ্যার কোড পাঠিয়েছি। চালিয়ে যেতে নিচে লিখুন।",
+    "@otp_subtitle": {
+        "description": "OTP verification screen subtitle with phone number placeholder",
+        "placeholders": {
+            "phone": {
+                "type": "String"
+            }
+        }
+    },
+    "otp_button": "যাচাই করুন",
+    "@otp_button": {
+        "description": "Submit button label on OTP verification screen"
+    },
+    "otp_resend_prompt": "কোড পাননি?",
+    "@otp_resend_prompt": {
+        "description": "Prompt shown before the resend OTP action"
+    },
+    "otp_resend_button": "ওটিপি পুনরায় পাঠান",
+    "@otp_resend_button": {
+        "description": "Button to resend OTP when timer expires"
+    },
+    "otp_resend_timer": "{seconds}সে. পরে পুনরায় পাঠান",
+    "@otp_resend_timer": {
+        "description": "Countdown timer label shown while resend is disabled",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "otp_error_incomplete": "অনুগ্রহ করে সম্পূর্ণ ৬-সংখ্যার কোড লিখুন।",
+    "@otp_error_incomplete": {
+        "description": "Validation error when OTP is incomplete on OTP verification screen"
+    },
+    "otp_error_invalid": "ভুল কোড। অনুগ্রহ করে পরীক্ষা করে আবার চেষ্টা করুন।",
+    "@otp_error_invalid": {
+        "description": "Error shown when OTP does not match"
+    },
+    "otp_success": "ফোন নম্বর সফলভাবে যাচাই হয়েছে।",
+    "@otp_success": {
+        "description": "Success message after OTP is verified"
     }
 }

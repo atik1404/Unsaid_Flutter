@@ -299,4 +299,64 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get post_details_author_anonymous => 'বেনামী';
+
+  @override
+  String get forgot_password_title => 'পাসওয়ার্ড রিসেট করুন';
+
+  @override
+  String get forgot_password_subtitle =>
+      'চিন্তা নেই! আপনার নিবন্ধিত ফোন নম্বর লিখুন এবং আমরা একটি ওয়ান-টাইম কোড পাঠাবো।';
+
+  @override
+  String get forgot_password_label_phone => 'ফোন নম্বর';
+
+  @override
+  String get forgot_password_hint_phone => 'আপনার নিবন্ধিত ফোন নম্বর লিখুন';
+
+  @override
+  String get forgot_password_button => 'ওটিপি পাঠান';
+
+  @override
+  String get forgot_password_back_to_login => 'সাইন ইনে ফিরুন';
+
+  @override
+  String get forgot_password_error_empty_phone =>
+      'অনুগ্রহ করে আপনার ফোন নম্বর লিখুন।';
+
+  @override
+  String get forgot_password_success =>
+      'ওটিপি পাঠানো হয়েছে! যাচাইকরণ কোডের জন্য আপনার ফোন দেখুন।';
+
+  @override
+  String get otp_title => 'আপনার নম্বর যাচাই করুন';
+
+  @override
+  String otp_subtitle(String phone) {
+    return 'আমরা $phone-এ একটি ৬-সংখ্যার কোড পাঠিয়েছি। চালিয়ে যেতে নিচে লিখুন।';
+  }
+
+  @override
+  String get otp_button => 'যাচাই করুন';
+
+  @override
+  String get otp_resend_prompt => 'কোড পাননি?';
+
+  @override
+  String get otp_resend_button => 'ওটিপি পুনরায় পাঠান';
+
+  @override
+  String otp_resend_timer(int seconds) {
+    return '$secondsসে. পরে পুনরায় পাঠান';
+  }
+
+  @override
+  String get otp_error_incomplete =>
+      'অনুগ্রহ করে সম্পূর্ণ ৬-সংখ্যার কোড লিখুন।';
+
+  @override
+  String get otp_error_invalid =>
+      'ভুল কোড। অনুগ্রহ করে পরীক্ষা করে আবার চেষ্টা করুন।';
+
+  @override
+  String get otp_success => 'ফোন নম্বর সফলভাবে যাচাই হয়েছে।';
 }

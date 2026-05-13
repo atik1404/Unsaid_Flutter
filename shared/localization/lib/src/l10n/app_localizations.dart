@@ -637,6 +637,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Anonymous'**
   String get post_details_author_anonymous;
+
+  /// Forgot password screen main heading
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Your Password'**
+  String get forgot_password_title;
+
+  /// Forgot password screen subtitle below heading
+  ///
+  /// In en, this message translates to:
+  /// **'No worries! Enter your registered phone number and we\'ll send a one-time code to get you back in.'**
+  String get forgot_password_subtitle;
+
+  /// Label above the phone number input field on forgot password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get forgot_password_label_phone;
+
+  /// Hint text inside the phone number input field on forgot password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your registered phone number'**
+  String get forgot_password_hint_phone;
+
+  /// Submit button label on forgot password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Send OTP'**
+  String get forgot_password_button;
+
+  /// Link to navigate back to login from forgot password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Sign In'**
+  String get forgot_password_back_to_login;
+
+  /// Validation error when phone number is empty on forgot password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your phone number.'**
+  String get forgot_password_error_empty_phone;
+
+  /// Success message after OTP is sent from forgot password screen
+  ///
+  /// In en, this message translates to:
+  /// **'OTP sent! Check your phone for the verification code.'**
+  String get forgot_password_success;
+
+  /// OTP verification screen main heading
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Your Number'**
+  String get otp_title;
+
+  /// OTP verification screen subtitle with phone number placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit code to {phone}. Enter it below to continue.'**
+  String otp_subtitle(String phone);
+
+  /// Submit button label on OTP verification screen
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get otp_button;
+
+  /// Prompt shown before the resend OTP action
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t receive the code?'**
+  String get otp_resend_prompt;
+
+  /// Button to resend OTP when timer expires
+  ///
+  /// In en, this message translates to:
+  /// **'Resend OTP'**
+  String get otp_resend_button;
+
+  /// Countdown timer label shown while resend is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String otp_resend_timer(int seconds);
+
+  /// Validation error when OTP is incomplete on OTP verification screen
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the complete 6-digit code.'**
+  String get otp_error_incomplete;
+
+  /// Error shown when OTP does not match
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code. Please check and try again.'**
+  String get otp_error_invalid;
+
+  /// Success message after OTP is verified
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number verified successfully.'**
+  String get otp_success;
 }
 
 class _AppLocalizationsDelegate

@@ -35,6 +35,8 @@ workspace:
   - features/auth/profile/
   - features/auth/change_password/
   - features/auth/notification/
+  - features/auth/forgot_password/
+  - features/auth/otp_verification/
 
   - features/posts/home/
   - features/posts/create_post/

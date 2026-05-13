@@ -1,11 +1,13 @@
 import 'package:change_password/change_password.dart';
 import 'package:flutter/material.dart';
+import 'package:forgot_password/forgot_password.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:login/login.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:onboarding/onboarding.dart';
+import 'package:otp_verification/otp_verification.dart';
 import 'package:signup/signup.dart';
 import 'package:splash/splash.dart';
 import 'package:home/home.dart';
@@ -21,6 +23,8 @@ Future<void> registerNavigationModule(GetIt locator) async {
     ...LoginScreenRouter().routes(),
     ...OnboardingScreenRouter().routes(),
     ...SignupScreenRouter().routes(),
+    ...ForgotPasswordScreenRouter().routes(),
+    ...OtpVerificationScreenRouter().routes(),
     ...HomeScreenRouter().routes(
       children: [
         ...PostDetailsScreenRouter().routes(),

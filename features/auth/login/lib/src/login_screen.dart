@@ -84,7 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
         Align(
           child: AppTextButton(
             context.l10n.login_forgot_password,
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed(AppRouteName.forgotPasswordScreen);
+            },
             style: const AppTextButtonStyle(
               intent: AppButtonIntent.secondary(),
             ),

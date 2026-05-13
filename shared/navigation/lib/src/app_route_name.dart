@@ -25,4 +25,10 @@ final class AppRouteName {
 
   static const String notificationScreen = 'notificationScreen';
   static const String notificationPath = '/notifications';
+
+  static const String forgotPasswordScreen = 'forgotPasswordScreen';
+  static const String forgotPasswordPath = '/forgot-password';
+
+  static const String otpVerificationScreen = 'otpVerificationScreen';
+  static const String otpVerificationPath = '/otp-verification';
 }

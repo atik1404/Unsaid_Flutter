@@ -43,7 +43,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           AppTextButton(
             'Post',
             onPressed: () {
-              // Handle post creation logic here
+              AppLog.log('Post button pressed with content: ${_postController.text} and mood: $selectedMood');
             },
           ),
         ],
@@ -66,7 +66,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               SizedBox(height: AppSpacing.s8.h),
               const AppDivider(),
               SizedBox(height: AppSpacing.s8.h),
-              _buildInputBox(context),
+              _buildInputBox(),
             ],
           ),
         ),
@@ -102,7 +102,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     );
   }
 
-  Widget _buildInputBox(BuildContext context) {
+  Widget _buildInputBox() {
     return AppInputField(
       controller: _postController,
       hint: "What's on your mind?",

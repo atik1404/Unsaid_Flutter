@@ -299,4 +299,62 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get post_details_author_anonymous => 'Anonymous';
+
+  @override
+  String get forgot_password_title => 'Reset Your Password';
+
+  @override
+  String get forgot_password_subtitle =>
+      'No worries! Enter your registered phone number and we\'ll send a one-time code to get you back in.';
+
+  @override
+  String get forgot_password_label_phone => 'Phone Number';
+
+  @override
+  String get forgot_password_hint_phone => 'Enter your registered phone number';
+
+  @override
+  String get forgot_password_button => 'Send OTP';
+
+  @override
+  String get forgot_password_back_to_login => 'Back to Sign In';
+
+  @override
+  String get forgot_password_error_empty_phone =>
+      'Please enter your phone number.';
+
+  @override
+  String get forgot_password_success =>
+      'OTP sent! Check your phone for the verification code.';
+
+  @override
+  String get otp_title => 'Verify Your Number';
+
+  @override
+  String otp_subtitle(String phone) {
+    return 'We sent a 6-digit code to $phone. Enter it below to continue.';
+  }
+
+  @override
+  String get otp_button => 'Verify';
+
+  @override
+  String get otp_resend_prompt => 'Didn\'t receive the code?';
+
+  @override
+  String get otp_resend_button => 'Resend OTP';
+
+  @override
+  String otp_resend_timer(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get otp_error_incomplete => 'Please enter the complete 6-digit code.';
+
+  @override
+  String get otp_error_invalid => 'Invalid code. Please check and try again.';
+
+  @override
+  String get otp_success => 'Phone number verified successfully.';
 }
