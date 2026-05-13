@@ -12,6 +12,7 @@ import 'package:home/home.dart';
 import 'package:post_details/post_details.dart';
 import 'package:setting/setting.dart';
 import 'package:create_post/create_post.dart';
+import 'package:notification/notification.dart';
 import 'package:profile/profile.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
@@ -27,6 +28,7 @@ Future<void> registerNavigationModule(GetIt locator) async {
         ...ChangePasswordScreenRouter().routes(),
         ...CreatePostScreenRouter().routes(),
         ...ProfileScreenRouter().routes(),
+        ...NotificationScreenRouter().routes(),
       ],
     ),
   ];

@@ -22,4 +22,7 @@ final class AppRouteName {
 
   static const String postDetailsScreen = 'postDetailsScreen';
   static const String postDetailsPath = '/post-details';
+
+  static const String notificationScreen = 'notificationScreen';
+  static const String notificationPath = '/notifications';
 }

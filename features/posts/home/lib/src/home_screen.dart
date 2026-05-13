@@ -73,7 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: () {},
           ),
-          AppIconButton(const AppIcon(Icon(CupertinoIcons.bell)), onPressed: () {}),
+          AppIconButton(
+            const AppIcon(Icon(CupertinoIcons.bell)),
+            onPressed: () {
+              context.pushNamed(AppRouteName.notificationScreen);
+            },
+          ),
           AppIconButton(
             const AppIcon(Icon(CupertinoIcons.settings)),
             onPressed: () {
