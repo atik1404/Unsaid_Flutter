@@ -11,9 +11,13 @@ final class HomeScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.homePath,
         name: AppRouteName.homeScreen,
-        builder: (context, state) => BlocProvider(
-          create: (_) => HomeCubit(),
-          child: const HomeScreen(),
+        pageBuilder: (context, state) => buildPageWithTransition(
+          context: context,
+          state: state,
+          child: BlocProvider(
+            create: (_) => HomeCubit(),
+            child: const HomeScreen(),
+          ),
         ),
         routes: children,
       ),

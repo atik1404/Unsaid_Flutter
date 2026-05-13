@@ -16,11 +16,15 @@ final class PostDetailsScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.postDetailsPath,
         name: AppRouteName.postDetailsScreen,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final postId = state.extra as String?;
-          return BlocProvider(
-            create: (_) => PostDetailsCubit()..fetchPostDetails(postId ?? ''),
-            child: const PostDetailsScreen(),
+          return buildPageWithTransition(
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => PostDetailsCubit()..fetchPostDetails(postId ?? ''),
+              child: const PostDetailsScreen(),
+            ),
           );
         },
         routes: children,

@@ -13,10 +13,13 @@ final class OnboardingScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.onboardingPath,
         name: AppRouteName.onboardingScreen,
-        builder: (context, state) => BlocProvider(
-          create: (_) =>
-              OnboardingCubit(sharedPrefs: GetIt.I.get<SharedPrefManager>()),
-          child: OnboardingScreen(),
+        pageBuilder: (context, state) => buildPageWithTransition(
+          context: context,
+          state: state,
+          child: BlocProvider(
+            create: (_) => OnboardingCubit(sharedPrefs: GetIt.I.get<SharedPrefManager>()),
+            child: OnboardingScreen(),
+          ),
         ),
         routes: children,
       ),

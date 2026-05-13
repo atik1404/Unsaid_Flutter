@@ -9,7 +9,7 @@ final class ForgotPasswordScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.forgotPasswordPath,
         name: AppRouteName.forgotPasswordScreen,
-        builder: (context, state) => const ForgotPasswordScreen(),
+        pageBuilder: (context, state) => buildPageWithTransition(context: context, state: state, child: const ForgotPasswordScreen()),
         routes: children,
       ),
     ];

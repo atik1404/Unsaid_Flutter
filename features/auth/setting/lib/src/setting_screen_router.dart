@@ -15,9 +15,13 @@ final class SettingScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.settingPath,
         name: AppRouteName.settingScreen,
-        builder: (context, state) => BlocProvider(
-          create: (_) => SettingCubit(),
-          child: const SettingScreen(),
+        pageBuilder: (context, state) => buildPageWithTransition(
+          context: context,
+          state: state,
+          child: BlocProvider(
+            create: (_) => SettingCubit(),
+            child: const SettingScreen(),
+          ),
         ),
         routes: children,
       ),

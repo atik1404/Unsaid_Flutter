@@ -11,9 +11,13 @@ final class NotificationScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.notificationPath,
         name: AppRouteName.notificationScreen,
-        builder: (context, state) => BlocProvider(
-          create: (_) => NotificationCubit(),
-          child: const NotificationScreen(),
+        pageBuilder: (context, state) => buildPageWithTransition(
+          context: context,
+          state: state,
+          child: BlocProvider(
+            create: (_) => NotificationCubit(),
+            child: const NotificationScreen(),
+          ),
         ),
         routes: children,
       ),

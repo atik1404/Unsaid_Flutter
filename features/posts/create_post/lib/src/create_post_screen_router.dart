@@ -9,7 +9,11 @@ final class CreatePostScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.createPostPath,
         name: AppRouteName.createPostScreen,
-        builder: (context, state) => const CreatePostScreen(),
+        pageBuilder: (context, state) => buildPageWithTransition(
+          context: context,
+          state: state,
+          child: const CreatePostScreen(),
+        ),
         routes: children,
       ),
     ];

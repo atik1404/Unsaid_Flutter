@@ -15,9 +15,13 @@ final class ChangePasswordScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.changePasswordPath,
         name: AppRouteName.changePasswordScreen,
-        builder: (context, state) => BlocProvider(
-          create: (_) => ChangePasswordCubit(),
-          child: const ChangePasswordScreen(),
+        pageBuilder: (context, state) => buildPageWithTransition(
+          context: context,
+          state: state,
+          child: BlocProvider(
+            create: (_) => ChangePasswordCubit(),
+            child: const ChangePasswordScreen(),
+          ),
         ),
         routes: children,
       ),
