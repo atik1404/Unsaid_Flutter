@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
-import 'package:otp_verification/otp_verification.dart';
+import 'package:otp_verification/src/otp_verification_screen.dart';
 
 final class OtpVerificationScreenRouter implements BaseRouter {
   @override

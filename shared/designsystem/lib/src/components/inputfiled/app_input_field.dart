@@ -26,6 +26,9 @@ class AppInputField extends StatefulWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
 
+  final TextAlign? textAlign;
+  final FocusNode? focusNode;
+
   final Widget? prefix;
   final Widget? suffix;
   final AppIcon? prefixIcon;
@@ -62,6 +65,8 @@ class AppInputField extends StatefulWidget {
     this.onSubmitted,
     this.onTap,
     this.validator,
+    this.focusNode,
+    this.textAlign,
   });
 
   @override
@@ -75,7 +80,8 @@ class _AppInputFieldState extends State<AppInputField> {
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode()..addListener(_handleFocusChange);
+    _focusNode = widget.focusNode ?? FocusNode();
+    _focusNode.addListener(_handleFocusChange);
   }
 
   void _handleFocusChange() {
@@ -86,9 +92,13 @@ class _AppInputFieldState extends State<AppInputField> {
 
   @override
   void dispose() {
-    _focusNode
-      ..removeListener(_handleFocusChange)
-      ..dispose();
+    if (widget.focusNode == null) {
+      _focusNode
+        ..removeListener(_handleFocusChange)
+        ..dispose();
+    } else {
+      _focusNode.removeListener(_handleFocusChange);
+    }
     super.dispose();
   }
 

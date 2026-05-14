@@ -1,5 +1,6 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 
 class AppErrorScreen extends StatefulWidget {
@@ -39,73 +40,64 @@ class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: Stack(
-        children: [
-          const Positioned.fill(
-            child: AppImage.asset(
-              AppDrawables.appBackground,
-              fit: BoxFit.cover,
+      enableGradientBackground: true,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppSpacing.s32.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Spacer(),
+
+            // ১. Animated Icon Hero
+            _AnimatedIconHero(floatAnimation: _floatAnimation),
+
+            const Spacer(),
+
+            // ২. contentError Title
+            StaggeredFadeSlide(
+              delay: 0,
+              duration: const Duration(milliseconds: 600),
+              child: AppText.headlineMedium(
+                widget.title ?? context.l10n.message_connection_timeout,
+                textAlign: TextAlign.center,
+                textWeight: AppTextWeight.bold,
+                color: context.appColors.contentError,
+                maxLines: 1,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Spacer(),
 
-                // ১. Animated Icon Hero
-                _AnimatedIconHero(floatAnimation: _floatAnimation),
-
-                const Spacer(),
-
-                // ২. contentError Title
-                StaggeredFadeSlide(
-                  delay: 0,
-                  duration: const Duration(milliseconds: 600),
-                  child: AppText.headlineMedium(
-                    widget.title ?? context.l10n.message_connection_timeout,
-                    textAlign: TextAlign.center,
-                    textWeight: AppTextWeight.bold,
-                    color: context.appColors.contentError,
-                    maxLines: 1,
-                  ),
-                ),
-
-                // ৩. contentError Message (20% Delay)
-                const SizedBox(height: 8),
-                StaggeredFadeSlide(
-                  delay: 0.2,
-                  duration: const Duration(milliseconds: 600),
-                  child: AppText.bodyMedium(
-                    widget.message ?? context.l10n.message_something_went_wrong,
-                    textAlign: TextAlign.center,
-                    textWeight: AppTextWeight.regular,
-                    color: context.appColors.white,
-                    maxLines: 5,
-                  ),
-                ),
-
-                const Spacer(flex: 2),
-
-                // ৪. Retry Button (40% Delay)
-                if (widget.onRetry != null) ...[
-                  StaggeredFadeSlide(
-                    delay: 0.4,
-                    duration: const Duration(milliseconds: 800),
-                    child: AppFilledButton.text(
-                      context.l10n.action_retry,
-                      onPressed: widget.onRetry,
-                      height: AppButtonHeight.lg,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.s32),
-                ],
-              ],
+            // ৩. contentError Message (20% Delay)
+            const SizedBox(height: 8),
+            StaggeredFadeSlide(
+              delay: 0.2,
+              duration: const Duration(milliseconds: 600),
+              child: AppText.bodyMedium(
+                widget.message ?? context.l10n.message_something_went_wrong,
+                textAlign: TextAlign.center,
+                textWeight: AppTextWeight.regular,
+                color: context.appColors.white,
+                maxLines: 5,
+              ),
             ),
-          ),
-        ],
+
+            const Spacer(flex: 2),
+
+            // ৪. Retry Button (40% Delay)
+            if (widget.onRetry != null) ...[
+              StaggeredFadeSlide(
+                delay: 0.4,
+                duration: const Duration(milliseconds: 800),
+                child: AppFilledButton.text(
+                  context.l10n.action_retry,
+                  onPressed: widget.onRetry,
+                  height: AppButtonHeight.lg,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.s32),
+            ],
+          ],
+        ),
       ),
     );
   }

@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppTopBar(
         showBackButton: false,
         backgroundColor: context.scaffoldTheme.backgroundColor,
-        titleWidget: AppText.displaySmall(
+        titleWidget: AppText.headlineSmall(
           context.l10n.splash_brand_name,
           color: context.appColors.contentBrand,
           textWeight: AppTextWeight.extraBold,

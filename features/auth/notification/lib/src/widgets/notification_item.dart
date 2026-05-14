@@ -140,7 +140,7 @@ class _NotificationMeta extends StatelessWidget {
         if (!notification.isRead) ...[
           SizedBox(height: AppSpacing.s4.h),
           Container(
-            width: 8.r,
+            width: AppRadius.r8.r,
             height: 8.r,
             decoration: BoxDecoration(
               color: context.appColors.contentBrand,

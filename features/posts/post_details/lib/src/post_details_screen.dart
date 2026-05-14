@@ -21,7 +21,7 @@ class PostDetailsScreen extends StatelessWidget {
     return AppScaffold(
       appBar: AppTopBar(
         backgroundColor: context.scaffoldTheme.backgroundColor,
-        titleWidget: AppText.displaySmall(
+        titleWidget: AppText.headlineSmall(
           context.l10n.post_details_title,
           color: context.appColors.contentBrand,
           textWeight: AppTextWeight.extraBold,

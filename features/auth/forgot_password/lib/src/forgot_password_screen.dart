@@ -48,7 +48,7 @@ class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
                   AppToast.toast(message: message, toastType: ToastType.error);
                 } else if (state.isSuccess) {
                   AppToast.toast(message: context.l10n.forgot_password_success, toastType: ToastType.success);
-                  context.pushNamed(AppRouteName.otpVerificationScreen, extra: state.phone.trim());
+                  context.goNamed(AppRouteName.otpVerificationScreen, extra: state.phone.trim());
                 }
               },
               child: _buildContent(context),
@@ -85,7 +85,7 @@ class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppImage.asset(AppDrawables.logoTransparent, width: 100.w, height: 100.h),
+        AppImage.asset(AppDrawables.logoTransparent, width: IconSizes.display.w, height: IconSizes.display.h),
         SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(context.l10n.forgot_password_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),

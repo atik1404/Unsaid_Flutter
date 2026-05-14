@@ -35,7 +35,7 @@ class AppInputFieldSizeSpec {
 
   static const md = AppInputFieldSizeSpec(
     height: 44,
-    contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     iconSize: 18,
     borderRadius: 10,
     textIntent: AppTypographyIntent.bodyMedium,

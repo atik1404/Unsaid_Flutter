@@ -1,6 +1,5 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -30,14 +29,11 @@ class _OtpVerificationScreenView extends StatefulWidget {
   final String phone;
 
   @override
-  State<_OtpVerificationScreenView> createState() =>
-      _OtpVerificationScreenViewState();
+  State<_OtpVerificationScreenView> createState() => _OtpVerificationScreenViewState();
 }
 
-class _OtpVerificationScreenViewState
-    extends State<_OtpVerificationScreenView> {
-  final List<TextEditingController> _controllers =
-      List.generate(6, (_) => TextEditingController());
+class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> {
+  final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
   @override
@@ -55,16 +51,17 @@ class _OtpVerificationScreenViewState
     if (value.isNotEmpty && index < 5) {
       _focusNodes[index + 1].requestFocus();
     }
+    // Move focus backward when a digit is cleared.
+    if (value.isEmpty && index > 0) {
+      _focusNodes[index - 1].requestFocus();
+    }
     final otp = _controllers.map((c) => c.text).join();
     context.read<OtpVerificationCubit>().updateOtp(otp);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      enableGradientBackground: true,
-      body: _buildOtpUi(context),
-    );
+    return AppScaffold(enableGradientBackground: true, body: _buildOtpUi(context));
   }
 
   Widget _buildOtpUi(BuildContext context) {
@@ -76,9 +73,7 @@ class _OtpVerificationScreenViewState
           physics: const ClampingScrollPhysics(),
           padding: pagePadding,
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight - pagePadding.vertical,
-            ),
+            constraints: BoxConstraints(minHeight: constraints.maxHeight - pagePadding.vertical),
             child: BlocListener<OtpVerificationCubit, OtpVerificationState>(
               listener: (context, state) {
                 if (state.errorMessage != null) {
@@ -89,10 +84,7 @@ class _OtpVerificationScreenViewState
                   };
                   AppToast.toast(message: message, toastType: ToastType.error);
                 } else if (state.isSuccess) {
-                  AppToast.toast(
-                    message: context.l10n.otp_success,
-                    toastType: ToastType.success,
-                  );
+                  AppToast.toast(message: context.l10n.otp_success, toastType: ToastType.success);
                   context.goNamed(AppRouteName.homeScreen);
                 }
               },
@@ -128,90 +120,32 @@ class _OtpVerificationScreenViewState
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppImage.asset(
-          AppDrawables.logoTransparent,
-          width: 100.w,
-          height: 100.h,
-        ),
+        AppImage.asset(AppDrawables.logoTransparent, width: IconSizes.display.w, height: IconSizes.display.h),
         SizedBox(height: AppSpacing.s16.h),
-        AppText.titleLarge(
-          context.l10n.otp_title,
-          textWeight: AppTextWeight.extraBold,
-        ),
+        AppText.titleLarge(context.l10n.otp_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(
-          context.l10n.otp_subtitle(widget.phone),
-          textAlign: TextAlign.center,
-          textWeight: AppTextWeight.light,
-          color: context.appColors.white,
-        ),
+        AppText.bodySmall(context.l10n.otp_subtitle(widget.phone), textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.white),
       ],
     );
   }
 
   Widget _buildOtpBoxes(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(
-        6,
-        (index) => _buildOtpBox(context, index),
-      ),
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: List.generate(6, (index) => _buildOtpBox(context, index)));
   }
 
   Widget _buildOtpBox(BuildContext context, int index) {
-    final colors = context.appColors;
     return SizedBox(
       width: 44.w,
       height: 54.h,
-      child: Focus(
-        onKeyEvent: (node, event) {
-          if (event is KeyDownEvent &&
-              event.logicalKey == LogicalKeyboardKey.backspace &&
-              _controllers[index].text.isEmpty &&
-              index > 0) {
-            _focusNodes[index - 1].requestFocus();
-            _controllers[index - 1].clear();
-            final otp = _controllers.map((c) => c.text).join();
-            context.read<OtpVerificationCubit>().updateOtp(otp);
-            return KeyEventResult.handled;
-          }
-          return KeyEventResult.ignored;
-        },
-        child: TextField(
-          controller: _controllers[index],
-          focusNode: _focusNodes[index],
-          maxLength: 1,
-          textAlign: TextAlign.center,
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            color: colors.white,
-          ),
-          decoration: InputDecoration(
-            counterText: '',
-            filled: true,
-            fillColor: colors.white.withValues(alpha: 0.12),
-            contentPadding: EdgeInsets.zero,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.r12.r),
-              borderSide: BorderSide(
-                color: colors.white.withValues(alpha: 0.3),
-                width: AppBorderWidth.thin,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.r12.r),
-              borderSide: BorderSide(
-                color: colors.white,
-                width: AppBorderWidth.thick,
-              ),
-            ),
-          ),
-          onChanged: (value) => _onDigitChanged(value, index),
-        ),
+      child: AppInputField(
+        controller: _controllers[index],
+        focusNode: _focusNodes[index],
+        variant: AppInputFieldVariant.filledOpt,
+        textAlign: TextAlign.center,
+        keyboardType: TextInputType.number,
+        textInputAction: index == 5 ? TextInputAction.done : TextInputAction.next,
+        maxLength: 1,
+        onChanged: (value) => _onDigitChanged(value, index),
       ),
     );
   }
@@ -219,11 +153,7 @@ class _OtpVerificationScreenViewState
   Widget _buildVerifyButton(BuildContext context) {
     return BlocBuilder<OtpVerificationCubit, OtpVerificationState>(
       builder: (context, state) {
-        return AppFilledButton.text(
-          context.l10n.otp_button,
-          isLoading: state.isVerifying,
-          onPressed: () => context.read<OtpVerificationCubit>().verify(),
-        );
+        return AppFilledButton.text(context.l10n.otp_button, isLoading: state.isVerifying, onPressed: () => context.read<OtpVerificationCubit>().verify());
       },
     );
   }
@@ -233,11 +163,7 @@ class _OtpVerificationScreenViewState
       builder: (context, state) {
         return Column(
           children: [
-            AppText.bodySmall(
-              context.l10n.otp_resend_prompt,
-              textWeight: AppTextWeight.light,
-              color: context.appColors.white,
-            ),
+            AppText.bodySmall(context.l10n.otp_resend_prompt, textWeight: AppTextWeight.light, color: context.appColors.white),
             SizedBox(height: AppSpacing.s4.h),
             if (state.canResend)
               AppTextButton(
@@ -249,16 +175,10 @@ class _OtpVerificationScreenViewState
                   _focusNodes.first.requestFocus();
                   context.read<OtpVerificationCubit>().resendOtp();
                 },
-                style: const AppTextButtonStyle(
-                  intent: AppButtonIntent.secondary(),
-                ),
+                style: const AppTextButtonStyle(intent: AppButtonIntent.secondary()),
               )
             else
-              AppText.bodySmall(
-                context.l10n.otp_resend_timer(state.timerSeconds),
-                textWeight: AppTextWeight.medium,
-                color: context.appColors.white.withValues(alpha: 0.6),
-              ),
+              AppText.bodySmall(context.l10n.otp_resend_timer(state.timerSeconds), textWeight: AppTextWeight.medium, color: context.appColors.white),
           ],
         );
       },
@@ -269,9 +189,7 @@ class _OtpVerificationScreenViewState
     return AppTextButton(
       context.l10n.forgot_password_back_to_login,
       onPressed: () => context.goNamed(AppRouteName.loginScreen),
-      style: const AppTextButtonStyle(
-        intent: AppButtonIntent.secondary(),
-      ),
+      style: const AppTextButtonStyle(intent: AppButtonIntent.secondary()),
     );
   }
 }

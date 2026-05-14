@@ -160,7 +160,15 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
   Widget _buildSignupButton(BuildContext context) {
     return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
-        return AppFilledButton.text(context.l10n.signup_button, isLoading: state.isSubmitting, onPressed: () => context.read<SignupCubit>().submit());
+        return AppFilledButton.text(
+          context.l10n.signup_button,
+          isLoading: state.isSubmitting,
+          onPressed: () {
+            context.pushNamed(AppRouteName.otpVerificationScreen, extra: state.phone.trim()).then((value) {
+              context.read<SignupCubit>().submit();
+            });
+          },
+        );
       },
     );
   }

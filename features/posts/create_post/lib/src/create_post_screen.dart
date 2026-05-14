@@ -28,7 +28,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: AppText.displaySmall(
+        titleWidget: AppText.headlineSmall(
           'New Post',
           textWeight: AppTextWeight.extraBold,
           color: context.appColors.contentBrand,

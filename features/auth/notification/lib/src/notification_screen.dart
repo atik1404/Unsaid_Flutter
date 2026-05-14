@@ -26,7 +26,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: const AppText.displaySmall(
+        titleWidget: const AppText.headlineSmall(
           'Notifications',
           textWeight: AppTextWeight.extraBold,
         ),

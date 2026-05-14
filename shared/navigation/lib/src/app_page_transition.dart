@@ -13,7 +13,7 @@ CustomTransitionPage<void> buildPageWithTransition({
   return CustomTransitionPage<void>(
     key: state.pageKey,
     child: child,
-    reverseTransitionDuration: const Duration(milliseconds: 250),
+    reverseTransitionDuration: const Duration(milliseconds: 450),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       final fadeTween = CurveTween(curve: Curves.easeInOut);
       final slideTween = Tween(

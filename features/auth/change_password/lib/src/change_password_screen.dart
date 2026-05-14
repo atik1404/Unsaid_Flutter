@@ -19,7 +19,7 @@ class ChangePasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: AppText.displaySmall(
+        titleWidget: AppText.headlineSmall(
           context.l10n.change_password_title,
           textWeight: AppTextWeight.extraBold,
         ),
