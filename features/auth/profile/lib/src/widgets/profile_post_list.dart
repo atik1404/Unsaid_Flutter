@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,9 +21,9 @@ class ProfilePostList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section heading
-        AppText.titleSmall(
-          context.l10n.profile_section_posts,
-          textWeight: AppTextWeight.bold,
+        AppText.captionLarge(
+          'YOUR CONFESSIONS',
+          color: context.appColors.contentTertiary,
         ),
         SizedBox(height: AppSpacing.s12.h),
 
@@ -34,8 +35,14 @@ class ProfilePostList extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: posts.length,
-            separatorBuilder: (_, __) => SizedBox(height: AppSpacing.s12.h),
-            itemBuilder: (context, index) => ProfilePostCard(post: posts[index]),
+            separatorBuilder: (_, _) => SizedBox(height: AppSpacing.s12.h),
+            itemBuilder: (context, index) => ProfilePostCard(
+              title: posts[index].title,
+              description: posts[index].description,
+              dateTime: "10 mins ago",
+              mood: MoodType.values.firstWhere((m) => m.name.toUpperCase() == posts[index].tag.toUpperCase(), orElse: () => MoodType.confused),
+              onTap: () {},
+            ),
           ),
       ],
     );

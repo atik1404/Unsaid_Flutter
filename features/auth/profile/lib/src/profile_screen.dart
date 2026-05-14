@@ -30,9 +30,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: AppText.titleMedium(
+        backgroundColor: context.scaffoldTheme.backgroundColor,
+        titleWidget: AppText.headlineSmall(
           context.l10n.profile_title,
           textWeight: AppTextWeight.extraBold,
+          color: context.appColors.contentBrand,
         ),
         elevation: 0,
       ),

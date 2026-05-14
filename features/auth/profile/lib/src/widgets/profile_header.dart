@@ -1,7 +1,6 @@
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:localization/localization.dart';
 
 /// Displays the profile owner's personal information.
 ///
@@ -36,7 +35,7 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppSpacing.s24.r),
+      padding: EdgeInsets.all(AppSpacing.s12.r),
       decoration: BoxDecoration(
         color: context.appColors.white,
         borderRadius: BorderRadius.circular(AppSpacing.s16.r),
@@ -57,12 +56,13 @@ class ProfileHeader extends StatelessWidget {
           // Name
           AppText.titleMedium(
             name,
+            color: context.appColors.contentBrand,
             textWeight: AppTextWeight.bold,
           ),
           SizedBox(height: AppSpacing.s4.h),
 
           // Bio
-          AppText.bodySmall(
+          AppText.captionMedium(
             bio,
             color: context.appColors.contentSecondary,
             textWeight: AppTextWeight.medium,
@@ -70,19 +70,34 @@ class ProfileHeader extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.s16.h),
 
-          // Info rows
-          _buildInfoRow(
-            context,
-            icon: Icons.email_outlined,
-            label: context.l10n.profile_label_email,
-            value: email,
-          ),
-          SizedBox(height: AppSpacing.s8.h),
-          _buildInfoRow(
-            context,
-            icon: Icons.phone_outlined,
-            label: context.l10n.profile_label_phone,
-            value: phone,
+          _buildRegenerateAvatar(context),
+          SizedBox(height: AppSpacing.s24.h),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //spacing: AppSpacing.s8.w,
+            children: [
+              _buildInfoBox(
+                context,
+                label: "POST",
+                value: "256",
+                color: context.appColors.contentBrand,
+              ),
+
+              _buildInfoBox(
+                context,
+                label: "REACTION",
+                value: "2.5K",
+                color: context.appColors.contentInfo,
+              ),
+
+              _buildInfoBox(
+                context,
+                label: "DAYS",
+                value: "365",
+                color: context.appColors.contentWarning,
+              ),
+            ],
           ),
         ],
       ),
@@ -91,46 +106,58 @@ class ProfileHeader extends StatelessWidget {
 
   /// Builds a large circular avatar with a default icon fallback.
   Widget _buildAvatar(BuildContext context) {
-    return CircleAvatar(
-      radius: 48.r,
-      backgroundColor: context.appColors.backgroundPrimary,
-      child: avatarUrl.isEmpty
-          ? Icon(
-              Icons.person,
-              size: 48.r,
-              color: context.appColors.contentBrand,
-            )
-          : null,
+    return AppImage.network(
+      'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+      width: IconSizes.avatar,
+      height: IconSizes.avatar,
+      shape: ImageShape.circle,
+      fit: BoxFit.cover,
+      borderColor: context.appColors.borderPrimary,
+      borderWidth: 1,
+      padding: EdgeInsets.all(AppSpacing.s2.r),
+    );
+  }
+
+  Widget _buildRegenerateAvatar(BuildContext context) {
+    return AppTag(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
+      leading: AppIcon(Icon(CupertinoIcons.refresh, color: context.modeColors.neutral.textColor)),
+      backgroundColor: context.modeColors.neutral.backgroundColor,
+      child: AppText.bodySmall(
+        "Regenerate avatar",
+        color: context.modeColors.neutral.textColor,
+      ),
     );
   }
 
   /// Renders a single information row with an icon, label, and value.
-  Widget _buildInfoRow(
+  Widget _buildInfoBox(
     BuildContext context, {
-    required IconData icon,
     required String label,
     required String value,
+    required Color color,
   }) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 20.r,
-          color: context.appColors.contentSecondary,
-        ),
-        SizedBox(width: AppSpacing.s8.w),
-        AppText.captionSmall(
-          '$label: ',
-          color: context.appColors.contentSecondary,
-          textWeight: AppTextWeight.medium,
-        ),
-        Expanded(
-          child: AppText.bodySmall(
+    return AppCard.rounded(
+      elevation: 2,
+      tone: AppCardTone.secondary,
+      variant: AppCardVariant.outline,
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s24.w, vertical: AppSpacing.s8.h),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppText.headlineMedium(
             value,
+            color: color,
             textWeight: AppTextWeight.medium,
           ),
-        ),
-      ],
+          SizedBox(height: AppSpacing.s8.h),
+          AppText.captionSmall(
+            label,
+            color: context.appColors.contentSecondary,
+            textWeight: AppTextWeight.medium,
+          ),
+        ],
+      ),
     );
   }
 }

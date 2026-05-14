@@ -23,6 +23,9 @@ class IconSizes {
   /// 64px — hero illustrations, onboarding.
   static const double hero = 64;
 
+  /// 84px — large avatars, profile pictures.
+  static const double avatar = 84;
+
   /// 96px — splash screens, full-page empty states.
   static const double display = 96;
 }

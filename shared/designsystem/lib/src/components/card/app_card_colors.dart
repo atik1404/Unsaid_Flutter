@@ -38,7 +38,7 @@ class AppCardVariantSet {
     return AppCardVariantSet(
       filled: AppCardColors(
         background: surface,
-        border: border,
+        border: Colors.transparent,
         shadow: shadowColor,
       ),
       outline: AppCardColors(

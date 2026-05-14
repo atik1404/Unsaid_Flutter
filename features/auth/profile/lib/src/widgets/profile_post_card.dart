@@ -1,86 +1,119 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:profile/src/state/profile_post_model.dart';
 
-/// A compact card for a single post on the profile's "My Posts" list.
-///
-/// Mirrors the visual style of the home feed's [PostCard] but is
-/// owned by the profile package to keep feature coupling minimal.
 class ProfilePostCard extends StatelessWidget {
-  /// The post data to display.
-  final ProfilePostModel post;
+  final String title;
+  final String description;
+  final String dateTime;
+  final MoodType mood;
+  final VoidCallback? onTap;
 
-  const ProfilePostCard({super.key, required this.post});
+  const ProfilePostCard({super.key, required this.title, required this.description, required this.dateTime, required this.mood, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(AppSpacing.s16.r),
-      decoration: BoxDecoration(
-        color: context.appColors.white,
-        borderRadius: BorderRadius.circular(AppSpacing.s12.r),
-        boxShadow: [
-          BoxShadow(
-            color: context.appColors.borderPrimary,
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Title row with tag badge
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final colors = _getTagColor(mood.name, context);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.only(left: AppSpacing.s2.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppRadius.r16.r),
+          color: colors.$2,
+        ),
+        child: AppCard.rounded(
+          variant: AppCardVariant.outline,
+          cornerRadius: AppCardCornerRadius.lg,
+          padding: EdgeInsets.all(AppSpacing.s12.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: AppText.titleSmall(
-                  post.title,
-                  textWeight: AppTextWeight.bold,
-                ),
+              _buildPostHeader(context, colors.$2),
+              SizedBox(height: AppSpacing.s8.h),
+              AppText.bodySmall(
+                description,
+                color: context.appColors.contentPrimary,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
-              _buildTagBadge(context),
             ],
           ),
-
-          // Date
-          AppText.labelSmall(
-            Jiffy.parseFromDateTime(post.dateTime).yMMMMEEEEd,
-            color: context.appColors.contentSecondary,
-            textWeight: AppTextWeight.light,
-          ),
-          SizedBox(height: AppSpacing.s8.h),
-
-          // Description
-          AppText.bodySmall(
-            post.description,
-            color: context.appColors.contentPrimary,
-            textWeight: AppTextWeight.medium,
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  /// Renders the coloured tag badge for this post.
-  Widget _buildTagBadge(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSpacing.s12.w,
-        vertical: AppSpacing.s4.h,
-      ),
-      decoration: BoxDecoration(
-        color: context.appColors.backgroundPrimary,
-        borderRadius: BorderRadius.circular(AppSpacing.s8.r),
-      ),
+  Widget _buildPostHeader(BuildContext context, Color borderColor) {
+    return Row(
+      children: [
+        AppImage.network(
+          'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+          width: IconSizes.prominent,
+          height: IconSizes.prominent,
+          shape: ImageShape.circle,
+          fit: BoxFit.cover,
+          borderColor: borderColor,
+          borderWidth: 1,
+          padding: EdgeInsets.all(AppSpacing.s2.r),
+        ),
+        SizedBox(width: AppSpacing.s8.w),
+        Expanded(
+          child: _buildHeaderTitle(context),
+        ),
+        SizedBox(width: AppSpacing.s8.w),
+        _buildTag(context, mood.name),
+      ],
+    );
+  }
+
+  Widget _buildHeaderTitle(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppText.bodySmall(
+          "Ghoost_8821",
+          textWeight: AppTextWeight.regular,
+          color: context.appColors.contentPrimary,
+        ),
+        AppText.captionSmall(
+          "7 min ago",
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSecondary,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTag(BuildContext context, String tag) {
+    final colors = _getTagColor(tag, context);
+    return AppTag(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
+      backgroundColor: colors.$1,
       child: AppText.captionSmall(
-        post.tag,
-        color: context.appColors.contentBrand,
-        textWeight: AppTextWeight.bold,
+        tag,
+        color: colors.$2,
       ),
     );
+  }
+
+  (Color, Color) _getTagColor(String tag, BuildContext context) {
+    final colors = context.modeColors;
+    final mood = MoodTypeX.fromString(tag) ?? MoodType.neutral;
+
+    return switch (mood) {
+      MoodType.love => (colors.love.backgroundColor, colors.love.textColor),
+      MoodType.angry => (colors.angry.backgroundColor, colors.angry.textColor),
+      MoodType.happy => (colors.happy.backgroundColor, colors.happy.textColor),
+      MoodType.sad => (colors.sad.backgroundColor, colors.sad.textColor),
+      MoodType.lonely => (colors.lonely.backgroundColor, colors.lonely.textColor),
+      MoodType.excited => (colors.excited.backgroundColor, colors.excited.textColor),
+      MoodType.dark => (colors.dark.backgroundColor, colors.dark.textColor),
+      MoodType.neutral => (colors.neutral.backgroundColor, colors.neutral.textColor),
+      MoodType.all => (context.appColors.backgroundPrimary, context.appColors.contentPrimary),
+      MoodType.confused => (colors.confused.backgroundColor, colors.confused.textColor),
+    };
   }
 }
