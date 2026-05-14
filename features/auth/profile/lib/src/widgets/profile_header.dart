@@ -74,7 +74,7 @@ class ProfileHeader extends StatelessWidget {
           SizedBox(height: AppSpacing.s24.h),
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //spacing: AppSpacing.s8.w,
             children: [
               _buildInfoBox(

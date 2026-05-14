@@ -30,7 +30,7 @@ class AnonymousCard extends StatelessWidget {
           child: _buildHeaderTitle(context),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context, ""),
+        _buildTag(context, MoodType.happy.name.toUpperCase()),
       ],
     );
   }

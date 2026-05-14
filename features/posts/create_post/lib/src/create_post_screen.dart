@@ -3,6 +3,7 @@ import 'package:create_post/src/widgets/anonymous_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ui/ui.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -35,9 +36,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         ),
         backgroundColor: context.scaffoldTheme.backgroundColor,
         foregroundColor: context.appColors.brand,
-        leading: AppIcon(
-          const Icon(CupertinoIcons.clear),
-          color: context.appColors.brand,
+        leading: AppIconButton(
+          AppIcon(
+            const Icon(CupertinoIcons.clear),
+            color: context.appColors.brand,
+          ),
+          onPressed: () {
+            context.pop();
+          },
         ),
         actions: [
           AppTextButton(
@@ -47,11 +53,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             },
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(AppSpacing.s1.h),
-          child: _buildFooter(context),
-        ),
       ),
+      bottomNavigationBar: Padding(padding: EdgeInsets.all(AppSpacing.s16.r), child: _buildFooter(context)),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.s16.r),
@@ -114,19 +117,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   Widget _buildFooter(BuildContext context) {
-    return Row(
-      children: [
-        AppIcon(
-          const Icon(CupertinoIcons.info),
-          color: context.appColors.contentSecondary,
-        ),
-        SizedBox(width: AppSpacing.s8.w),
-        AppText.captionSmall(
-          "Your post will be visible to everyone. Be mindful of what you share.",
-          textWeight: AppTextWeight.light,
-          color: context.appColors.contentSecondary,
-        ),
-      ],
+    return InlineIconLabel(
+      leadingWidget: AppIcon(
+        const Icon(CupertinoIcons.info),
+        color: context.appColors.contentSecondary,
+        size: IconSizes.inline,
+      ),
+      horizontalGap: AppSpacing.s16.w,
+      text: AppText.captionLarge(
+        "Your post will be visible to everyone. Be mindful of what you share.",
+        textWeight: AppTextWeight.light,
+        color: context.appColors.contentBrand,
+        maxLines: 2,
+      ),
     );
   }
 }

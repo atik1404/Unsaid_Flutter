@@ -36,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           textWeight: AppTextWeight.extraBold,
           color: context.appColors.contentBrand,
         ),
+        foregroundColor: context.appColors.brand,
         elevation: 0,
       ),
       body: BlocBuilder<ProfileCubit, ProfileState>(

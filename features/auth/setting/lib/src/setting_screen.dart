@@ -30,7 +30,7 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: AppText.displaySmall(
+        titleWidget: AppText.headlineSmall(
           context.l10n.setting_title,
           textWeight: AppTextWeight.extraBold,
           color: context.appColors.contentBrand,
