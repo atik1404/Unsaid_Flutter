@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onboarding/src/state/onboarding_state.dart';
-import 'package:sharedpref/sharedpref.dart';
+import 'package:pref_storage/pref_storage.dart';
 
 class OnboardingCubit extends Cubit<OnboardingState> {
-  final SharedPrefManager _sharedPrefs;
+  final AuthStorageRepository _repository;
 
   OnboardingCubit({
-    required SharedPrefManager sharedPrefs,
-  }) : _sharedPrefs = sharedPrefs,
+    required AuthStorageRepository repository,
+  }) : _repository = repository,
        super(const OnboardingState());
 
   void onPageChanged({required int index, required int totalPages}) {
@@ -22,7 +22,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   }
 
   void navigateToNextScreen() {
-    _sharedPrefs.setBool(SharedPrefKeys.introScreenVisibility, value: true);
+    _repository.saveFirstLaunch(true);
     emit(state.copyWith(shouldNavigateToNextScreen: true));
   }
 

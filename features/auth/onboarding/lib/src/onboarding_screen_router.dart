@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:onboarding/src/onboarding_screen.dart';
 import 'package:onboarding/src/state/onboarding_cubit.dart';
-import 'package:sharedpref/sharedpref.dart';
+import 'package:pref_storage/pref_storage.dart';
 
 final class OnboardingScreenRouter implements BaseRouter {
   @override
@@ -13,12 +13,11 @@ final class OnboardingScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.onboardingPath,
         name: AppRouteName.onboardingScreen,
-        pageBuilder: (context, state) => buildPageWithTransition(
-          context: context,
+        pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => OnboardingCubit(sharedPrefs: GetIt.I.get<SharedPrefManager>()),
-            child: OnboardingScreen(),
+            create: (_) => OnboardingCubit(repository: GetIt.I.get<AuthStorageRepository>()),
+            child: const OnboardingScreen(),
           ),
         ),
         routes: children,

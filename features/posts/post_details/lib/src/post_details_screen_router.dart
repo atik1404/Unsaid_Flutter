@@ -16,10 +16,9 @@ final class PostDetailsScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.postDetailsPath,
         name: AppRouteName.postDetailsScreen,
-        pageBuilder: (context, state) {
+        pageBuilder: (_, state) {
           final postId = state.extra as String?;
           return buildPageWithTransition(
-            context: context,
             state: state,
             child: BlocProvider(
               create: (_) => PostDetailsCubit()..fetchPostDetails(postId ?? ''),

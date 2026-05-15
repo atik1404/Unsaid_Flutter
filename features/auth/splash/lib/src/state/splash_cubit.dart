@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sharedpref/sharedpref.dart';
+import 'package:pref_storage/pref_storage.dart';
 import 'package:splash/src/state/splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
-  final sharedPref = GetIt.I.get<SharedPrefManager>();
+  final _authStorageRepo = GetIt.I.get<AuthStorageRepository>();
 
   SplashCubit() : super(const SplashState.initial()) {
     Future.microtask(checkAuthorization);
@@ -13,10 +13,8 @@ class SplashCubit extends Cubit<SplashState> {
   void checkAuthorization() async {
     emit(const SplashState.loading());
 
-    final isAuthorized = sharedPref.getBool(SharedPrefKeys.isAuthorized);
-    final isIntroScreenVisible = sharedPref.getBool(
-      SharedPrefKeys.introScreenVisibility,
-    );
+    final isAuthorized = await _authStorageRepo.getLoginStatus();
+    final isIntroScreenVisible = await _authStorageRepo.getFirstLaunch();
 
     await Future.delayed(const Duration(seconds: 3));
 

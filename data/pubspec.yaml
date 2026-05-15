@@ -21,11 +21,15 @@ environment:
   sdk: ^3.11.4
 
 dependencies:
+  flutter:
+    sdk: flutter
+
   code_analyzer: ^0.0.1
   response: ^0.0.1
   entity: ^0.0.1
   domain: ^0.0.1
   common: ^0.0.1
+  pref_storage: ^0.0.1
 
   dio: ^5.9.2
   jiffy: ^6.4.4

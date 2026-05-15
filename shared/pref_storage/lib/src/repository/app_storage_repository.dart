@@ -1,7 +1,7 @@
 import 'package:pref_storage/src/common/pref_key.dart';
 import 'package:pref_storage/src/storage/pref_storage.dart';
 
-abstract class AppRepository {
+abstract class AppStorageRepository {
   String? getAppLanguage();
   Future<void> saveAppLanguage(String language);
 
@@ -9,10 +9,10 @@ abstract class AppRepository {
   Future<void> saveAppTheme(String theme);
 }
 
-class AppRepositoryImpl implements AppRepository {
+class AppStorageRepoImpl implements AppStorageRepository {
   final PrefsDataSource _prefsDataSource;
 
-  AppRepositoryImpl(this._prefsDataSource);
+  AppStorageRepoImpl(this._prefsDataSource);
 
   @override
   String? getAppLanguage() => _prefsDataSource.getString(PrefKey.appLanguage);

@@ -9,10 +9,9 @@ final class OtpVerificationScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.otpVerificationPath,
         name: AppRouteName.otpVerificationScreen,
-        pageBuilder: (context, state) {
+        pageBuilder: (_, state) {
           final phone = state.extra as String? ?? '';
           return buildPageWithTransition(
-            context: context,
             state: state,
             child: OtpVerificationScreen(phone: phone),
           );

@@ -15,8 +15,7 @@ final class ProfileScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.profilePath,
         name: AppRouteName.profileScreen,
-        pageBuilder: (context, state) => buildPageWithTransition(
-          context: context,
+        pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
             create: (_) => ProfileCubit(),

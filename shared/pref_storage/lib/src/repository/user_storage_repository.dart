@@ -1,7 +1,7 @@
 import 'package:pref_storage/src/common/pref_key.dart';
 import 'package:pref_storage/src/storage/pref_storage.dart';
 
-abstract class UserRepository {
+abstract class UserStorageRepository {
   String? getUserName();
   Future<void> saveUserName(String name);
 
@@ -21,9 +21,9 @@ abstract class UserRepository {
   Future<void> saveUserDateOfBirth(String dateOfBirth);
 }
 
-class UserRepositoryImpl implements UserRepository {
+class UserStorageRepoImpl implements UserStorageRepository {
   final PrefsDataSource _prefsDataSource;
-  UserRepositoryImpl(this._prefsDataSource);
+  UserStorageRepoImpl(this._prefsDataSource);
 
   @override
   String? getUserDateOfBirth() => _prefsDataSource.getString(PrefKey.dateOfBirth);

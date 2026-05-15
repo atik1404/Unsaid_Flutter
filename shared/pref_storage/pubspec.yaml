@@ -23,7 +23,7 @@ dependencies:
   code_analyzer: ^0.0.1
 
   shared_preferences: ^2.5.5
-  flutter_secure_storage: ^9.2.4
+  flutter_secure_storage: ^10.0.0
   get_it: ^9.2.1
 
 dev_dependencies:

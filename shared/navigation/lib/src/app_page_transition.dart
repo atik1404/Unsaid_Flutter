@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 /// Use this in every router's [GoRoute.pageBuilder] to get consistent
 /// transitions across the whole app.
 CustomTransitionPage<void> buildPageWithTransition({
-  required BuildContext context,
   required GoRouterState state,
   required Widget child,
 }) {

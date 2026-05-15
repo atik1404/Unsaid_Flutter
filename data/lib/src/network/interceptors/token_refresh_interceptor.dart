@@ -1,18 +1,21 @@
 import 'package:dio/dio.dart';
-import 'package:sharedpref/sharedpref.dart';
+import 'package:pref_storage/pref_storage.dart';
 
 final class TokenRefreshInterceptor extends Interceptor {
   final Dio _dio;
-  final SharedPrefManager _prefm;
+  final AuthStorageRepository _repository;
+  final StorageRepository _storageRepository;
 
   bool _isRefreshing = false;
   final List<RequestQueueItem> _requestQueue = [];
 
   TokenRefreshInterceptor({
     required Dio dio,
-    required SharedPrefManager prefm,
+    required AuthStorageRepository repository,
+    required StorageRepository storageRepository,
   }) : _dio = dio,
-       _prefm = prefm;
+       _repository = repository,
+       _storageRepository = storageRepository;
 
   @override
   void onRequest(
@@ -22,7 +25,7 @@ final class TokenRefreshInterceptor extends Interceptor {
     if (_isWhitelisted(options.path)) {
       return handler.next(options);
     }
-    final token = _prefm.getString('accessToken');
+    final token = _repository.getAuthToken();
     if (token != '') {
       options.headers['Authorization'] = 'Bearer $token';
     }
@@ -36,7 +39,7 @@ final class TokenRefreshInterceptor extends Interceptor {
 
       //If refresh token is expired or failed then logout the user
       if (options.path.contains('refresh-token')) {
-        await _prefm.clear();
+        await _storageRepository.deleteAllData();
         _requestQueue.clear();
         return handler.next(err);
       }
@@ -53,16 +56,16 @@ final class TokenRefreshInterceptor extends Interceptor {
       try {
         final newTokens = await _refreshToken();
         if (newTokens != null) {
-          await _prefm.setString('accessToken', newTokens['accessToken']);
-          await _prefm.setString('refreshToken', newTokens['refreshToken']);
+          await _repository.saveAuthToken(newTokens['accessToken']);
+          await _repository.saveRefreshToken(newTokens['refreshToken']);
           _processQueue(newTokens['accessToken']);
         } else {
           _rejectQueue(err);
-          await _prefm.clear();
+          await _storageRepository.deleteAllData();
         }
       } catch (e) {
         _rejectQueue(err);
-        await _prefm.clear();
+        await _storageRepository.deleteAllData();
       } finally {
         _isRefreshing = false;
       }
@@ -90,7 +93,7 @@ final class TokenRefreshInterceptor extends Interceptor {
 
   Future<Map<String, dynamic>?> _refreshToken() async {
     try {
-      final refreshToken = _prefm.getString('refreshToken');
+      final refreshToken = await _repository.getRefreshToken();
       if (refreshToken == '') return null;
 
       // Separate Dio instance to avoid infinite loops

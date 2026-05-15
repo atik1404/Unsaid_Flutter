@@ -9,7 +9,7 @@ final class SignupScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.signupPath,
         name: AppRouteName.signupScreen,
-        pageBuilder: (context, state) => buildPageWithTransition(context: context, state: state, child: const SignupScreen()),
+        pageBuilder: (_, state) => buildPageWithTransition(state: state, child: const SignupScreen()),
         routes: children,
       ),
     ];

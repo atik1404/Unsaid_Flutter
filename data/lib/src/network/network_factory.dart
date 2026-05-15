@@ -1,15 +1,14 @@
 import 'package:common/common.dart';
 import 'package:data/src/network/interceptors/retry_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:pref_storage/pref_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sharedpref/sharedpref.dart';
 
 final class NetworkFactory {
-  static Dio create(SharedPrefManager pref) {
+  static Dio create(AuthStorageRepository repository) {
     final dio = Dio(
       BaseOptions(
-        baseUrl:
-            "https://jsonplaceholder.typicode.com", //TODO : set this from ENV file
+        baseUrl: "https://jsonplaceholder.typicode.com", //TODO : set this from ENV file
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         sendTimeout: const Duration(seconds: 30),
@@ -20,7 +19,7 @@ final class NetworkFactory {
       ),
     );
     if (kDebugMode) {
-      AppLog.log('AuthToken: ${pref.getString(SharedPrefKeys.authToken)}');
+      AppLog.log('AuthToken: ${repository.getAuthToken()}');
       dio.interceptors.add(
         LogInterceptor(requestBody: true, responseBody: true),
       );

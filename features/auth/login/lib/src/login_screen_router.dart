@@ -9,8 +9,7 @@ final class LoginScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.loginPath,
         name: AppRouteName.loginScreen,
-        pageBuilder: (context, state) => buildPageWithTransition(
-          context: context,
+        pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: const LoginScreen(),
         ),
