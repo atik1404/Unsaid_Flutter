@@ -52,32 +52,20 @@ class OnboardingScreen extends StatelessWidget {
         }
       },
       child: AppScaffold(
-        body: Stack(
-          children: [
-            const Positioned.fill(
-              child: AppImage.asset(
-                AppDrawables.appBackground,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.s16).r,
-              child: Column(
-                children: [
-                  // PagerView for onboarding screens
-                  _buildPagerView(onboardingPagerList),
-                  // Page indicator dots
-                  _buildPageIndicator(context, onboardingPagerList.length),
-                  SizedBox(height: AppSpacing.s48.h),
-                  _buildAnimatedButton(),
-                  SizedBox(height: screenSize.height * 0.1),
-                ],
-              ),
-            ),
-          ],
+        enableGradientBackground: true,
+        body: Padding(
+          padding: const EdgeInsets.all(AppSpacing.s16).r,
+          child: Column(
+            children: [
+              // PagerView for onboarding screens
+              _buildPagerView(onboardingPagerList),
+              // Page indicator dots
+              _buildPageIndicator(context, onboardingPagerList.length),
+              SizedBox(height: AppSpacing.s48.h),
+              _buildAnimatedButton(),
+              SizedBox(height: screenSize.height * 0.1),
+            ],
+          ),
         ),
       ),
     );
