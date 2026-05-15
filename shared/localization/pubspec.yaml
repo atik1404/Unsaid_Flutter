@@ -12,6 +12,7 @@ dependencies:
 
   code_analyzer: ^0.0.1
   common: ^0.0.1
+  pref_storage: ^0.0.1
 
   intl: ^0.20.2
   flutter_bloc: ^9.1.1

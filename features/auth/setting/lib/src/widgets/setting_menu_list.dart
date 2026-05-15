@@ -2,8 +2,10 @@ import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:setting/src/widgets/language_pill_toggle.dart';
 
@@ -24,7 +26,6 @@ class _SettingMenuListState extends State<SettingMenuList> {
   bool _ghostMode = true;
   bool _pushNotifications = true;
   bool _sound = true;
-  bool _darkMode = true;
   bool _isEnglish = true;
 
   @override
@@ -104,15 +105,16 @@ class _SettingMenuListState extends State<SettingMenuList> {
           const AppDivider(),
           _buildLanguageChangeMenu(context),
           const AppDivider(),
-          _buildToggleMenuItem(
-            context,
-            label: 'Dark mode',
-            subTitle: 'Follow system theme',
-            icon: CupertinoIcons.moon,
-            value: _darkMode,
-            onChanged: (value) {
-              setState(() => _darkMode = value);
-              AppLog.log('Toggling dark mode: $value');
+          BlocBuilder<ThemeCubit, ThemeMode>(
+            builder: (context, themeMode) {
+              return _buildToggleMenuItem(
+                context,
+                label: 'Dark mode',
+                subTitle: 'Follow system theme',
+                icon: CupertinoIcons.moon,
+                value: themeMode == ThemeMode.dark,
+                onChanged: (value) => context.read<ThemeCubit>().setDarkMode(value),
+              );
             },
           ),
         ],

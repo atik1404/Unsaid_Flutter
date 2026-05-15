@@ -27,7 +27,18 @@ final class AppScaffoldTheme extends ThemeExtension<AppScaffoldTheme> {
   );
 
   // Note: Not fully implemented because currently I do not need dark mode, but the scope is kept.
-  factory AppScaffoldTheme.dark() => AppScaffoldTheme.light();
+  factory AppScaffoldTheme.dark() => AppScaffoldTheme(
+    backgroundColor: AppColors.neutral900,
+    overlayStyle: SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: AppColors.transparent,
+      systemNavigationBarColor: AppColors.neutral900,
+    ),
+    gradientColor: const LinearGradient(
+      colors: [AppColors.brand700, AppColors.brand400],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+  );
 
   // Note: Not fully implemented because currently I do not need mutability, but the scope is kept.
   @override

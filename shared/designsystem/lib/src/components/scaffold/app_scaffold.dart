@@ -102,7 +102,7 @@ class AppScaffold extends StatelessWidget {
               canPop: false,
               child: AbsorbPointer(
                 child: ColoredBox(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: context.appColors.black.withValues(alpha: 0.3),
                   child: const Center(
                     child: CircularProgressIndicator.adaptive(),
                   ),

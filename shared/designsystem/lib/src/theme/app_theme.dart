@@ -93,5 +93,19 @@ final class AppTheme extends ThemeExtension<AppTheme> {
     );
   }
 
-  factory AppTheme.dark() => AppTheme.light();
+  factory AppTheme.dark() {
+    return AppTheme._(
+      typographyTheme: AppTypographyTheme.standard(),
+      tagTheme: AppTagTheme.dark(),
+      colorSchemeTheme: AppColorScheme.dark(),
+      modeColorScheme: ModeColorScheme.dark(),
+      inputFieldTheme: AppInputFieldTheme.dark(),
+      buttonTheme: AppButtonTheme.dark(),
+      cardTheme: AppCardTheme.dark(),
+      topBarTheme: AppTopBarTheme.dark(),
+      scaffoldTheme: AppScaffoldTheme.dark(),
+      dividerTheme: AppDividerTheme.dark(),
+      switchTheme: AppSwitchTheme.dark(),
+    );
+  }
 }
