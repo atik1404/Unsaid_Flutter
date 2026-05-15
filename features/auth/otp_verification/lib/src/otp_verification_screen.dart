@@ -124,7 +124,7 @@ class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> 
         SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(context.l10n.otp_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.otp_subtitle(widget.phone), textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.otp_subtitle(widget.phone), textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
       ],
     );
   }
@@ -163,7 +163,7 @@ class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> 
       builder: (context, state) {
         return Column(
           children: [
-            AppText.bodySmall(context.l10n.otp_resend_prompt, textWeight: AppTextWeight.light, color: context.appColors.white),
+            AppText.bodySmall(context.l10n.otp_resend_prompt, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
             SizedBox(height: AppSpacing.s4.h),
             if (state.canResend)
               AppTextButton(
@@ -178,7 +178,7 @@ class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> 
                 style: const AppTextButtonStyle(intent: AppButtonIntent.secondary()),
               )
             else
-              AppText.bodySmall(context.l10n.otp_resend_timer(state.timerSeconds), textWeight: AppTextWeight.medium, color: context.appColors.white),
+              AppText.bodySmall(context.l10n.otp_resend_timer(state.timerSeconds), textWeight: AppTextWeight.medium, color: context.appColors.contentSubtle),
           ],
         );
       },

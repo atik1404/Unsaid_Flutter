@@ -50,7 +50,24 @@ final class AppCardTheme extends ThemeExtension<AppCardTheme> {
   );
 
   // Note: Not fully implemented because currently I do not need dark mode, but the scope is kept.
-  factory AppCardTheme.dark() => AppCardTheme.light();
+  factory AppCardTheme.dark() => AppCardTheme(
+    warning: AppCardVariantSet.standard(
+      surface: AppColors.neutral800,
+      border: AppColors.neutral600,
+    ),
+    primary: AppCardVariantSet.standard(
+      surface: AppColors.neutral800,
+      border: AppColors.neutral600,
+    ),
+    secondary: AppCardVariantSet.standard(
+      surface: AppColors.neutral800,
+      border: AppColors.neutral600,
+    ),
+    danzer: AppCardVariantSet.standard(
+      surface: AppColors.error800,
+      border: AppColors.error700,
+    ),
+  );
 
   // Note: Not fully implemented because currently I do not need mutability, but the scope is kept.
   @override

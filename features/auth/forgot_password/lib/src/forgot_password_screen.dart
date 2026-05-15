@@ -69,7 +69,7 @@ class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
         _buildHeader(context),
         gap,
         gap,
-        AppText.bodySmall(context.l10n.forgot_password_label_phone, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.forgot_password_label_phone, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
         SizedBox(height: AppSpacing.s4.h),
         _buildPhoneInput(context),
         gap,
@@ -89,7 +89,7 @@ class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
         SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(context.l10n.forgot_password_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.forgot_password_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.forgot_password_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
       ],
     );
   }

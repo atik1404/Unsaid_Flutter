@@ -25,7 +25,11 @@ class AppDividerTheme extends ThemeExtension<AppDividerTheme> {
   );
 
   // Note: Not fully implemented because currently I do not need dark mode, but the scope is kept.
-  factory AppDividerTheme.dark() => AppDividerTheme.light();
+  factory AppDividerTheme.dark() => const AppDividerTheme(
+    primary: AppColors.neutral700,
+    secondary: AppColors.neutral600,
+    brand: AppColors.brand500,
+  );
 
   // Note: Not fully implemented because currently I do not need mutability, but the scope is kept.
   @override

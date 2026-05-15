@@ -68,7 +68,56 @@ final class AppInputFieldTheme extends ThemeExtension<AppInputFieldTheme> {
   );
 
   // Note: Not fully implemented because currently I do not need dark mode, but the scope is kept.
-  factory AppInputFieldTheme.dark() => AppInputFieldTheme.light();
+  factory AppInputFieldTheme.dark() => AppInputFieldTheme(
+    colors: const AppInputFieldColors(
+      fill: AppColors.neutral900,
+      fillDisabled: AppColors.neutral400,
+      borderDefault: AppColors.neutral300,
+      borderHover: AppColors.neutral400,
+      borderFocused: AppColors.brand500,
+      borderError: AppColors.error500,
+      borderErrorFocused: AppColors.error600,
+      borderDisabled: AppColors.neutral200,
+      text: AppColors.white,
+      textDisabled: AppColors.neutral400,
+      placeholder: AppColors.neutral400,
+      label: AppColors.neutral400,
+      labelFocused: AppColors.neutral400,
+      labelError: AppColors.error500,
+      labelDisabled: AppColors.neutral400,
+      helper: AppColors.neutral600,
+      helperError: AppColors.error500,
+      icon: AppColors.neutral500,
+      iconFocused: AppColors.brand500,
+      iconError: AppColors.error500,
+      iconDisabled: AppColors.neutral300,
+      cursor: AppColors.brand500,
+    ),
+    optColors: AppInputFieldColors(
+      fill: AppColors.neutral900,
+      fillDisabled: AppColors.white.withAlpha(20),
+      borderDefault: AppColors.neutral400,
+      borderHover: AppColors.neutral400,
+      borderFocused: AppColors.brand500,
+      borderError: AppColors.error500,
+      borderErrorFocused: AppColors.error600,
+      borderDisabled: AppColors.neutral600,
+      text: AppColors.white,
+      textDisabled: AppColors.neutral400,
+      placeholder: AppColors.neutral200,
+      label: AppColors.neutral400,
+      labelFocused: AppColors.neutral400,
+      labelError: AppColors.error500,
+      labelDisabled: AppColors.neutral400,
+      helper: AppColors.neutral600,
+      helperError: AppColors.error400,
+      icon: AppColors.neutral200,
+      iconFocused: AppColors.neutral200,
+      iconError: AppColors.neutral200,
+      iconDisabled: AppColors.neutral500,
+      cursor: AppColors.white,
+    ),
+  );
 
   // Note: Not fully implemented because currently I do not need mutability, but the scope is kept.
   @override

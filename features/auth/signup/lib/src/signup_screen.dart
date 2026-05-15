@@ -52,7 +52,11 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
                   context.goNamed(AppRouteName.homeScreen);
                 }
               },
-              child: _buildSignupForm(context),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [_buildSignupHeader(context), _buildSignupForm(context), _buildSignupButton(context), _buildLoginFooter(context)],
+              ),
             ),
           ),
         );
@@ -67,37 +71,33 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildSignupHeader(context),
         gap,
         gap,
 
         // Name
-        AppText.bodySmall(context.l10n.signup_label_name, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.signup_label_name, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
         SizedBox(height: AppSpacing.s4.h),
         _buildNameInput(context),
         gap,
 
         // Phone
-        AppText.bodySmall(context.l10n.signup_label_phone, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.signup_label_phone, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
         SizedBox(height: AppSpacing.s4.h),
         _buildPhoneInput(context),
         gap,
 
         // Email
-        AppText.bodySmall(context.l10n.signup_label_email, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.signup_label_email, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
         SizedBox(height: AppSpacing.s4.h),
         _buildEmailInput(context),
         gap,
 
         // Password
-        AppText.bodySmall(context.l10n.signup_label_password, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.signup_label_password, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
         SizedBox(height: AppSpacing.s4.h),
         _buildPasswordInput(context),
         gap,
         gap,
-
-        _buildSignupButton(context),
-        _buildLoginFooter(context),
       ],
     );
   }
@@ -109,7 +109,7 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
         SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(context.l10n.signup_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.signup_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.signup_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
       ],
     );
   }
@@ -182,7 +182,7 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppText.bodySmall(context.l10n.signup_already_have_account, textWeight: AppTextWeight.light, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.signup_already_have_account, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
         AppTextButton(
           context.l10n.signup_sign_in,
           onPressed: () {
@@ -199,7 +199,7 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
     return Column(
       children: [
         gap,
-        AppText.bodySmall(context.l10n.login_social_sign_in, textWeight: AppTextWeight.extraBold, color: context.appColors.white),
+        AppText.bodySmall(context.l10n.login_social_sign_in, textWeight: AppTextWeight.extraBold, color: context.appColors.contentSubtle),
         gap,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -102,7 +102,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
             },
           ),
           const AppDivider(),
-          _buildLanguageChangeMenu(context),
+          _buildLanguageChangeMenu(),
           const AppDivider(),
           BlocBuilder<ThemeCubit, ThemeMode>(
             builder: (context, themeMode) {
@@ -239,9 +239,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
     );
   }
 
-  Widget _buildLanguageChangeMenu(
-    BuildContext context,
-  ) {
+  Widget _buildLanguageChangeMenu() {
     return BlocBuilder<LocalizationCubit, Locale>(
       builder: (context, locale) {
         return ListTile(

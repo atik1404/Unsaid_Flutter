@@ -1,6 +1,7 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:common/common.dart';
 
 class LanguagePillToggle extends StatelessWidget {
   const LanguagePillToggle({super.key, required this.isEnglish, required this.onToggle});
@@ -22,13 +23,13 @@ class LanguagePillToggle extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildPillSegment(
-            label: 'EN',
+            label: AppConstants.en.toUpperCase(),
             selected: isEnglish,
             colors: colors,
             onTap: () => onToggle(true),
           ),
           _buildPillSegment(
-            label: 'BN',
+            label: AppConstants.bn.toUpperCase(),
             selected: !isEnglish,
             colors: colors,
             onTap: () => onToggle(false),

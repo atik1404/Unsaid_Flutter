@@ -5,13 +5,12 @@ import 'package:pref_storage/pref_storage.dart';
 
 final class LocalizationCubit extends Cubit<Locale> {
   final AppStorageRepository _appStorageRepository;
-  LocalizationCubit(this._appStorageRepository) : super(const Locale(AppConstants.en));
+  LocalizationCubit(this._appStorageRepository) : super(const Locale(AppConstants.en)) {
+    _loadLocale();
+  }
 
-  //Currently we only have one language (English), so we don't need to load it from storage.
-  //But in the future we will need to load it from storage.
-
-  Future<void> loadLocale() async {
-    final languageCode = await _appStorageRepository.getAppLanguage();
+  void _loadLocale() {
+    final languageCode = _appStorageRepository.getAppLanguage();
     if (languageCode != null) {
       emit(Locale(languageCode));
     }

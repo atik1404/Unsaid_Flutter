@@ -147,26 +147,26 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
   factory AppColorScheme.dark() {
     return const AppColorScheme(
       // ── Backgrounds ───────────────────────────────────────────────────────
-      backgroundPrimary: AppColors.black, // #000000 — pure black canvas
+      backgroundPrimary: AppColors.neutral700, // #000000 — pure black canvas
       backgroundSecondary: AppColors.neutral900, // #1A1A2E — dark lavender-tinted page bg
       backgroundTertiary: AppColors.neutral800, // #2E2E3E — subtle section divider bg
       // ── Surfaces ──────────────────────────────────────────────────────────
       surfacePrimary: AppColors.neutral900, // #1A1A2E — cards & sheets
-      surfaceSecondary: AppColors.neutral800, // #2E2E3E — elevated surface
-      surfaceTertiary: AppColors.neutral700, // #3D3D4E — nested surface
+      surfaceSecondary: AppColors.neutral900, // #2E2E3E — elevated surface
+      surfaceTertiary: AppColors.neutral800, // #3D3D4E — nested surface
       // ── Added surfaces ────────────────────────────────────────────────────
-      surfaceDeep: AppColors.black, // #FFFFFF — same as primary; no extra depth in light
+      surfaceDeep: AppColors.neutral800, // #FFFFFF — same as primary; no extra depth in light
       surfaceAvatar: AppColors.brand50, // #F5F0FF — lightest purple tint behind avatar icons
       surfaceDestructive: AppColors.error50, // #FFF0F0 — danger zone / delete area bg
       surfaceInput: AppColors.lightSurfaceInput, // #FAF8FF — text input / textarea background
       // ── Overlay ───────────────────────────────────────────────────────────
       overlay: AppColors.brand700, // #1A1A2E — dark purple scrim
       // ── Content ───────────────────────────────────────────────────────────
-      contentPrimary: AppColors.neutral900, // #3D3060 — dark purple body text
-      contentSecondary: AppColors.neutral500, // #8878AA — username / secondary text
+      contentPrimary: AppColors.neutral100, // #3D3060 — dark purple body text
+      contentSecondary: AppColors.neutral300, // #8878AA — username / secondary text
       contentTertiary: AppColors.neutral400, // #B0A8CC — muted / placeholder text
       contentDisabled: AppColors.neutral300, // #C0B8D8 — non-interactive text
-      contentBrand: AppColors.brand500, // #6D3FD4 — brand purple
+      contentBrand: AppColors.brand200, // #6D3FD4 — brand purple
       contentError: AppColors.error500, // #E25448 — rage red
       contentSuccess: AppColors.success500, // #17B26A — success green
       contentWarning: AppColors.warning500, // #F97316 — rant orange
@@ -174,19 +174,19 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
       // ── Added content ─────────────────────────────────────────────────────
       contentSubtle: AppColors.lightContentSubtle, // #A09AB8 — status bar / very faint text
       // ── Borders ───────────────────────────────────────────────────────────
-      borderPrimary: AppColors.neutral200, // #E8E4F0 — standard card borders
-      borderSecondary: AppColors.neutral100, // #EDE8FF — light separators
+      borderPrimary: AppColors.neutral600, // #E8E4F0 — standard card borders
+      borderSecondary: AppColors.neutral600, // #EDE8FF — light separators
       borderBrand: AppColors.brand500, // #6D3FD4 — brand border
       borderFocused: AppColors.brand500, // #6D3FD4 — focus ring
       borderError: AppColors.error500, // #E25448 — error border
       // ── Added borders ─────────────────────────────────────────────────────
       borderInner: AppColors.neutral100, // #EDE8FF — inner dividers within cards
-      borderCard: AppColors.brand100, // #E8E2FF — card-specific outer border
+      borderCard: AppColors.brand700, // #E8E2FF — card-specific outer border
       borderBrandMuted: AppColors.lightBorderMuted, // #DDD8F5 — muted border / phone frame
       // ── Global ────────────────────────────────────────────────────────────
-      white: AppColors.white, // #FFFFFF
-      black: AppColors.black, // #000000
-      brand: AppColors.brand500, // #6D3FD4
+      white: AppColors.neutral800, // #FFFFFF
+      black: AppColors.white, // #000000
+      brand: AppColors.brand200, // #6D3FD4
       secondary: AppColors.secondary500, // #EC4899
     );
   }
