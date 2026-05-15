@@ -16,7 +16,6 @@ dependencies:
   ui: ^0.0.1
   entity: ^0.0.1
   localization: ^0.0.1
-  sharedpref: ^0.0.1
   common: ^0.0.1
 
   go_router: ^17.2.0

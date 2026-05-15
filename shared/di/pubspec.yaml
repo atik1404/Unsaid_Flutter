@@ -28,8 +28,6 @@ dependencies:
 
   data: ^0.0.1
   domain: ^0.0.1
-  secured: ^0.0.1
-  sharedpref: ^0.0.1
 
   # Navigation & feature route registration
   navigation: ^0.0.1

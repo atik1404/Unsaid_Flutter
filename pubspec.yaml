@@ -8,11 +8,6 @@ workspace:
   - domain/
   - data/
 
-  # cache
-  - cache/database/
-  - cache/secured/
-  - cache/sharedpref/
-
   # core
   - core/common/
   - core/entity/

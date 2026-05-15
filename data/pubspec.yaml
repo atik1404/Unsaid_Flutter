@@ -26,7 +26,6 @@ dependencies:
   entity: ^0.0.1
   domain: ^0.0.1
   common: ^0.0.1
-  sharedpref: ^0.0.1
 
   dio: ^5.9.2
   jiffy: ^6.4.4
