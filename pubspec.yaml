@@ -20,6 +20,7 @@ workspace:
   - shared/localization/
   - shared/navigation/
   - shared/di/
+  - shared/pref_storage/
 
   # features
   - features/auth/login/
@@ -64,6 +65,7 @@ melos:
         data: ^0.0.1
         code_analyzer: ^0.0.1
         localization: ^0.0.1
+        pref_storage: ^0.0.1
 
         flutter_bloc: ^9.1.1
         get_it: ^9.2.1
