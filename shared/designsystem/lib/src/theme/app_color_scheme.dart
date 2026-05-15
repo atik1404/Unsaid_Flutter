@@ -147,49 +147,46 @@ final class AppColorScheme extends ThemeExtension<AppColorScheme> {
   factory AppColorScheme.dark() {
     return const AppColorScheme(
       // ── Backgrounds ───────────────────────────────────────────────────────
-      backgroundPrimary: AppColors.brand900, // #0B0B14 — deepest app background
-      backgroundSecondary: AppColors.brand800, // #111120 — card & feed background
-      backgroundTertiary: AppColors.brand700, // #1A1A2E — borders used as bg layer
+      backgroundPrimary: AppColors.black, // #000000 — pure black canvas
+      backgroundSecondary: AppColors.neutral900, // #1A1A2E — dark lavender-tinted page bg
+      backgroundTertiary: AppColors.neutral800, // #2E2E3E — subtle section divider bg
       // ── Surfaces ──────────────────────────────────────────────────────────
-      surfacePrimary: AppColors.brand800, // #111120 — primary card surface
-      surfaceSecondary: AppColors.brand700, // #1A1A2E — elevated surface / bottom nav
-      surfaceTertiary: AppColors.neutral800, // #25253A — subtle border / input bg
+      surfacePrimary: AppColors.neutral900, // #1A1A2E — cards & sheets
+      surfaceSecondary: AppColors.neutral800, // #2E2E3E — elevated surface
+      surfaceTertiary: AppColors.neutral700, // #3D3D4E — nested surface
       // ── Added surfaces ────────────────────────────────────────────────────
-      surfaceDeep: AppColors.darkSurfaceDeep, // #0D0D1C — deep feed / nested card bg
-      surfaceAvatar: AppColors.darkSurfaceBrand, // #13102A — purple-tinted avatar icon bg
-      surfaceDestructive: AppColors.darkSurfaceDanger, // #1A0C0C — danger zone / delete area bg
-      surfaceInput: AppColors.brand800, // #111120 — same as card surface; dark inputs blend in
+      surfaceDeep: AppColors.black, // #FFFFFF — same as primary; no extra depth in light
+      surfaceAvatar: AppColors.brand50, // #F5F0FF — lightest purple tint behind avatar icons
+      surfaceDestructive: AppColors.error50, // #FFF0F0 — danger zone / delete area bg
+      surfaceInput: AppColors.lightSurfaceInput, // #FAF8FF — text input / textarea background
       // ── Overlay ───────────────────────────────────────────────────────────
-      overlay: AppColors.brand900, // #0B0B14 — full-screen dark scrim
+      overlay: AppColors.brand700, // #1A1A2E — dark purple scrim
       // ── Content ───────────────────────────────────────────────────────────
-      contentPrimary: AppColors.neutral300, // #C0B8D8 — primary body text (light on dark)
-      contentSecondary: AppColors.neutral600, // #7070A0 — username / secondary text
-      contentTertiary: AppColors.neutral700, // #46466A — muted / timestamp text
-      contentDisabled: AppColors.neutral800, // #25253A — non-interactive elements
-      contentBrand: AppColors.brand300, // #9D71F0 — brand purple on dark
+      contentPrimary: AppColors.neutral900, // #3D3060 — dark purple body text
+      contentSecondary: AppColors.neutral500, // #8878AA — username / secondary text
+      contentTertiary: AppColors.neutral400, // #B0A8CC — muted / placeholder text
+      contentDisabled: AppColors.neutral300, // #C0B8D8 — non-interactive text
+      contentBrand: AppColors.brand500, // #6D3FD4 — brand purple
       contentError: AppColors.error500, // #E25448 — rage red
       contentSuccess: AppColors.success500, // #17B26A — success green
       contentWarning: AppColors.warning500, // #F97316 — rant orange
       contentInfo: AppColors.secondary500, // #EC4899 — love pink
       // ── Added content ─────────────────────────────────────────────────────
-      contentSubtle: AppColors.darkContentSubtle, // #35354E — faint text: timestamps, captions
-      // note: status bar labels (#3D3D5C → AppColors.darkContentMuted) sit one step
-      //       below contentSubtle and can be applied directly where needed.
-
+      contentSubtle: AppColors.lightContentSubtle, // #A09AB8 — status bar / very faint text
       // ── Borders ───────────────────────────────────────────────────────────
-      borderPrimary: AppColors.neutral800, // #25253A — standard dark borders
-      borderSecondary: AppColors.brand700, // #1A1A2E — subtle inner separators
-      borderBrand: AppColors.brand300, // #9D71F0 — brand border on dark
-      borderFocused: AppColors.brand300, // #9D71F0 — focus ring on dark
+      borderPrimary: AppColors.neutral200, // #E8E4F0 — standard card borders
+      borderSecondary: AppColors.neutral100, // #EDE8FF — light separators
+      borderBrand: AppColors.brand500, // #6D3FD4 — brand border
+      borderFocused: AppColors.brand500, // #6D3FD4 — focus ring
       borderError: AppColors.error500, // #E25448 — error border
       // ── Added borders ─────────────────────────────────────────────────────
-      borderInner: AppColors.darkBorderInner, // #1E1E30 — inner dividers within cards
-      borderCard: AppColors.darkBorderCard, // #22223A — card outer border
-      borderBrandMuted: AppColors.darkBorderBrandMuted, // #6B21A8 — muted brand borders (avatar rings)
+      borderInner: AppColors.neutral100, // #EDE8FF — inner dividers within cards
+      borderCard: AppColors.brand100, // #E8E2FF — card-specific outer border
+      borderBrandMuted: AppColors.lightBorderMuted, // #DDD8F5 — muted border / phone frame
       // ── Global ────────────────────────────────────────────────────────────
       white: AppColors.white, // #FFFFFF
       black: AppColors.black, // #000000
-      brand: AppColors.brand300, // #9D71F0
+      brand: AppColors.brand500, // #6D3FD4
       secondary: AppColors.secondary500, // #EC4899
     );
   }

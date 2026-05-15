@@ -26,7 +26,6 @@ class _SettingMenuListState extends State<SettingMenuList> {
   bool _ghostMode = true;
   bool _pushNotifications = true;
   bool _sound = true;
-  bool _isEnglish = true;
 
   @override
   Widget build(BuildContext context) {
@@ -243,14 +242,21 @@ class _SettingMenuListState extends State<SettingMenuList> {
   Widget _buildLanguageChangeMenu(
     BuildContext context,
   ) {
-    return ListTile(
-      leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
-      title: AppText.bodyMedium('Language', color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-      subtitle: AppText.captionSmall('Change app language', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
-      trailing: LanguagePillToggle(
-        isEnglish: _isEnglish,
-        onToggle: (isEnglish) => setState(() => _isEnglish = isEnglish),
-      ),
+    return BlocBuilder<LocalizationCubit, Locale>(
+      builder: (context, locale) {
+        return ListTile(
+          leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
+          title: AppText.bodyMedium('Language', color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
+          subtitle: AppText.captionSmall('Change app language', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+          trailing: LanguagePillToggle(
+            isEnglish: locale.languageCode == AppConstants.en,
+            onToggle: (isEnglish) {
+              final newLocale = isEnglish ? const Locale(AppConstants.en) : const Locale(AppConstants.bn);
+              context.read<LocalizationCubit>().changeLocale(newLocale.languageCode);
+            },
+          ),
+        );
+      },
     );
   }
 

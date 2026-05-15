@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:di/di.dart';
 import 'package:designsystem/designsystem.dart';
+import 'package:common/common.dart';
 import 'package:localization/localization.dart';
 import 'package:pref_storage/pref_storage.dart';
 
@@ -18,7 +19,7 @@ class AppEntry extends StatelessWidget {
       builder: (context, constraints) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => LocalizationCubit()),
+            BlocProvider(create: (_) => LocalizationCubit(locator<AppStorageRepository>())),
             BlocProvider(create: (_) => ThemeCubit(locator<AppStorageRepository>())),
           ],
           child: BlocBuilder<LocalizationCubit, Locale>(
@@ -38,7 +39,7 @@ class AppEntry extends StatelessWidget {
                         themeMode: themeMode,
                         locale: locale,
                         localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate, AppLocalizations.delegate],
-                        supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
+                        supportedLocales: const [Locale(AppConstants.en, 'US'), Locale(AppConstants.bn, 'BD')],
                         routerConfig: router,
                       );
                     },
