@@ -120,7 +120,7 @@ class OnboardingScreen extends StatelessWidget {
               item.subTitle,
               textAlign: TextAlign.center,
               textWeight: AppTextWeight.semiBold,
-              color: context.appColors.contentTertiary,
+              color: context.appColors.contentSubtle,
             ),
             SizedBox(height: AppSpacing.s16.h),
             // Description text
@@ -128,7 +128,7 @@ class OnboardingScreen extends StatelessWidget {
               item.description,
               textAlign: TextAlign.center,
               textWeight: AppTextWeight.light,
-              color: context.appColors.contentTertiary,
+              color: context.appColors.contentSubtle,
             ),
           ],
         ),
