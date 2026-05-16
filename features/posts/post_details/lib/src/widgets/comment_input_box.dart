@@ -1,6 +1,7 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localization/localization.dart';
 
 class CommentInputBox extends StatelessWidget {
   const CommentInputBox({super.key});
@@ -13,7 +14,7 @@ class CommentInputBox extends StatelessWidget {
         children: [
           _buildAvatar(context),
           SizedBox(width: AppSpacing.s8.w),
-          _buildInputField(),
+          _buildInputField(context),
           SizedBox(width: AppSpacing.s8.w),
           _buildSendButton(context),
         ],
@@ -34,11 +35,11 @@ class CommentInputBox extends StatelessWidget {
     );
   }
 
-  Widget _buildInputField() {
-    return const Expanded(
+  Widget _buildInputField(BuildContext context) {
+    return Expanded(
       child: AppInputField(
         shape: AppInputFieldShape.pill,
-        hint: "Write a comment anonymously...",
+        hint: context.l10n.post_details_comment_hint,
       ),
     );
   }

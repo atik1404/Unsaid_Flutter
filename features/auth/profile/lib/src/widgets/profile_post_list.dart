@@ -22,7 +22,7 @@ class ProfilePostList extends StatelessWidget {
       children: [
         // Section heading
         AppText.captionLarge(
-          'YOUR CONFESSIONS',
+          context.l10n.profile_section_confessions,
           color: context.appColors.contentTertiary,
         ),
         SizedBox(height: AppSpacing.s12.h),

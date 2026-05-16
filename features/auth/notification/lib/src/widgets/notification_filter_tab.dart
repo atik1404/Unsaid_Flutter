@@ -1,6 +1,7 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localization/localization.dart';
 import 'package:notification/src/state/notification_state.dart';
 
 class NotificationFilterTab extends StatelessWidget {
@@ -25,13 +26,15 @@ class NotificationFilterTab extends StatelessWidget {
       child: Row(
         children: [
           _FilterPill(
-            label: 'All',
+            label: context.l10n.notification_filter_all,
             isSelected: selected == NotificationFilter.all,
             onTap: () => onFilterChanged(NotificationFilter.all),
           ),
           SizedBox(width: AppSpacing.s8.w),
           _FilterPill(
-            label: unreadCount > 0 ? 'Unread ($unreadCount)' : 'Unread',
+            label: unreadCount > 0
+                ? context.l10n.notification_filter_unread_count(unreadCount)
+                : context.l10n.notification_filter_unread,
             isSelected: selected == NotificationFilter.unread,
             onTap: () => onFilterChanged(NotificationFilter.unread),
           ),

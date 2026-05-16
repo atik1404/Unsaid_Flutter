@@ -34,20 +34,20 @@ class _SettingMenuListState extends State<SettingMenuList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildTitle(title: 'IDENTITY', textColor: context.appColors.contentSecondary),
+        _buildTitle(title: context.l10n.setting_section_identity, textColor: context.appColors.contentSecondary),
         gapSmall,
         _buildIdentityMenuCard(context),
         gapLarge,
-        _buildTitle(title: 'NOTIFICATION', textColor: context.appColors.contentSecondary),
+        _buildTitle(title: context.l10n.setting_section_notification, textColor: context.appColors.contentSecondary),
         gapSmall,
         _buildNotificationMenuCard(context),
 
         gapLarge,
-        _buildTitle(title: 'PRIVACY', textColor: context.appColors.contentSecondary),
+        _buildTitle(title: context.l10n.setting_section_privacy, textColor: context.appColors.contentSecondary),
         gapSmall,
         _buildPrivacyMenuCard(context),
         gapLarge,
-        _buildTitle(title: 'DANZER ZONE', textColor: context.appColors.contentError),
+        _buildTitle(title: context.l10n.setting_section_danger_zone, textColor: context.appColors.contentError),
         gapSmall,
         _buildDanzerZoneMenuCard(context),
 
@@ -65,7 +65,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
         children: [
           _buildMenuItem(
             context,
-            label: 'Profile',
+            label: context.l10n.setting_menu_profile,
             icon: CupertinoIcons.profile_circled,
             onTap: () {
               context.pushNamed(AppRouteName.profileScreen);
@@ -74,7 +74,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
           const AppDivider(),
           _buildMenuItem(
             context,
-            label: 'Regenarate alias',
+            label: context.l10n.setting_menu_regenerate_alias,
             subTitle: 'Currently: ghost_8899',
             icon: CupertinoIcons.refresh,
             onTap: () {
@@ -84,8 +84,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
           const AppDivider(),
           _buildMenuItem(
             context,
-            label: 'Change avatar',
-            subTitle: 'Ghost, skull, alien, robot',
+            label: context.l10n.setting_menu_change_avatar,
+            subTitle: context.l10n.setting_menu_change_avatar_subtitle,
             icon: CupertinoIcons.photo,
             onTap: () {
               AppLog.log('Changing avatar...');
@@ -94,7 +94,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
           const AppDivider(),
           _buildMenuItem(
             context,
-            label: 'Change password',
+            label: context.l10n.setting_menu_change_password,
             subTitle: '••••••••',
             icon: CupertinoIcons.lock,
             onTap: () {
@@ -108,8 +108,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
             builder: (context, themeMode) {
               return _buildToggleMenuItem(
                 context,
-                label: 'Dark mode',
-                subTitle: 'Follow system theme',
+                label: context.l10n.setting_menu_dark_mode,
+                subTitle: context.l10n.setting_menu_dark_mode_subtitle,
                 icon: CupertinoIcons.moon,
                 value: themeMode == ThemeMode.dark,
                 onChanged: (value) => context.read<ThemeCubit>().setDarkMode(value),
@@ -128,8 +128,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
         children: [
           _buildToggleMenuItem(
             context,
-            label: 'Allow anonymous DMs',
-            subTitle: 'Strangers can message you.',
+            label: context.l10n.setting_menu_allow_anonymous_dms,
+            subTitle: context.l10n.setting_menu_allow_anonymous_dms_subtitle,
             icon: CupertinoIcons.chat_bubble,
             value: _allowAnonymousDMs,
             onChanged: (value) {
@@ -140,8 +140,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
           const AppDivider(),
           _buildToggleMenuItem(
             context,
-            label: 'Ghost mode',
-            subTitle: 'Hide your online status.',
+            label: context.l10n.setting_menu_ghost_mode,
+            subTitle: context.l10n.setting_menu_ghost_mode_subtitle,
             icon: Icons.visibility_off,
             value: _ghostMode,
             onChanged: (value) {
@@ -161,7 +161,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
         children: [
           _buildToggleMenuItem(
             context,
-            label: 'Push notifications',
+            label: context.l10n.setting_menu_push_notifications,
             icon: CupertinoIcons.bell,
             value: _pushNotifications,
             onChanged: (value) {
@@ -172,7 +172,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
           const AppDivider(),
           _buildToggleMenuItem(
             context,
-            label: 'Sound',
+            label: context.l10n.setting_menu_sound,
             icon: CupertinoIcons.volume_up,
             value: _sound,
             onChanged: (value) {
@@ -193,8 +193,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
         children: [
           _buildMenuItem(
             context,
-            label: 'Wipe all my posts',
-            subTitle: 'Permanently delete all your posts.',
+            label: context.l10n.setting_menu_wipe_posts,
+            subTitle: context.l10n.setting_menu_wipe_posts_subtitle,
             icon: CupertinoIcons.bin_xmark,
             onTap: () {
               AppLog.log('Wiping all posts...');
@@ -205,8 +205,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
           ),
           _buildMenuItem(
             context,
-            label: 'Delete ghost account',
-            subTitle: 'Permanently delete ghost account.',
+            label: context.l10n.setting_menu_delete_account,
+            subTitle: context.l10n.setting_menu_delete_account_subtitle,
             icon: CupertinoIcons.trash,
             onTap: () {
               context.goNamed(AppRouteName.loginScreen);
@@ -217,8 +217,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
           ),
           _buildMenuItem(
             context,
-            label: 'Sign out',
-            subTitle: 'Sign out of your account.',
+            label: context.l10n.setting_menu_sign_out,
+            subTitle: context.l10n.setting_menu_sign_out_subtitle,
             icon: CupertinoIcons.arrow_right_square,
             onTap: () {
               context.goNamed(AppRouteName.loginScreen);
@@ -244,8 +244,8 @@ class _SettingMenuListState extends State<SettingMenuList> {
       builder: (context, locale) {
         return ListTile(
           leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
-          title: AppText.bodyMedium('Language', color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-          subtitle: AppText.captionSmall('Change app language', color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+          title: AppText.bodyMedium(context.l10n.setting_menu_language, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
+          subtitle: AppText.captionSmall(context.l10n.setting_menu_language_subtitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
           trailing: LanguagePillToggle(
             isEnglish: locale.languageCode == AppConstants.en,
             onToggle: (isEnglish) {

@@ -359,4 +359,145 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get otp_success => 'ফোন নম্বর সফলভাবে যাচাই হয়েছে।';
+
+  @override
+  String get notification_title => 'নোটিফিকেশন';
+
+  @override
+  String get notification_action_mark_all_read =>
+      'সব পড়া হিসেবে চিহ্নিত করুন';
+
+  @override
+  String get notification_empty_title => 'কোনো নোটিফিকেশন নেই';
+
+  @override
+  String get notification_empty_message =>
+      'এই মুহূর্তে আপনার কোনো নোটিফিকেশন নেই।';
+
+  @override
+  String get notification_filter_all => 'সব';
+
+  @override
+  String get notification_filter_unread => 'অপঠিত';
+
+  @override
+  String notification_filter_unread_count(int count) {
+    return 'অপঠিত ($count)';
+  }
+
+  @override
+  String get create_post_title => 'নতুন পোস্ট';
+
+  @override
+  String get create_post_action_post => 'পোস্ট করুন';
+
+  @override
+  String get create_post_mood_label => 'আজ আপনার অনুভূতি কেমন?';
+
+  @override
+  String get create_post_hint => 'মনে কী আছে?';
+
+  @override
+  String get create_post_visibility_note =>
+      'আপনার পোস্ট সবাই দেখতে পাবে। শেয়ার করার আগে সতর্ক থাকুন।';
+
+  @override
+  String get create_post_anonymous_subtitle =>
+      'পৃথিবীর সঙ্গে যা শেয়ার করতে চান তা পোস্ট করুন!';
+
+  @override
+  String get setting_section_identity => 'পরিচয়';
+
+  @override
+  String get setting_section_notification => 'নোটিফিকেশন';
+
+  @override
+  String get setting_section_privacy => 'গোপনীয়তা';
+
+  @override
+  String get setting_section_danger_zone => 'বিপজ্জনক অঞ্চল';
+
+  @override
+  String get setting_menu_regenerate_alias => 'উপনাম পুনরায় তৈরি করুন';
+
+  @override
+  String get setting_menu_change_avatar => 'অবতার পরিবর্তন করুন';
+
+  @override
+  String get setting_menu_change_avatar_subtitle => 'ভূত, খুলি, এলিয়েন, রোবট';
+
+  @override
+  String get setting_menu_dark_mode => 'ডার্ক মোড';
+
+  @override
+  String get setting_menu_dark_mode_subtitle => 'সিস্টেম থিম অনুসরণ করুন';
+
+  @override
+  String get setting_menu_allow_anonymous_dms => 'বেনামি বার্তা অনুমতি দিন';
+
+  @override
+  String get setting_menu_allow_anonymous_dms_subtitle =>
+      'অপরিচিতরা আপনাকে বার্তা পাঠাতে পারবে।';
+
+  @override
+  String get setting_menu_ghost_mode => 'ঘোস্ট মোড';
+
+  @override
+  String get setting_menu_ghost_mode_subtitle => 'আপনার অনলাইন স্ট্যাটাস লুকান।';
+
+  @override
+  String get setting_menu_push_notifications => 'পুশ নোটিফিকেশন';
+
+  @override
+  String get setting_menu_sound => 'শব্দ';
+
+  @override
+  String get setting_menu_wipe_posts => 'আমার সব পোস্ট মুছুন';
+
+  @override
+  String get setting_menu_wipe_posts_subtitle =>
+      'আপনার সব পোস্ট স্থায়ীভাবে মুছে ফেলুন।';
+
+  @override
+  String get setting_menu_delete_account => 'ঘোস্ট অ্যাকাউন্ট মুছুন';
+
+  @override
+  String get setting_menu_delete_account_subtitle =>
+      'ঘোস্ট অ্যাকাউন্ট স্থায়ীভাবে মুছে ফেলুন।';
+
+  @override
+  String get setting_menu_sign_out => 'সাইন আউট';
+
+  @override
+  String get setting_menu_sign_out_subtitle =>
+      'আপনার অ্যাকাউন্ট থেকে সাইন আউট করুন।';
+
+  @override
+  String get setting_menu_language => 'ভাষা';
+
+  @override
+  String get setting_menu_language_subtitle => 'অ্যাপের ভাষা পরিবর্তন করুন';
+
+  @override
+  String get profile_action_regenerate_avatar => 'অবতার পুনরায় তৈরি করুন';
+
+  @override
+  String get profile_stat_post => 'পোস্ট';
+
+  @override
+  String get profile_stat_reaction => 'প্রতিক্রিয়া';
+
+  @override
+  String get profile_stat_days => 'দিন';
+
+  @override
+  String get profile_section_confessions => 'আপনার স্বীকারোক্তি';
+
+  @override
+  String post_details_replies_count(int count) {
+    return '— $count উত্তর —';
+  }
+
+  @override
+  String get post_details_comment_hint => 'বেনামে মন্তব্য লিখুন...';
 }

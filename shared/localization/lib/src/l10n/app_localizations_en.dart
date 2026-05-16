@@ -357,4 +357,143 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get otp_success => 'Phone number verified successfully.';
+
+  @override
+  String get notification_title => 'Notifications';
+
+  @override
+  String get notification_action_mark_all_read => 'Mark all read';
+
+  @override
+  String get notification_empty_title => 'No notifications';
+
+  @override
+  String get notification_empty_message =>
+      'You have no notifications at the moment.';
+
+  @override
+  String get notification_filter_all => 'All';
+
+  @override
+  String get notification_filter_unread => 'Unread';
+
+  @override
+  String notification_filter_unread_count(int count) {
+    return 'Unread ($count)';
+  }
+
+  @override
+  String get create_post_title => 'New Post';
+
+  @override
+  String get create_post_action_post => 'Post';
+
+  @override
+  String get create_post_mood_label => 'How are you feeling today?';
+
+  @override
+  String get create_post_hint => 'What\'s on your mind?';
+
+  @override
+  String get create_post_visibility_note =>
+      'Your post will be visible to everyone. Be mindful of what you share.';
+
+  @override
+  String get create_post_anonymous_subtitle =>
+      'Post anything you want to share with the world!';
+
+  @override
+  String get setting_section_identity => 'IDENTITY';
+
+  @override
+  String get setting_section_notification => 'NOTIFICATION';
+
+  @override
+  String get setting_section_privacy => 'PRIVACY';
+
+  @override
+  String get setting_section_danger_zone => 'DANGER ZONE';
+
+  @override
+  String get setting_menu_regenerate_alias => 'Regenerate alias';
+
+  @override
+  String get setting_menu_change_avatar => 'Change avatar';
+
+  @override
+  String get setting_menu_change_avatar_subtitle => 'Ghost, skull, alien, robot';
+
+  @override
+  String get setting_menu_dark_mode => 'Dark mode';
+
+  @override
+  String get setting_menu_dark_mode_subtitle => 'Follow system theme';
+
+  @override
+  String get setting_menu_allow_anonymous_dms => 'Allow anonymous DMs';
+
+  @override
+  String get setting_menu_allow_anonymous_dms_subtitle =>
+      'Strangers can message you.';
+
+  @override
+  String get setting_menu_ghost_mode => 'Ghost mode';
+
+  @override
+  String get setting_menu_ghost_mode_subtitle => 'Hide your online status.';
+
+  @override
+  String get setting_menu_push_notifications => 'Push notifications';
+
+  @override
+  String get setting_menu_sound => 'Sound';
+
+  @override
+  String get setting_menu_wipe_posts => 'Wipe all my posts';
+
+  @override
+  String get setting_menu_wipe_posts_subtitle =>
+      'Permanently delete all your posts.';
+
+  @override
+  String get setting_menu_delete_account => 'Delete ghost account';
+
+  @override
+  String get setting_menu_delete_account_subtitle =>
+      'Permanently delete ghost account.';
+
+  @override
+  String get setting_menu_sign_out => 'Sign out';
+
+  @override
+  String get setting_menu_sign_out_subtitle => 'Sign out of your account.';
+
+  @override
+  String get setting_menu_language => 'Language';
+
+  @override
+  String get setting_menu_language_subtitle => 'Change app language';
+
+  @override
+  String get profile_action_regenerate_avatar => 'Regenerate avatar';
+
+  @override
+  String get profile_stat_post => 'POST';
+
+  @override
+  String get profile_stat_reaction => 'REACTION';
+
+  @override
+  String get profile_stat_days => 'DAYS';
+
+  @override
+  String get profile_section_confessions => 'YOUR CONFESSIONS';
+
+  @override
+  String post_details_replies_count(int count) {
+    return '— $count REPLIES —';
+  }
+
+  @override
+  String get post_details_comment_hint => 'Write a comment anonymously...';
 }

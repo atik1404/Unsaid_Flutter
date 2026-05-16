@@ -739,6 +739,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Phone number verified successfully.'**
   String get otp_success;
+
+  /// Title for the Notifications screen
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notification_title;
+
+  /// Action button to mark all notifications as read
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get notification_action_mark_all_read;
+
+  /// Empty state title on the Notifications screen
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications'**
+  String get notification_empty_title;
+
+  /// Empty state message on the Notifications screen
+  ///
+  /// In en, this message translates to:
+  /// **'You have no notifications at the moment.'**
+  String get notification_empty_message;
+
+  /// Filter pill label to show all notifications
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notification_filter_all;
+
+  /// Filter pill label to show only unread notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get notification_filter_unread;
+
+  /// Filter pill label showing unread notification count
+  ///
+  /// In en, this message translates to:
+  /// **'Unread ({count})'**
+  String notification_filter_unread_count(int count);
+
+  /// Title for the Create Post screen
+  ///
+  /// In en, this message translates to:
+  /// **'New Post'**
+  String get create_post_title;
+
+  /// Action button label to submit a new post
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get create_post_action_post;
+
+  /// Section heading above the mood selector on the Create Post screen
+  ///
+  /// In en, this message translates to:
+  /// **'How are you feeling today?'**
+  String get create_post_mood_label;
+
+  /// Hint text inside the post content input field
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s on your mind?'**
+  String get create_post_hint;
+
+  /// Footer note on the Create Post screen about post visibility
+  ///
+  /// In en, this message translates to:
+  /// **'Your post will be visible to everyone. Be mindful of what you share.'**
+  String get create_post_visibility_note;
+
+  /// Subtitle shown below the anonymous username on the Create Post screen
+  ///
+  /// In en, this message translates to:
+  /// **'Post anything you want to share with the world!'**
+  String get create_post_anonymous_subtitle;
+
+  /// Section heading for identity-related settings
+  ///
+  /// In en, this message translates to:
+  /// **'IDENTITY'**
+  String get setting_section_identity;
+
+  /// Section heading for notification settings
+  ///
+  /// In en, this message translates to:
+  /// **'NOTIFICATION'**
+  String get setting_section_notification;
+
+  /// Section heading for privacy settings
+  ///
+  /// In en, this message translates to:
+  /// **'PRIVACY'**
+  String get setting_section_privacy;
+
+  /// Section heading for destructive account actions
+  ///
+  /// In en, this message translates to:
+  /// **'DANGER ZONE'**
+  String get setting_section_danger_zone;
+
+  /// Menu item label to regenerate the user's anonymous alias
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate alias'**
+  String get setting_menu_regenerate_alias;
+
+  /// Menu item label to change the user's avatar
+  ///
+  /// In en, this message translates to:
+  /// **'Change avatar'**
+  String get setting_menu_change_avatar;
+
+  /// Subtitle describing available avatar options
+  ///
+  /// In en, this message translates to:
+  /// **'Ghost, skull, alien, robot'**
+  String get setting_menu_change_avatar_subtitle;
+
+  /// Menu item label for the dark mode toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get setting_menu_dark_mode;
+
+  /// Subtitle for the dark mode toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system theme'**
+  String get setting_menu_dark_mode_subtitle;
+
+  /// Menu item label to toggle anonymous direct messages
+  ///
+  /// In en, this message translates to:
+  /// **'Allow anonymous DMs'**
+  String get setting_menu_allow_anonymous_dms;
+
+  /// Subtitle for the allow anonymous DMs toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Strangers can message you.'**
+  String get setting_menu_allow_anonymous_dms_subtitle;
+
+  /// Menu item label for the ghost mode toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Ghost mode'**
+  String get setting_menu_ghost_mode;
+
+  /// Subtitle for the ghost mode toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Hide your online status.'**
+  String get setting_menu_ghost_mode_subtitle;
+
+  /// Menu item label for the push notifications toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications'**
+  String get setting_menu_push_notifications;
+
+  /// Menu item label for the sound toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Sound'**
+  String get setting_menu_sound;
+
+  /// Menu item label to delete all of the user's posts
+  ///
+  /// In en, this message translates to:
+  /// **'Wipe all my posts'**
+  String get setting_menu_wipe_posts;
+
+  /// Subtitle for the wipe all posts action
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete all your posts.'**
+  String get setting_menu_wipe_posts_subtitle;
+
+  /// Menu item label to delete the user's account
+  ///
+  /// In en, this message translates to:
+  /// **'Delete ghost account'**
+  String get setting_menu_delete_account;
+
+  /// Subtitle for the delete account action
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete ghost account.'**
+  String get setting_menu_delete_account_subtitle;
+
+  /// Menu item label to sign out
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get setting_menu_sign_out;
+
+  /// Subtitle for the sign out action
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your account.'**
+  String get setting_menu_sign_out_subtitle;
+
+  /// Menu item label for the language selector
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get setting_menu_language;
+
+  /// Subtitle for the language selector menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Change app language'**
+  String get setting_menu_language_subtitle;
+
+  /// Action label to regenerate the user's avatar on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate avatar'**
+  String get profile_action_regenerate_avatar;
+
+  /// Label for the post count stat on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'POST'**
+  String get profile_stat_post;
+
+  /// Label for the reaction count stat on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'REACTION'**
+  String get profile_stat_reaction;
+
+  /// Label for the days active stat on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'DAYS'**
+  String get profile_stat_days;
+
+  /// Section heading for the user's own posts on the Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR CONFESSIONS'**
+  String get profile_section_confessions;
+
+  /// Label showing the number of replies on the Post Details screen
+  ///
+  /// In en, this message translates to:
+  /// **'— {count} REPLIES —'**
+  String post_details_replies_count(int count);
+
+  /// Hint text inside the comment input box on the Post Details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment anonymously...'**
+  String get post_details_comment_hint;
 }
 
 class _AppLocalizationsDelegate

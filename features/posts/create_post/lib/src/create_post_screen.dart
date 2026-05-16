@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localization/localization.dart';
 import 'package:ui/ui.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return AppScaffold(
       appBar: AppTopBar(
         titleWidget: AppText.headlineSmall(
-          'New Post',
+          context.l10n.create_post_title,
           textWeight: AppTextWeight.extraBold,
           color: context.appColors.contentBrand,
         ),
@@ -47,7 +48,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         ),
         actions: [
           AppTextButton(
-            'Post',
+            context.l10n.create_post_action_post,
             onPressed: () {
               AppLog.log('Post button pressed with content: ${_postController.text} and mood: $selectedMood');
             },
@@ -63,7 +64,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             children: [
               const AnonymousCard(),
               SizedBox(height: AppSpacing.s16.h),
-              AppText.bodyLarge('How are you feeling today?', textWeight: AppTextWeight.semiBold, color: context.appColors.contentPrimary),
+              AppText.bodyLarge(context.l10n.create_post_mood_label, textWeight: AppTextWeight.semiBold, color: context.appColors.contentPrimary),
               SizedBox(height: AppSpacing.s12.h),
               _buildMoodList(),
               SizedBox(height: AppSpacing.s8.h),
@@ -108,7 +109,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget _buildInputBox() {
     return AppInputField(
       controller: _postController,
-      hint: "What's on your mind?",
+      hint: context.l10n.create_post_hint,
       minLines: 5,
       maxLines: 15,
       keyboardType: TextInputType.multiline,
@@ -125,7 +126,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       ),
       horizontalGap: AppSpacing.s16.w,
       text: AppText.captionLarge(
-        "Your post will be visible to everyone. Be mindful of what you share.",
+        context.l10n.create_post_visibility_note,
         textWeight: AppTextWeight.light,
         color: context.appColors.contentBrand,
         maxLines: 2,

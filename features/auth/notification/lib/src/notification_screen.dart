@@ -2,6 +2,7 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localization/localization.dart';
 import 'package:notification/src/state/notification_cubit.dart';
 import 'package:notification/src/state/notification_state.dart';
 import 'package:notification/src/widgets/notification_filter_tab.dart';
@@ -26,8 +27,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: const AppText.headlineSmall(
-          'Notifications',
+        titleWidget: AppText.headlineSmall(
+          context.l10n.notification_title,
           textWeight: AppTextWeight.extraBold,
         ),
         backgroundColor: context.scaffoldTheme.backgroundColor,
@@ -40,7 +41,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               return Padding(
                 padding: EdgeInsets.only(right: AppSpacing.s8.w),
                 child: AppTextButton(
-                  'Mark all read',
+                  context.l10n.notification_action_mark_all_read,
                   onPressed: context.read<NotificationCubit>().markAllAsRead,
                 ),
               );
@@ -75,7 +76,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 final items = state.visibleNotifications;
 
                 if (items.isEmpty) {
-                  return const AppErrorScreen(title: 'No notifications', message: 'You have no notifications at the moment.');
+                  return AppErrorScreen(title: context.l10n.notification_empty_title, message: context.l10n.notification_empty_message);
                 }
 
                 return ListView.builder(

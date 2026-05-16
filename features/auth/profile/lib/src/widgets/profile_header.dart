@@ -1,6 +1,7 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localization/localization.dart';
 
 /// Displays the profile owner's personal information.
 ///
@@ -79,21 +80,21 @@ class ProfileHeader extends StatelessWidget {
             children: [
               _buildInfoBox(
                 context,
-                label: "POST",
+                label: context.l10n.profile_stat_post,
                 value: "256",
                 color: context.appColors.contentBrand,
               ),
 
               _buildInfoBox(
                 context,
-                label: "REACTION",
+                label: context.l10n.profile_stat_reaction,
                 value: "2.5K",
                 color: context.appColors.contentInfo,
               ),
 
               _buildInfoBox(
                 context,
-                label: "DAYS",
+                label: context.l10n.profile_stat_days,
                 value: "365",
                 color: context.appColors.contentWarning,
               ),
@@ -124,7 +125,7 @@ class ProfileHeader extends StatelessWidget {
       leading: AppIcon(Icon(CupertinoIcons.refresh, color: context.modeColors.neutral.textColor)),
       backgroundColor: context.modeColors.neutral.backgroundColor,
       child: AppText.bodySmall(
-        "Regenerate avatar",
+        context.l10n.profile_action_regenerate_avatar,
         color: context.modeColors.neutral.textColor,
       ),
     );

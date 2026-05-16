@@ -456,5 +456,187 @@
     "otp_success": "ফোন নম্বর সফলভাবে যাচাই হয়েছে।",
     "@otp_success": {
         "description": "Success message after OTP is verified"
+    },
+    "notification_title": "নোটিফিকেশন",
+    "@notification_title": {
+        "description": "Title for the Notifications screen"
+    },
+    "notification_action_mark_all_read": "সব পড়া হিসেবে চিহ্নিত করুন",
+    "@notification_action_mark_all_read": {
+        "description": "Action button to mark all notifications as read"
+    },
+    "notification_empty_title": "কোনো নোটিফিকেশন নেই",
+    "@notification_empty_title": {
+        "description": "Empty state title on the Notifications screen"
+    },
+    "notification_empty_message": "এই মুহূর্তে আপনার কোনো নোটিফিকেশন নেই।",
+    "@notification_empty_message": {
+        "description": "Empty state message on the Notifications screen"
+    },
+    "notification_filter_all": "সব",
+    "@notification_filter_all": {
+        "description": "Filter pill label to show all notifications"
+    },
+    "notification_filter_unread": "অপঠিত",
+    "@notification_filter_unread": {
+        "description": "Filter pill label to show only unread notifications"
+    },
+    "notification_filter_unread_count": "অপঠিত ({count})",
+    "@notification_filter_unread_count": {
+        "description": "Filter pill label showing unread notification count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "create_post_title": "নতুন পোস্ট",
+    "@create_post_title": {
+        "description": "Title for the Create Post screen"
+    },
+    "create_post_action_post": "পোস্ট করুন",
+    "@create_post_action_post": {
+        "description": "Action button label to submit a new post"
+    },
+    "create_post_mood_label": "আজ আপনার অনুভূতি কেমন?",
+    "@create_post_mood_label": {
+        "description": "Section heading above the mood selector on the Create Post screen"
+    },
+    "create_post_hint": "মনে কী আছে?",
+    "@create_post_hint": {
+        "description": "Hint text inside the post content input field"
+    },
+    "create_post_visibility_note": "আপনার পোস্ট সবাই দেখতে পাবে। শেয়ার করার আগে সতর্ক থাকুন।",
+    "@create_post_visibility_note": {
+        "description": "Footer note on the Create Post screen about post visibility"
+    },
+    "create_post_anonymous_subtitle": "পৃথিবীর সঙ্গে যা শেয়ার করতে চান তা পোস্ট করুন!",
+    "@create_post_anonymous_subtitle": {
+        "description": "Subtitle shown below the anonymous username on the Create Post screen"
+    },
+    "setting_section_identity": "পরিচয়",
+    "@setting_section_identity": {
+        "description": "Section heading for identity-related settings"
+    },
+    "setting_section_notification": "নোটিফিকেশন",
+    "@setting_section_notification": {
+        "description": "Section heading for notification settings"
+    },
+    "setting_section_privacy": "গোপনীয়তা",
+    "@setting_section_privacy": {
+        "description": "Section heading for privacy settings"
+    },
+    "setting_section_danger_zone": "বিপজ্জনক অঞ্চল",
+    "@setting_section_danger_zone": {
+        "description": "Section heading for destructive account actions"
+    },
+    "setting_menu_regenerate_alias": "উপনাম পুনরায় তৈরি করুন",
+    "@setting_menu_regenerate_alias": {
+        "description": "Menu item label to regenerate the user's anonymous alias"
+    },
+    "setting_menu_change_avatar": "অবতার পরিবর্তন করুন",
+    "@setting_menu_change_avatar": {
+        "description": "Menu item label to change the user's avatar"
+    },
+    "setting_menu_change_avatar_subtitle": "ভূত, খুলি, এলিয়েন, রোবট",
+    "@setting_menu_change_avatar_subtitle": {
+        "description": "Subtitle describing available avatar options"
+    },
+    "setting_menu_dark_mode": "ডার্ক মোড",
+    "@setting_menu_dark_mode": {
+        "description": "Menu item label for the dark mode toggle"
+    },
+    "setting_menu_dark_mode_subtitle": "সিস্টেম থিম অনুসরণ করুন",
+    "@setting_menu_dark_mode_subtitle": {
+        "description": "Subtitle for the dark mode toggle"
+    },
+    "setting_menu_allow_anonymous_dms": "বেনামি বার্তা অনুমতি দিন",
+    "@setting_menu_allow_anonymous_dms": {
+        "description": "Menu item label to toggle anonymous direct messages"
+    },
+    "setting_menu_allow_anonymous_dms_subtitle": "অপরিচিতরা আপনাকে বার্তা পাঠাতে পারবে।",
+    "@setting_menu_allow_anonymous_dms_subtitle": {
+        "description": "Subtitle for the allow anonymous DMs toggle"
+    },
+    "setting_menu_ghost_mode": "ঘোস্ট মোড",
+    "@setting_menu_ghost_mode": {
+        "description": "Menu item label for the ghost mode toggle"
+    },
+    "setting_menu_ghost_mode_subtitle": "আপনার অনলাইন স্ট্যাটাস লুকান।",
+    "@setting_menu_ghost_mode_subtitle": {
+        "description": "Subtitle for the ghost mode toggle"
+    },
+    "setting_menu_push_notifications": "পুশ নোটিফিকেশন",
+    "@setting_menu_push_notifications": {
+        "description": "Menu item label for the push notifications toggle"
+    },
+    "setting_menu_sound": "শব্দ",
+    "@setting_menu_sound": {
+        "description": "Menu item label for the sound toggle"
+    },
+    "setting_menu_wipe_posts": "আমার সব পোস্ট মুছুন",
+    "@setting_menu_wipe_posts": {
+        "description": "Menu item label to delete all of the user's posts"
+    },
+    "setting_menu_wipe_posts_subtitle": "আপনার সব পোস্ট স্থায়ীভাবে মুছে ফেলুন।",
+    "@setting_menu_wipe_posts_subtitle": {
+        "description": "Subtitle for the wipe all posts action"
+    },
+    "setting_menu_delete_account": "ঘোস্ট অ্যাকাউন্ট মুছুন",
+    "@setting_menu_delete_account": {
+        "description": "Menu item label to delete the user's account"
+    },
+    "setting_menu_delete_account_subtitle": "ঘোস্ট অ্যাকাউন্ট স্থায়ীভাবে মুছে ফেলুন।",
+    "@setting_menu_delete_account_subtitle": {
+        "description": "Subtitle for the delete account action"
+    },
+    "setting_menu_sign_out": "সাইন আউট",
+    "@setting_menu_sign_out": {
+        "description": "Menu item label to sign out"
+    },
+    "setting_menu_sign_out_subtitle": "আপনার অ্যাকাউন্ট থেকে সাইন আউট করুন।",
+    "@setting_menu_sign_out_subtitle": {
+        "description": "Subtitle for the sign out action"
+    },
+    "setting_menu_language": "ভাষা",
+    "@setting_menu_language": {
+        "description": "Menu item label for the language selector"
+    },
+    "setting_menu_language_subtitle": "অ্যাপের ভাষা পরিবর্তন করুন",
+    "@setting_menu_language_subtitle": {
+        "description": "Subtitle for the language selector menu item"
+    },
+    "profile_action_regenerate_avatar": "অবতার পুনরায় তৈরি করুন",
+    "@profile_action_regenerate_avatar": {
+        "description": "Action label to regenerate the user's avatar on the Profile screen"
+    },
+    "profile_stat_post": "পোস্ট",
+    "@profile_stat_post": {
+        "description": "Label for the post count stat on the Profile screen"
+    },
+    "profile_stat_reaction": "প্রতিক্রিয়া",
+    "@profile_stat_reaction": {
+        "description": "Label for the reaction count stat on the Profile screen"
+    },
+    "profile_stat_days": "দিন",
+    "@profile_stat_days": {
+        "description": "Label for the days active stat on the Profile screen"
+    },
+    "profile_section_confessions": "আপনার স্বীকারোক্তি",
+    "@profile_section_confessions": {
+        "description": "Section heading for the user's own posts on the Profile screen"
+    },
+    "post_details_replies_count": "— {count} উত্তর —",
+    "@post_details_replies_count": {
+        "description": "Label showing the number of replies on the Post Details screen",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "post_details_comment_hint": "বেনামে মন্তব্য লিখুন...",
+    "@post_details_comment_hint": {
+        "description": "Hint text inside the comment input box on the Post Details screen"
     }
 }

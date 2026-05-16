@@ -68,7 +68,7 @@ class PostDetailsScreen extends StatelessWidget {
 
   Widget _buildReplyCountText(BuildContext context, int count) {
     return AppText.captionMedium(
-      "- $count REPLIES -",
+      context.l10n.post_details_replies_count(count),
       color: context.appColors.contentPrimary,
       textWeight: AppTextWeight.light,
     );

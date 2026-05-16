@@ -3,6 +3,7 @@ import 'package:common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localization/localization.dart';
 
 class AnonymousCard extends StatelessWidget {
   const AnonymousCard({super.key});
@@ -45,7 +46,7 @@ class AnonymousCard extends StatelessWidget {
           color: context.appColors.contentPrimary,
         ),
         AppText.captionSmall(
-          "Post anything you want to share with the world!",
+          context.l10n.create_post_anonymous_subtitle,
           textWeight: AppTextWeight.light,
           color: context.appColors.contentSecondary,
         ),

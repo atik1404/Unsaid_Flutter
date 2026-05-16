@@ -459,5 +459,187 @@
     "otp_success": "Phone number verified successfully.",
     "@otp_success": {
         "description": "Success message after OTP is verified"
+    },
+    "notification_title": "Notifications",
+    "@notification_title": {
+        "description": "Title for the Notifications screen"
+    },
+    "notification_action_mark_all_read": "Mark all read",
+    "@notification_action_mark_all_read": {
+        "description": "Action button to mark all notifications as read"
+    },
+    "notification_empty_title": "No notifications",
+    "@notification_empty_title": {
+        "description": "Empty state title on the Notifications screen"
+    },
+    "notification_empty_message": "You have no notifications at the moment.",
+    "@notification_empty_message": {
+        "description": "Empty state message on the Notifications screen"
+    },
+    "notification_filter_all": "All",
+    "@notification_filter_all": {
+        "description": "Filter pill label to show all notifications"
+    },
+    "notification_filter_unread": "Unread",
+    "@notification_filter_unread": {
+        "description": "Filter pill label to show only unread notifications"
+    },
+    "notification_filter_unread_count": "Unread ({count})",
+    "@notification_filter_unread_count": {
+        "description": "Filter pill label showing unread notification count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "create_post_title": "New Post",
+    "@create_post_title": {
+        "description": "Title for the Create Post screen"
+    },
+    "create_post_action_post": "Post",
+    "@create_post_action_post": {
+        "description": "Action button label to submit a new post"
+    },
+    "create_post_mood_label": "How are you feeling today?",
+    "@create_post_mood_label": {
+        "description": "Section heading above the mood selector on the Create Post screen"
+    },
+    "create_post_hint": "What's on your mind?",
+    "@create_post_hint": {
+        "description": "Hint text inside the post content input field"
+    },
+    "create_post_visibility_note": "Your post will be visible to everyone. Be mindful of what you share.",
+    "@create_post_visibility_note": {
+        "description": "Footer note on the Create Post screen about post visibility"
+    },
+    "create_post_anonymous_subtitle": "Post anything you want to share with the world!",
+    "@create_post_anonymous_subtitle": {
+        "description": "Subtitle shown below the anonymous username on the Create Post screen"
+    },
+    "setting_section_identity": "IDENTITY",
+    "@setting_section_identity": {
+        "description": "Section heading for identity-related settings"
+    },
+    "setting_section_notification": "NOTIFICATION",
+    "@setting_section_notification": {
+        "description": "Section heading for notification settings"
+    },
+    "setting_section_privacy": "PRIVACY",
+    "@setting_section_privacy": {
+        "description": "Section heading for privacy settings"
+    },
+    "setting_section_danger_zone": "DANGER ZONE",
+    "@setting_section_danger_zone": {
+        "description": "Section heading for destructive account actions"
+    },
+    "setting_menu_regenerate_alias": "Regenerate alias",
+    "@setting_menu_regenerate_alias": {
+        "description": "Menu item label to regenerate the user's anonymous alias"
+    },
+    "setting_menu_change_avatar": "Change avatar",
+    "@setting_menu_change_avatar": {
+        "description": "Menu item label to change the user's avatar"
+    },
+    "setting_menu_change_avatar_subtitle": "Ghost, skull, alien, robot",
+    "@setting_menu_change_avatar_subtitle": {
+        "description": "Subtitle describing available avatar options"
+    },
+    "setting_menu_dark_mode": "Dark mode",
+    "@setting_menu_dark_mode": {
+        "description": "Menu item label for the dark mode toggle"
+    },
+    "setting_menu_dark_mode_subtitle": "Follow system theme",
+    "@setting_menu_dark_mode_subtitle": {
+        "description": "Subtitle for the dark mode toggle"
+    },
+    "setting_menu_allow_anonymous_dms": "Allow anonymous DMs",
+    "@setting_menu_allow_anonymous_dms": {
+        "description": "Menu item label to toggle anonymous direct messages"
+    },
+    "setting_menu_allow_anonymous_dms_subtitle": "Strangers can message you.",
+    "@setting_menu_allow_anonymous_dms_subtitle": {
+        "description": "Subtitle for the allow anonymous DMs toggle"
+    },
+    "setting_menu_ghost_mode": "Ghost mode",
+    "@setting_menu_ghost_mode": {
+        "description": "Menu item label for the ghost mode toggle"
+    },
+    "setting_menu_ghost_mode_subtitle": "Hide your online status.",
+    "@setting_menu_ghost_mode_subtitle": {
+        "description": "Subtitle for the ghost mode toggle"
+    },
+    "setting_menu_push_notifications": "Push notifications",
+    "@setting_menu_push_notifications": {
+        "description": "Menu item label for the push notifications toggle"
+    },
+    "setting_menu_sound": "Sound",
+    "@setting_menu_sound": {
+        "description": "Menu item label for the sound toggle"
+    },
+    "setting_menu_wipe_posts": "Wipe all my posts",
+    "@setting_menu_wipe_posts": {
+        "description": "Menu item label to delete all of the user's posts"
+    },
+    "setting_menu_wipe_posts_subtitle": "Permanently delete all your posts.",
+    "@setting_menu_wipe_posts_subtitle": {
+        "description": "Subtitle for the wipe all posts action"
+    },
+    "setting_menu_delete_account": "Delete ghost account",
+    "@setting_menu_delete_account": {
+        "description": "Menu item label to delete the user's account"
+    },
+    "setting_menu_delete_account_subtitle": "Permanently delete ghost account.",
+    "@setting_menu_delete_account_subtitle": {
+        "description": "Subtitle for the delete account action"
+    },
+    "setting_menu_sign_out": "Sign out",
+    "@setting_menu_sign_out": {
+        "description": "Menu item label to sign out"
+    },
+    "setting_menu_sign_out_subtitle": "Sign out of your account.",
+    "@setting_menu_sign_out_subtitle": {
+        "description": "Subtitle for the sign out action"
+    },
+    "setting_menu_language": "Language",
+    "@setting_menu_language": {
+        "description": "Menu item label for the language selector"
+    },
+    "setting_menu_language_subtitle": "Change app language",
+    "@setting_menu_language_subtitle": {
+        "description": "Subtitle for the language selector menu item"
+    },
+    "profile_action_regenerate_avatar": "Regenerate avatar",
+    "@profile_action_regenerate_avatar": {
+        "description": "Action label to regenerate the user's avatar on the Profile screen"
+    },
+    "profile_stat_post": "POST",
+    "@profile_stat_post": {
+        "description": "Label for the post count stat on the Profile screen"
+    },
+    "profile_stat_reaction": "REACTION",
+    "@profile_stat_reaction": {
+        "description": "Label for the reaction count stat on the Profile screen"
+    },
+    "profile_stat_days": "DAYS",
+    "@profile_stat_days": {
+        "description": "Label for the days active stat on the Profile screen"
+    },
+    "profile_section_confessions": "YOUR CONFESSIONS",
+    "@profile_section_confessions": {
+        "description": "Section heading for the user's own posts on the Profile screen"
+    },
+    "post_details_replies_count": "— {count} REPLIES —",
+    "@post_details_replies_count": {
+        "description": "Label showing the number of replies on the Post Details screen",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "post_details_comment_hint": "Write a comment anonymously...",
+    "@post_details_comment_hint": {
+        "description": "Hint text inside the comment input box on the Post Details screen"
     }
 }
