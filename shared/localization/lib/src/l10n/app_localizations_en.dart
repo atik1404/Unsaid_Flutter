@@ -421,7 +421,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setting_menu_change_avatar => 'Change avatar';
 
   @override
-  String get setting_menu_change_avatar_subtitle => 'Ghost, skull, alien, robot';
+  String get setting_menu_change_avatar_subtitle =>
+      'Ghost, skull, alien, robot';
 
   @override
   String get setting_menu_dark_mode => 'Dark mode';

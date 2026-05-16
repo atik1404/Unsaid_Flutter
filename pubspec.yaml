@@ -13,6 +13,7 @@ workspace:
   - core/entity/
   - core/response/
   - core/code_analyzer/
+  - core/app_env/
 
   # shared
   - shared/designsystem/
@@ -66,6 +67,7 @@ melos:
         code_analyzer: ^0.0.1
         localization: ^0.0.1
         pref_storage: ^0.0.1
+        app_env: ^0.0.1
 
         flutter_bloc: ^9.1.1
         get_it: ^9.2.1
@@ -154,8 +156,8 @@ melos:
         - melos run outdated --no-select
         - melos exec --no-private -- "dart pub outdated"
 
-    env_secret_generate:
-      run: melos exec --scope secret_env -- dart run build_runner build
+    gen:env:
+      run: melos exec --scope="app_env" -- "dart run build_runner build --delete-conflicting-outputs"
 
     build_runner: |
       melos exec -c 1 --scope="domain" --scope="response" --scope="localization" -- \

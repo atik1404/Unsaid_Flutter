@@ -364,8 +364,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get notification_title => 'নোটিফিকেশন';
 
   @override
-  String get notification_action_mark_all_read =>
-      'সব পড়া হিসেবে চিহ্নিত করুন';
+  String get notification_action_mark_all_read => 'সব পড়া হিসেবে চিহ্নিত করুন';
 
   @override
   String get notification_empty_title => 'কোনো নোটিফিকেশন নেই';
@@ -443,7 +442,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get setting_menu_ghost_mode => 'ঘোস্ট মোড';
 
   @override
-  String get setting_menu_ghost_mode_subtitle => 'আপনার অনলাইন স্ট্যাটাস লুকান।';
+  String get setting_menu_ghost_mode_subtitle =>
+      'আপনার অনলাইন স্ট্যাটাস লুকান।';
 
   @override
   String get setting_menu_push_notifications => 'পুশ নোটিফিকেশন';
