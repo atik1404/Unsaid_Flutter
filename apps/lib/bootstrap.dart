@@ -1,6 +1,7 @@
 import 'package:app/app_di.dart';
 import 'package:app/app_entry.dart';
 import 'package:app_env/environment.dart';
+import 'package:di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pref_storage/pref_storage.dart';
@@ -36,6 +37,7 @@ Future<void> bootstrap(AppEnvironment environment) async {
   // ═══════════════════════════════════════════
   final getIt = GetIt.instance;
   await configureDependencies(getIt, environment);
+  await registerAppDiModule();
 
   // ═══════════════════════════════════════════
   // 5. Storage lifecycle handling - because keychain persists after app uninstall
