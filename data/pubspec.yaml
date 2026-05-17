@@ -30,10 +30,18 @@ dependencies:
   domain: ^0.0.1
   common: ^0.0.1
   pref_storage: ^0.0.1
+  app_env: ^0.0.1
 
   dio: ^5.9.2
   jiffy: ^6.4.4
+  get_it: ^9.2.1
+  path: ^1.9.1
+  json_annotation: ^4.11.0
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
   dart_code_linter: ^4.0.2
+  json_serializable: ^6.13.1
   build_runner: ^2.13.1

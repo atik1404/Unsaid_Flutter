@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -5,15 +8,29 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.playground.flutter_multi_package_playground"
     compileSdk = 36
-    ndkVersion = "28.1.13356709"
+    ndkVersion = "29.0.14206865"
 
     externalNativeBuild {
         cmake {
             version = "4.1.2"
         }
+    }
+
+    defaultConfig {
+        applicationId = "com.playground.flutter_multi_package_playground"
+         minSdk =  24
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
      compileOptions {
@@ -26,16 +43,45 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
-    defaultConfig {
-        applicationId = "com.playground.flutter_multi_package_playground"
-         minSdk =  24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "Dev Unsaid"
+            )
+        }
+
+        create("prod") {
+            dimension = "environment"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "Unsaid"
+            )
+        }
     }
 
+    // signingConfigs{
+    //     create("release") {
+    //         keyAlias = keystoreProperties["KEY_ALIAS"] as String
+    //         keyPassword = keystoreProperties["KEY_PASSWORD"] as String
+    //         storeFile = keystoreProperties["KEYSTORE_FILE"]?.let { file(it) }
+    //         storePassword = keystoreProperties["KEYSTORE_PASSWORD"] as String
+    //     }
+    // }
+
     buildTypes {
-        release {
+        // release {
+        //     isMinifyEnabled = true
+        //     isShrinkResources = true
+        //     signingConfig = signingConfigs.getByName("release")
+        //     proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        // }
+        debug {
             signingConfig = signingConfigs.getByName("debug")
         }
     }

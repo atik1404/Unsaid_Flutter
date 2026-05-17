@@ -21,7 +21,8 @@ class NetworkFailure extends Failure {
 
 class ServerFailure extends Failure {
   final String rawMessage;
-  const ServerFailure(this.rawMessage, this.statusCode);
+  final Map<String, List<String>>? fieldErrors;
+  const ServerFailure(this.rawMessage, this.statusCode, {this.fieldErrors});
 
   @override
   final int? statusCode;

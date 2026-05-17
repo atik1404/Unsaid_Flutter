@@ -160,7 +160,7 @@ melos:
       run: melos exec --scope="app_env" -- "dart run build_runner build --delete-conflicting-outputs"
 
     build_runner: |
-      melos exec -c 1 --scope="domain" --scope="response" --scope="localization" -- \
+      melos exec -c 1 --scope="domain" --scope="data" --scope="localization" -- \
         flutter pub run build_runner build --delete-conflicting-outputs
 
     build_runner_feature:

@@ -20,6 +20,7 @@ extension LocalizationKeyExtension on FailureKey {
       FailureKey.permissionDenied => l10n.message_unknown_error,
       FailureKey.notFound => l10n.message_unknown_error,
       FailureKey.rateLimitExceeded => l10n.message_unknown_error,
+      FailureKey.requestCancelled => l10n.message_unknown_error,
     };
   }
 }

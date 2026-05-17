@@ -1,31 +1,47 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Development",
+            "name": "Dev-Debug",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "debug",
-            "program": "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart",
-            // "args": [
-            //     "--flavor",
-            //     "development",
-            //     "--target",
-            //     "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart"
-            // ]
+            "program": "apps/lib/main_dev.dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--debug",
+                "--target",
+                "lib/main_dev.dart"
+            ]
+        },
+        {
+            "name": "Dev-Release",
+            "request": "launch",
+            "type": "dart",
+            "program": "apps/lib/main_dev.dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--release",
+                "--target",
+                "lib/main_dev.dart"
+            ]
         },
         {
             "name": "Production",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
-            "program": "/Users/atikfaysal/Projects/Playground/flutter_multi_package_playground/apps/lib/main.dart",
-            // "args": [
-            //     "--flavor",
-            //     "production",
-            //     "--target",
-            //     "/Volumes/Personal/Projects/Playground/Flutter/flutter_multi_package/apps/lib/main.dart"
-            // ]
+            "program": "apps/lib/main_prod.dart",
+            "args": [
+                "--flavor",
+                "prod",
+                "--debug",
+                "--target",
+                "lib/main_prod.dart"
+            ]
         }
     ]
 }
