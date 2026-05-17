@@ -15,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.playground.flutter_multi_package_playground"
+    namespace = "com.user.unsaid"
     compileSdk = 36
     ndkVersion = "29.0.14206865"
 
@@ -26,7 +26,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.playground.flutter_multi_package_playground"
+        applicationId = "com.user.unsaid"
          minSdk =  24
         targetSdk = 36
         versionCode = 1
@@ -92,8 +92,8 @@ flutter {
 }
 
 dependencies {
-    //implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
-    //implementation("com.google.firebase:firebase-analytics")
+    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.multidex:multidex:2.0.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }

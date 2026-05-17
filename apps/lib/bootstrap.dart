@@ -1,7 +1,10 @@
 import 'package:app/app_di.dart';
 import 'package:app/app_entry.dart';
+import 'package:app/default_firebase_options.dart';
 import 'package:app_env/environment.dart';
 import 'package:di/di.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pref_storage/pref_storage.dart';
@@ -21,16 +24,13 @@ Future<void> bootstrap(AppEnvironment environment) async {
   // ═══════════════════════════════════════════
   // 2. Firebase
   // ═══════════════════════════════════════════
-  // final firebaseOptions = switch (environment) {
-  //   AppEnvironment.dev => firebase_dev.DefaultFirebaseOptions.currentPlatform,
-  //   AppEnvironment.prod => firebase_prod.DefaultFirebaseOptions.currentPlatform,
-  // };
-  // await Firebase.initializeApp(options: firebaseOptions);
+  final firebaseOptions = DefaultFirebaseOptions.currentPlatform;
+  await Firebase.initializeApp(options: firebaseOptions);
 
   // ═══════════════════════════════════════════
   // 3. Crashlytics — disable in dev mode
   // ═══════════════════════════════════════════
-  // await FirebaseCrashlytics.instance .setCrashlyticsCollectionEnabled(environment == AppEnvironment.prod);
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(environment == AppEnvironment.prod);
 
   // ═══════════════════════════════════════════
   // 4. DI
