@@ -56,7 +56,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
 
     final result = await _loginUseCase(
-      LoginParams(identifier: phone.value, password: password.value),
+      LoginParams(identifier: phone.value.formatPhone(), password: password.value),
     );
 
     result.when(

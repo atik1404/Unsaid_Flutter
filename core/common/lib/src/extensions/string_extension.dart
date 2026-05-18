@@ -6,4 +6,14 @@ extension StringExtension on String {
       return 0;
     }
   }
+
+  String formatPhone() {
+    if (this.startsWith('+88')) {
+      return this;
+    } else if (this.startsWith('01')) {
+      return '+88$this';
+    } else {
+      return this;
+    }
+  }
 }

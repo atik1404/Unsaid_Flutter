@@ -1,6 +1,5 @@
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
@@ -11,6 +10,7 @@ import 'package:login/src/bloc/login_event.dart';
 import 'package:login/src/bloc/login_state.dart';
 import 'package:navigation/navigation.dart';
 import 'package:common/common.dart';
+import 'package:ui/ui.dart';
 
 /// Entry point for the login feature.
 ///
@@ -42,17 +42,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onStateChanged(BuildContext context, LoginState state) {
     if (state.status == FormzSubmissionStatus.success) {
-      context.goNamed(AppRouteName.homeScreen);
+      AppToast.toast(message: 'Login successful', toastType: ToastType.success);
+      //context.goNamed(AppRouteName.homeScreen);
     } else if (state.status == FormzSubmissionStatus.failure) {
       final message = state.errorMessage ?? 'Something went wrong';
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(message)));
+      AppToast.toast(message: message, toastType: ToastType.error);
     }
   }
 
   // ── Layout ────────────────────────────────────────────────────────────────
-
   Widget _buildBody() {
     final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
 
@@ -82,7 +80,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // ── Header ────────────────────────────────────────────────────────────────
-
   Widget _buildLoginHeader(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -109,7 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // ── Form ──────────────────────────────────────────────────────────────────
-
   Widget _buildLoginForm() {
     final gap = SizedBox(height: AppSpacing.s12.h);
 
@@ -190,6 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginButton(BuildContext context, LoginState state) {
     return AppFilledButton.text(
       context.l10n.login_button,
+      isLoading: state.isLoading,
       // Disable the button while a request is in flight.
       onPressed: state.isLoading ? null : () => context.read<LoginBloc>().add(const LoginSubmitted()),
     );
