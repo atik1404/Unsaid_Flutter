@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<LoginBloc, LoginState>(
       // Listen for terminal states to trigger navigation or error feedback.
       listenWhen: (prev, curr) => prev.status != curr.status,
-      listener: _onStateChanged,
+      listener: (context, state) => _onStateChanged(state),
       child: AppScaffold(
         enableGradientBackground: true,
         body: _buildBody(),
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _onStateChanged(BuildContext context, LoginState state) {
+  void _onStateChanged(LoginState state) {
     if (state.status == FormzSubmissionStatus.success) {
       AppToast.toast(message: 'Login successful', toastType: ToastType.success);
       //context.goNamed(AppRouteName.homeScreen);
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
               color: context.appColors.contentSubtle,
             ),
             SizedBox(height: AppSpacing.s4.h),
-            _buildPhoneField(context, state),
+            _buildPhoneField(context),
             // Show validation error only after the first submit attempt.
             if (state.showErrors && state.phone.isNotValid) _buildFieldError(context, _phoneErrorText(context, state.phone.error)),
             gap,
@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPhoneField(BuildContext context, LoginState state) {
+  Widget _buildPhoneField(BuildContext context) {
     return AppInputField(
       hint: context.l10n.login_hint_phone,
       keyboardType: TextInputType.phone,
