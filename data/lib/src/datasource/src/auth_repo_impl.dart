@@ -30,8 +30,8 @@ final class AuthRepoImpl implements AuthRepository {
   @override
   Future<Result<LoginEntity, Failure>> login(LoginParams params) async {
     final result = await _client.post(
-      '/auth/api/v1/partner/login',
-      data: {'phone': params.email, 'password': params.password},
+      '/auth/login',
+      data: params.toJson(),
       parser: (data) => LoginApiResponse.fromJson(data).toEntity(),
     );
 

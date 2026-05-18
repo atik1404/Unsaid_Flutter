@@ -21,7 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return AppScaffold(
       enableGradientBackground: true,
       body: _buildLoginUi(),
-      //bottomNavigationBar: _buildLoginFooter(context),
     );
   }
 

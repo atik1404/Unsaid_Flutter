@@ -13,13 +13,6 @@ final class LoginUseCase extends UseCase<LoginEntity, LoginParams> {
   Future<Result<LoginEntity, Failure>> call(LoginParams params) async {
     final result = await _repository.login(params);
 
-    return result.when(
-      success: (data) {
-        return SuccessResult(data);
-      },
-      failure: (error) {
-        return FailureResult(error);
-      },
-    );
+    return result;
   }
 }

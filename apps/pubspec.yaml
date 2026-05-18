@@ -19,6 +19,7 @@ dependencies:
   pref_storage: ^0.0.1
   common: ^0.0.1
   data: ^0.0.1
+  domain: ^0.0.1
   app_env: ^0.0.1
 
   cupertino_icons: ^1.0.9

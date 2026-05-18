@@ -6,11 +6,11 @@ part 'login_params.g.dart';
   createFactory: false,
 )
 final class LoginParams {
-  final String email;
+  final String identifier; // email or phone number
   final String password;
 
   const LoginParams({
-    required this.email,
+    required this.identifier,
     required this.password,
   });
 
