@@ -10,7 +10,7 @@ class DataDiModule {
 
   static const String _imageClientName = 'imageClient';
 
-  static Future<void> init(GetIt getIt) async {
+  static void init(GetIt getIt) {
     final authStorage = getIt<AuthStorageRepository>();
     final appStorage = getIt<StorageRepository>();
 
