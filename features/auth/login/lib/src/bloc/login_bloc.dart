@@ -19,14 +19,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   // ── Field change handlers ─────────────────────────────────────────────────
   void _onPhoneChanged(LoginPhoneChanged event, Emitter<LoginState> emit) {
-    emit(state.copyWith(phone: PhoneInputValidator.dirty(event.phone)));
+    emit(state.copyWith(phone: PhoneInputValidator.dirty(event.phone), errorMessage: null));
   }
 
   void _onPasswordChanged(
     LoginPasswordChanged event,
     Emitter<LoginState> emit,
   ) {
-    emit(state.copyWith(password: PasswordInputValidator.dirty(event.password)));
+    emit(state.copyWith(password: PasswordInputValidator.dirty(event.password), errorMessage: null));
   }
 
   void _onTogglePasswordVisibility(LoginTogglePasswordVisibility event, Emitter<LoginState> emit) {

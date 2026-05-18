@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:login/src/bloc/login_bloc.dart';
@@ -17,30 +16,17 @@ import 'package:common/common.dart';
 ///
 /// Provides a fresh [LoginBloc] instance and delegates rendering to
 /// [_LoginView] so the BLoC is always available in the widget subtree.
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => GetIt.instance<LoginBloc>(),
-      child: const _LoginView(),
-    );
-  }
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 /// The stateful UI layer of the login screen.
 ///
 /// Reads [LoginBloc] from context — always available because [LoginScreen]
-/// wraps this widget in a [BlocProvider].
-class _LoginView extends StatefulWidget {
-  const _LoginView();
-
-  @override
-  State<_LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<_LoginView> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(

@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
       listener: (context, state) {
         state.maybeMap(
           navigateToOnboarding: (_) => context.goNamed(AppRouteName.onboardingScreen),
-          navigateToLogin: (_) => context.goNamed(AppRouteName.homeScreen),
+          navigateToLogin: (_) => context.goNamed(AppRouteName.loginScreen),
           navigateToHome: (_) => context.goNamed(AppRouteName.homeScreen),
           orElse: () {},
         );
