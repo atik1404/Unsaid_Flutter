@@ -500,4 +500,17 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get post_details_comment_hint => 'বেনামে মন্তব্য লিখুন...';
+
+  @override
+  String get validation_phone_required => 'ফোন নম্বর আবশ্যক।';
+
+  @override
+  String get validation_phone_invalid => 'একটি সঠিক ১১-সংখ্যার ফোন নম্বর দিন।';
+
+  @override
+  String get validation_password_required => 'পাসওয়ার্ড আবশ্যক।';
+
+  @override
+  String get validation_password_too_short =>
+      'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।';
 }

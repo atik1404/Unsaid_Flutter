@@ -997,6 +997,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Write a comment anonymously...'**
   String get post_details_comment_hint;
+
+  /// Validation error shown when the phone number field is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required.'**
+  String get validation_phone_required;
+
+  /// Validation error shown when the phone number format is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid 11-digit phone number.'**
+  String get validation_phone_invalid;
+
+  /// Validation error shown when the password field is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required.'**
+  String get validation_password_required;
+
+  /// Validation error shown when the password is shorter than the minimum length
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get validation_password_too_short;
 }
 
 class _AppLocalizationsDelegate

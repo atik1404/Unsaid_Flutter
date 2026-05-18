@@ -638,5 +638,21 @@
     "post_details_comment_hint": "বেনামে মন্তব্য লিখুন...",
     "@post_details_comment_hint": {
         "description": "Hint text inside the comment input box on the Post Details screen"
+    },
+    "validation_phone_required": "ফোন নম্বর আবশ্যক।",
+    "@validation_phone_required": {
+        "description": "Validation error shown when the phone number field is empty"
+    },
+    "validation_phone_invalid": "একটি সঠিক ১১-সংখ্যার ফোন নম্বর দিন।",
+    "@validation_phone_invalid": {
+        "description": "Validation error shown when the phone number format is invalid"
+    },
+    "validation_password_required": "পাসওয়ার্ড আবশ্যক।",
+    "@validation_password_required": {
+        "description": "Validation error shown when the password field is empty"
+    },
+    "validation_password_too_short": "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।",
+    "@validation_password_too_short": {
+        "description": "Validation error shown when the password is shorter than the minimum length"
     }
 }

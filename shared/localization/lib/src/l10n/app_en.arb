@@ -641,5 +641,21 @@
     "post_details_comment_hint": "Write a comment anonymously...",
     "@post_details_comment_hint": {
         "description": "Hint text inside the comment input box on the Post Details screen"
+    },
+    "validation_phone_required": "Phone number is required.",
+    "@validation_phone_required": {
+        "description": "Validation error shown when the phone number field is empty"
+    },
+    "validation_phone_invalid": "Enter a valid 11-digit phone number.",
+    "@validation_phone_invalid": {
+        "description": "Validation error shown when the phone number format is invalid"
+    },
+    "validation_password_required": "Password is required.",
+    "@validation_password_required": {
+        "description": "Validation error shown when the password field is empty"
+    },
+    "validation_password_too_short": "Password must be at least 6 characters.",
+    "@validation_password_too_short": {
+        "description": "Validation error shown when the password is shorter than the minimum length"
     }
 }

@@ -1,4 +1,8 @@
+import 'package:domain/domain.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:login/src/bloc/login_bloc.dart';
 import 'package:login/src/login_screen.dart';
 import 'package:navigation/navigation.dart';
 
@@ -11,7 +15,10 @@ final class LoginScreenRouter implements BaseRouter {
         name: AppRouteName.loginScreen,
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
-          child: const LoginScreen(),
+          child: BlocProvider(
+            create: (_) => LoginBloc(loginUseCase: GetIt.instance<LoginUseCase>()),
+            child: const LoginScreen(),
+          ),
         ),
         routes: children,
       ),

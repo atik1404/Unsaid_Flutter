@@ -497,4 +497,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get post_details_comment_hint => 'Write a comment anonymously...';
+
+  @override
+  String get validation_phone_required => 'Phone number is required.';
+
+  @override
+  String get validation_phone_invalid => 'Enter a valid 11-digit phone number.';
+
+  @override
+  String get validation_password_required => 'Password is required.';
+
+  @override
+  String get validation_password_too_short =>
+      'Password must be at least 6 characters.';
 }
