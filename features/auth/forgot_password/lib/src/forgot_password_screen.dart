@@ -1,5 +1,7 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forgot_password/src/state/forgot_password_cubit.dart';
@@ -9,23 +11,14 @@ import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:ui/ui.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => ForgotPasswordCubit(), child: const _ForgotPasswordScreenView());
-  }
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenView extends StatefulWidget {
-  const _ForgotPasswordScreenView();
-
-  @override
-  State<_ForgotPasswordScreenView> createState() => _ForgotPasswordScreenViewState();
-}
-
-class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(enableGradientBackground: true, body: _buildForgotPasswordUi(context));
@@ -45,10 +38,11 @@ class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
               listener: (context, state) {
                 if (state.errorMessage != null) {
                   final message = state.errorMessage == 'empty_phone' ? context.l10n.forgot_password_error_empty_phone : state.errorMessage!;
+                  AppLog.log('  ForgotPasswordScreen - OTP send error: $message');
                   AppToast.toast(message: message, toastType: ToastType.error);
                 } else if (state.isSuccess) {
                   AppToast.toast(message: context.l10n.forgot_password_success, toastType: ToastType.success);
-                  context.goNamed(AppRouteName.otpVerificationScreen, extra: state.phone.trim());
+                  context.goNamed(AppRouteName.otpVerificationScreen, extra: {'phone': state.phone.value, 'verificationId': state.verificationId ?? ''});
                 }
               },
               child: _buildContent(context),
@@ -72,6 +66,7 @@ class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
         AppText.bodySmall(context.l10n.forgot_password_label_phone, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
         SizedBox(height: AppSpacing.s4.h),
         _buildPhoneInput(context),
+
         gap,
         gap,
         _buildSendOtpButton(context),
@@ -95,14 +90,41 @@ class _ForgotPasswordScreenViewState extends State<_ForgotPasswordScreenView> {
   }
 
   Widget _buildPhoneInput(BuildContext context) {
-    return AppInputField(
-      hint: context.l10n.forgot_password_hint_phone,
-      keyboardType: TextInputType.phone,
-      textInputAction: TextInputAction.done,
-      variant: AppInputFieldVariant.filledOpt,
-      maxLength: 11,
-      onChanged: (value) => context.read<ForgotPasswordCubit>().updatePhone(value),
+    return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppInputField(
+              hint: context.l10n.forgot_password_hint_phone,
+              keyboardType: TextInputType.phone,
+              textInputAction: TextInputAction.done,
+              variant: AppInputFieldVariant.filledOpt,
+              maxLength: 11,
+              onChanged: (value) => context.read<ForgotPasswordCubit>().updatePhone(value),
+            ),
+            if (state.showError && state.phone.isNotValid) _buildFieldError(context, _phoneErrorText(context, state.phone.error)),
+          ],
+        );
+      },
     );
+  }
+
+  /// A small red text widget shown below an invalid field.
+  Widget _buildFieldError(BuildContext context, String message) {
+    return Padding(
+      padding: EdgeInsets.only(top: AppSpacing.s4.h),
+      child: AppText.bodySmall(message, color: context.appColors.contentError, textWeight: AppTextWeight.light),
+    );
+  }
+
+  String _phoneErrorText(BuildContext context, ValidationError? error) {
+    return switch (error) {
+      ValidationError.empty => context.l10n.validation_phone_required,
+      ValidationError.invalid => context.l10n.validation_phone_invalid,
+      _ => '',
+    };
   }
 
   Widget _buildSendOtpButton(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pref_storage/pref_storage.dart';
 
 Future<void> bootstrap(AppEnvironment environment) async {
@@ -26,6 +27,8 @@ Future<void> bootstrap(AppEnvironment environment) async {
   // ═══════════════════════════════════════════
   final firebaseOptions = DefaultFirebaseOptions.currentPlatform;
   await Firebase.initializeApp(options: firebaseOptions);
+
+  await FirebaseAuth.instance.setSettings(appVerificationDisabledForTesting: true);
 
   // ═══════════════════════════════════════════
   // 3. Crashlytics — disable in dev mode

@@ -10,14 +10,15 @@ import 'package:otp_verification/src/state/otp_verification_state.dart';
 import 'package:ui/ui.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
-  const OtpVerificationScreen({super.key, required this.phone});
+  const OtpVerificationScreen({super.key, required this.phone, required this.verificationId});
 
   final String phone;
+  final String verificationId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => OtpVerificationCubit(),
+      create: (_) => OtpVerificationCubit(verificationId: verificationId, phone: phone),
       child: _OtpVerificationScreenView(phone: phone),
     );
   }

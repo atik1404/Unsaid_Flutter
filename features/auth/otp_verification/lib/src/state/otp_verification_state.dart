@@ -6,6 +6,8 @@ part 'otp_verification_state.freezed.dart';
 abstract class OtpVerificationState with _$OtpVerificationState {
   const factory OtpVerificationState({
     @Default('') String otp,
+    @Default('') String phone,
+    @Default('') String verificationId,
     @Default(60) int timerSeconds,
     @Default(false) bool canResend,
     @Default(false) bool isVerifying,

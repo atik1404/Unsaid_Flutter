@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xargs cat -n)"
+      "Bash(xargs cat -n)",
+      "Bash(dart run *)",
+      "Bash(flutter pub *)",
+      "Bash(python3 -c \"import sys, json; d=json.load\\(sys.stdin\\); [print\\(c.get\\('client_id',''\\), [s.get\\('certificate_hash',''\\) for s in c.get\\('services',{}\\).get\\('appinvite_service',{}\\).get\\('other_platform_oauth_client',[]\\)]\\) for client in d['client'] for c in client.get\\('oauth_client',[]\\)]\")",
+      "Bash(python3 -c ' *)",
+      "Bash(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\('package_name:', c['client_info']['android_client_info']['android_package_name']\\) for c in d['client']]\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Volumes/Personal/Projects/Playground/Flutter/flutter_multi_package/apps/android/app/google-services.json'\\)\\); print\\(json.dumps\\(d, indent=2\\)\\)\")"
     ]
   }
 }
