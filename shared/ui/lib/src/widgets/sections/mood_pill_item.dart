@@ -26,6 +26,8 @@ class MoodPillItem extends StatelessWidget {
   ) {
     final effectiveIcon = mood == "ALL" ? null : _getMoodIcon(mood);
 
+    final contentColor = isSelected ? context.appColors.contentPrimary : context.appColors.contentSecondary;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -45,14 +47,14 @@ class MoodPillItem extends StatelessWidget {
             text: AppText.captionSmall(
               mood.toUpperCase(),
               textAlign: TextAlign.center,
-              color: isSelected ? context.appColors.contentPrimary : context.appColors.contentSecondary,
+              color: contentColor,
             ),
             leadingWidget: (effectiveIcon != null && effectiveIcon.isNotEmpty)
                 ? AppImage.asset(
                     effectiveIcon,
                     width: IconSizes.inline,
                     height: IconSizes.inline,
-                    color: isSelected ? context.appColors.contentPrimary : context.appColors.contentSecondary,
+                    color: contentColor,
                   )
                 : null,
             horizontalGap: AppSpacing.s4.w,
