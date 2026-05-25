@@ -16,9 +16,9 @@ final class AuthRepoImpl implements AuthRepository {
   @override
   Future<Result<ProfileEntity, Failure>> fetchProfile() async {
     final result = await _client.get(
-      '/rental-partner/api/v1/partner/profile',
+      '/profile',
       options: AuthOptions.authenticated(),
-      parser: (data) => ProfileApiResponse.fromJson(data).toEntity(),
+      parser: (data) => ProfileDto.fromJson(data).toEntity(),
     );
     if (result is SuccessResult<ProfileEntity, Failure>) {
       await _userStorage.saveUserName(result.data.name);
@@ -32,7 +32,7 @@ final class AuthRepoImpl implements AuthRepository {
     final result = await _client.post(
       '/auth/login',
       data: params.toJson(),
-      parser: (data) => LoginApiResponse.fromJson(data).toEntity(),
+      parser: (data) => LoginDto.fromJson(data).toEntity(),
     );
 
     if (result is SuccessResult<LoginEntity, Failure>) {

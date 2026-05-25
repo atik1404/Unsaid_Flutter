@@ -130,7 +130,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget _buildSendOtpButton(BuildContext context) {
     return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
       builder: (context, state) {
-        return AppFilledButton.text(context.l10n.forgot_password_button, isLoading: state.isSubmitting, onPressed: () => context.read<ForgotPasswordCubit>().sendOtp());
+        return AppFilledButton.text(context.l10n.forgot_password_button, isLoading: state.isSubmitting, onPressed: () => context.read<ForgotPasswordCubit>().checkUserExistence());
       },
     );
   }

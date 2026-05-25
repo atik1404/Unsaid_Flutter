@@ -29,6 +29,12 @@ class DataDiModule {
       )
       ..registerLazySingleton<AuthRepository>(
         () => AuthRepoImpl(getIt<RestClient>(), authStorage, getIt<UserStorageRepository>()),
+      )
+      ..registerLazySingleton<CommonRepository>(
+        () => CommonRepoImpl(getIt<RestClient>()),
+      )
+      ..registerLazySingleton<PostRepository>(
+        () => PostRepoImpl(getIt<RestClient>()),
       );
   }
 }

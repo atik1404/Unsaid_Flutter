@@ -61,13 +61,6 @@ final class TokenRefreshInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // Only handle 409 on authenticated requests
-    // Token is invalid or you may be logged in from another device
-    if (err.response?.statusCode == 409 || !_requiresAuth(err.requestOptions)) {
-      await _forceLogout();
-      return handler.reject(err);
-    }
-
     // Only handle 401 on authenticated requests
     if (err.response?.statusCode != 401 || !_requiresAuth(err.requestOptions)) {
       return handler.next(err);

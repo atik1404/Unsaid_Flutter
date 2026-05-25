@@ -5,6 +5,9 @@ final class DomainDi {
   DomainDi._();
 
   static void init(GetIt getIt) {
-    getIt.registerLazySingleton<LoginUseCase>(() => LoginUseCase(getIt<AuthRepository>()));
+    getIt
+      ..registerLazySingleton<LoginUseCase>(() => LoginUseCase(getIt<AuthRepository>()))
+      ..registerLazySingleton<FetchProfileUseCase>(() => FetchProfileUseCase(getIt<AuthRepository>()))
+      ..registerLazySingleton<FetchUserExistenceUseCase>(() => FetchUserExistenceUseCase(getIt<CommonRepository>()));
   }
 }

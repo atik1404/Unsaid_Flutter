@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'login_api_response.g.dart';
+part 'login_dto.g.dart';
 
 @JsonSerializable(createToJson: false)
-class LoginApiResponse {
+class LoginDto {
   final String? message;
   @JsonKey(name: 'auth_token')
   final String? authToken;
@@ -14,7 +14,7 @@ class LoginApiResponse {
   @JsonKey(name: 'status_code')
   final int? statusCode;
 
-  const LoginApiResponse({this.message, this.authToken, this.refreshToken, this.expirationDate, this.statusCode});
+  const LoginDto({this.message, this.authToken, this.refreshToken, this.expirationDate, this.statusCode});
 
-  factory LoginApiResponse.fromJson(Map<String, dynamic> json) => _$LoginApiResponseFromJson(json);
+  factory LoginDto.fromJson(Map<String, dynamic> json) => _$LoginDtoFromJson(json);
 }
