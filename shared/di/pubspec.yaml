@@ -39,6 +39,7 @@ dependencies:
   post_details: ^0.0.1
   setting: ^0.0.1
   change_password: ^0.0.1
+  reset_password: ^0.0.1
   create_post: ^0.0.1
   notification: ^0.0.1
   forgot_password: ^0.0.1

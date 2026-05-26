@@ -20,6 +20,9 @@ final class AppRouteName {
   static const String changePasswordScreen = 'changePasswordScreen';
   static const String changePasswordPath = '/change-password';
 
+  static const String resetPasswordScreen = 'resetPasswordScreen';
+  static const String resetPasswordPath = '/reset-password';
+
   static const String postDetailsScreen = 'postDetailsScreen';
   static const String postDetailsPath = '/post-details';
 

@@ -30,6 +30,7 @@ workspace:
   - features/auth/setting/
   - features/auth/profile/
   - features/auth/change_password/
+  - features/auth/reset_password/
   - features/auth/notification/
   - features/auth/forgot_password/
   - features/auth/otp_verification/

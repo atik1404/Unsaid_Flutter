@@ -11,6 +11,7 @@ import 'package:otp_verification/otp_verification.dart';
 import 'package:signup/signup.dart';
 import 'package:splash/splash.dart';
 import 'package:home/home.dart';
+import 'package:reset_password/reset_password.dart';
 import 'package:post_details/post_details.dart';
 import 'package:setting/setting.dart';
 import 'package:create_post/create_post.dart';
@@ -24,6 +25,7 @@ Future<void> registerNavigationModule(GetIt locator) async {
     ...OnboardingScreenRouter().routes(),
     ...SignupScreenRouter().routes(),
     ...ForgotPasswordScreenRouter().routes(),
+    ...ResetPasswordScreenRouter().routes(),
     ...OtpVerificationScreenRouter().routes(),
     ...HomeScreenRouter().routes(
       children: [
