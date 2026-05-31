@@ -48,9 +48,10 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
           {
             AppLog.log('User does not exist, sending OTP'),
             //_sendOtp(phoneInput.value.formatPhone())
+            emit(state.copyWith(isSubmitting: false, errorMessage: 'User with this phone number does not exist')),
           }
         else
-          {emit(state.copyWith(isSubmitting: false, errorMessage: 'User with this phone number does exist'))},
+          {emit(state.copyWith(isSubmitting: false, isSuccess: true))},
       },
       failure: (error) {
         var message = switch (error.message) {

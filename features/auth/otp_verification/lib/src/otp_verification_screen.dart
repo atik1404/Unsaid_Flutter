@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,31 +10,18 @@ import 'package:otp_verification/src/state/otp_verification_cubit.dart';
 import 'package:otp_verification/src/state/otp_verification_state.dart';
 import 'package:ui/ui.dart';
 
-class OtpVerificationScreen extends StatelessWidget {
-  const OtpVerificationScreen({super.key, required this.phone, required this.verificationId});
+class OtpVerificationScreen extends StatefulWidget {
+  const OtpVerificationScreen({super.key, required this.phone, required this.verificationId, required this.otpPurpose});
 
   final String phone;
   final String verificationId;
+  final String otpPurpose;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => OtpVerificationCubit(verificationId: verificationId, phone: phone),
-      child: _OtpVerificationScreenView(phone: phone),
-    );
-  }
+  State<StatefulWidget> createState() => OtpVerificationScreenState();
 }
 
-class _OtpVerificationScreenView extends StatefulWidget {
-  const _OtpVerificationScreenView({required this.phone});
-
-  final String phone;
-
-  @override
-  State<_OtpVerificationScreenView> createState() => _OtpVerificationScreenViewState();
-}
-
-class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> {
+class OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
@@ -85,8 +73,7 @@ class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> 
                   };
                   AppToast.toast(message: message, toastType: ToastType.error);
                 } else if (state.isSuccess) {
-                  AppToast.toast(message: context.l10n.otp_success, toastType: ToastType.success);
-                  context.goNamed(AppRouteName.homeScreen);
+                  _onOtpVerificationSuccess();
                 }
               },
               child: _buildContent(context),
@@ -154,7 +141,7 @@ class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> 
   Widget _buildVerifyButton(BuildContext context) {
     return BlocBuilder<OtpVerificationCubit, OtpVerificationState>(
       builder: (context, state) {
-        return AppFilledButton.text(context.l10n.otp_button, isLoading: state.isVerifying, onPressed: () => context.read<OtpVerificationCubit>().verify());
+        return AppFilledButton.text(context.l10n.otp_button, isLoading: state.isVerifying, onPressed: () => context.read<OtpVerificationCubit>().verifyOtp());
       },
     );
   }
@@ -192,5 +179,13 @@ class _OtpVerificationScreenViewState extends State<_OtpVerificationScreenView> 
       onPressed: () => context.goNamed(AppRouteName.loginScreen),
       style: const AppTextButtonStyle(intent: AppButtonIntent.secondary()),
     );
+  }
+
+  void _onOtpVerificationSuccess() {
+    if (widget.otpPurpose == AppConstants.otpVerificationForResetPassword) {
+      context.pushReplacementNamed(AppRouteName.resetPasswordScreen);
+    } else if (widget.otpPurpose == AppConstants.otpVerificationForSignUp) {
+      context.pop(true); // Return true to indicate successful OTP verification for sign-up flow.
+    }
   }
 }

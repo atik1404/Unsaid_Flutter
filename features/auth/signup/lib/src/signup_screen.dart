@@ -1,4 +1,6 @@
 import 'package:designsystem/designsystem.dart';
+import 'package:entity/entity.dart';
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
@@ -164,9 +166,14 @@ class _SignupScreenViewState extends State<_SignupScreenView> {
           context.l10n.signup_button,
           isLoading: state.isSubmitting,
           onPressed: () {
-            context.pushNamed(AppRouteName.otpVerificationScreen, extra: state.phone.trim()).then((value) {
-              context.read<SignupCubit>().submit();
-            });
+            context
+                .pushNamed(
+                  AppRouteName.otpVerificationScreen,
+                  extra: OtpVerificationArgs(verificationId: '', phoneNumber: state.phone, otpPurpose: AppConstants.otpVerificationForSignUp),
+                )
+                .then((value) {
+                  context.read<SignupCubit>().submit();
+                });
           },
         );
       },

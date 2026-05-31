@@ -7,6 +7,6 @@ export 'src/repository/post_repository.dart';
 export 'src/usecase/auth/login_use_case.dart';
 export 'src/usecase/auth/fetch_profile_use_case.dart';
 
-export 'src/usecase/common/fetch_user_existance_use_case.dart';
+export 'src/usecase/common/fetch_user_existence_use_case.dart';
 
 export 'src/di/domain_di.dart';

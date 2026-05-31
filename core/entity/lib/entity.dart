@@ -6,3 +6,6 @@ export 'src/api/common/common_api_entity.dart';
 export 'src/api/post/post_entity.dart';
 
 export 'src/internal/onboarding_pager_entity.dart';
+
+//arguments
+export 'src/internal/args/otp_verification_args.dart';

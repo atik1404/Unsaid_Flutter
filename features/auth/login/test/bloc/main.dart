@@ -9,8 +9,6 @@ import 'package:login/src/bloc/login_event.dart';
 import 'package:login/src/bloc/login_state.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAuthRepository extends Mock implements AuthRepository {}
-
 void main() {
   late MockAuthRepository mockAuthRepository;
   late LoginUseCase loginUseCase;
@@ -66,7 +64,6 @@ void main() {
             phone: PhoneInputValidator.dirty('01712345679'),
             password: PasswordInputValidator.dirty(validPassword),
             status: FormzSubmissionStatus.failure,
-            errorMessage: null,
           ),
         ],
       );
@@ -97,7 +94,6 @@ void main() {
             phone: PhoneInputValidator.dirty(validPhone),
             password: PasswordInputValidator.dirty('newPassword1'),
             status: FormzSubmissionStatus.failure,
-            errorMessage: null,
           ),
         ],
       );
@@ -115,12 +111,13 @@ void main() {
         'toggles showPassword back to false on second tap',
         build: () => LoginBloc(loginUseCase: loginUseCase),
         act: (bloc) {
-          bloc.add(const LoginTogglePasswordVisibility());
-          bloc.add(const LoginTogglePasswordVisibility());
+          bloc
+            ..add(const LoginTogglePasswordVisibility())
+            ..add(const LoginTogglePasswordVisibility());
         },
         expect: () => const [
           LoginState(showPassword: true),
-          LoginState(showPassword: false),
+          LoginState(),
         ],
       );
     });
@@ -132,8 +129,8 @@ void main() {
         act: (bloc) => bloc.add(const LoginSubmitted()),
         expect: () => const [
           LoginState(
-            phone: PhoneInputValidator.dirty(''),
-            password: PasswordInputValidator.dirty(''),
+            phone: PhoneInputValidator.dirty(),
+            password: PasswordInputValidator.dirty(),
             showErrors: true,
           ),
         ],
@@ -179,14 +176,14 @@ void main() {
       blocTest<LoginBloc, LoginState>(
         'emits inProgress then success on valid credentials',
         build: () {
-          when(() => mockAuthRepository.login(any()))
-              .thenAnswer((_) async => SuccessResult(successEntity));
+          when(() => mockAuthRepository.login(any())).thenAnswer((_) async => SuccessResult(successEntity));
           return LoginBloc(loginUseCase: loginUseCase);
         },
         act: (bloc) {
-          bloc..add(const LoginPhoneChanged(validPhone))
-          ..add(const LoginPasswordChanged(validPassword))
-          ..add(const LoginSubmitted());
+          bloc
+            ..add(const LoginPhoneChanged(validPhone))
+            ..add(const LoginPasswordChanged(validPassword))
+            ..add(const LoginSubmitted());
         },
         expect: () => const [
           LoginState(phone: PhoneInputValidator.dirty(validPhone)),
@@ -213,8 +210,7 @@ void main() {
           ),
         ],
         verify: (_) {
-          final captured =
-              verify(() => mockAuthRepository.login(captureAny())).captured;
+          final captured = verify(() => mockAuthRepository.login(captureAny())).captured;
           final params = captured.single as LoginParams;
           expect(params.identifier, formattedPhone);
           expect(params.password, validPassword);
@@ -224,8 +220,7 @@ void main() {
       blocTest<LoginBloc, LoginState>(
         'formats phone with +88 prefix before calling repository',
         build: () {
-          when(() => mockAuthRepository.login(any()))
-              .thenAnswer((_) async => SuccessResult(successEntity));
+          when(() => mockAuthRepository.login(any())).thenAnswer((_) async => SuccessResult(successEntity));
           return LoginBloc(loginUseCase: loginUseCase);
         },
         seed: () => const LoginState(
@@ -234,8 +229,7 @@ void main() {
         ),
         act: (bloc) => bloc.add(const LoginSubmitted()),
         verify: (_) {
-          final captured =
-              verify(() => mockAuthRepository.login(captureAny())).captured;
+          final captured = verify(() => mockAuthRepository.login(captureAny())).captured;
           final params = captured.single as LoginParams;
           expect(params.identifier, formattedPhone);
         },
@@ -245,16 +239,17 @@ void main() {
         'emits failure with raw message on ServerFailure',
         build: () {
           when(() => mockAuthRepository.login(any())).thenAnswer(
-            (_) async => FailureResult<LoginEntity, Failure>(
-              const ServerFailure('Invalid credentials', 401),
+            (_) async => const FailureResult<LoginEntity, Failure>(
+              ServerFailure('Invalid credentials', 401),
             ),
           );
           return LoginBloc(loginUseCase: loginUseCase);
         },
         act: (bloc) {
-          bloc.add(const LoginPhoneChanged(validPhone));
-          bloc.add(const LoginPasswordChanged(validPassword));
-          bloc.add(const LoginSubmitted());
+          bloc
+            ..add(const LoginPhoneChanged(validPhone))
+            ..add(const LoginPasswordChanged(validPassword))
+            ..add(const LoginSubmitted());
         },
         expect: () => const [
           LoginState(phone: PhoneInputValidator.dirty(validPhone)),
@@ -287,16 +282,17 @@ void main() {
         'emits failure with locale key name on NetworkFailure',
         build: () {
           when(() => mockAuthRepository.login(any())).thenAnswer(
-            (_) async => FailureResult<LoginEntity, Failure>(
-              const NetworkFailure(FailureKey.network, 503),
+            (_) async => const FailureResult<LoginEntity, Failure>(
+              NetworkFailure(FailureKey.network, 503),
             ),
           );
           return LoginBloc(loginUseCase: loginUseCase);
         },
         act: (bloc) {
-          bloc.add(const LoginPhoneChanged(validPhone));
-          bloc.add(const LoginPasswordChanged(validPassword));
-          bloc.add(const LoginSubmitted());
+          bloc
+            ..add(const LoginPhoneChanged(validPhone))
+            ..add(const LoginPasswordChanged(validPassword))
+            ..add(const LoginSubmitted());
         },
         expect: () => const [
           LoginState(phone: PhoneInputValidator.dirty(validPhone)),
@@ -328,8 +324,7 @@ void main() {
       blocTest<LoginBloc, LoginState>(
         'isLoading is true only while status is inProgress',
         build: () {
-          when(() => mockAuthRepository.login(any()))
-              .thenAnswer((_) async => SuccessResult(successEntity));
+          when(() => mockAuthRepository.login(any())).thenAnswer((_) async => SuccessResult(successEntity));
           return LoginBloc(loginUseCase: loginUseCase);
         },
         seed: () => const LoginState(
@@ -346,3 +341,5 @@ void main() {
     });
   });
 }
+
+class MockAuthRepository extends Mock implements AuthRepository {}

@@ -1,5 +1,4 @@
 import 'package:designsystem/designsystem.dart';
-import 'package:designsystem/src/components/button/app_button_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {

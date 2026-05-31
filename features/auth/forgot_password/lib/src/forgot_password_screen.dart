@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:entity/entity.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -37,12 +38,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
               listener: (context, state) {
                 if (state.errorMessage != null) {
-                  final message = state.errorMessage == 'empty_phone' ? context.l10n.forgot_password_error_empty_phone : state.errorMessage!;
-                  AppLog.log('  ForgotPasswordScreen - OTP send error: $message');
+                  final message = state.errorMessage!;
                   AppToast.toast(message: message, toastType: ToastType.error);
                 } else if (state.isSuccess) {
-                  AppToast.toast(message: context.l10n.forgot_password_success, toastType: ToastType.success);
-                  context.goNamed(AppRouteName.otpVerificationScreen, extra: {'phone': state.phone.value, 'verificationId': state.verificationId ?? ''});
+                  context.pushReplacementNamed(
+                    AppRouteName.otpVerificationScreen,
+                    extra: OtpVerificationArgs(verificationId: state.verificationId ?? '', phoneNumber: state.phone.value, otpPurpose: AppConstants.otpVerificationForResetPassword),
+                  );
                 }
               },
               child: _buildContent(context),
