@@ -231,6 +231,10 @@
     "@change_password_title": {
         "description": "Title for the Change Password screen"
     },
+    "reset_password_title": "Reset Password",
+    "@reset_password_title": {
+        "description": "Title for the Reset Password screen"
+    },
     "change_password_label_old": "Old Password",
     "@change_password_label_old": {
         "description": "Label above the old password input field"
@@ -258,6 +262,10 @@
     "change_password_button": "Update Password",
     "@change_password_button": {
         "description": "Submit button label on the Change Password screen"
+    },
+    "reset_password_button": "Reset Password",
+    "@reset_password_button": {
+        "description": "Submit button label on the Reset Password screen"
     },
     "change_password_success": "Password updated successfully.",
     "@change_password_success": {

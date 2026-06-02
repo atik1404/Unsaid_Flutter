@@ -198,6 +198,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get change_password_title => 'Change Password';
 
   @override
+  String get reset_password_title => 'Reset Password';
+
+  @override
   String get change_password_label_old => 'Old Password';
 
   @override
@@ -217,6 +220,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get change_password_button => 'Update Password';
+
+  @override
+  String get reset_password_button => 'Reset Password';
 
   @override
   String get change_password_success => 'Password updated successfully.';

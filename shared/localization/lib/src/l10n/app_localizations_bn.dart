@@ -199,6 +199,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get change_password_title => 'পাসওয়ার্ড পরিবর্তন';
 
   @override
+  String get reset_password_title => 'রিসেট পাসওয়ার্ড';
+
+  @override
   String get change_password_label_old => 'পুরোনো পাসওয়ার্ড';
 
   @override
@@ -218,6 +221,9 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get change_password_button => 'পাসওয়ার্ড আপডেট করুন';
+
+  @override
+  String get reset_password_button => 'পাসওয়ার্ড রিসেট করুন';
 
   @override
   String get change_password_success => 'পাসওয়ার্ড সফলভাবে আপডেট হয়েছে।';

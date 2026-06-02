@@ -172,6 +172,10 @@
     "@setting_menu_change_password": {
         "description": "Menu item label to navigate to the Change Password screen"
     },
+    "reset_password_title": "রিসেট পাসওয়ার্ড",
+    "@reset_password_title": {
+        "description": "Title for the Reset Password screen"
+    },
     "setting_menu_change_language": "ভাষা পরিবর্তন",
     "@setting_menu_change_language": {
         "description": "Menu item label to navigate to the Change Language screen"
@@ -255,6 +259,10 @@
     "change_password_button": "পাসওয়ার্ড আপডেট করুন",
     "@change_password_button": {
         "description": "Submit button label on the Change Password screen"
+    },
+    "reset_password_button": "পাসওয়ার্ড রিসেট করুন",
+    "@reset_password_button": {
+        "description": "Submit button label on the Reset Password screen"
     },
     "change_password_success": "পাসওয়ার্ড সফলভাবে আপডেট হয়েছে।",
     "@change_password_success": {

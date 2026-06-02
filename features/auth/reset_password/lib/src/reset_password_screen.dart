@@ -1,4 +1,3 @@
-import 'package:change_password/src/widgets/password_form.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:reset_password/src/state/reset_password_cubit.dart';
 import 'package:reset_password/src/state/reset_password_state.dart';
+import 'package:reset_password/src/widgets/password_form.dart';
 import 'package:ui/ui.dart';
 
 /// The Change Password screen.
@@ -20,7 +20,7 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
-        titleWidget: AppText.headlineSmall(context.l10n.change_password_title, textWeight: AppTextWeight.extraBold),
+        titleWidget: AppText.headlineSmall(context.l10n.reset_password_title, textWeight: AppTextWeight.extraBold),
         elevation: 0,
         backgroundColor: context.scaffoldTheme.backgroundColor,
         foregroundColor: context.appColors.brand,
@@ -33,8 +33,8 @@ class ResetPasswordScreen extends StatelessWidget {
             padding: EdgeInsets.all(AppSpacing.s24.r),
             child: PasswordForm(
               isLoading: state.isLoading,
-              onSubmit: ({required oldPassword, required newPassword, required confirmPassword}) {
-                context.read<ResetPasswordCubit>().resetPassword(oldPassword: oldPassword, newPassword: newPassword, confirmPassword: confirmPassword);
+              onSubmit: ({required newPassword, required confirmPassword}) {
+                context.read<ResetPasswordCubit>().resetPassword(newPassword: newPassword, confirmPassword: confirmPassword);
               },
             ),
           );

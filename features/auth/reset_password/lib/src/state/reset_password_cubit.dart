@@ -11,15 +11,14 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
 
   /// Attempts to change the user's password.
   ///
-  /// [oldPassword]    – the user's current password.
   /// [newPassword]    – the desired new password.
   /// [confirmPassword] – must match [newPassword] to proceed.
   ///
   /// Emits a loading state, validates inputs, simulates an API call,
   /// and finally emits either a success or error result.
-  void resetPassword({required String oldPassword, required String newPassword, required String confirmPassword}) async {
+  void resetPassword({required String newPassword, required String confirmPassword}) async {
     emit(state.copyWith(isLoading: true, errorMessage: null, isSuccess: false));
-    AppLog.log('oldPassword: $oldPassword, newPassword: $newPassword, confirmPassword: $confirmPassword');
+    AppLog.log('newPassword: $newPassword, confirmPassword: $confirmPassword');
 
     // Validate that new and confirm passwords match
     if (newPassword != confirmPassword) {

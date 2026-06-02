@@ -458,6 +458,12 @@ abstract class AppLocalizations {
   /// **'Change Password'**
   String get change_password_title;
 
+  /// Title for the Reset Password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get reset_password_title;
+
   /// Label above the old password input field
   ///
   /// In en, this message translates to:
@@ -499,6 +505,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Password'**
   String get change_password_button;
+
+  /// Submit button label on the Reset Password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get reset_password_button;
 
   /// Success message shown after a password change
   ///

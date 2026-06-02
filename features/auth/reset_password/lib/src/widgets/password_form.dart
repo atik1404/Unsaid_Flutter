@@ -11,38 +11,26 @@ class PasswordForm extends StatefulWidget {
   /// Called when the user taps the submit button.
   ///
   /// Receives the old, new, and confirm password values.
-  final void Function({
-    required String oldPassword,
-    required String newPassword,
-    required String confirmPassword,
-  })
-  onSubmit;
+  final void Function({required String newPassword, required String confirmPassword}) onSubmit;
 
   /// Whether the form is currently submitting (disables the button).
   final bool isLoading;
 
-  const PasswordForm({
-    super.key,
-    required this.onSubmit,
-    this.isLoading = false,
-  });
+  const PasswordForm({super.key, required this.onSubmit, this.isLoading = false});
 
   @override
   State<PasswordForm> createState() => _PasswordFormState();
 }
 
 class _PasswordFormState extends State<PasswordForm> {
-  final _oldPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  bool _oldPasswordVisible = true;
   bool _newPasswordVisible = true;
   bool _confirmPasswordVisible = true;
 
   @override
   void dispose() {
-    _oldPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -55,18 +43,6 @@ class _PasswordFormState extends State<PasswordForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Old password
-        _buildTitle(context, context.l10n.change_password_label_old),
-        SizedBox(height: AppSpacing.s4.h),
-        _buildPasswordField(
-          hint: context.l10n.change_password_hint_old,
-          isPasswordVisible: _oldPasswordVisible,
-          onToggleVisibility: () {
-            setState(() => _oldPasswordVisible = !_oldPasswordVisible);
-          },
-        ),
-        gap,
-
         // New password
         _buildTitle(context, context.l10n.change_password_label_new),
         SizedBox(height: AppSpacing.s4.h),
@@ -92,20 +68,13 @@ class _PasswordFormState extends State<PasswordForm> {
         SizedBox(height: AppSpacing.s32.h),
 
         // Submit button
-        AppFilledButton.text(
-          context.l10n.change_password_button,
-          onPressed: widget.isLoading ? null : _handleSubmit,
-        ),
+        AppFilledButton.text(context.l10n.reset_password_button, onPressed: widget.isLoading ? null : _handleSubmit),
       ],
     );
   }
 
   Widget _buildTitle(BuildContext context, String text) {
-    return AppText.bodySmall(
-      text,
-      textWeight: AppTextWeight.medium,
-      color: context.appColors.contentTertiary,
-    );
+    return AppText.bodySmall(text, textWeight: AppTextWeight.medium, color: context.appColors.contentTertiary);
   }
 
   Widget _buildPasswordField({required String hint, required bool isPasswordVisible, required VoidCallback onToggleVisibility}) {
@@ -115,21 +84,12 @@ class _PasswordFormState extends State<PasswordForm> {
       variant: AppInputFieldVariant.filled,
       textInputAction: TextInputAction.done,
       maxLength: 20,
-      suffixIcon: AppIcon(
-        GestureDetector(
-          onTap: onToggleVisibility,
-          child: Icon(isPasswordVisible ? CupertinoIcons.eye_slash : CupertinoIcons.eye),
-        ),
-      ),
+      suffixIcon: AppIcon(GestureDetector(onTap: onToggleVisibility, child: Icon(isPasswordVisible ? CupertinoIcons.eye_slash : CupertinoIcons.eye))),
     );
   }
 
   /// Gathers the form values and calls the parent's [onSubmit] callback.
   void _handleSubmit() {
-    widget.onSubmit(
-      oldPassword: _oldPasswordController.text,
-      newPassword: _newPasswordController.text,
-      confirmPassword: _confirmPasswordController.text,
-    );
+    widget.onSubmit(newPassword: _newPasswordController.text, confirmPassword: _confirmPasswordController.text);
   }
 }
