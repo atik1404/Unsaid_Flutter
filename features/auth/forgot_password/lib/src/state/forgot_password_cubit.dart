@@ -1,6 +1,5 @@
 import 'package:common/common.dart';
 import 'package:domain/domain.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forgot_password/src/state/forgot_password_state.dart';
 
@@ -12,24 +11,6 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   void updatePhone(String phone) {
     final phoneInput = PhoneInputValidator.dirty(phone);
     emit(state.copyWith(phone: phoneInput, errorMessage: null));
-  }
-
-  Future<void> _sendOtp(String phone) async {
-    emit(state.copyWith(isSubmitting: true, errorMessage: null));
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phone,
-      verificationCompleted: (_) {},
-      verificationFailed: (FirebaseAuthException e) {
-        if (isClosed) return;
-        emit(state.copyWith(isSubmitting: false, errorMessage: e.message));
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        if (isClosed) return;
-        emit(state.copyWith(isSubmitting: false, isSuccess: true, verificationId: verificationId));
-      },
-      codeAutoRetrievalTimeout: (_) {},
-    );
   }
 
   Future<void> checkUserExistence() async {
