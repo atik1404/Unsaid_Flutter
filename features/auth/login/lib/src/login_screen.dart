@@ -67,41 +67,21 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildLoginHeader(context),
+                const _LoginHeader(),
                 SizedBox(height: AppSpacing.s32.h),
                 _buildLoginForm(),
-                _buildLoginFooter(context),
+                SizedBox(height: AppSpacing.s32.h),
+                _CreateAccountPrompt(onSignUpPressed: () => {}),
+                SizedBox(height: AppSpacing.s32.h),
+                _SocialLoginOptions(
+                  onGooglePressed: () => {},
+                  onFacebookPressed: () => {},
+                ),
               ],
             ),
           ),
         );
       },
-    );
-  }
-
-  // ── Header ────────────────────────────────────────────────────────────────
-  Widget _buildLoginHeader(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AppImage.asset(
-          AppDrawables.logoTransparent,
-          width: 100.w,
-          height: 100.h,
-        ),
-        SizedBox(height: AppSpacing.s16.h),
-        AppText.titleLarge(
-          context.l10n.login_title,
-          textWeight: AppTextWeight.extraBold,
-        ),
-        SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(
-          context.l10n.login_subtitle,
-          textAlign: TextAlign.center,
-          textWeight: AppTextWeight.light,
-          color: context.appColors.contentSubtle,
-        ),
-      ],
     );
   }
 
@@ -122,7 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
               color: context.appColors.contentSubtle,
             ),
             SizedBox(height: AppSpacing.s4.h),
-            _buildPhoneField(context),
+            _PhoneInput(
+              errorText: state.showErrors && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
+              controller: TextEditingController(text: state.phone.value),
+              onChanged: (value) => context.read<LoginBloc>().add(LoginPhoneChanged(value)),
+            ),
             // Show validation error only after the first submit attempt.
             if (state.showErrors && state.phone.isNotValid) _buildFieldError(context, _phoneErrorText(context, state.phone.error)),
             gap,
@@ -132,11 +116,19 @@ class _LoginScreenState extends State<LoginScreen> {
               color: context.appColors.contentSubtle,
             ),
             SizedBox(height: AppSpacing.s4.h),
-            _buildPasswordField(context, state),
-            if (state.showErrors && state.password.isNotValid) _buildFieldError(context, _passwordErrorText(context, state.password.error)),
+            _PasswordInput(
+              showPassword: state.showPassword,
+              onToggleVisibility: () => context.read<LoginBloc>().add(const LoginTogglePasswordVisibility()),
+              controller: TextEditingController(text: state.password.value),
+              onChanged: (value) => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
+              errorText: state.showErrors && state.password.isNotValid ? _passwordErrorText(context, state.password.error) : null,
+            ),
             gap,
             gap,
-            _buildLoginButton(context, state),
+            _LoginButton(
+              onPressed: () => context.read<LoginBloc>().add(const LoginSubmitted()),
+              isLoading: state.status == FormzSubmissionStatus.inProgress,
+            ),
             gap,
             Align(
               child: AppTextButton(
@@ -152,47 +144,6 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
   }
-
-  Widget _buildPhoneField(BuildContext context) {
-    return AppInputField(
-      hint: context.l10n.login_hint_phone,
-      keyboardType: TextInputType.phone,
-      textInputAction: TextInputAction.next,
-      variant: AppInputFieldVariant.filledOpt,
-      maxLength: 11,
-      onChanged: (value) => context.read<LoginBloc>().add(LoginPhoneChanged(value)),
-    );
-  }
-
-  Widget _buildPasswordField(BuildContext context, LoginState state) {
-    return AppInputField(
-      hint: context.l10n.login_hint_password,
-      obscureText: !state.showPassword,
-      variant: AppInputFieldVariant.filledOpt,
-      textInputAction: TextInputAction.done,
-      maxLength: 20,
-      onChanged: (value) => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
-      suffixIcon: AppIcon(
-        GestureDetector(
-          onTap: () => context.read<LoginBloc>().add(const LoginTogglePasswordVisibility()),
-          child: Icon(
-            state.showPassword ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoginButton(BuildContext context, LoginState state) {
-    return AppFilledButton.text(
-      context.l10n.login_button,
-      isLoading: state.isLoading,
-      // Disable the button while a request is in flight.
-      onPressed: state.isLoading ? null : () => context.read<LoginBloc>().add(const LoginSubmitted()),
-    );
-  }
-
-  // ── Validation error helpers ──────────────────────────────────────────────
 
   /// A small red text widget shown below an invalid field.
   Widget _buildFieldError(BuildContext context, String message) {
@@ -221,21 +172,131 @@ class _LoginScreenState extends State<LoginScreen> {
       _ => '',
     };
   }
+}
 
-  // ── Footer ────────────────────────────────────────────────────────────────
-  Widget _buildLoginFooter(BuildContext context) {
-    final gap = SizedBox(height: AppSpacing.s12.h);
+// ── Header ────────────────────────────────────────────────────────────────
+class _LoginHeader extends StatelessWidget {
+  const _LoginHeader();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        gap,
-        _buildCreateAccount(context),
-        gap,
-        _buildSocialLoginOptions(context),
+        AppImage.asset(
+          AppDrawables.logoTransparent,
+          width: 100.w,
+          height: 100.h,
+        ),
+        SizedBox(height: AppSpacing.s16.h),
+        AppText.titleLarge(
+          context.l10n.login_title,
+          textWeight: AppTextWeight.extraBold,
+        ),
+        SizedBox(height: AppSpacing.s8.h),
+        AppText.bodySmall(
+          context.l10n.login_subtitle,
+          textAlign: TextAlign.center,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
       ],
     );
   }
+}
 
-  Widget _buildCreateAccount(BuildContext context) {
+class _PhoneInput extends StatelessWidget {
+  final TextEditingController controller;
+  final String? errorText;
+  final void Function(String) onChanged;
+
+  const _PhoneInput({
+    required this.controller,
+    this.errorText,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppInputField(
+      hint: context.l10n.login_hint_phone,
+      keyboardType: TextInputType.phone,
+      textInputAction: TextInputAction.next,
+      variant: AppInputFieldVariant.filledOpt,
+      maxLength: 11,
+      controller: controller,
+      errorText: errorText,
+      onChanged: onChanged,
+    );
+  }
+}
+
+class _PasswordInput extends StatelessWidget {
+  final TextEditingController controller;
+  final String? errorText;
+  final bool showPassword;
+  final void Function(String) onChanged;
+  final VoidCallback onToggleVisibility;
+
+  const _PasswordInput({
+    required this.controller,
+    this.errorText,
+    required this.showPassword,
+    required this.onChanged,
+    required this.onToggleVisibility,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppInputField(
+      hint: context.l10n.login_hint_password,
+      obscureText: !showPassword,
+      variant: AppInputFieldVariant.filledOpt,
+      textInputAction: TextInputAction.done,
+      maxLength: 20,
+      controller: controller,
+      errorText: errorText,
+      onChanged: onChanged,
+      suffixIcon: AppIcon(
+        GestureDetector(
+          onTap: onToggleVisibility,
+          child: Icon(
+            showPassword ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LoginButton extends StatelessWidget {
+  final bool isLoading;
+  final VoidCallback? onPressed;
+
+  const _LoginButton({
+    required this.isLoading,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppFilledButton.text(
+      context.l10n.login_button,
+      isLoading: isLoading,
+      onPressed: isLoading ? null : onPressed,
+    );
+  }
+}
+
+class _CreateAccountPrompt extends StatelessWidget {
+  final VoidCallback onSignUpPressed;
+
+  const _CreateAccountPrompt({
+    required this.onSignUpPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -246,7 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         AppTextButton(
           context.l10n.login_sign_up,
-          onPressed: () => context.pushNamed(AppRouteName.signupScreen),
+          onPressed: onSignUpPressed,
           style: const AppTextButtonStyle(
             intent: AppButtonIntent.secondary(),
           ),
@@ -254,8 +315,19 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
+}
 
-  Widget _buildSocialLoginOptions(BuildContext context) {
+class _SocialLoginOptions extends StatelessWidget {
+  final VoidCallback onGooglePressed;
+  final VoidCallback onFacebookPressed;
+
+  const _SocialLoginOptions({
+    required this.onGooglePressed,
+    required this.onFacebookPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         AppText.bodySmall(
@@ -270,14 +342,14 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               child: AppFilledButton.text(
                 context.l10n.login_google,
-                onPressed: () => AppLog.log('google login'),
+                onPressed: onGooglePressed,
               ),
             ),
             SizedBox(width: AppSpacing.s16.w),
             Expanded(
               child: AppFilledButton.text(
                 context.l10n.login_facebook,
-                onPressed: () => AppLog.log('facebook login'),
+                onPressed: onFacebookPressed,
               ),
             ),
           ],
