@@ -1,11 +1,18 @@
+//params
 export 'src/params/login_params.dart';
 export 'src/params/user_params.dart';
+export 'src/params/verify_otp_params.dart';
+
+//repostiory
 export 'src/repository/auth_repository.dart';
 export 'src/repository/common_repository.dart';
 export 'src/repository/post_repository.dart';
 
+//usecase
 export 'src/usecase/auth/login_use_case.dart';
 export 'src/usecase/auth/fetch_profile_use_case.dart';
+export 'src/usecase/auth/send_otp_use_case.dart';
+export 'src/usecase/auth/verify_otp_use_case.dart';
 
 export 'src/usecase/common/fetch_user_existence_use_case.dart';
 

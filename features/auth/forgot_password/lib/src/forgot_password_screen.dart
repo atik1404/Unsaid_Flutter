@@ -43,7 +43,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 } else if (state.isSuccess) {
                   context.pushReplacementNamed(
                     AppRouteName.otpVerificationScreen,
-                    extra: OtpVerificationArgs(verificationId: state.verificationId ?? '', phoneNumber: state.phone.value, otpPurpose: AppConstants.otpVerificationForResetPassword),
+                    extra: OtpVerificationArgs(
+                      verificationId: state.accountId ?? '',
+                      phoneNumber: state.phone.value,
+                      otpPurpose: AppConstants.otpVerificationForResetPassword,
+                    ),
                   );
                 }
               },
@@ -86,7 +90,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         SizedBox(height: AppSpacing.s16.h),
         AppText.titleLarge(context.l10n.forgot_password_title, textWeight: AppTextWeight.extraBold),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.forgot_password_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.forgot_password_subtitle,
+          textAlign: TextAlign.center,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
       ],
     );
   }
@@ -132,7 +141,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget _buildSendOtpButton(BuildContext context) {
     return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
       builder: (context, state) {
-        return AppFilledButton.text(context.l10n.forgot_password_button, isLoading: state.isSubmitting, onPressed: () => context.read<ForgotPasswordCubit>().checkUserExistence());
+        return AppFilledButton.text(
+          context.l10n.forgot_password_button,
+          isLoading: state.isSubmitting,
+          onPressed: () => context.read<ForgotPasswordCubit>().checkUserExistence(),
+        );
       },
     );
   }

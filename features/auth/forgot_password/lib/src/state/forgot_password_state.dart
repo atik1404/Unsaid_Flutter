@@ -10,7 +10,7 @@ abstract class ForgotPasswordState with _$ForgotPasswordState {
     @Default(false) bool isSubmitting,
     @Default(false) bool isSuccess,
     @Default(false) bool showError,
-    String? verificationId,
+    String? accountId,
     String? errorMessage,
   }) = _ForgotPasswordState;
 }

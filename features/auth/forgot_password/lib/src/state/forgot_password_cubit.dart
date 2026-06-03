@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forgot_password/src/state/forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-  final FetchUserExistenceUseCase fetchUserExistenceUseCase;
+  final FetchUserExistenceUseCase _fetchUserExistenceUseCase;
+  final SendOtpUseCase _sendOtpUseCase;
 
-  ForgotPasswordCubit(this.fetchUserExistenceUseCase) : super(const ForgotPasswordState());
+  ForgotPasswordCubit({required FetchUserExistenceUseCase fetchUserExistenceUseCase, required SendOtpUseCase sendOtpUseCase})
+    : _fetchUserExistenceUseCase = fetchUserExistenceUseCase,
+      _sendOtpUseCase = sendOtpUseCase,
+      super(const ForgotPasswordState());
 
   void updatePhone(String phone) {
     final phoneInput = PhoneInputValidator.dirty(phone);
@@ -21,19 +25,31 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
-    final result = await fetchUserExistenceUseCase(UserParams(identifier: phoneInput.value.formatPhone()));
+    final result = await _fetchUserExistenceUseCase(UserParams(identifier: phoneInput.value.formatPhone()));
 
     result.when(
       success: (data) => {
-        if (!data.exists)
-          {
-            AppLog.log('User does not exist, sending OTP'),
-            //_sendOtp(phoneInput.value.formatPhone())
-            emit(state.copyWith(isSubmitting: false, errorMessage: 'User with this phone number does not exist')),
-          }
+        if (data.exists)
+          {_sendOtp(phoneInput.value.formatPhone())}
         else
-          {emit(state.copyWith(isSubmitting: false, isSuccess: true))},
+          {emit(state.copyWith(isSubmitting: false, errorMessage: 'User with this phone number does not exist'))},
       },
+      failure: (error) {
+        var message = switch (error.message) {
+          RawStringMessage(:final value) => value,
+          LocaleKeyMessage(:final key) => key.name,
+        };
+
+        emit(state.copyWith(isSubmitting: false, errorMessage: message));
+      },
+    );
+  }
+
+  Future<void> _sendOtp(String phone) async {
+    final result = await _sendOtpUseCase(phone);
+
+    result.when(
+      success: (data) => emit(state.copyWith(isSubmitting: false, isSuccess: true, accountId: data.accountId, errorMessage: null)),
       failure: (error) {
         var message = switch (error.message) {
           RawStringMessage(:final value) => value,

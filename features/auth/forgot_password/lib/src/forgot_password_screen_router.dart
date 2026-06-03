@@ -15,7 +15,11 @@ final class ForgotPasswordScreenRouter implements BaseRouter {
         name: AppRouteName.forgotPasswordScreen,
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
-          child: BlocProvider(create: (_) => ForgotPasswordCubit(GetIt.I<FetchUserExistenceUseCase>()), child: const ForgotPasswordScreen()),
+          child: BlocProvider(
+            create: (_) =>
+                ForgotPasswordCubit(fetchUserExistenceUseCase: GetIt.I<FetchUserExistenceUseCase>(), sendOtpUseCase: GetIt.I<SendOtpUseCase>()),
+            child: const ForgotPasswordScreen(),
+          ),
         ),
         routes: children,
       ),
