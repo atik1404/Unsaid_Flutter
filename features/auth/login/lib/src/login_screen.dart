@@ -17,7 +17,11 @@ import 'package:ui/ui.dart';
 /// Provides a fresh [LoginBloc] instance and delegates rendering to
 /// [_LoginView] so the BLoC is always available in the widget subtree.
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final VoidCallback? onLoginSuccess;
+  final VoidCallback? onSignUpPressed;
+  final VoidCallback? onForgotPasswordPressed;
+
+  const LoginScreen({super.key, required this.onLoginSuccess, required this.onSignUpPressed, required this.onForgotPasswordPressed});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -185,9 +189,7 @@ final class _LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        
-      ],
+      children: [],
     );
   }
 }

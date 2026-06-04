@@ -22,19 +22,20 @@ workspace:
   - shared/di/
   - shared/pref_storage/
 
-  # features
+  # auth related features
   - features/auth/login/
   - features/auth/signup/
   - features/auth/splash/
   - features/auth/onboarding/
-  - features/auth/setting/
-  - features/auth/profile/
-  - features/auth/change_password/
   - features/auth/reset_password/
-  - features/auth/notification/
   - features/auth/forgot_password/
   - features/auth/otp_verification/
-
+  # user related features
+  - features/user/setting/
+  - features/user/profile/
+  - features/user/change_password/
+  - features/user/notification/
+  # post related features
   - features/posts/home/
   - features/posts/create_post/
   - features/posts/post_details/

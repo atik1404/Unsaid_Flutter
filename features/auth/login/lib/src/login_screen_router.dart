@@ -17,7 +17,11 @@ final class LoginScreenRouter implements BaseRouter {
           state: state,
           child: BlocProvider(
             create: (_) => LoginBloc(loginUseCase: GetIt.instance<LoginUseCase>()),
-            child: const LoginScreen(),
+            child: LoginScreen(
+              onLoginSuccess: () => {},
+              onSignUpPressed: () => {},
+              onForgotPasswordPressed: () => {},
+            ),
           ),
         ),
         routes: children,
