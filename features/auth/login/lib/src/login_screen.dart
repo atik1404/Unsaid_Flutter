@@ -53,6 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
   // ── Layout ────────────────────────────────────────────────────────────────
   Widget _buildBody() {
     final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
+    final verticalSpacing = SizedBox(height: AppSpacing.s32.h);
+    final gap = SizedBox(height: AppSpacing.s12.h);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -68,11 +70,14 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const _LoginHeader(),
-                SizedBox(height: AppSpacing.s32.h),
+                verticalSpacing,
+
                 _buildLoginForm(),
-                SizedBox(height: AppSpacing.s32.h),
+
+                verticalSpacing,
                 _CreateAccountPrompt(onSignUpPressed: () => {}),
-                SizedBox(height: AppSpacing.s32.h),
+
+                verticalSpacing,
                 _SocialLoginOptions(
                   onGooglePressed: () => {},
                   onFacebookPressed: () => {},
@@ -171,6 +176,19 @@ class _LoginScreenState extends State<LoginScreen> {
       ValidationError.tooShort => context.l10n.validation_password_too_short,
       _ => '',
     };
+  }
+}
+
+final class _LoginView extends StatelessWidget {
+  const _LoginView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        
+      ],
+    );
   }
 }
 
