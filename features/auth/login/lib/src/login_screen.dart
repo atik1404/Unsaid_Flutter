@@ -31,15 +31,51 @@ class LoginScreen extends StatefulWidget {
 ///
 /// Reads [LoginBloc] from context — always available because [LoginScreen]
 class _LoginScreenState extends State<LoginScreen> {
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
+    final verticalSpacing = SizedBox(height: AppSpacing.s32.h);
+
     return BlocListener<LoginBloc, LoginState>(
       // Listen for terminal states to trigger navigation or error feedback.
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: (context, state) => _onStateChanged(state),
       child: AppScaffold(
         enableGradientBackground: true,
-        body: _buildBody(),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              padding: pagePadding,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - pagePadding.vertical,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const _LoginHeader(),
+                    verticalSpacing,
+
+                    _LoginView(_phoneController, _passwordController),
+                    verticalSpacing,
+                    _CreateAccountPrompt(onSignUpPressed: () => {}),
+
+                    verticalSpacing,
+                    _SocialLoginOptions(
+                      onGooglePressed: () => {},
+                      onFacebookPressed: () => {},
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -54,104 +90,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // ── Layout ────────────────────────────────────────────────────────────────
-  Widget _buildBody() {
-    final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
-    final verticalSpacing = SizedBox(height: AppSpacing.s32.h);
-    final gap = SizedBox(height: AppSpacing.s12.h);
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          padding: pagePadding,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight - pagePadding.vertical,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const _LoginHeader(),
-                verticalSpacing,
-
-                _buildLoginForm(),
-
-                verticalSpacing,
-                _CreateAccountPrompt(onSignUpPressed: () => {}),
-
-                verticalSpacing,
-                _SocialLoginOptions(
-                  onGooglePressed: () => {},
-                  onFacebookPressed: () => {},
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  // ── Form ──────────────────────────────────────────────────────────────────
-  Widget _buildLoginForm() {
-    final gap = SizedBox(height: AppSpacing.s12.h);
-
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            gap,
-            AppText.bodySmall(
-              context.l10n.login_label_phone,
-              textWeight: AppTextWeight.light,
-              color: context.appColors.contentSubtle,
-            ),
-            SizedBox(height: AppSpacing.s4.h),
-            _PhoneInput(
-              errorText: state.showErrors && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
-              controller: TextEditingController(text: state.phone.value),
-              onChanged: (value) => context.read<LoginBloc>().add(LoginPhoneChanged(value)),
-            ),
-            // Show validation error only after the first submit attempt.
-            if (state.showErrors && state.phone.isNotValid) _buildFieldError(context, _phoneErrorText(context, state.phone.error)),
-            gap,
-            AppText.bodySmall(
-              context.l10n.login_label_password,
-              textWeight: AppTextWeight.light,
-              color: context.appColors.contentSubtle,
-            ),
-            SizedBox(height: AppSpacing.s4.h),
-            _PasswordInput(
-              showPassword: state.showPassword,
-              onToggleVisibility: () => context.read<LoginBloc>().add(const LoginTogglePasswordVisibility()),
-              controller: TextEditingController(text: state.password.value),
-              onChanged: (value) => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
-              errorText: state.showErrors && state.password.isNotValid ? _passwordErrorText(context, state.password.error) : null,
-            ),
-            gap,
-            gap,
-            _LoginButton(
-              onPressed: () => context.read<LoginBloc>().add(const LoginSubmitted()),
-              isLoading: state.status == FormzSubmissionStatus.inProgress,
-            ),
-            gap,
-            Align(
-              child: AppTextButton(
-                context.l10n.login_forgot_password,
-                onPressed: () => context.pushNamed(AppRouteName.forgotPasswordScreen),
-                style: const AppTextButtonStyle(
-                  intent: AppButtonIntent.secondary(),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   /// A small red text widget shown below an invalid field.
@@ -163,6 +106,81 @@ class _LoginScreenState extends State<LoginScreen> {
         color: context.appColors.contentError,
         textWeight: AppTextWeight.light,
       ),
+    );
+  }
+}
+
+final class _LoginView extends StatelessWidget {
+  final TextEditingController _phoneController;
+  final TextEditingController _passwordController;
+
+  const _LoginView(this._phoneController, this._passwordController);
+
+  @override
+  Widget build(BuildContext context) {
+    final gap = SizedBox(height: AppSpacing.s12.h);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        gap,
+        AppText.bodySmall(
+          context.l10n.login_label_phone,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
+        SizedBox(height: AppSpacing.s4.h),
+
+        BlocBuilder<LoginBloc, LoginState>(
+          builder: (context, state) {
+            return _PhoneInput(
+              errorText: state.showErrors && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
+              controller: _phoneController,
+              onChanged: (value) => context.read<LoginBloc>().add(LoginPhoneChanged(value)),
+            );
+          },
+        ),
+
+        gap,
+        AppText.bodySmall(
+          context.l10n.login_label_password,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
+        SizedBox(height: AppSpacing.s4.h),
+
+        BlocBuilder<LoginBloc, LoginState>(
+          builder: (context, state) {
+            return _PasswordInput(
+              errorText: state.showErrors && state.password.isNotValid ? _passwordErrorText(context, state.password.error) : null,
+              controller: _passwordController,
+              onChanged: (value) => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
+              showPassword: state.showPassword,
+              onToggleVisibility: () => context.read<LoginBloc>().add(const LoginTogglePasswordVisibility()),
+            );
+          },
+        ),
+        gap,
+        gap,
+        BlocBuilder<LoginBloc, LoginState>(
+          builder: (context, state) {
+            return _LoginButton(
+              onPressed: () => context.read<LoginBloc>().add(const LoginSubmitted()),
+              isLoading: state.status == FormzSubmissionStatus.inProgress,
+            );
+          },
+        ),
+        gap,
+        Align(
+          child: AppTextButton(
+            context.l10n.login_forgot_password,
+            onPressed: () => context.pushNamed(AppRouteName.forgotPasswordScreen),
+            style: const AppTextButtonStyle(
+              intent: AppButtonIntent.secondary(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -180,17 +198,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ValidationError.tooShort => context.l10n.validation_password_too_short,
       _ => '',
     };
-  }
-}
-
-final class _LoginView extends StatelessWidget {
-  const _LoginView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [],
-    );
   }
 }
 
@@ -323,7 +330,7 @@ class _CreateAccountPrompt extends StatelessWidget {
         AppText.bodySmall(
           context.l10n.login_create_account_prompt,
           textWeight: AppTextWeight.light,
-          color: context.appColors.contentSubtle,
+          color: context.appColors.white,
         ),
         AppTextButton(
           context.l10n.login_sign_up,
