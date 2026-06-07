@@ -1,9 +1,12 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
+import 'package:entity/entity.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final class CommentsCard extends StatelessWidget {
-  const CommentsCard({super.key});
+  final CommentEntity comment;
+  const CommentsCard({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +15,12 @@ final class CommentsCard extends StatelessWidget {
       variant: AppCardVariant.outline,
       cornerRadius: AppCardCornerRadius.lg,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildCommentHeader(context),
           SizedBox(height: AppSpacing.s8.h),
           AppText.captionMedium(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt",
+            comment.body,
             color: context.appColors.contentPrimary,
           ),
         ],
@@ -51,13 +55,13 @@ final class CommentsCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppText.bodySmall(
-          "Ghoost_8821",
+          comment.authorName,
           textWeight: AppTextWeight.regular,
           color: context.appColors.contentPrimary,
         ),
         SizedBox(width: AppSpacing.s4.w),
         AppText.captionSmall(
-          "7 min ago",
+          comment.createdAt.toRelativeTime(),
           textWeight: AppTextWeight.light,
           color: context.appColors.contentSecondary,
         ),

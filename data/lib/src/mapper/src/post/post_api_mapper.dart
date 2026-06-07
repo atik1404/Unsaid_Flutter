@@ -22,7 +22,7 @@ extension PostApiMapper on PostsDto {
               commentCount: post.commentCount ?? 0,
               reportCount: post.reportCount ?? 0,
               score: post.score ?? 0,
-              authorName: post.author?.fullName ?? '',
+              authorName: '${post.author?.anonymousTag ?? ''}-${post.author?.fullName ?? ''}',
               authorAvatar: post.author?.avatarSeed.toString() ?? '',
             ),
           )

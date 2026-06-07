@@ -5,8 +5,6 @@ extension PostDetailsApiMapper on PostDetailsDto {
   PostDetailsEntity toEntity() => PostDetailsEntity(
     id: id ?? '',
     createdAt: DateTime.tryParse(createdAt ?? '') ?? DateTime.now(),
-    updatedAt: updatedAt != null ? DateTime.tryParse(updatedAt!) : null,
-    expiresAt: expiresAt != null ? DateTime.tryParse(expiresAt!) : null,
     authorUserId: authorUserId ?? '',
     topicId: topicId ?? '',
     type: type ?? '',
@@ -18,7 +16,7 @@ extension PostDetailsApiMapper on PostDetailsDto {
     commentCount: commentCount ?? 0,
     reportCount: reportCount ?? 0,
     score: score ?? 0,
-    authorName: author?.fullName ?? '',
+    authorName: '${author?.anonymousTag ?? ''}-${author?.fullName ?? ''}',
     authorAvatar: author?.avatarSeed?.toString() ?? '',
     comments: comments?.map((c) => c.toEntity()).toList() ?? [],
   );
@@ -36,7 +34,7 @@ extension _CommentMapper on CommentDto {
     reactionCount: reactionCount ?? 0,
     reportCount: reportCount ?? 0,
     score: score ?? 0,
-    authorName: author?.fullName ?? '',
+    authorName: '${author?.anonymousTag ?? ''}-${author?.fullName ?? ''}',
     authorAvatar: author?.avatarSeed?.toString() ?? '',
   );
 }

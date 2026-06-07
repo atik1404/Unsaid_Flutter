@@ -1,8 +1,6 @@
 final class PostDetailsEntity {
   final String id;
   final DateTime createdAt;
-  final DateTime? updatedAt;
-  final DateTime? expiresAt;
   final String authorUserId;
   final String topicId;
   final String type;
@@ -21,8 +19,6 @@ final class PostDetailsEntity {
   const PostDetailsEntity({
     required this.id,
     required this.createdAt,
-    this.updatedAt,
-    this.expiresAt,
     required this.authorUserId,
     required this.topicId,
     required this.type,

@@ -177,7 +177,7 @@ class _PostListView extends StatelessWidget {
             }
             return PostCard(
               post: state.posts[index],
-              onTap: () => context.pushNamed(AppRouteName.postDetailsScreen),
+              onTap: () => context.pushNamed(AppRouteName.postDetailsScreen, extra: state.posts[index].id),
             );
           },
         );
