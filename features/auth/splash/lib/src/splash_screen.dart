@@ -56,7 +56,7 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
 
-            Center(child: _buildContent(context)),
+            const Center(child: _SplashContent()),
 
             Positioned(
               bottom: AppSpacing.s48,
@@ -73,8 +73,13 @@ class SplashScreen extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget _buildContent(BuildContext context) {
+final class _SplashContent extends StatelessWidget {
+  const _SplashContent();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

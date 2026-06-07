@@ -96,18 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
-
-  /// A small red text widget shown below an invalid field.
-  Widget _buildFieldError(BuildContext context, String message) {
-    return Padding(
-      padding: EdgeInsets.only(top: AppSpacing.s4.h),
-      child: AppText.bodySmall(
-        message,
-        color: context.appColors.contentError,
-        textWeight: AppTextWeight.light,
-      ),
-    );
-  }
 }
 
 final class _LoginView extends StatelessWidget {
@@ -200,7 +188,6 @@ final class _LoginView extends StatelessWidget {
     };
   }
 }
-
 // ── Header ────────────────────────────────────────────────────────────────
 class _LoginHeader extends StatelessWidget {
   const _LoginHeader();
@@ -231,7 +218,6 @@ class _LoginHeader extends StatelessWidget {
     );
   }
 }
-
 class _PhoneInput extends StatelessWidget {
   final TextEditingController controller;
   final String? errorText;
@@ -257,7 +243,6 @@ class _PhoneInput extends StatelessWidget {
     );
   }
 }
-
 class _PasswordInput extends StatelessWidget {
   final TextEditingController controller;
   final String? errorText;
@@ -295,7 +280,6 @@ class _PasswordInput extends StatelessWidget {
     );
   }
 }
-
 class _LoginButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback? onPressed;
@@ -314,7 +298,6 @@ class _LoginButton extends StatelessWidget {
     );
   }
 }
-
 class _CreateAccountPrompt extends StatelessWidget {
   final VoidCallback onSignUpPressed;
 
@@ -343,7 +326,6 @@ class _CreateAccountPrompt extends StatelessWidget {
     );
   }
 }
-
 class _SocialLoginOptions extends StatelessWidget {
   final VoidCallback onGooglePressed;
   final VoidCallback onFacebookPressed;

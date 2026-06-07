@@ -17,14 +17,15 @@ class SplashCubit extends Cubit<SplashState> {
     final isIntroScreenVisible = await _authStorageRepo.getFirstLaunch();
 
     await Future.delayed(const Duration(seconds: 3));
+    emit(const SplashState.navigateToOnboarding());
 
     if (isAuthorized) {
-      fetchProfile();
+      //fetchProfile();
     } else {
       if (!isIntroScreenVisible) {
-        emit(const SplashState.navigateToOnboarding());
+        //emit(const SplashState.navigateToOnboarding());
       } else {
-        emit(const SplashState.navigateToLogin());
+        //emit(const SplashState.navigateToLogin());
       }
     }
   }
