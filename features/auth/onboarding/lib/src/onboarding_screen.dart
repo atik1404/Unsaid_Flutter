@@ -53,10 +53,7 @@ class OnboardingScreen extends StatelessWidget {
     return BlocListener<OnboardingCubit, OnboardingState>(
       listener: (context, state) {
         if (state.shouldNavigateToNextScreen) {
-          context
-            ..goNamed(AppRouteName.loginScreen)
-            // Reset state so a back-navigation doesn't re-trigger this listener.
-            ..read<OnboardingCubit>();
+          context.goNamed(AppRouteName.loginScreen);
         }
       },
       child: AppScaffold(
@@ -85,7 +82,7 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(height: AppSpacing.s48.h),
                   _AnimatedButton(
                     onPressed: () => {
-                      context.read<OnboardingCubit>().navigateToNextScreen(),
+                      context.read<OnboardingCubit>().navigateToLoginScreen(),
                     },
                     isLastPage: state.isLastPage,
                   ),
@@ -126,7 +123,6 @@ final class _PagerView extends StatelessWidget {
 }
 
 /// A single onboarding page: illustration + title + subtitle + description.
-///
 /// Vertical margins are derived from screen height so the layout scales
 /// gracefully across different device sizes.
 final class _PageItem extends StatelessWidget {
@@ -236,7 +232,7 @@ final class _AnimatedButton extends StatelessWidget {
         transform: Matrix4.translationValues(0, isLastPage ? 0 : 50, 0),
         child: AppFilledButton.text(
           context.l10n.onboarding_get_started,
-          onPressed: () => onPressed,
+          onPressed: onPressed,
         ),
       ),
     );
