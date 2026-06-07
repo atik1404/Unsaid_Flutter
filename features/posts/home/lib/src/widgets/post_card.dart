@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:entity/entity.dart';
 import 'package:ui/ui.dart';
-import 'package:jiffy/jiffy.dart';
 
 /// Card widget that renders a single [PostEntity] in the feed.
 ///

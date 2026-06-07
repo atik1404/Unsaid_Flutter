@@ -4,7 +4,7 @@ export 'src/api/auth/send_otp_entity.dart';
 
 export 'src/api/common/common_api_entity.dart';
 
-export 'src/api/post/post_entity.dart';
+export 'src/api/post/post_pager_entity.dart';
 
 //internal
 export 'src/internal/onboarding_pager_entity.dart';
