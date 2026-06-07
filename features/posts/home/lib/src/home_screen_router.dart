@@ -1,8 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:home/src/home_screen.dart';
-import 'package:home/src/state/home_cubit.dart';
+import 'package:home/src/state/home_bloc.dart';
 import 'package:navigation/navigation.dart';
+import 'package:domain/domain.dart';
 
 final class HomeScreenRouter implements BaseRouter {
   @override
@@ -14,7 +16,9 @@ final class HomeScreenRouter implements BaseRouter {
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => HomeCubit(),
+            create: (_) => HomeBloc(
+              fetchPostsUseCase: GetIt.I<FetchPostsUseCase>(),
+            ),
             child: const HomeScreen(),
           ),
         ),

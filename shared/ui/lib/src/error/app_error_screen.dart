@@ -40,7 +40,6 @@ class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      enableGradientBackground: true,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSpacing.s32.w),
         child: Column(
@@ -76,7 +75,7 @@ class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProvid
                 widget.message ?? context.l10n.message_something_went_wrong,
                 textAlign: TextAlign.center,
                 textWeight: AppTextWeight.regular,
-                color: context.appColors.white,
+                color: context.appColors.contentPrimary,
                 maxLines: 5,
               ),
             ),

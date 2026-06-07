@@ -2,18 +2,18 @@ import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home/src/state/post_model.dart';
+import 'package:entity/entity.dart';
 import 'package:ui/ui.dart';
 
 class PostCard extends StatelessWidget {
-  final PostModel post;
+  final PostEntity post;
   final VoidCallback? onTap;
 
   const PostCard({super.key, required this.post, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final colors = _getTagColor(post.tag, context);
+    final colors = _getTagColor(post.mood, context);
 
     return GestureDetector(
       onTap: onTap,
@@ -33,13 +33,18 @@ class PostCard extends StatelessWidget {
               _buildPostHeader(context, colors.$2),
               SizedBox(height: AppSpacing.s8.h),
               AppText.bodySmall(
-                post.description,
+                post.body,
                 color: context.appColors.contentPrimary,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: AppSpacing.s12.h),
-              _buildBottomActionsButton(context),
+              _buildBottomActionsButton(
+                context,
+                score: post.score,
+                reactionCount: post.reactionCount,
+                commentCount: post.commentCount,
+              ),
             ],
           ),
         ),
@@ -62,25 +67,29 @@ class PostCard extends StatelessWidget {
         ),
         SizedBox(width: AppSpacing.s8.w),
         Expanded(
-          child: _buildHeaderTitle(context),
+          child: _buildHeaderTitle(
+            context,
+            username: post.authorName,
+            dateTime: post.createdAt.toLocal().toString(), // Format this as needed
+          ),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context, post.tag),
+        _buildTag(context, post.mood.toUpperCase()),
       ],
     );
   }
 
-  Widget _buildHeaderTitle(BuildContext context) {
+  Widget _buildHeaderTitle(BuildContext context, {required String username, required String dateTime}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText.bodySmall(
-          "Ghoost_8821",
+          username,
           textWeight: AppTextWeight.regular,
           color: context.appColors.contentPrimary,
         ),
         AppText.captionSmall(
-          "7 min ago",
+          dateTime,
           textWeight: AppTextWeight.light,
           color: context.appColors.contentSecondary,
         ),
@@ -100,14 +109,14 @@ class PostCard extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomActionsButton(BuildContext context) {
+  Widget _buildBottomActionsButton(BuildContext context, {int score = 0, int reactionCount = 0, int commentCount = 0}) {
     final colors = context.appColors;
 
     return Row(
       spacing: AppSpacing.s12,
       children: [
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: colors.contentTertiary),
+          text: AppText.captionSmall("$score", color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: AppImage.asset(
             AppDrawables.icFlame,
@@ -118,7 +127,7 @@ class PostCard extends StatelessWidget {
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("111", color: colors.contentTertiary),
+          text: AppText.captionSmall("$reactionCount", color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.heart,
@@ -128,7 +137,7 @@ class PostCard extends StatelessWidget {
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("222", color: colors.contentTertiary),
+          text: AppText.captionSmall("$commentCount", color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.chat_bubble,
