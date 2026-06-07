@@ -3,3 +3,4 @@ export 'src/auth/login_dto.dart';
 export 'src/common/common_dto.dart';
 
 export 'src/post/posts_dto.dart';
+export 'src/post/post_details_dto.dart';

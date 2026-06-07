@@ -18,5 +18,6 @@ export 'src/usecase/auth/verify_otp_use_case.dart';
 export 'src/usecase/common/fetch_user_existence_use_case.dart';
 
 export 'src/usecase/post/fetch_posts_use_case.dart';
+export 'src/usecase/post/fetch_post_details_use_case.dart';
 
 export 'src/di/domain_di.dart';

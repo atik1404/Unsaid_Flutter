@@ -1,7 +1,7 @@
 import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:data/src/dto/dto.dart';
-import 'package:data/src/dto/src/post/posts_dto.dart';
+import 'package:data/src/mapper/mapper.dart';
 import 'package:data/src/mapper/src/post/post_api_mapper.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
@@ -18,6 +18,15 @@ final class PostRepoImpl implements PostRepository {
       queryParameters: params.toJson(),
       options: AuthOptions.authenticated(),
       parser: (data) => PostsDto.fromJson(data).toEntity(),
+    );
+  }
+
+  @override
+  Future<Result<PostDetailsEntity, Failure>> fetchPostDetails(String postId) {
+    return _restClient.get(
+      '/posts/$postId',
+      options: AuthOptions.authenticated(),
+      parser: (data) => PostDetailsDto.fromJson(data).toEntity(),
     );
   }
 }

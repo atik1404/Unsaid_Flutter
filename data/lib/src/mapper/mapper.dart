@@ -4,3 +4,4 @@ export 'src/auth/login_api_mapper.dart';
 export 'src/common/common_api_mapper.dart';
 
 export 'src/post/post_api_mapper.dart';
+export 'src/post/post_details_api_mapper.dart';
