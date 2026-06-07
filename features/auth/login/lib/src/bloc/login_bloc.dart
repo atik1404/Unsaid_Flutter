@@ -46,7 +46,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(phone: phone, password: password, showErrors: true));
 
     // Abort early if validation fails — the UI already shows the errors.
-    if (!Formz.validate([phone, password])) return;
+    if (!state.isValid) return;
 
     emit(
       state.copyWith(

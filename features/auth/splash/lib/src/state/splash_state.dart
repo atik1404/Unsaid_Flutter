@@ -8,6 +8,5 @@ sealed class SplashState with _$SplashState {
   const factory SplashState.loading() = SplashLoading;
   const factory SplashState.navigateToHome() = SplashNavigateToHome;
   const factory SplashState.navigateToOnboarding() = SplashNavigateToOnboarding;
-  const factory SplashState.navigateToLogin() = SplashNavigateToLogin;
   const factory SplashState.error({required String message}) = SplashError;
 }

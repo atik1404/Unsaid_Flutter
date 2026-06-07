@@ -188,6 +188,7 @@ final class _LoginView extends StatelessWidget {
     };
   }
 }
+
 // ── Header ────────────────────────────────────────────────────────────────
 class _LoginHeader extends StatelessWidget {
   const _LoginHeader();
@@ -218,6 +219,7 @@ class _LoginHeader extends StatelessWidget {
     );
   }
 }
+
 class _PhoneInput extends StatelessWidget {
   final TextEditingController controller;
   final String? errorText;
@@ -243,6 +245,7 @@ class _PhoneInput extends StatelessWidget {
     );
   }
 }
+
 class _PasswordInput extends StatelessWidget {
   final TextEditingController controller;
   final String? errorText;
@@ -280,6 +283,7 @@ class _PasswordInput extends StatelessWidget {
     );
   }
 }
+
 class _LoginButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback? onPressed;
@@ -298,6 +302,7 @@ class _LoginButton extends StatelessWidget {
     );
   }
 }
+
 class _CreateAccountPrompt extends StatelessWidget {
   final VoidCallback onSignUpPressed;
 
@@ -326,6 +331,7 @@ class _CreateAccountPrompt extends StatelessWidget {
     );
   }
 }
+
 class _SocialLoginOptions extends StatelessWidget {
   final VoidCallback onGooglePressed;
   final VoidCallback onFacebookPressed;

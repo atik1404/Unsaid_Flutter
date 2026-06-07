@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
-import 'package:navigation/navigation.dart';
 import 'package:onboarding/src/state/onboarding_cubit.dart';
 import 'package:onboarding/src/state/onboarding_state.dart';
 
@@ -19,7 +17,8 @@ import 'package:onboarding/src/state/onboarding_state.dart';
 ///
 /// State is managed by [OnboardingCubit], provided by [OnboardingScreenRouter].
 class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({super.key});
+  final VoidCallback onNavigateToLoginScreen;
+  const OnboardingScreen({super.key, required this.onNavigateToLoginScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class OnboardingScreen extends StatelessWidget {
     return BlocListener<OnboardingCubit, OnboardingState>(
       listener: (context, state) {
         if (state.shouldNavigateToNextScreen) {
-          context.goNamed(AppRouteName.loginScreen);
+          onNavigateToLoginScreen();
         }
       },
       child: AppScaffold(

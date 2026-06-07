@@ -24,7 +24,7 @@ class SplashCubit extends Cubit<SplashState> {
       if (!isIntroScreenVisible) {
         emit(const SplashState.navigateToOnboarding());
       } else {
-        emit(const SplashState.navigateToLogin());
+        emit(const SplashState.navigateToHome());
       }
     }
   }

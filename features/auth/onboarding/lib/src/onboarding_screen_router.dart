@@ -23,11 +23,15 @@ final class OnboardingScreenRouter implements BaseRouter {
       GoRoute(
         path: AppRouteName.onboardingPath,
         name: AppRouteName.onboardingScreen,
-        pageBuilder: (_, state) => buildPageWithTransition(
+        pageBuilder: (context, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
             create: (_) => OnboardingCubit(repository: GetIt.I.get<AuthStorageRepository>()),
-            child: const OnboardingScreen(),
+            child: OnboardingScreen(
+              onNavigateToLoginScreen: () {
+                context.goNamed(AppRouteName.loginScreen);
+              },
+            ),
           ),
         ),
         routes: children,

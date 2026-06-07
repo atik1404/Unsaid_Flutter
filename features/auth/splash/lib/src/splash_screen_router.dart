@@ -11,11 +11,18 @@ final class SplashScreenRouter implements BaseRouter {
       GoRoute(
         path: '/',
         name: AppRouteName.splash,
-        pageBuilder: (_, state) => buildPageWithTransition(
+        pageBuilder: (context, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
             create: (_) => SplashCubit(),
-            child: const SplashScreen(),
+            child: SplashScreen(
+              onNavigateToHomeScreen: () {
+                context.goNamed(AppRouteName.homeScreen);
+              },
+              onNavigateToOnboardingScreen: () {
+                context.goNamed(AppRouteName.onboardingScreen);
+              },
+            ),
           ),
         ),
         routes: children,

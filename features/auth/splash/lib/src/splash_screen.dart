@@ -2,25 +2,27 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
-import 'package:navigation/navigation.dart';
 import 'package:splash/src/state/splash_cubit.dart';
 import 'package:splash/src/state/splash_state.dart';
 import 'package:ui/ui.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+  final VoidCallback onNavigateToHomeScreen;
+  final VoidCallback onNavigateToOnboardingScreen;
+
+  const SplashScreen({super.key, required this.onNavigateToHomeScreen, required this.onNavigateToOnboardingScreen});
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         state.maybeMap(
-          navigateToOnboarding: (_) => context.goNamed(AppRouteName.onboardingScreen),
-          navigateToLogin: (_) => context.goNamed(AppRouteName.loginScreen),
-          navigateToHome: (_) => context.goNamed(AppRouteName.homeScreen),
-          orElse: () {},
+          navigateToOnboarding: (_) => onNavigateToOnboardingScreen(),
+          navigateToHome: (_) => onNavigateToHomeScreen(),
+          orElse: () {
+            // No navigation for other states.
+          },
         );
       },
       child: AppScaffold(
