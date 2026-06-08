@@ -52,10 +52,14 @@ class CommentInputBox extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: AppIconButton(
-        const AppImage.asset(
-          AppDrawables.icSend,
-          width: IconSizes.dense,
-          height: IconSizes.dense,
+        AppIcon(
+          const AppImage.asset(
+            AppDrawables.icSend,
+            width: IconSizes.dense,
+            height: IconSizes.dense,
+          ),
+          color: context.appColors.white,
+          tint: true,
         ),
         onPressed: () {},
       ),
