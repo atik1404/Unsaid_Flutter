@@ -17,8 +17,8 @@ import 'package:onboarding/src/state/onboarding_state.dart';
 ///
 /// State is managed by [OnboardingCubit], provided by [OnboardingScreenRouter].
 class OnboardingScreen extends StatelessWidget {
-  final VoidCallback onNavigateToLoginScreen;
-  const OnboardingScreen({super.key, required this.onNavigateToLoginScreen});
+  final VoidCallback onNavigateToHomeScreen;
+  const OnboardingScreen({super.key, required this.onNavigateToHomeScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class OnboardingScreen extends StatelessWidget {
     return BlocListener<OnboardingCubit, OnboardingState>(
       listener: (context, state) {
         if (state.shouldNavigateToNextScreen) {
-          onNavigateToLoginScreen();
+          onNavigateToHomeScreen();
         }
       },
       child: AppScaffold(
@@ -81,7 +81,7 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(height: AppSpacing.s48.h),
                   _AnimatedButton(
                     onPressed: () => {
-                      context.read<OnboardingCubit>().navigateToLoginScreen(),
+                      context.read<OnboardingCubit>().navigateToHomeScreen(),
                     },
                     isLastPage: state.isLastPage,
                   ),

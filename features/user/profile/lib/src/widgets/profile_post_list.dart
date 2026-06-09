@@ -3,14 +3,14 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
-import 'package:profile/src/state/profile_post_model.dart';
+import 'package:entity/entity.dart';
 
 /// Displays a section heading ("My Posts") followed by the user's own posts.
 ///
 /// Shows an empty-state message when [posts] is empty.
 class ProfilePostList extends StatelessWidget {
   /// The list of posts authored by the profile owner.
-  final List<ProfilePostModel> posts;
+  final List<PostEntity> posts;
 
   const ProfilePostList({super.key, required this.posts});
 
@@ -36,10 +36,7 @@ class ProfilePostList extends StatelessWidget {
             itemCount: posts.length,
             separatorBuilder: (_, _) => SizedBox(height: AppSpacing.s12.h),
             itemBuilder: (context, index) => _ProfilePostCard(
-              title: posts[index].title,
-              description: posts[index].description,
-              dateTime: "10 mins ago",
-              mood: MoodType.values.firstWhere((m) => m.name.toUpperCase() == posts[index].tag.toUpperCase(), orElse: () => MoodType.confused),
+              post: posts[index],
               onTap: () {},
             ),
           ),
@@ -63,23 +60,17 @@ class ProfilePostList extends StatelessWidget {
 }
 
 class _ProfilePostCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final String dateTime;
-  final MoodType mood;
-  final VoidCallback? onTap;
+  final PostEntity post;
+  final VoidCallback onTap;
 
   const _ProfilePostCard({
-    required this.title,
-    required this.description,
-    required this.dateTime,
-    required this.mood,
+    required this.post,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final colors = _getTagColor(mood.name, context);
+    final colors = _getTagColor(post.mood, context);
 
     return GestureDetector(
       onTap: onTap,
@@ -97,16 +88,15 @@ class _ProfilePostCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _PostHeader(
-                title: title,
-                avatar:
-                    'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+                title: 'Anonymous User', // In production this would be the user's display name
+                avatar: 'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
                 dateTime: DateTime.now().subtract(const Duration(minutes: 10)),
-                mood: mood,
+                mood: post.mood,
                 colors: colors,
               ),
               SizedBox(height: AppSpacing.s8.h),
               AppText.bodySmall(
-                description,
+                post.body,
                 color: context.appColors.contentPrimary,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -141,7 +131,7 @@ final class _PostHeader extends StatelessWidget {
   final String title;
   final String avatar;
   final DateTime dateTime;
-  final MoodType mood;
+  final String mood;
   final (Color, Color) colors;
 
   const _PostHeader({
@@ -172,8 +162,7 @@ final class _PostHeader extends StatelessWidget {
         ),
         SizedBox(width: AppSpacing.s8.w),
         _buildTag(
-          context,
-          mood.name,
+          mood.toUpperCase(),
           backgroundColor: colors.$1,
           textColor: colors.$2,
         ),
@@ -199,7 +188,7 @@ final class _PostHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(BuildContext context, String tag, {required Color backgroundColor, required Color textColor}) {
+  Widget _buildTag(String tag, {required Color backgroundColor, required Color textColor}) {
     return AppTag(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
       backgroundColor: backgroundColor,

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onboarding/src/state/onboarding_state.dart';
 import 'package:pref_storage/pref_storage.dart';
-import 'package:common/common.dart';
 
 /// Business logic for the onboarding flow.
 ///
@@ -41,8 +40,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   ///
   /// Persists [AuthStorageRepository.saveFirstLaunch] so the splash screen
   /// can redirect directly to login on subsequent launches.
-  void navigateToLoginScreen() {
-    AppLog.log('User completed onboarding, saving first-launch flag and navigating to login screen');
+  void navigateToHomeScreen() {
     _repository.saveFirstLaunch(true);
     emit(state.copyWith(shouldNavigateToNextScreen: true));
   }

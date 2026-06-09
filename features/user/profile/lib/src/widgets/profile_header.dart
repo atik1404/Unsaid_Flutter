@@ -2,6 +2,7 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
+import 'package:entity/entity.dart';
 
 /// Displays the profile owner's personal information.
 ///
@@ -9,27 +10,11 @@ import 'package:localization/localization.dart';
 /// and bio in a styled card container.
 class ProfileHeader extends StatelessWidget {
   /// The user's display name.
-  final String name;
-
-  /// The user's email address.
-  final String email;
-
-  /// The user's phone number.
-  final String phone;
-
-  /// A short bio / tagline.
-  final String bio;
-
-  /// URL for the user's avatar image.
-  final String avatarUrl;
+  final ProfileEntity? profile;
 
   const ProfileHeader({
     super.key,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.bio,
-    required this.avatarUrl,
+    required this.profile,
   });
 
   @override
@@ -56,7 +41,7 @@ class ProfileHeader extends StatelessWidget {
 
           // Name
           AppText.titleMedium(
-            name,
+            profile?.name ?? '',
             color: context.appColors.contentBrand,
             textWeight: AppTextWeight.bold,
           ),
@@ -64,7 +49,7 @@ class ProfileHeader extends StatelessWidget {
 
           // Bio
           AppText.captionMedium(
-            bio,
+            'I am a passionate developer who loves building amazing apps. In my free time, I enjoy hiking and photography.',
             color: context.appColors.contentSecondary,
             textWeight: AppTextWeight.medium,
             textAlign: TextAlign.center,
@@ -80,19 +65,19 @@ class ProfileHeader extends StatelessWidget {
             children: [
               _InfoBox(
                 label: context.l10n.profile_stat_post,
-                value: "256",
+                value: profile?.postCount.toString() ?? '0',
                 color: context.appColors.contentBrand,
               ),
 
               _InfoBox(
                 label: context.l10n.profile_stat_reaction,
-                value: "2.5K",
+                value: profile?.reputation.toString() ?? '0',
                 color: context.appColors.contentInfo,
               ),
 
               _InfoBox(
                 label: context.l10n.profile_stat_days,
-                value: "365",
+                value: '11',
                 color: context.appColors.contentWarning,
               ),
             ],

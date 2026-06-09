@@ -28,8 +28,8 @@ final class OnboardingScreenRouter implements BaseRouter {
           child: BlocProvider(
             create: (_) => OnboardingCubit(repository: GetIt.I.get<AuthStorageRepository>()),
             child: OnboardingScreen(
-              onNavigateToLoginScreen: () {
-                context.goNamed(AppRouteName.loginScreen);
+              onNavigateToHomeScreen: () {
+                context.goNamed(AppRouteName.homeScreen);
               },
             ),
           ),
