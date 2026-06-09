@@ -78,22 +78,19 @@ class ProfileHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //spacing: AppSpacing.s8.w,
             children: [
-              _buildInfoBox(
-                context,
+              _InfoBox(
                 label: context.l10n.profile_stat_post,
                 value: "256",
                 color: context.appColors.contentBrand,
               ),
 
-              _buildInfoBox(
-                context,
+              _InfoBox(
                 label: context.l10n.profile_stat_reaction,
                 value: "2.5K",
                 color: context.appColors.contentInfo,
               ),
 
-              _buildInfoBox(
-                context,
+              _InfoBox(
                 label: context.l10n.profile_stat_days,
                 value: "365",
                 color: context.appColors.contentWarning,
@@ -130,14 +127,21 @@ class ProfileHeader extends StatelessWidget {
       ),
     );
   }
+}
 
-  /// Renders a single information row with an icon, label, and value.
-  Widget _buildInfoBox(
-    BuildContext context, {
-    required String label,
-    required String value,
-    required Color color,
-  }) {
+final class _InfoBox extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color color;
+
+  const _InfoBox({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return AppCard.rounded(
       elevation: 2,
       tone: AppCardTone.secondary,

@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:profile/src/profile_screen.dart';
-import 'package:profile/src/state/profile_cubit.dart';
+import 'package:profile/src/state/profile_bloc.dart';
 
 /// Router definition for the Profile screen.
 ///

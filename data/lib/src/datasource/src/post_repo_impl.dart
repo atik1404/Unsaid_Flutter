@@ -2,6 +2,7 @@ import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:data/src/dto/dto.dart';
 import 'package:data/src/mapper/mapper.dart';
+import 'package:data/src/mapper/src/post/my_post_api_mapper.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
 
@@ -24,6 +25,15 @@ final class PostRepoImpl implements PostRepository {
     return _restClient.get(
       '/posts/$postId',
       parser: (data) => PostDetailsDto.fromJson(data).toEntity(),
+    );
+  }
+
+  @override
+  Future<Result<PostPagerEntity, Failure>> fetchMyPosts(FetchPostsParams params) {
+    return _restClient.get(
+      '/profile/posts',
+      queryParameters: params.toJson(),
+      parser: (data) => MyPostsDto.fromJson(data).toEntity(),
     );
   }
 }

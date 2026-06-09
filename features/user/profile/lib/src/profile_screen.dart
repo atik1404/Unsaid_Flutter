@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
-import 'package:profile/src/state/profile_cubit.dart';
+import 'package:profile/src/state/profile_bloc.dart';
 import 'package:profile/src/state/profile_state.dart';
 import 'package:profile/src/widgets/profile_header.dart';
 import 'package:profile/src/widgets/profile_post_list.dart';
