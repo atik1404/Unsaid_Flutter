@@ -18,7 +18,10 @@ final class LoginScreenRouter implements BaseRouter {
           child: BlocProvider(
             create: (_) => LoginBloc(loginUseCase: GetIt.instance<LoginUseCase>()),
             child: LoginScreen(
-              onLoginSuccess: () => {},
+              // Flipping the auth state makes GoRouter re-run the guard via
+              // refreshListenable: the login route then redirects to the
+              // pending `redirect` query param (or home).
+              onLoginSuccess: () => authStateNotifier.setLoggedIn(isLoggedIn: true),
               onSignUpPressed: () => {},
               onForgotPasswordPressed: () => {},
             ),

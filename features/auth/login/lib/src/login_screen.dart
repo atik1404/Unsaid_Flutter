@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onStateChanged(LoginState state) {
     if (state.status == FormzSubmissionStatus.success) {
       AppToast.toast(message: 'Login successful', toastType: ToastType.success);
-      //context.goNamed(AppRouteName.homeScreen);
+      widget.onLoginSuccess?.call();
     } else if (state.status == FormzSubmissionStatus.failure) {
       final message = state.errorMessage ?? 'Something went wrong';
       AppToast.toast(message: message, toastType: ToastType.error);

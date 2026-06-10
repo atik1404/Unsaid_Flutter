@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
+import 'package:pref_storage/pref_storage.dart';
 import 'package:setting/src/widgets/language_pill_toggle.dart';
 
 /// A vertical list of menu items on the Settings screen.
@@ -220,8 +222,12 @@ class _SettingMenuListState extends State<SettingMenuList> {
             label: context.l10n.setting_menu_sign_out,
             subTitle: context.l10n.setting_menu_sign_out_subtitle,
             icon: CupertinoIcons.arrow_right_square,
-            onTap: () {
-              context.goNamed(AppRouteName.loginScreen);
+            onTap: () async {
+              await GetIt.I<StorageRepository>().deleteAllData();
+              // Flips the router's auth guard; keeps an explicit go so the
+              // user lands on a clean login location without a redirect param.
+              authStateNotifier.setLoggedIn(isLoggedIn: false);
+              if (context.mounted) context.goNamed(AppRouteName.loginScreen);
             },
           ),
         ],

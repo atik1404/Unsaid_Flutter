@@ -8,6 +8,7 @@ import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:onboarding/onboarding.dart';
 import 'package:otp_verification/otp_verification.dart';
+import 'package:pref_storage/pref_storage.dart';
 import 'package:signup/signup.dart';
 import 'package:splash/splash.dart';
 import 'package:home/home.dart';
@@ -19,6 +20,11 @@ import 'package:notification/notification.dart';
 import 'package:profile/profile.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
+  // Seed the auth guard with the persisted session before the router is
+  // created, so the first navigation already sees the correct login state.
+  final isLoggedIn = await locator<AuthStorageRepository>().getLoginStatus();
+  authStateNotifier.setLoggedIn(isLoggedIn: isLoggedIn);
+
   final routers = [
     ...SplashScreenRouter().routes(),
     ...LoginScreenRouter().routes(),
@@ -45,6 +51,8 @@ Future<void> registerNavigationModule(GetIt locator) async {
       initialLocation: AppRouteName.splash,
       observers: [routeObserver],
       routes: routers,
+      redirect: authGuardRedirect,
+      refreshListenable: authStateNotifier,
       errorBuilder: (context, state) {
         return Scaffold(
           body: Center(
