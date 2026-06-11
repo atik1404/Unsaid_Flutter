@@ -8,22 +8,20 @@ import 'package:splash/src/state/splash_state.dart';
 import 'package:ui/ui.dart';
 
 class SplashScreen extends StatelessWidget {
-  final VoidCallback onNavigateToHomeScreen;
-  final VoidCallback onNavigateToOnboardingScreen;
+  final Function(String screen) navigateToNextScreen;
 
-  const SplashScreen({super.key, required this.onNavigateToHomeScreen, required this.onNavigateToOnboardingScreen});
+  const SplashScreen({super.key, required this.navigateToNextScreen});
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
+      listenWhen: (previous, current) => previous != current,
       listener: (context, state) {
-        state.maybeMap(
-          navigateToOnboarding: (_) => onNavigateToOnboardingScreen(),
-          navigateToHome: (_) => onNavigateToHomeScreen(),
-          orElse: () {
-            // No navigation for other states.
-          },
-        );
+        final isNavigating = state is SplashNavigateToNextScreen;
+
+        if (isNavigating) {
+          navigateToNextScreen(state.redirect);
+        }
       },
       child: AppScaffold(
         enableGradientBackground: true,

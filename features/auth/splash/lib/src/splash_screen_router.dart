@@ -16,12 +16,7 @@ final class SplashScreenRouter implements BaseRouter {
           child: BlocProvider(
             create: (_) => SplashCubit(),
             child: SplashScreen(
-              onNavigateToHomeScreen: () {
-                context.goNamed(AppRouteName.homeScreen);
-              },
-              onNavigateToOnboardingScreen: () {
-                context.goNamed(AppRouteName.onboardingScreen);
-              },
+              navigateToNextScreen: (redirect) => context.goNamed(redirect),
             ),
           ),
         ),

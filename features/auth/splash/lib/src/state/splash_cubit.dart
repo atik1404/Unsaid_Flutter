@@ -1,12 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:navigation/navigation.dart';
 import 'package:pref_storage/pref_storage.dart';
 import 'package:splash/src/state/splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   final _authStorageRepo = GetIt.I.get<AuthStorageRepository>();
 
-  SplashCubit() : super(const SplashState.initial()) {
+  SplashCubit() : super(const SplashState.loading()) {
     Future.microtask(checkAuthorization);
   }
 
@@ -22,9 +23,9 @@ class SplashCubit extends Cubit<SplashState> {
       fetchProfile();
     } else {
       if (!isIntroScreenVisible) {
-        emit(const SplashState.navigateToOnboarding());
+        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.onboardingScreen));
       } else {
-        emit(const SplashState.navigateToHome());
+        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.homeScreen));
       }
     }
   }
@@ -33,7 +34,7 @@ class SplashCubit extends Cubit<SplashState> {
     emit(const SplashState.loading());
     try {
       await Future.delayed(const Duration(seconds: 3));
-      emit(const SplashState.navigateToHome());
+      emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.homeScreen));
     } catch (e) {
       emit(SplashState.error(message: e.toString()));
     }

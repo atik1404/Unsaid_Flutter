@@ -10,6 +10,7 @@ const Set<String> privateRouteNames = {
   AppRouteName.createPostScreen,
   AppRouteName.changePasswordScreen,
   AppRouteName.notificationScreen,
+  AppRouteName.profileScreen,
 };
 
 /// Query parameter carrying the location to restore after a successful login.
