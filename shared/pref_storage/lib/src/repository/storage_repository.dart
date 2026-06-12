@@ -2,6 +2,7 @@ import 'package:pref_storage/pref_storage.dart';
 import 'package:pref_storage/src/storage/pref_storage.dart';
 import 'package:pref_storage/src/storage/secure_storage.dart';
 
+@Deprecated('Use app_storage_repository instead of directly using AppPrefStorage')
 abstract class StorageRepository {
   Future<void> deleteAllData();
 

@@ -1,6 +1,7 @@
 import 'package:pref_storage/src/common/pref_key.dart';
 import 'package:pref_storage/src/storage/pref_storage.dart';
 
+@Deprecated('Use app_storage_repository instead of directly using AppPrefStorage')
 abstract class UserStorageRepository {
   String? getUserName();
   Future<void> saveUserName(String name);
