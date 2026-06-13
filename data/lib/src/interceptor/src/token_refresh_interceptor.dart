@@ -7,8 +7,7 @@ import 'package:pref_storage/pref_storage.dart';
 final class TokenRefreshInterceptor extends Interceptor {
   final Dio _dio;
   final Dio _tokenDio;
-  final AuthStorageRepository _authStorage;
-  final StorageRepository _storageRepository;
+  final AppPrefStorage _prefStorage;
   final String _refreshPath;
 
   /// Completer-based concurrency control.
@@ -17,12 +16,10 @@ final class TokenRefreshInterceptor extends Interceptor {
 
   TokenRefreshInterceptor({
     required Dio dio,
-    required StorageRepository storageRepository,
-    required AuthStorageRepository authStorage,
+    required AppPrefStorage prefStorage,
     String refreshPath = '/auth/api/v1/partner/refresh-token',
   }) : _dio = dio,
-       _storageRepository = storageRepository,
-       _authStorage = authStorage,
+       _prefStorage = prefStorage,
        _refreshPath = refreshPath,
        _tokenDio = Dio(
          BaseOptions(
@@ -50,7 +47,7 @@ final class TokenRefreshInterceptor extends Interceptor {
       return handler.next(options);
     }
 
-    final token = await _authStorage.getAuthToken();
+    final token = await _prefStorage.getString(PrefKey.accessToken);
     options.headers['Authorization'] = 'Bearer $token';
     handler.next(options);
   }
@@ -109,8 +106,8 @@ final class TokenRefreshInterceptor extends Interceptor {
       final tokens = await _fetchNewTokens();
 
       if (tokens != null) {
-        await _authStorage.saveAuthToken(tokens.accessToken);
-        await _authStorage.saveRefreshToken(tokens.refreshToken);
+        await _prefStorage.write(PrefKey.accessToken, tokens.accessToken);
+        await _prefStorage.write(PrefKey.refreshToken, tokens.refreshToken);
         newAccessToken = tokens.accessToken;
       } else {
         await _forceLogout();
@@ -128,7 +125,7 @@ final class TokenRefreshInterceptor extends Interceptor {
 
   /// Calls the refresh endpoint using a dedicated Dio (no interceptors).
   Future<_TokenPair?> _fetchNewTokens() async {
-    final refreshToken = await _authStorage.getRefreshToken();
+    final refreshToken = await _prefStorage.getString(PrefKey.refreshToken);
 
     try {
       final response = await _tokenDio.post(
@@ -168,7 +165,7 @@ final class TokenRefreshInterceptor extends Interceptor {
   Future<void> _forceLogout() async {
     _refreshCompleter?.complete(null);
     _refreshCompleter = null;
-    await _storageRepository.deleteAllData();
+    await _prefStorage.clear();
     //AuthEventBus.instance.dispatch(AuthEvent.sessionExpired);
   }
 }

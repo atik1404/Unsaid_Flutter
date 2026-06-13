@@ -12,10 +12,9 @@ import 'package:pref_storage/pref_storage.dart';
 
 final class AuthRepoImpl implements AuthRepository {
   final RestClient _client;
-  final AuthStorageRepository _authStorage;
-  final UserStorageRepository _userStorage;
+  final AppPrefStorage _prefStorage;
 
-  const AuthRepoImpl(this._client, this._authStorage, this._userStorage);
+  const AuthRepoImpl(this._client, this._prefStorage);
 
   @override
   Future<Result<ProfileEntity, Failure>> fetchProfile() async {
@@ -25,8 +24,8 @@ final class AuthRepoImpl implements AuthRepository {
       parser: (data) => ProfileDto.fromJson(data).toEntity(),
     );
     if (result is SuccessResult<ProfileEntity, Failure>) {
-      await _userStorage.saveUserName(result.data.name);
-      await _userStorage.saveUserEmail(result.data.email);
+      await _prefStorage.write(PrefKey.anonymousName, result.data.name);
+      await _prefStorage.write(PrefKey.phoneNumber, result.data.email);
     }
     return result;
   }
@@ -41,8 +40,8 @@ final class AuthRepoImpl implements AuthRepository {
 
     if (result is SuccessResult<LoginEntity, Failure>) {
       await Future.wait([
-        _authStorage.saveAuthToken(result.data.accessToken),
-        _authStorage.saveRefreshToken(result.data.refreshToken),
+        _prefStorage.write(PrefKey.accessToken, result.data.accessToken),
+        _prefStorage.write(PrefKey.refreshToken, result.data.refreshToken),
       ]);
     }
 

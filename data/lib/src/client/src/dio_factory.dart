@@ -6,7 +6,7 @@ import 'package:pref_storage/pref_storage.dart';
 
 final class DioFactory {
   /// API client — uses [AppConfig.baseUrl] for all JSON endpoints.
-  static Dio create(AuthStorageRepository authStorage, StorageRepository storageRepository) {
+  static Dio create(AppPrefStorage prefStorage) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.I.baseUrl,
@@ -25,7 +25,7 @@ final class DioFactory {
     if (AppConfig.I.environment.isDev || kDebugMode) {
       dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     }
-    dio.interceptors.add(TokenRefreshInterceptor(dio: dio, authStorage: authStorage, storageRepository: storageRepository));
+    dio.interceptors.add(TokenRefreshInterceptor(dio: dio, prefStorage: prefStorage));
     if (AppConfig.I.environment.isDev || kDebugMode) {
       dio.interceptors.add(TokenLoggerInterceptor());
     }
@@ -34,7 +34,7 @@ final class DioFactory {
   }
 
   /// Image-upload client — uses [AppConfig.imageUrl] (different host/port).
-  static Dio createImageClient(AuthStorageRepository authStorage, StorageRepository storageRepository) {
+  static Dio createImageClient(AppPrefStorage prefStorage) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.I.imageUrl,
@@ -47,7 +47,7 @@ final class DioFactory {
     if (AppConfig.I.environment.isDev || kDebugMode) {
       dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     }
-    dio.interceptors.add(TokenRefreshInterceptor(dio: dio, authStorage: authStorage, storageRepository: storageRepository));
+    dio.interceptors.add(TokenRefreshInterceptor(dio: dio, prefStorage: prefStorage));
     dio.interceptors.add(RetryInterceptor(dio: dio));
     return dio;
   }

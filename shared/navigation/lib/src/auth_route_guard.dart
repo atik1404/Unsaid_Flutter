@@ -24,6 +24,7 @@ const String redirectQueryParam = 'redirect';
 ///   login flips [authStateNotifier]) → forwarded to the pending destination,
 ///   or home when there is none.
 String? authGuardRedirect(BuildContext context, GoRouterState state) {
+  if (context.mounted) {}
   final isLoggedIn = authStateNotifier.isLoggedIn;
   final routeName = state.topRoute?.name;
 

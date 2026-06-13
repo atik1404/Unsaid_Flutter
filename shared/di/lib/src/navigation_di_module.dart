@@ -22,7 +22,7 @@ import 'package:profile/profile.dart';
 Future<void> registerNavigationModule(GetIt locator) async {
   // Seed the auth guard with the persisted session before the router is
   // created, so the first navigation already sees the correct login state.
-  final isLoggedIn = await locator<AuthStorageRepository>().getLoginStatus();
+  final isLoggedIn = locator<AppPrefStorage>().getBoolean(PrefKey.loginStatus);
   authStateNotifier.setLoggedIn(isLoggedIn: isLoggedIn);
 
   final routers = [

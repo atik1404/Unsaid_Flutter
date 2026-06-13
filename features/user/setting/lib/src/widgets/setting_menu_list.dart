@@ -288,7 +288,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
   }
 
   void _onLogoutTap(BuildContext context) async {
-    await GetIt.I<StorageRepository>().deleteAllData();
+    await GetIt.I<AppPrefStorage>().clear();
     // Flips the router's auth guard; keeps an explicit go so the
     // user lands on a clean login location without a redirect param.
     authStateNotifier.setLoggedIn(isLoggedIn: false);

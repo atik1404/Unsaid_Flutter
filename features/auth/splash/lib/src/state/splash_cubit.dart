@@ -5,7 +5,7 @@ import 'package:pref_storage/pref_storage.dart';
 import 'package:splash/src/state/splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
-  final _authStorageRepo = GetIt.I.get<AuthStorageRepository>();
+  final _prefStorage = GetIt.I.get<AppPrefStorage>();
 
   SplashCubit() : super(const SplashState.loading()) {
     Future.microtask(checkAuthorization);
@@ -14,8 +14,8 @@ class SplashCubit extends Cubit<SplashState> {
   void checkAuthorization() async {
     emit(const SplashState.loading());
 
-    final isAuthorized = await _authStorageRepo.getLoginStatus();
-    final isIntroScreenVisible = await _authStorageRepo.getFirstLaunch();
+    final isAuthorized = _prefStorage.getBoolean(PrefKey.loginStatus);
+    final isIntroScreenVisible = _prefStorage.getBoolean(PrefKey.isFirstLaunch);
 
     await Future.delayed(const Duration(seconds: 3));
 

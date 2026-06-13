@@ -18,14 +18,6 @@ final class AppPrefStorage extends BasePrefStorage {
   AppPrefStorage(this._prefs, this._secure);
 
   @override
-  Future<T?> read<T>(String key) async {
-    if (_isSecured(key)) {
-      return await _secure.read(key) as T?;
-    }
-    return _prefs.get<T>(key);
-  }
-
-  @override
   Future<void> write<T>(String key, T value) {
     if (_isSecured(key)) {
       return _secure.write(key, value.toString());
@@ -45,4 +37,27 @@ final class AppPrefStorage extends BasePrefStorage {
   }
 
   bool _isSecured(String key) => PrefKey.securedKey.contains(key);
+
+  @override
+  bool getBoolean(String key) {
+    return _prefs.get<bool>(key) ?? false;
+  }
+
+  @override
+  double getDouble(String key) {
+    return _prefs.get<double>(key) ?? 0.0;
+  }
+
+  @override
+  int getInt(String key) {
+    return _prefs.get<int>(key) ?? 0;
+  }
+
+  @override
+  Future<String> getString(String key) async {
+    if (_isSecured(key)) {
+      return await _secure.read(key) as String;
+    }
+    return _prefs.get<String>(key) ?? '';
+  }
 }
