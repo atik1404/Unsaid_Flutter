@@ -6,7 +6,6 @@ import 'package:navigation/src/auth_state_notifier.dart';
 /// Route names that require an authenticated user.
 /// Everything not listed here is public.
 const Set<String> privateRouteNames = {
-  AppRouteName.settingScreen,
   AppRouteName.createPostScreen,
   AppRouteName.changePasswordScreen,
   AppRouteName.notificationScreen,
@@ -24,7 +23,9 @@ const String redirectQueryParam = 'redirect';
 ///   login flips [authStateNotifier]) → forwarded to the pending destination,
 ///   or home when there is none.
 String? authGuardRedirect(BuildContext context, GoRouterState state) {
-  if (context.mounted) {}
+  if (context.mounted) {
+    //TODO: consider using a provider instead of a global variable
+  }
   final isLoggedIn = authStateNotifier.isLoggedIn;
   final routeName = state.topRoute?.name;
 
