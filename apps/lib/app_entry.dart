@@ -19,8 +19,8 @@ class AppEntry extends StatelessWidget {
       builder: (context, constraints) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => LocalizationCubit(locator<AppStorageRepository>())),
-            BlocProvider(create: (_) => ThemeCubit(locator<AppStorageRepository>())),
+            BlocProvider(create: (_) => LocalizationCubit(locator<AppPrefStorage>())),
+            BlocProvider(create: (_) => ThemeCubit(locator<AppPrefStorage>())),
           ],
           child: BlocBuilder<LocalizationCubit, Locale>(
             builder: (_, locale) {

@@ -1,11 +1,13 @@
 import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
+import 'package:entity/entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui/ui.dart';
 
 final class PostDetailsCard extends StatelessWidget {
-  const PostDetailsCard({super.key});
+  final PostDetailsEntity postDetails;
+  const PostDetailsCard({super.key, required this.postDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ final class PostDetailsCard extends StatelessWidget {
             _buildPostHeader(context, colors.$2),
             SizedBox(height: AppSpacing.s8.h),
             AppText.bodySmall(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+              postDetails.body,
               color: context.appColors.contentPrimary,
             ),
             SizedBox(height: AppSpacing.s12.h),
@@ -56,7 +58,7 @@ final class PostDetailsCard extends StatelessWidget {
           child: _buildHeaderTitle(context),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context, MoodType.happy.name),
+        _buildTag(context, postDetails.mood),
       ],
     );
   }
@@ -66,12 +68,12 @@ final class PostDetailsCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText.bodySmall(
-          "Ghoost_8821",
+          postDetails.authorName,
           textWeight: AppTextWeight.regular,
           color: context.appColors.contentPrimary,
         ),
         AppText.captionSmall(
-          "7 min ago",
+          postDetails.createdAt.toRelativeTime(),
           textWeight: AppTextWeight.light,
           color: context.appColors.contentSecondary,
         ),
@@ -98,7 +100,7 @@ final class PostDetailsCard extends StatelessWidget {
       spacing: AppSpacing.s12,
       children: [
         InlineIconLabel(
-          text: AppText.captionSmall("205", color: colors.contentTertiary),
+          text: AppText.captionSmall(postDetails.score.toString(), color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: AppImage.asset(
             AppDrawables.icFlame,
@@ -109,7 +111,7 @@ final class PostDetailsCard extends StatelessWidget {
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("111", color: colors.contentTertiary),
+          text: AppText.captionSmall(postDetails.reactionCount.toString(), color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.heart,
@@ -119,7 +121,7 @@ final class PostDetailsCard extends StatelessWidget {
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall("222", color: colors.contentTertiary),
+          text: AppText.captionSmall(postDetails.commentCount.toString(), color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.chat_bubble,

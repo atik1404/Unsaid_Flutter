@@ -1,5 +1,8 @@
 import 'package:common/common.dart';
-import 'package:data/data.dart';
+import 'package:data/src/client/client.dart';
+import 'package:data/src/dto/dto.dart';
+import 'package:data/src/mapper/mapper.dart';
+import 'package:data/src/mapper/src/post/my_post_api_mapper.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
 
@@ -7,20 +10,30 @@ final class PostRepoImpl implements PostRepository {
   final RestClient _restClient;
 
   const PostRepoImpl(this._restClient);
-  
+
   @override
-  Future<Result<List<PostEntity>, Failure>> fetchPosts() {
-    // TODO: implement fetchPosts
-    throw UnimplementedError();
+  Future<Result<PostPagerEntity, Failure>> fetchPosts(FetchPostsParams params) {
+    return _restClient.get(
+      '/posts',
+      queryParameters: params.toJson(),
+      parser: (data) => PostsDto.fromJson(data).toEntity(),
+    );
   }
 
-  // @override
-  // Future<Result<List<PostEntity>, Failure>> fetchPosts() async {
-  //   final result = await _restClient.get(
-  //     '/posts',
-  //     options: AuthOptions.authenticated(),
-  //     parser: (data) => (data as List).map((e) => PostDto.fromJson(e).toEntity()).toList(),
-  //   );
-  //   return result;
-  // }
+  @override
+  Future<Result<PostDetailsEntity, Failure>> fetchPostDetails(String postId) {
+    return _restClient.get(
+      '/posts/$postId',
+      parser: (data) => PostDetailsDto.fromJson(data).toEntity(),
+    );
+  }
+
+  @override
+  Future<Result<PostPagerEntity, Failure>> fetchMyPosts(FetchPostsParams params) {
+    return _restClient.get(
+      '/profile/posts',
+      queryParameters: params.toJson(),
+      parser: (data) => MyPostsDto.fromJson(data).toEntity(),
+    );
+  }
 }

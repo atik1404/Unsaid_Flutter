@@ -16,4 +16,6 @@ final class PrefKey {
   static const String profilePicture = 'user.profilePicture';
   static const String userId = 'user.userId';
   static const String dateOfBirth = 'user.dateOfBirth';
+
+  static const List<String> securedKey = [accessToken, refreshToken];
 }

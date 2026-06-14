@@ -6,7 +6,13 @@ import 'package:pref_storage/pref_storage.dart';
 
 final class DioFactory {
   /// API client — uses [AppConfig.baseUrl] for all JSON endpoints.
-  static Dio create(AuthStorageRepository authStorage, StorageRepository storageRepository) {
+  ///
+  /// [tokenRefreshDio] must be a clean Dio created via [createTokenRefreshClient]
+  /// so the refresh call itself never triggers another 401 cycle.
+  static Dio create({
+    required AppPrefStorage prefStorage,
+    required Dio tokenRefreshDio,
+  }) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.I.baseUrl,
@@ -17,15 +23,17 @@ final class DioFactory {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        //contentType: 'application/json': Data is sent as a JSON body. Preserves types — int stays int, bool stays bool, nested objects work. Most modern REST APIs expect this.
-        // contentType: 'application/x-www-form-urlencoded': Data is sent as URL-encoded key-value pairs. Good for simple forms and some legacy systems. Nested structures are difficult and usually require manual encoding.
-        // contentType: 'multipart/form-data': Used for file uploads (images, PDFs, etc.). Data is sent as a series of form fields, each potentially containing a file. Requires the receiving server to parse the multipart boundary.
       ),
     );
     if (AppConfig.I.environment.isDev || kDebugMode) {
       dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     }
-    dio.interceptors.add(TokenRefreshInterceptor(dio: dio, authStorage: authStorage, storageRepository: storageRepository));
+    dio.interceptors.add(
+      TokenRefreshInterceptor(
+        tokenRefreshDio: tokenRefreshDio,
+        prefStorage: prefStorage,
+      ),
+    );
     if (AppConfig.I.environment.isDev || kDebugMode) {
       dio.interceptors.add(TokenLoggerInterceptor());
     }
@@ -34,7 +42,7 @@ final class DioFactory {
   }
 
   /// Image-upload client — uses [AppConfig.imageUrl] (different host/port).
-  static Dio createImageClient(AuthStorageRepository authStorage, StorageRepository storageRepository) {
+  static Dio createImageClient(AppPrefStorage prefStorage) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.I.imageUrl,
@@ -47,8 +55,28 @@ final class DioFactory {
     if (AppConfig.I.environment.isDev || kDebugMode) {
       dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     }
-    dio.interceptors.add(TokenRefreshInterceptor(dio: dio, authStorage: authStorage, storageRepository: storageRepository));
+    dio.interceptors.add(TokenRefreshInterceptor(tokenRefreshDio: dio, prefStorage: prefStorage));
     dio.interceptors.add(RetryInterceptor(dio: dio));
+    return dio;
+  }
+
+  static Dio createTokenRefreshClient(AppPrefStorage prefStorage) {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: AppConfig.I.baseUrl,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ),
+    );
+
+    if (AppConfig.I.environment.isDev || kDebugMode) {
+      dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    }
     return dio;
   }
 }

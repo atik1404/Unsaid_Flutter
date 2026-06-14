@@ -1,41 +1,56 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:navigation/navigation.dart';
 import 'package:pref_storage/pref_storage.dart';
 import 'package:splash/src/state/splash_state.dart';
+import 'package:domain/domain.dart';
 
 class SplashCubit extends Cubit<SplashState> {
-  final _authStorageRepo = GetIt.I.get<AuthStorageRepository>();
+  final FetchProfileUseCase _fetchProfileUseCase;
+  final _prefStorage = GetIt.I.get<AppPrefStorage>();
 
-  SplashCubit() : super(const SplashState.initial()) {
+  SplashCubit({required FetchProfileUseCase fetchProfileUseCase}) : _fetchProfileUseCase = fetchProfileUseCase, super(const SplashState.loading()) {
     Future.microtask(checkAuthorization);
   }
 
   void checkAuthorization() async {
     emit(const SplashState.loading());
 
-    final isAuthorized = await _authStorageRepo.getLoginStatus();
-    final isIntroScreenVisible = await _authStorageRepo.getFirstLaunch();
+    final isAuthorized = _prefStorage.getBoolean(PrefKey.loginStatus);
+    final isIntroScreenVisible = _prefStorage.getBoolean(PrefKey.isFirstLaunch);
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
 
     if (isAuthorized) {
-      fetchProfile();
+      await _fetchProfile();
     } else {
       if (!isIntroScreenVisible) {
-        emit(const SplashState.navigateToOnboarding());
+        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.onboardingScreen));
       } else {
-        emit(const SplashState.navigateToLogin());
+        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.homeScreen));
       }
     }
   }
 
-  Future<void> fetchProfile() async {
+  Future<void> _fetchProfile() async {
     emit(const SplashState.loading());
-    try {
-      await Future.delayed(const Duration(seconds: 3));
-      emit(const SplashState.navigateToHome());
-    } catch (e) {
-      emit(SplashState.error(message: e.toString()));
-    }
+
+    final result = await _fetchProfileUseCase();
+
+    result.when(
+      success: (data) {
+        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.homeScreen));
+      },
+      failure: (failure) {
+        final message = switch (failure.message) {
+          RawStringMessage(:final value) => value,
+          LocaleKeyMessage(:final key) => key.name,
+        };
+        emit(
+          SplashState.error(message: message),
+        );
+      },
+    );
   }
 }

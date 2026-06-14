@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:profile/src/state/profile_post_model.dart';
+import 'package:entity/entity.dart';
 
 part 'profile_state.freezed.dart';
 
@@ -10,12 +10,11 @@ part 'profile_state.freezed.dart';
 @freezed
 abstract class ProfileState with _$ProfileState {
   const factory ProfileState({
-    @Default('') String name,
-    @Default('') String email,
-    @Default('') String phone,
-    @Default('') String bio,
-    @Default('') String avatarUrl,
-    @Default([]) List<ProfilePostModel> posts,
+    ProfileEntity? profile,
+    @Default([]) List<PostEntity> posts,
     @Default(false) bool isLoading,
+    @Default(false) bool isLastPage,
+    @Default(1) int currentPage,
+    String? errorMessage,
   }) = _ProfileState;
 }

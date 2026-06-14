@@ -1,19 +1,28 @@
 import 'package:common/common.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:login/src/bloc/login_event.dart';
 import 'package:login/src/bloc/login_state.dart';
+import 'package:pref_storage/pref_storage.dart';
 
 /// Orchestrates the login flow: validates form inputs via Formz and
 /// delegates authentication to [LoginUseCase].
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUseCase _loginUseCase;
+  final FetchProfileUseCase _fetchProfileUseCase;
+  final AppPrefStorage _appPrefStorage;
 
-  LoginBloc({required LoginUseCase loginUseCase}) : _loginUseCase = loginUseCase, super(const LoginState()) {
+  LoginBloc({required LoginUseCase loginUseCase, required FetchProfileUseCase fetchProfileUseCase, required AppPrefStorage appPrefStorage})
+    : _loginUseCase = loginUseCase,
+      _fetchProfileUseCase = fetchProfileUseCase,
+      _appPrefStorage = appPrefStorage,
+      super(const LoginState()) {
     on<LoginPhoneChanged>(_onPhoneChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
+    on<FetchProfile>(_onFetchProfile);
     on<LoginTogglePasswordVisibility>(_onTogglePasswordVisibility);
   }
 
@@ -46,7 +55,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(phone: phone, password: password, showErrors: true));
 
     // Abort early if validation fails — the UI already shows the errors.
-    if (!Formz.validate([phone, password])) return;
+    if (!state.isValid) return;
 
     emit(
       state.copyWith(
@@ -61,7 +70,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     result.when(
       success: (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
+        debugPrint('loginStatus: ${_appPrefStorage.getBoolean(PrefKey.loginStatus)}, accessToken: ${_appPrefStorage.getString(PrefKey.accessToken)}');
+        add(const FetchProfile()); // Chain the next step to fetch the user's profile after successful login.
+        //emit(state.copyWith(status: FormzSubmissionStatus.success));
       },
       failure: (failure) {
         // Translate the domain Failure into a displayable string.
@@ -70,6 +81,32 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           LocaleKeyMessage(:final key) => key.name,
         };
 
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onFetchProfile(
+    FetchProfile event,
+    Emitter<LoginState> emit,
+  ) async {
+    final result = await _fetchProfileUseCase();
+
+    result.when(
+      success: (data) {
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
+      },
+      failure: (failure) {
+        _appPrefStorage.clear(); // Clear any potentially corrupted data.
+        final message = switch (failure.message) {
+          RawStringMessage(:final value) => value,
+          LocaleKeyMessage(:final key) => key.name,
+        };
         emit(
           state.copyWith(
             status: FormzSubmissionStatus.failure,

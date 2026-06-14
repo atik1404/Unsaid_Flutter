@@ -1,4 +1,6 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
+import 'package:entity/entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,8 +32,17 @@ class PostDetailsScreen extends StatelessWidget {
       ),
       body: BlocBuilder<PostDetailsCubit, PostDetailsState>(
         builder: (context, state) {
-          if (state.isLoading || state.post == null) {
+          if (state.isLoading) {
             return const Center(child: CircularProgressIndicator());
+          }
+          AppLog.log('Post Details State: ${state.postDetails?.authorName}');
+          if (state.postDetails == null) {
+            return Center(
+              child: AppText.bodyMedium(
+                'post details not found',
+                color: context.appColors.contentPrimary,
+              ),
+            );
           }
 
           return SingleChildScrollView(
@@ -39,11 +50,13 @@ class PostDetailsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const PostDetailsCard(),
+                PostDetailsCard(
+                  postDetails: state.postDetails!,
+                ),
                 SizedBox(height: AppSpacing.s16.h),
-                _buildReplyCountText(context, 19),
+                _buildReplyCountText(context, state.postDetails!.commentCount),
                 SizedBox(height: AppSpacing.s8.h),
-                _buildCommentsSection(),
+                _buildCommentsSection(state.postDetails!.comments),
               ],
             ),
           );
@@ -54,14 +67,14 @@ class PostDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCommentsSection() {
+  Widget _buildCommentsSection(List<CommentEntity> comments) {
     return ListView.separated(
-      itemCount: 5,
+      itemCount: comments.length,
       shrinkWrap: true,
       separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s8.h),
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return const CommentsCard();
+        return CommentsCard(comment: comments[index]);
       },
     );
   }

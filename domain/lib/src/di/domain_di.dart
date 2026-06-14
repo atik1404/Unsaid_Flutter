@@ -10,6 +10,9 @@ final class DomainDi {
       ..registerLazySingleton<SendOtpUseCase>(() => SendOtpUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<VerifyOtpUseCase>(() => VerifyOtpUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<FetchProfileUseCase>(() => FetchProfileUseCase(getIt<AuthRepository>()))
-      ..registerLazySingleton<FetchUserExistenceUseCase>(() => FetchUserExistenceUseCase(getIt<CommonRepository>()));
+      ..registerLazySingleton<FetchUserExistenceUseCase>(() => FetchUserExistenceUseCase(getIt<CommonRepository>()))
+      ..registerLazySingleton<FetchPostsUseCase>(() => FetchPostsUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<FetchMyPostsUseCase>(() => FetchMyPostsUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<FetchPostDetailsUseCase>(() => FetchPostDetailsUseCase(getIt<PostRepository>()));
   }
 }

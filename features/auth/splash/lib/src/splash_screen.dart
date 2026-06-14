@@ -2,26 +2,26 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
-import 'package:navigation/navigation.dart';
 import 'package:splash/src/state/splash_cubit.dart';
 import 'package:splash/src/state/splash_state.dart';
 import 'package:ui/ui.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+  final Function(String screen) navigateToNextScreen;
+
+  const SplashScreen({super.key, required this.navigateToNextScreen});
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
+      listenWhen: (previous, current) => previous != current,
       listener: (context, state) {
-        state.maybeMap(
-          navigateToOnboarding: (_) => context.goNamed(AppRouteName.onboardingScreen),
-          navigateToLogin: (_) => context.goNamed(AppRouteName.loginScreen),
-          navigateToHome: (_) => context.goNamed(AppRouteName.homeScreen),
-          orElse: () {},
-        );
+        final isNavigating = state is SplashNavigateToNextScreen;
+
+        if (isNavigating) {
+          navigateToNextScreen(state.redirect);
+        }
       },
       child: AppScaffold(
         enableGradientBackground: true,
@@ -56,7 +56,7 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
 
-            Center(child: _buildContent(context)),
+            const Center(child: _SplashContent()),
 
             Positioned(
               bottom: AppSpacing.s48,
@@ -73,8 +73,13 @@ class SplashScreen extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget _buildContent(BuildContext context) {
+final class _SplashContent extends StatelessWidget {
+  const _SplashContent();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

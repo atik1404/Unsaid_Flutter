@@ -4,14 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:home/src/state/home_event.dart';
 import 'package:home/src/widgets/post_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:home/src/state/home_cubit.dart';
+import 'package:home/src/state/home_bloc.dart';
 import 'package:home/src/state/home_state.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:ui/ui.dart';
 
+/// Main feed screen showing a paginated list of posts filtered by mood.
+///
+/// Listens to scroll position to trigger pagination via [HomeBloc],
+/// and renders a sticky mood-filter row above the post list.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -20,14 +25,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String selectedMood = "ALL"; // Replace with your actual selection logic
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    context.read<HomeCubit>().loadPosts();
+    context.read<HomeBloc>().add(const LoadPostsEvent());
   }
 
   @override
@@ -38,12 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  /// Fires [LoadPostsEvent] when the user scrolls near the bottom of the list.
   void _onScroll() {
     if (_isBottom) {
-      context.read<HomeCubit>().loadPosts();
+      context.read<HomeBloc>().add(const LoadPostsEvent());
     }
   }
 
+  /// Returns true when the scroll position is within 90 % of the max extent.
   bool get _isBottom {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
@@ -68,104 +74,114 @@ class _HomeScreenState extends State<HomeScreen> {
         trailingPadding: AppSpacing.s16.w,
         actions: [
           AppIconButton(
-            const AppIcon(
-              Icon(CupertinoIcons.search),
-            ),
+            const AppIcon(Icon(CupertinoIcons.search)),
             onPressed: () {},
           ),
           AppIconButton(
             const AppIcon(Icon(CupertinoIcons.bell)),
-            onPressed: () {
-              context.pushNamed(AppRouteName.notificationScreen);
-            },
+            onPressed: () => context.pushNamed(AppRouteName.notificationScreen),
           ),
           AppIconButton(
             const AppIcon(Icon(CupertinoIcons.settings)),
-            onPressed: () {
-              context.pushNamed(AppRouteName.settingScreen);
-            },
+            onPressed: () => context.pushNamed(AppRouteName.settingScreen),
           ),
         ],
       ),
       body: Column(
         children: [
-          //MoodList(),
-          _buildMoodList(),
+          const _MoodListView(),
           SizedBox(height: AppSpacing.s16.h),
-          Expanded(child: _buildPostList()),
+          Expanded(child: _PostListView(scrollController: _scrollController)),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.pushNamed(AppRouteName.createPostScreen);
-        },
+        onPressed: () => context.pushNamed(AppRouteName.createPostScreen),
         shape: const CircleBorder(),
         backgroundColor: context.appColors.contentBrand,
         child: Icon(CupertinoIcons.add, color: context.appColors.white),
       ),
     );
   }
+}
 
-  Widget _buildPostList() {
-    return BlocBuilder<HomeCubit, HomeState>(
+// ---------------------------------------------------------------------------
+// Private widgets
+// ---------------------------------------------------------------------------
+
+/// Horizontal scrollable row of mood-filter pills.
+///
+/// Reads [HomeBloc] from context and dispatches [SelectMoodEvent] on tap.
+class _MoodListView extends StatelessWidget {
+  const _MoodListView();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<HomeBloc, HomeState, MoodType>(
+      selector: (state) => state.mood,
+      builder: (context, selectedMood) {
+        return SizedBox(
+          height: AppSpacing.s24.h,
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemCount: MoodType.values.length,
+            itemBuilder: (context, index) {
+              final moodType = MoodType.values[index];
+              return MoodPillItem(
+                mood: moodType.name,
+                isSelected: moodType == selectedMood,
+                onTap: () => context.read<HomeBloc>().add(SelectMoodEvent(moodType)),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Paginated list of [PostCard]s driven by [HomeBloc].
+///
+/// Shows a loading indicator at the bottom while fetching the next page,
+/// and an empty-state message when no posts are available.
+class _PostListView extends StatelessWidget {
+  final ScrollController scrollController;
+
+  const _PostListView({required this.scrollController});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state.posts.isEmpty && state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
 
         if (state.posts.isEmpty) {
-          return Center(child: Text(context.l10n.home_no_posts_available));
+          return Center(
+            child: AppText.bodyLarge(
+              textAlign: TextAlign.center,
+              'No posts found. Try selecting a different mood filter!',
+              color: context.appColors.contentError,
+            ),
+          );
         }
 
         return ListView.separated(
-          controller: _scrollController,
+          controller: scrollController,
           itemCount: state.hasReachedMax ? state.posts.length : state.posts.length + 1,
-          separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s16.h),
+          separatorBuilder: (_, _) => SizedBox(height: AppSpacing.s16.h),
           itemBuilder: (context, index) {
             if (index >= state.posts.length) {
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(AppSpacing.s16),
-                  child: CircularProgressIndicator(),
-                ),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
-            final post = state.posts[index];
             return PostCard(
-              post: post,
-              onTap: () {
-                context.pushNamed(AppRouteName.postDetailsScreen);
-              },
+              post: state.posts[index],
+              onTap: () => context.pushNamed(AppRouteName.postDetailsScreen, extra: state.posts[index].id),
             );
           },
         );
       },
-    );
-  }
-
-  Widget _buildMoodList() {
-    return SizedBox(
-      height: AppSpacing.s24.h,
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: MoodType.values.length,
-        itemBuilder: (context, index) {
-          final moodType = MoodType.values[index];
-          return MoodPillItem(
-            mood: moodType.name,
-            isSelected: moodType.name.toUpperCase() == selectedMood, // Replace with your selection logic
-            onTap: () {
-              setState(() {
-                if (selectedMood == moodType.name.toUpperCase()) {
-                  return;
-                }
-                selectedMood = moodType.name.toUpperCase(); // Update selected mood
-              });
-            },
-          );
-        },
-      ),
     );
   }
 }

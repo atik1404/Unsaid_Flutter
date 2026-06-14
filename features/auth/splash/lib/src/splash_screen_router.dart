@@ -1,4 +1,6 @@
+import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:splash/src/splash_screen.dart';
@@ -11,11 +13,15 @@ final class SplashScreenRouter implements BaseRouter {
       GoRoute(
         path: '/',
         name: AppRouteName.splash,
-        pageBuilder: (_, state) => buildPageWithTransition(
+        pageBuilder: (context, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => SplashCubit(),
-            child: const SplashScreen(),
+            create: (_) => SplashCubit(
+              fetchProfileUseCase: GetIt.I.get<FetchProfileUseCase>(),
+            ),
+            child: SplashScreen(
+              navigateToNextScreen: (redirect) => context.goNamed(redirect),
+            ),
           ),
         ),
         routes: children,

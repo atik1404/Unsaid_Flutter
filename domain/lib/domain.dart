@@ -2,6 +2,7 @@
 export 'src/params/login_params.dart';
 export 'src/params/user_params.dart';
 export 'src/params/verify_otp_params.dart';
+export 'src/params/fetch_posts_params.dart';
 
 //repostiory
 export 'src/repository/auth_repository.dart';
@@ -15,5 +16,9 @@ export 'src/usecase/auth/send_otp_use_case.dart';
 export 'src/usecase/auth/verify_otp_use_case.dart';
 
 export 'src/usecase/common/fetch_user_existence_use_case.dart';
+
+export 'src/usecase/post/fetch_posts_use_case.dart';
+export 'src/usecase/post/fetch_my_posts_use_case.dart';
+export 'src/usecase/post/fetch_post_details_use_case.dart';
 
 export 'src/di/domain_di.dart';

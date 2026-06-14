@@ -8,7 +8,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pref_storage/pref_storage.dart';
 
 Future<void> bootstrap(AppEnvironment environment) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +45,7 @@ Future<void> bootstrap(AppEnvironment environment) async {
   // 5. Storage lifecycle handling - because keychain persists after app uninstall
   // ═══════════════════════════════════════════
 
-  await getIt<StorageRepository>().onAppStart();
+  //await getIt<AppPrefStorage>().onAppStart();
 
   // ═══════════════════════════════════════════
   // Run App

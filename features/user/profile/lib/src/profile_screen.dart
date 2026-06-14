@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
-import 'package:profile/src/state/profile_cubit.dart';
+import 'package:profile/src/state/profile_bloc.dart';
 import 'package:profile/src/state/profile_state.dart';
 import 'package:profile/src/widgets/profile_header.dart';
 import 'package:profile/src/widgets/profile_post_list.dart';
@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileCubit>().loadProfile();
+    context.read<ProfileBloc>().fetchProfile();
   }
 
   @override
@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         foregroundColor: context.appColors.brand,
         elevation: 0,
       ),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
+      body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state.isLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -51,11 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 // Personal information
                 ProfileHeader(
-                  name: state.name,
-                  email: state.email,
-                  phone: state.phone,
-                  bio: state.bio,
-                  avatarUrl: state.avatarUrl,
+                  profile: state.profile,
                 ),
                 SizedBox(height: AppSpacing.s24.h),
 

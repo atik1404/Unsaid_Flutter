@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
+import 'package:pref_storage/pref_storage.dart';
 import 'package:setting/src/widgets/language_pill_toggle.dart';
 
 /// A vertical list of menu items on the Settings screen.
@@ -220,9 +222,7 @@ class _SettingMenuListState extends State<SettingMenuList> {
             label: context.l10n.setting_menu_sign_out,
             subTitle: context.l10n.setting_menu_sign_out_subtitle,
             icon: CupertinoIcons.arrow_right_square,
-            onTap: () {
-              context.goNamed(AppRouteName.loginScreen);
-            },
+            onTap: () => _onLogoutTap(context),
           ),
         ],
       ),
@@ -245,7 +245,11 @@ class _SettingMenuListState extends State<SettingMenuList> {
         return ListTile(
           leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
           title: AppText.bodyMedium(context.l10n.setting_menu_language, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-          subtitle: AppText.captionSmall(context.l10n.setting_menu_language_subtitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+          subtitle: AppText.captionSmall(
+            context.l10n.setting_menu_language_subtitle,
+            color: context.appColors.contentSecondary,
+            textWeight: AppTextWeight.light,
+          ),
           trailing: LanguagePillToggle(
             isEnglish: locale.languageCode == AppConstants.en,
             onToggle: (isEnglish) {
@@ -281,5 +285,13 @@ class _SettingMenuListState extends State<SettingMenuList> {
 
   Widget _buildTitle({required String title, required Color textColor}) {
     return AppText.captionMedium(title, color: textColor, textWeight: AppTextWeight.light);
+  }
+
+  void _onLogoutTap(BuildContext context) async {
+    await GetIt.I<AppPrefStorage>().clear();
+    // Flips the router's auth guard; keeps an explicit go so the
+    // user lands on a clean login location without a redirect param.
+    authStateNotifier.setLoggedIn(isLoggedIn: false);
+    if (context.mounted) context.goNamed(AppRouteName.loginScreen);
   }
 }
