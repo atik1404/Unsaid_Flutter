@@ -17,5 +17,5 @@ final class PrefKey {
   static const String userId = 'user.userId';
   static const String dateOfBirth = 'user.dateOfBirth';
 
-  static const List<String> securedKey = [accessToken, refreshToken, loginStatus];
+  static const List<String> securedKey = [accessToken, refreshToken];
 }

@@ -24,8 +24,12 @@ final class AuthRepoImpl implements AuthRepository {
       parser: (data) => ProfileDto.fromJson(data).toEntity(),
     );
     if (result is SuccessResult<ProfileEntity, Failure>) {
-      await _prefStorage.write(PrefKey.anonymousName, result.data.name);
-      await _prefStorage.write(PrefKey.phoneNumber, result.data.email);
+      await _prefStorage.write(PrefKey.anonymousName, result.data.identity.fullName);
+      await _prefStorage.write(PrefKey.email, result.data.identity.email);
+      await _prefStorage.write(PrefKey.phoneNumber, result.data.identity.phoneE164);
+      await _prefStorage.write(PrefKey.profilePicture, result.data.avatarSeed);
+      await _prefStorage.write(PrefKey.userId, result.data.id);
+      await _prefStorage.write(PrefKey.dateOfBirth, result.data.identity.dateOfBirth.toString());
     }
     return result;
   }
@@ -42,6 +46,7 @@ final class AuthRepoImpl implements AuthRepository {
       await Future.wait([
         _prefStorage.write(PrefKey.accessToken, result.data.accessToken),
         _prefStorage.write(PrefKey.refreshToken, result.data.refreshToken),
+        _prefStorage.write(PrefKey.loginStatus, true),
       ]);
     }
 

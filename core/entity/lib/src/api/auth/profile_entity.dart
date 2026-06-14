@@ -22,12 +22,6 @@ final class ProfileEntity {
     required this.identity,
     required this.postCount,
   });
-
-  /// Used by [AuthRepoImpl] to persist the display name locally.
-  String get name => identity.fullName;
-
-  /// Used by [AuthRepoImpl] to persist the email locally.
-  String get email => identity.email;
 }
 
 final class UserIdentityEntity {

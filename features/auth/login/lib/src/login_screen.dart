@@ -17,9 +17,9 @@ import 'package:ui/ui.dart';
 /// Provides a fresh [LoginBloc] instance and delegates rendering to
 /// [_LoginView] so the BLoC is always available in the widget subtree.
 class LoginScreen extends StatefulWidget {
-  final VoidCallback? onLoginSuccess;
-  final VoidCallback? onSignUpPressed;
-  final VoidCallback? onForgotPasswordPressed;
+  final VoidCallback onLoginSuccess;
+  final VoidCallback onSignUpPressed;
+  final VoidCallback onForgotPasswordPressed;
 
   const LoginScreen({super.key, required this.onLoginSuccess, required this.onSignUpPressed, required this.onForgotPasswordPressed});
 
@@ -45,6 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) => _onStateChanged(state),
       child: AppScaffold(
         enableGradientBackground: true,
+        appBar: AppTopBar(
+          // Transparent so the page gradient shows through behind the bar.
+          backgroundColor: const Color(0x00000000),
+          foregroundColor: context.appColors.white,
+          elevation: 0,
+          onBackPressed: () => _onBackPressed(context),
+        ),
         body: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
@@ -61,9 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     const _LoginHeader(),
                     verticalSpacing,
 
-                    _LoginView(_phoneController, _passwordController),
+                    _LoginView(_phoneController, _passwordController, onForgotPasswordPressed: widget.onForgotPasswordPressed),
                     verticalSpacing,
-                    _CreateAccountPrompt(onSignUpPressed: () => {}),
+                    _CreateAccountPrompt(onSignUpPressed: widget.onSignUpPressed),
 
                     verticalSpacing,
                     _SocialLoginOptions(
@@ -80,10 +87,24 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  /// Lets the user leave login without authenticating.
+  ///
+  /// When login was reached from another screen (e.g. the auth guard pushed it
+  /// in front of the attempted destination) we simply pop back to it. When
+  /// login is the root of the stack (deep link / fresh launch) there is nothing
+  /// to pop, so we fall back to the public home screen.
+  void _onBackPressed(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.goNamed(AppRouteName.homeScreen);
+    }
+  }
+
   void _onStateChanged(LoginState state) {
     if (state.status == FormzSubmissionStatus.success) {
-      AppToast.toast(message: 'Login successful', toastType: ToastType.success);
-      widget.onLoginSuccess?.call();
+      //AppToast.toast(message: 'Login successful', toastType: ToastType.success);
+      widget.onLoginSuccess.call();
     } else if (state.status == FormzSubmissionStatus.failure) {
       final message = state.errorMessage ?? 'Something went wrong';
       AppToast.toast(message: message, toastType: ToastType.error);
@@ -101,8 +122,9 @@ class _LoginScreenState extends State<LoginScreen> {
 final class _LoginView extends StatelessWidget {
   final TextEditingController _phoneController;
   final TextEditingController _passwordController;
+  final VoidCallback onForgotPasswordPressed;
 
-  const _LoginView(this._phoneController, this._passwordController);
+  const _LoginView(this._phoneController, this._passwordController, {required this.onForgotPasswordPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +184,7 @@ final class _LoginView extends StatelessWidget {
         Align(
           child: AppTextButton(
             context.l10n.login_forgot_password,
-            onPressed: () => context.pushNamed(AppRouteName.forgotPasswordScreen),
+            onPressed: onForgotPasswordPressed,
             style: const AppTextButtonStyle(
               intent: AppButtonIntent.secondary(),
             ),

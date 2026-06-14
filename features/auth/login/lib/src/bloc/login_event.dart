@@ -25,6 +25,10 @@ final class LoginSubmitted extends LoginEvent {
   const LoginSubmitted();
 }
 
+final class FetchProfile extends LoginEvent {
+  const FetchProfile();
+}
+
 final class LoginTogglePasswordVisibility extends LoginEvent {
   const LoginTogglePasswordVisibility();
 }
