@@ -9,18 +9,20 @@ class DataDiModule {
   DataDiModule._();
 
   static const String _imageClientName = 'imageClient';
+  static const String _tokenRefreshClientName = 'tokenRefreshClient';
 
   static void init(GetIt getIt) {
-    final authStorage = getIt<AuthStorageRepository>();
-    final appStorage = getIt<StorageRepository>();
+    final prefStorage = getIt<AppPrefStorage>();
 
-    // API Dio — base URL for all JSON endpoints
+    final tokenRefreshDio = DioFactory.createTokenRefreshClient(prefStorage);
     getIt
-      ..registerSingleton<Dio>(DioFactory.create(authStorage, appStorage))
+      ..registerSingleton<Dio>(tokenRefreshDio, instanceName: _tokenRefreshClientName)
+      // API Dio — base URL for all JSON endpoints
+      ..registerSingleton<Dio>(DioFactory.create(prefStorage: prefStorage, tokenRefreshDio: tokenRefreshDio))
       ..registerSingleton<RestClient>(RestClient(getIt<Dio>()))
       // Image Dio — separate host/port for multipart image uploads
       ..registerSingleton<Dio>(
-        DioFactory.createImageClient(authStorage, appStorage),
+        DioFactory.createImageClient(prefStorage),
         instanceName: _imageClientName,
       )
       ..registerSingleton<RestClient>(
@@ -28,7 +30,7 @@ class DataDiModule {
         instanceName: _imageClientName,
       )
       ..registerLazySingleton<AuthRepository>(
-        () => AuthRepoImpl(getIt<RestClient>(), authStorage, getIt<UserStorageRepository>()),
+        () => AuthRepoImpl(getIt<RestClient>(), prefStorage),
       )
       ..registerLazySingleton<CommonRepository>(
         () => CommonRepoImpl(getIt<RestClient>()),

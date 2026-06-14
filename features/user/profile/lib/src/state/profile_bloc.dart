@@ -19,13 +19,14 @@ class ProfileBloc extends Cubit<ProfileState> {
        super(const ProfileState());
 
   /// Fetches the profile owner's data and their posts.
-  void loadProfile() async {
+  void fetchProfile() async {
     emit(state.copyWith(isLoading: true));
 
     final result = await _fetchProfileUseCase();
 
     result.when(
       success: (data) {
+        fetchMyPosts();
         emit(
           state.copyWith(
             profile: data,

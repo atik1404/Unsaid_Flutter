@@ -10,7 +10,7 @@ import 'package:pref_storage/pref_storage.dart';
 ///
 /// Provides [OnboardingCubit] via [BlocProvider] so the cubit's lifetime is
 /// scoped to this route — it is created on entry and disposed on exit.
-/// [AuthStorageRepository] is resolved from the service locator so this router
+/// [AppPrefStorage] is resolved from the service locator so this router
 /// has no direct dependency on the DI setup.
 final class OnboardingScreenRouter implements BaseRouter {
   /// Returns the [GoRoute] for the onboarding screen.
@@ -26,7 +26,7 @@ final class OnboardingScreenRouter implements BaseRouter {
         pageBuilder: (context, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => OnboardingCubit(repository: GetIt.I.get<AuthStorageRepository>()),
+            create: (_) => OnboardingCubit(prefStorage: GetIt.I.get<AppPrefStorage>()),
             child: OnboardingScreen(
               onNavigateToHomeScreen: () {
                 context.goNamed(AppRouteName.homeScreen);

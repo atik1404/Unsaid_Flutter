@@ -20,3 +20,9 @@ extension AuthOptions on Options {
     );
   }
 }
+
+abstract final class DioExtraKeys {
+  static const requiresAuth = 'requiresAuth';
+  static const isRetry = '_isRetry';
+  static const skipRetry = '_skipRetry';
+}

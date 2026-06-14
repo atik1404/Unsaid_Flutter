@@ -41,7 +41,7 @@ class ProfileHeader extends StatelessWidget {
 
           // Name
           AppText.titleMedium(
-            profile?.name ?? '',
+            profile?.identity.fullName ?? '',
             color: context.appColors.contentBrand,
             textWeight: AppTextWeight.bold,
           ),

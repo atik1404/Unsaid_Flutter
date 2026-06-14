@@ -10,15 +10,15 @@ import 'package:pref_storage/pref_storage.dart';
 ///   on subsequent launches.
 /// - Emit the navigation signal that tells the screen to go to login.
 class OnboardingCubit extends Cubit<OnboardingState> {
-  final AuthStorageRepository _repository;
+  final AppPrefStorage _prefStorage;
 
   /// Creates an [OnboardingCubit].
   ///
-  /// [repository] is used to persist the first-launch flag when the user
+  /// [prefStorage] is used to persist the first-launch flag when the user
   /// completes onboarding.
   OnboardingCubit({
-    required AuthStorageRepository repository,
-  }) : _repository = repository,
+    required AppPrefStorage prefStorage,
+  }) : _prefStorage = prefStorage,
        super(const OnboardingState());
 
   /// Called whenever the [PageView] page changes.
@@ -38,10 +38,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   /// Marks onboarding as completed and requests navigation to the login screen.
   ///
-  /// Persists [AuthStorageRepository.saveFirstLaunch] so the splash screen
+  /// Persists [AppPrefStorage.write] so the splash screen
   /// can redirect directly to login on subsequent launches.
   void navigateToHomeScreen() {
-    _repository.saveFirstLaunch(true);
+    _prefStorage.write(PrefKey.isFirstLaunch, true);
     emit(state.copyWith(shouldNavigateToNextScreen: true));
   }
 }
