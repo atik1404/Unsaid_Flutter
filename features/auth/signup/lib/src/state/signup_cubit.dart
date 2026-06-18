@@ -20,6 +20,14 @@ class SignupCubit extends Cubit<SignupState> {
     emit(state.copyWith(password: password));
   }
 
+  /// Toggles the obscured/visible state of the password field.
+  ///
+  /// Kept in state (rather than local widget state) so the UI stays a pure
+  /// function of the cubit, mirroring the login feature.
+  void togglePasswordVisibility() {
+    emit(state.copyWith(showPassword: !state.showPassword));
+  }
+
   void submit() async {
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 

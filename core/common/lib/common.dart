@@ -13,3 +13,5 @@ export 'src/extensions/date_time_extension.dart';
 export 'src/enums/validation_error.dart';
 export 'src/validators/password_input_validator.dart';
 export 'src/validators/phone_input_validator.dart';
+export 'src/validators/email_input_validator.dart';
+export 'src/validators/name_input_validator.dart';
