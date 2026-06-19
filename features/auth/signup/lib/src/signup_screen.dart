@@ -102,7 +102,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final bloc = context.read<SignupBloc>();
     //await widget.onVerifyPhone(bloc.state.phone.value);
     if (!mounted) return;
-    bloc.add(SignupSubmitted());
+    bloc.add(CheckUserExistence());
   }
 }
 
@@ -251,7 +251,6 @@ class _SignupHeader extends StatelessWidget {
 }
 
 // ── Inputs ────────────────────────────────────────────────────────────────
-
 class _NameInput extends StatelessWidget {
   final String name;
   final String? errorText;
@@ -336,8 +335,6 @@ class _PasswordInput extends StatelessWidget {
     );
   }
 }
-
-// ── Actions & footer ────────────────────────────────────────────────────────
 
 /// Primary call-to-action. Disabled while a submission is in progress so the
 /// user can't trigger duplicate requests.

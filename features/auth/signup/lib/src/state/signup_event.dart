@@ -26,10 +26,10 @@ final class PhoneUpdate extends SignupEvent {
   final String phone;
 }
 
-final class SignupSubmitted extends SignupEvent {
-  const SignupSubmitted();
-}
-
 final class TogglePasswordVisibility extends SignupEvent {
   const TogglePasswordVisibility();
+}
+
+final class CheckUserExistence extends SignupEvent {
+  const CheckUserExistence();
 }

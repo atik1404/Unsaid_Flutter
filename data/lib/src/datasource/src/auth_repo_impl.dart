@@ -24,9 +24,11 @@ final class AuthRepoImpl implements AuthRepository {
       parser: (data) => ProfileDto.fromJson(data).toEntity(),
     );
     if (result is SuccessResult<ProfileEntity, Failure>) {
-      await _prefStorage.write(PrefKey.anonymousName, result.data.identity.fullName);
-      await _prefStorage.write(PrefKey.email, result.data.identity.email);
-      await _prefStorage.write(PrefKey.phoneNumber, result.data.identity.phoneE164);
+      final identity = result.data.identity;
+
+      await _prefStorage.write(PrefKey.anonymousName, identity.fullName);
+      await _prefStorage.write(PrefKey.email, identity.email);
+      await _prefStorage.write(PrefKey.phoneNumber, identity.phoneE164);
       await _prefStorage.write(PrefKey.profilePicture, result.data.avatarSeed);
       await _prefStorage.write(PrefKey.userId, result.data.id);
       await _prefStorage.write(PrefKey.dateOfBirth, result.data.identity.dateOfBirth.toString());
@@ -72,6 +74,17 @@ final class AuthRepoImpl implements AuthRepository {
       parser: (data) => VerifyOtpDto.fromJson(data).toEntity(),
     );
 
+    return result;
+  }
+
+  @override
+  Future<Result<CommonApiEntity, Failure>> checkUserExistence(UserParams params) async {
+    final result = await _client.post(
+      '/auth/check-user',
+      data: params.toJson(),
+      options: AuthOptions.authenticated(),
+      parser: (data) => CommonDto.fromJson(data).toEntity(),
+    );
     return result;
   }
 }

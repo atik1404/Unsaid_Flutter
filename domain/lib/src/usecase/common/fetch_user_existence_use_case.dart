@@ -4,13 +4,13 @@ import 'package:domain/src/usecase/base_usecase.dart';
 import 'package:entity/entity.dart';
 
 final class FetchUserExistenceUseCase extends UseCase<CommonApiEntity, UserParams> {
-  final CommonRepository _commonRepository;
+  final AuthRepository _repository;
 
-  FetchUserExistenceUseCase(this._commonRepository);
+  FetchUserExistenceUseCase(this._repository);
 
   @override
   Future<Result<CommonApiEntity, Failure>> call(UserParams params) async {
-    final result = await _commonRepository.checkUserExistence(params);
+    final result = await _repository.checkUserExistence(params);
     return result;
   }
 }

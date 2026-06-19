@@ -10,4 +10,6 @@ abstract class AuthRepository {
   Future<Result<SendOtpEntity, Failure>> sendOtp(String phoneNumber);
 
   Future<Result<String, Failure>> verifyOtp(VerifyOtpParams params);
+
+  Future<Result<CommonApiEntity, Failure>> checkUserExistence(UserParams params);
 }

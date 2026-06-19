@@ -1,15 +1,18 @@
 import 'package:common/common.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup/src/state/signup_event.dart';
 import 'package:signup/src/state/signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
-  SignupBloc() : super(const SignupState()) {
+  final FetchUserExistenceUseCase _fetchUserExistenceUseCase;
+
+  SignupBloc({required FetchUserExistenceUseCase fetchUserExistenceUseCase}) : _fetchUserExistenceUseCase = fetchUserExistenceUseCase, super(const SignupState()) {
     on<NameUpdate>(_onNameUpdate);
     on<EmailUpdate>(_onEmailUpdate);
     on<PasswordUpdate>(_onPasswordUpdate);
     on<PhoneUpdate>(_onPhoneUpdate);
-    on<SignupSubmitted>(_onSignupSubmitted);
+    on<CheckUserExistence>(_onCheckUserExistence);
     on<TogglePasswordVisibility>(_onTogglePasswordVisibility);
   }
 
@@ -33,7 +36,37 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     emit(state.copyWith(showPassword: !state.showPassword));
   }
 
-  void _onSignupSubmitted(SignupSubmitted event, Emitter<SignupState> emit) async {
+  void _onCheckUserExistence(CheckUserExistence event, Emitter<SignupState> emit) async {
+    if (!state.isValid) {
+      emit(state.copyWith(showValidationError: true, errorMessage: null));
+      return;
+    }
+
+    emit(state.copyWith(isSubmitting: true, errorMessage: null));
+
+    final result = await _fetchUserExistenceUseCase.call(UserParams(identifier: state.phone.value));
+
+    result.when(
+      success: (data) {
+        final isExist = data.exists;
+
+        if (isExist) {
+          emit(state.copyWith(isSubmitting: false, errorMessage: 'Phone number already exist'));
+        } else {
+          _onSignupSubmitted(emit);
+        }
+      },
+      failure: (error) {
+        final message = switch (error.message) {
+          LocaleKeyMessage(:final key) => key.name,
+          RawStringMessage(:final value) => value,
+        };
+        emit(state.copyWith(isSubmitting: false, errorMessage: message));
+      },
+    );
+  }
+
+  void _onSignupSubmitted(Emitter<SignupState> emit) async {
     if (!state.isValid) {
       emit(state.copyWith(showValidationError: true, errorMessage: null));
       return;

@@ -1,5 +1,7 @@
+import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:common/common.dart';
 import 'package:signup/src/signup_screen.dart';
@@ -18,7 +20,7 @@ final class SignupScreenRouter implements BaseRouter {
           // Navigation is owned by the router and injected into the screen,
           // keeping the widget free of routing concerns and easy to test.
           child: BlocProvider(
-            create: (context) => SignupBloc(),
+            create: (context) => SignupBloc(fetchUserExistenceUseCase: GetIt.I.get<FetchUserExistenceUseCase>()),
             child: SignupScreen(
               onSignUpSuccess: () => context.goNamed(AppRouteName.homeScreen),
               onSignInPressed: () => context.pop(),
