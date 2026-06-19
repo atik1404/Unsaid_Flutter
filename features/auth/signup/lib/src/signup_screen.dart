@@ -1,15 +1,17 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup/src/state/signup_cubit.dart';
+import 'package:signup/src/state/signup_bloc.dart';
+import 'package:signup/src/state/signup_event.dart';
 import 'package:signup/src/state/signup_state.dart';
 import 'package:ui/ui.dart';
 
 /// Entry point for the signup feature.
 ///
-/// Owns the page-level wiring: text controllers, the [SignupCubit] listener and
+/// Owns the page-level wiring: text controllers, the [SignupBloc] listener and
 /// the orchestration between phone verification and account creation. All
 /// navigation is delegated to callbacks supplied by the router so this widget
 /// stays decoupled from the routing layer and remains easy to test.
@@ -36,22 +38,6 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  // Controllers are owned by the smart widget so their lifecycle (and disposal)
-  // is managed in a single place.
-  final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _phoneController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
@@ -59,7 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     return AppScaffold(
       enableGradientBackground: true,
-      body: BlocListener<SignupCubit, SignupState>(
+      body: BlocListener<SignupBloc, SignupState>(
         // Only react to the terminal outcomes (success/error), not every keystroke.
         listenWhen: (prev, curr) => prev.isSuccess != curr.isSuccess || prev.errorMessage != curr.errorMessage,
         listener: _onStateChanged,
@@ -76,10 +62,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    gap,
+                    gap,
                     const _SignupHeader(),
                     gap,
                     gap,
-                    _SignupForm(nameController: _nameController, phoneController: _phoneController, emailController: _emailController, passwordController: _passwordController),
+                    _SignupForm(),
                     _SignupButton(onPressed: _onSignUpPressed),
                     gap,
                     _SignInPrompt(onSignInPressed: widget.onSignInPressed),
@@ -111,29 +99,24 @@ class _SignupScreenState extends State<SignupScreen> {
   /// the screen is still mounted, avoiding a "setState after dispose" if the
   /// user navigated away.
   Future<void> _onSignUpPressed() async {
-    final cubit = context.read<SignupCubit>();
-    await widget.onVerifyPhone(cubit.state.phone.value);
+    final bloc = context.read<SignupBloc>();
+    //await widget.onVerifyPhone(bloc.state.phone.value);
     if (!mounted) return;
-    cubit.submit();
+    bloc.add(SignupSubmitted());
   }
 }
 
 // ── Form ──────────────────────────────────────────────────────────────────
 
 /// Groups the labelled input fields. Stateless: every field reports changes
-/// straight to the [SignupCubit] and reads its visibility flag from state.
+/// straight to the [SignupBloc] and reads its visibility flag from state.
 class _SignupForm extends StatelessWidget {
-  final TextEditingController nameController;
-  final TextEditingController phoneController;
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
-
-  const _SignupForm({required this.nameController, required this.phoneController, required this.emailController, required this.passwordController});
+  const _SignupForm();
 
   @override
   Widget build(BuildContext context) {
     final gap = SizedBox(height: AppSpacing.s12.h);
-    final cubit = context.read<SignupCubit>();
+    final bloc = context.read<SignupBloc>();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -141,32 +124,93 @@ class _SignupForm extends StatelessWidget {
       children: [
         // Name
         _FieldLabel(context.l10n.signup_label_name),
-        _NameInput(controller: nameController, onChanged: cubit.updateName),
+        BlocBuilder<SignupBloc, SignupState>(
+          builder: (context, state) {
+            return _NameInput(
+              name: state.name.value,
+              onChanged: (value) => bloc.add(NameUpdate(value)),
+              errorText: state.showValidationError && state.name.isNotValid ? _nameValidationErrorText(context, state.name.error) : null,
+            );
+          },
+        ),
         gap,
 
         // Phone
         _FieldLabel(context.l10n.signup_label_phone),
-        _PhoneInput(controller: phoneController, onChanged: cubit.updatePhone),
+        BlocBuilder<SignupBloc, SignupState>(
+          builder: (context, state) {
+            return _PhoneInput(
+              phone: state.phone.value,
+              onChanged: (value) => bloc.add(PhoneUpdate(value)),
+              errorText: state.showValidationError && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
+            );
+          },
+        ),
         gap,
 
         // Email
         _FieldLabel(context.l10n.signup_label_email),
-        _EmailInput(controller: emailController, onChanged: cubit.updateEmail),
+        BlocBuilder<SignupBloc, SignupState>(
+          builder: (context, state) {
+            return _EmailInput(
+              email: state.email.value,
+              onChanged: (value) => bloc.add(EmailUpdate(value)),
+              errorText: state.showValidationError && state.email.isNotValid ? _emailErrorText(context, state.email.error) : null,
+            );
+          },
+        ),
         gap,
 
         // Password
         _FieldLabel(context.l10n.signup_label_password),
-        BlocBuilder<SignupCubit, SignupState>(
-          // Rebuild only when the visibility toggle changes.
-          buildWhen: (prev, curr) => prev.showPassword != curr.showPassword,
+        BlocBuilder<SignupBloc, SignupState>(
           builder: (context, state) {
-            return _PasswordInput(controller: passwordController, showPassword: state.showPassword, onChanged: cubit.updatePassword, onToggleVisibility: cubit.togglePasswordVisibility);
+            return _PasswordInput(
+              password: state.password.value,
+              errorText: state.showValidationError && state.password.isNotValid ? _passwordErrorText(context, state.password.error) : null,
+              showPassword: state.showPassword,
+              onChanged: (value) => bloc.add(PasswordUpdate(value)),
+              onToggleVisibility: () => bloc.add(TogglePasswordVisibility()),
+            );
           },
         ),
         gap,
         gap,
       ],
     );
+  }
+
+  String _nameValidationErrorText(BuildContext context, ValidationError? error) {
+    return switch (error) {
+      ValidationError.empty => 'The name field is required',
+      ValidationError.invalid => 'The name is invalid',
+      ValidationError.tooShort => 'The name must be at least 3 characters long',
+      ValidationError.tooLong => 'The name must be less than 32 characters long',
+      _ => '',
+    };
+  }
+
+  String _phoneErrorText(BuildContext context, ValidationError? error) {
+    return switch (error) {
+      ValidationError.empty => context.l10n.validation_phone_required,
+      ValidationError.invalid => context.l10n.validation_phone_invalid,
+      _ => '',
+    };
+  }
+
+  String _passwordErrorText(BuildContext context, ValidationError? error) {
+    return switch (error) {
+      ValidationError.empty => context.l10n.validation_password_required,
+      ValidationError.tooShort => context.l10n.validation_password_too_short,
+      _ => '',
+    };
+  }
+
+  String _emailErrorText(BuildContext context, ValidationError? error) {
+    return switch (error) {
+      ValidationError.invalid => 'The email is invalid',
+      _ => '',
+    };
   }
 }
 
@@ -209,10 +253,11 @@ class _SignupHeader extends StatelessWidget {
 // ── Inputs ────────────────────────────────────────────────────────────────
 
 class _NameInput extends StatelessWidget {
-  final TextEditingController controller;
+  final String name;
+  final String? errorText;
   final ValueChanged<String> onChanged;
 
-  const _NameInput({required this.controller, required this.onChanged});
+  const _NameInput({required this.name, required this.onChanged, this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -221,17 +266,18 @@ class _NameInput extends StatelessWidget {
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
       variant: AppInputFieldVariant.filledOpt,
-      controller: controller,
+      errorText: errorText,
       onChanged: onChanged,
     );
   }
 }
 
 class _PhoneInput extends StatelessWidget {
-  final TextEditingController controller;
+  final String phone;
+  final String? errorText;
   final ValueChanged<String> onChanged;
 
-  const _PhoneInput({required this.controller, required this.onChanged});
+  const _PhoneInput({required this.phone, required this.onChanged, this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -241,17 +287,18 @@ class _PhoneInput extends StatelessWidget {
       textInputAction: TextInputAction.next,
       variant: AppInputFieldVariant.filledOpt,
       maxLength: 11,
-      controller: controller,
+      errorText: errorText,
       onChanged: onChanged,
     );
   }
 }
 
 class _EmailInput extends StatelessWidget {
-  final TextEditingController controller;
+  final String email;
+  final String? errorText;
   final ValueChanged<String> onChanged;
 
-  const _EmailInput({required this.controller, required this.onChanged});
+  const _EmailInput({required this.email, required this.onChanged, this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -260,19 +307,20 @@ class _EmailInput extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       variant: AppInputFieldVariant.filledOpt,
-      controller: controller,
+      errorText: errorText,
       onChanged: onChanged,
     );
   }
 }
 
 class _PasswordInput extends StatelessWidget {
-  final TextEditingController controller;
+  final String password;
+  final String? errorText;
   final bool showPassword;
   final ValueChanged<String> onChanged;
   final VoidCallback onToggleVisibility;
 
-  const _PasswordInput({required this.controller, required this.showPassword, required this.onChanged, required this.onToggleVisibility});
+  const _PasswordInput({required this.password, required this.showPassword, required this.onChanged, required this.onToggleVisibility, this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -281,8 +329,8 @@ class _PasswordInput extends StatelessWidget {
       obscureText: !showPassword,
       textInputAction: TextInputAction.done,
       variant: AppInputFieldVariant.filledOpt,
-      maxLength: 20,
-      controller: controller,
+      maxLength: 25,
+      errorText: errorText,
       onChanged: onChanged,
       suffixIcon: AppIcon(GestureDetector(onTap: onToggleVisibility, child: Icon(showPassword ? CupertinoIcons.eye : CupertinoIcons.eye_slash))),
     );
@@ -300,7 +348,7 @@ class _SignupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
+    return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (prev, curr) => prev.isSubmitting != curr.isSubmitting,
       builder: (context, state) {
         return AppFilledButton.text(context.l10n.signup_button, isLoading: state.isSubmitting, onPressed: state.isSubmitting ? null : onPressed);
