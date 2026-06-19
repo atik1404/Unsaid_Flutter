@@ -20,7 +20,7 @@ final class SignupScreenRouter implements BaseRouter {
           // Navigation is owned by the router and injected into the screen,
           // keeping the widget free of routing concerns and easy to test.
           child: BlocProvider(
-            create: (context) => SignupBloc(fetchUserExistenceUseCase: GetIt.I.get<FetchUserExistenceUseCase>()),
+            create: (context) => SignupBloc(signupUsecase: GetIt.I.get<SignupUseCase>()),
             child: SignupScreen(
               onSignUpSuccess: () => context.goNamed(AppRouteName.homeScreen),
               onSignInPressed: () => context.pop(),

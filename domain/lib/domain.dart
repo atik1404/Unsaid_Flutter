@@ -1,7 +1,9 @@
 //params
-export 'src/params/login_params.dart';
-export 'src/params/user_params.dart';
-export 'src/params/verify_otp_params.dart';
+export 'src/params/auth/login_params.dart';
+export 'src/params/auth/user_params.dart';
+export 'src/params/auth/verify_otp_params.dart';
+export 'src/params/auth/signup_params.dart';
+
 export 'src/params/fetch_posts_params.dart';
 
 //repostiory
@@ -11,6 +13,7 @@ export 'src/repository/post_repository.dart';
 
 //usecase
 export 'src/usecase/auth/login_use_case.dart';
+export 'src/usecase/auth/signup_use_case.dart';
 export 'src/usecase/auth/fetch_profile_use_case.dart';
 export 'src/usecase/auth/send_otp_use_case.dart';
 export 'src/usecase/auth/verify_otp_use_case.dart';

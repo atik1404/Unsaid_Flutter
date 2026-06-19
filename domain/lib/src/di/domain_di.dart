@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/auth/signup_use_case.dart';
 import 'package:get_it/get_it.dart';
 
 final class DomainDi {
@@ -7,6 +8,7 @@ final class DomainDi {
   static void init(GetIt getIt) {
     getIt
       ..registerLazySingleton<LoginUseCase>(() => LoginUseCase(getIt<AuthRepository>()))
+      ..registerLazySingleton<SignupUseCase>(() => SignupUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<SendOtpUseCase>(() => SendOtpUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<VerifyOtpUseCase>(() => VerifyOtpUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<FetchProfileUseCase>(() => FetchProfileUseCase(getIt<AuthRepository>()))

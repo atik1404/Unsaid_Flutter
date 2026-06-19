@@ -60,7 +60,7 @@ final class DioFactory {
     return dio;
   }
 
-  static Dio createTokenRefreshClient(AppPrefStorage prefStorage) {
+  static Dio createTokenRefreshClient() {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.I.baseUrl,

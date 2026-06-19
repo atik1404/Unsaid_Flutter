@@ -12,8 +12,6 @@ abstract class SignupState with _$SignupState {
     @Default(NameInputValidator.pure()) NameInputValidator name,
     @Default(EmailOtpInputValidator.pure()) EmailOtpInputValidator email,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus status,
-    @Default(false) bool isSubmitting,
-    @Default(false) bool isSuccess,
     @Default(false) bool showValidationError,
     @Default(false) bool showPassword,
     String? errorMessage,

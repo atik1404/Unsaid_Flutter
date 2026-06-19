@@ -1,18 +1,19 @@
 import 'package:common/common.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:signup/src/state/signup_event.dart';
 import 'package:signup/src/state/signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
-  final FetchUserExistenceUseCase _fetchUserExistenceUseCase;
+  final SignupUseCase _signupUseCase;
 
-  SignupBloc({required FetchUserExistenceUseCase fetchUserExistenceUseCase}) : _fetchUserExistenceUseCase = fetchUserExistenceUseCase, super(const SignupState()) {
+  SignupBloc({required SignupUseCase signupUsecase}) : _signupUseCase = signupUsecase, super(const SignupState()) {
     on<NameUpdate>(_onNameUpdate);
     on<EmailUpdate>(_onEmailUpdate);
     on<PasswordUpdate>(_onPasswordUpdate);
     on<PhoneUpdate>(_onPhoneUpdate);
-    on<CheckUserExistence>(_onCheckUserExistence);
+    on<SignupSubmitted>(_onSignupSubmitted);
     on<TogglePasswordVisibility>(_onTogglePasswordVisibility);
   }
 
@@ -36,53 +37,27 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     emit(state.copyWith(showPassword: !state.showPassword));
   }
 
-  void _onCheckUserExistence(CheckUserExistence event, Emitter<SignupState> emit) async {
+  void _onSignupSubmitted(SignupSubmitted event, Emitter<SignupState> emit) async {
     if (!state.isValid) {
       emit(state.copyWith(showValidationError: true, errorMessage: null));
       return;
     }
 
-    emit(state.copyWith(isSubmitting: true, errorMessage: null));
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress, errorMessage: null));
 
-    final result = await _fetchUserExistenceUseCase.call(UserParams(identifier: state.phone.value));
+    final result = await _signupUseCase.call(SignupParams(email: state.email.value, password: state.password.value, phone: state.phone.value, fullname: state.name.value));
 
     result.when(
       success: (data) {
-        final isExist = data.exists;
-
-        if (isExist) {
-          emit(state.copyWith(isSubmitting: false, errorMessage: 'Phone number already exist'));
-        } else {
-          _onSignupSubmitted(emit);
-        }
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
       },
-      failure: (error) {
-        final message = switch (error.message) {
+      failure: (failure) {
+        final message = switch (failure.message) {
           LocaleKeyMessage(:final key) => key.name,
           RawStringMessage(:final value) => value,
         };
-        emit(state.copyWith(isSubmitting: false, errorMessage: message));
+        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
       },
     );
-  }
-
-  void _onSignupSubmitted(Emitter<SignupState> emit) async {
-    if (!state.isValid) {
-      emit(state.copyWith(showValidationError: true, errorMessage: null));
-      return;
-    }
-
-    emit(state.copyWith(isSubmitting: true, errorMessage: null));
-
-    if (!state.isValid) {
-      emit(state.copyWith(isSubmitting: false, errorMessage: 'Please fill in all required fields.'));
-      return;
-    }
-
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Success simulation
-    emit(state.copyWith(isSubmitting: false, isSuccess: true));
   }
 }

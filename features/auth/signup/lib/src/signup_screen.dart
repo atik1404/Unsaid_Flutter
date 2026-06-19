@@ -2,6 +2,7 @@ import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:localization/localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup/src/state/signup_bloc.dart';
@@ -47,7 +48,7 @@ class _SignupScreenState extends State<SignupScreen> {
       enableGradientBackground: true,
       body: BlocListener<SignupBloc, SignupState>(
         // Only react to the terminal outcomes (success/error), not every keystroke.
-        listenWhen: (prev, curr) => prev.isSuccess != curr.isSuccess || prev.errorMessage != curr.errorMessage,
+        listenWhen: (prev, curr) => prev.status != curr.status || prev.errorMessage != curr.errorMessage,
         listener: _onStateChanged,
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -88,7 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void _onStateChanged(BuildContext context, SignupState state) {
     if (state.errorMessage != null) {
       AppToast.toast(message: state.errorMessage!, toastType: ToastType.error);
-    } else if (state.isSuccess) {
+    } else if (state.status == FormzSubmissionStatus.success) {
       widget.onSignUpSuccess();
     }
   }
@@ -102,7 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final bloc = context.read<SignupBloc>();
     //await widget.onVerifyPhone(bloc.state.phone.value);
     if (!mounted) return;
-    bloc.add(CheckUserExistence());
+    bloc.add(SignupSubmitted());
   }
 }
 
@@ -346,9 +347,8 @@ class _SignupButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
-      buildWhen: (prev, curr) => prev.isSubmitting != curr.isSubmitting,
       builder: (context, state) {
-        return AppFilledButton.text(context.l10n.signup_button, isLoading: state.isSubmitting, onPressed: state.isSubmitting ? null : onPressed);
+        return AppFilledButton.text(context.l10n.signup_button, isLoading: state.isLoading, onPressed: state.isLoading ? null : onPressed);
       },
     );
   }
