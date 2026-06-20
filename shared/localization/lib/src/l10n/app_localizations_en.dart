@@ -482,6 +482,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setting_menu_language_subtitle => 'Change app language';
 
   @override
+  String setting_menu_alias_current(String alias) {
+    return 'Currently: $alias';
+  }
+
+  @override
+  String get setting_menu_change_password_subtitle =>
+      'Update your account password';
+
+  @override
   String get profile_action_regenerate_avatar => 'Regenerate avatar';
 
   @override

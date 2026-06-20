@@ -610,6 +610,19 @@
     "@setting_menu_language": {
         "description": "Menu item label for the language selector"
     },
+    "setting_menu_alias_current": "বর্তমানে: {alias}",
+    "@setting_menu_alias_current": {
+        "description": "Subtitle on the regenerate-alias menu item showing the user's current alias",
+        "placeholders": {
+            "alias": {
+                "type": "String"
+            }
+        }
+    },
+    "setting_menu_change_password_subtitle": "আপনার অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তন করুন",
+    "@setting_menu_change_password_subtitle": {
+        "description": "Subtitle for the change password menu item"
+    },
     "setting_menu_language_subtitle": "অ্যাপের ভাষা পরিবর্তন করুন",
     "@setting_menu_language_subtitle": {
         "description": "Subtitle for the language selector menu item"

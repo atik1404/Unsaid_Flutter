@@ -617,6 +617,19 @@
     "@setting_menu_language_subtitle": {
         "description": "Subtitle for the language selector menu item"
     },
+    "setting_menu_alias_current": "Currently: {alias}",
+    "@setting_menu_alias_current": {
+        "description": "Subtitle on the regenerate-alias menu item showing the user's current alias",
+        "placeholders": {
+            "alias": {
+                "type": "String"
+            }
+        }
+    },
+    "setting_menu_change_password_subtitle": "Update your account password",
+    "@setting_menu_change_password_subtitle": {
+        "description": "Subtitle for the change password menu item"
+    },
     "profile_action_regenerate_avatar": "Regenerate avatar",
     "@profile_action_regenerate_avatar": {
         "description": "Action label to regenerate the user's avatar on the Profile screen"

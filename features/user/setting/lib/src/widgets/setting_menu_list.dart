@@ -9,109 +9,103 @@ import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:pref_storage/pref_storage.dart';
+import 'package:setting/src/state/setting_cubit.dart';
+import 'package:setting/src/state/setting_state.dart';
 import 'package:setting/src/widgets/language_pill_toggle.dart';
+import 'package:setting/src/widgets/setting_menu_tile.dart';
+import 'package:setting/src/widgets/setting_section_label.dart';
+import 'package:setting/src/widgets/setting_toggle_tile.dart';
 
-/// A vertical list of menu items on the Settings screen.
+/// Placeholder alias shown until alias generation is wired up. Demo data, so it
+/// is interpolated into a localized template rather than translated itself.
+const String _demoAlias = 'ghost_8899';
+
+/// The full menu shown on the Settings screen, grouped into four cards:
+/// Identity, Notification, Privacy and a Danger Zone.
 ///
-/// Each item has an icon, label, and trailing chevron (except Logout).
-/// Tapping a row navigates to the corresponding screen or triggers
-/// the logout confirmation dialog.
-class SettingMenuList extends StatefulWidget {
+/// This is the "smart" container: it wires section cards to the [SettingCubit],
+/// [ThemeCubit] and [LocalizationCubit] and handles navigation. Every row is a
+/// const "dumb" tile ([SettingMenuTile] / [SettingToggleTile]), and each toggle
+/// sits behind its own `BlocSelector`/`BlocBuilder` so flipping one switch
+/// rebuilds only that row — never the whole list.
+class SettingMenuList extends StatelessWidget {
   const SettingMenuList({super.key});
 
   @override
-  State<SettingMenuList> createState() => _SettingMenuListState();
-}
-
-class _SettingMenuListState extends State<SettingMenuList> {
-  bool _allowAnonymousDMs = true;
-  bool _ghostMode = true;
-  bool _pushNotifications = true;
-  bool _sound = true;
-
-  @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     final gapLarge = SizedBox(height: AppSpacing.s12.h);
     final gapSmall = SizedBox(height: AppSpacing.s4.h);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildTitle(title: context.l10n.setting_section_identity, textColor: context.appColors.contentSecondary),
+        SettingSectionLabel(title: context.l10n.setting_section_identity, color: colors.contentSecondary),
         gapSmall,
-        _buildIdentityMenuCard(context),
+        const _IdentitySection(),
         gapLarge,
-        _buildTitle(title: context.l10n.setting_section_notification, textColor: context.appColors.contentSecondary),
+        SettingSectionLabel(title: context.l10n.setting_section_notification, color: colors.contentSecondary),
         gapSmall,
-        _buildNotificationMenuCard(context),
-
+        const _NotificationSection(),
         gapLarge,
-        _buildTitle(title: context.l10n.setting_section_privacy, textColor: context.appColors.contentSecondary),
+        SettingSectionLabel(title: context.l10n.setting_section_privacy, color: colors.contentSecondary),
         gapSmall,
-        _buildPrivacyMenuCard(context),
+        const _PrivacySection(),
         gapLarge,
-        _buildTitle(title: context.l10n.setting_section_danger_zone, textColor: context.appColors.contentError),
+        SettingSectionLabel(title: context.l10n.setting_section_danger_zone, color: colors.contentError),
         gapSmall,
-        _buildDanzerZoneMenuCard(context),
-
-        gapLarge,
-        gapLarge,
-        gapLarge,
+        const _DangerZoneSection(),
+        SizedBox(height: AppSpacing.s32.h),
       ],
     );
   }
+}
 
-  Widget _buildIdentityMenuCard(BuildContext context) {
+/// Identity card: profile, alias, avatar, password, language and dark mode.
+class _IdentitySection extends StatelessWidget {
+  const _IdentitySection();
+
+  @override
+  Widget build(BuildContext context) {
     return AppCard.rounded(
       cornerRadius: AppCardCornerRadius.lg,
       child: Column(
         children: [
-          _buildMenuItem(
-            context,
+          SettingMenuTile(
             label: context.l10n.setting_menu_profile,
             icon: CupertinoIcons.profile_circled,
-            onTap: () {
-              context.pushNamed(AppRouteName.profileScreen);
-            },
+            onTap: () => context.pushNamed(AppRouteName.profileScreen),
           ),
           const AppDivider(),
-          _buildMenuItem(
-            context,
+          SettingMenuTile(
             label: context.l10n.setting_menu_regenerate_alias,
-            subTitle: 'Currently: ghost_8899',
+            subtitle: context.l10n.setting_menu_alias_current(_demoAlias),
             icon: CupertinoIcons.refresh,
-            onTap: () {
-              AppLog.log('Regenerating alias...');
-            },
+            onTap: () => AppLog.log('Regenerating alias...'),
           ),
           const AppDivider(),
-          _buildMenuItem(
-            context,
+          SettingMenuTile(
             label: context.l10n.setting_menu_change_avatar,
-            subTitle: context.l10n.setting_menu_change_avatar_subtitle,
+            subtitle: context.l10n.setting_menu_change_avatar_subtitle,
             icon: CupertinoIcons.photo,
-            onTap: () {
-              AppLog.log('Changing avatar...');
-            },
+            onTap: () => AppLog.log('Changing avatar...'),
           ),
           const AppDivider(),
-          _buildMenuItem(
-            context,
+          SettingMenuTile(
             label: context.l10n.setting_menu_change_password,
-            subTitle: '••••••••',
+            subtitle: context.l10n.setting_menu_change_password_subtitle,
             icon: CupertinoIcons.lock,
-            onTap: () {
-              context.pushNamed(AppRouteName.changePasswordScreen);
-            },
+            onTap: () => context.pushNamed(AppRouteName.changePasswordScreen),
           ),
           const AppDivider(),
-          _buildLanguageChangeMenu(),
+          const _LanguageRow(),
           const AppDivider(),
+          // Rebuilds only when the app theme mode changes.
           BlocBuilder<ThemeCubit, ThemeMode>(
             builder: (context, themeMode) {
-              return _buildToggleMenuItem(
-                context,
+              return SettingToggleTile(
                 label: context.l10n.setting_menu_dark_mode,
-                subTitle: context.l10n.setting_menu_dark_mode_subtitle,
+                subtitle: context.l10n.setting_menu_dark_mode_subtitle,
                 icon: CupertinoIcons.moon,
                 value: themeMode == ThemeMode.dark,
                 onChanged: (value) => context.read<ThemeCubit>().setDarkMode(value),
@@ -122,175 +116,162 @@ class _SettingMenuListState extends State<SettingMenuList> {
       ),
     );
   }
+}
 
-  Widget _buildPrivacyMenuCard(BuildContext context) {
-    return AppCard.rounded(
-      cornerRadius: AppCardCornerRadius.lg,
-      child: Column(
-        children: [
-          _buildToggleMenuItem(
-            context,
-            label: context.l10n.setting_menu_allow_anonymous_dms,
-            subTitle: context.l10n.setting_menu_allow_anonymous_dms_subtitle,
-            icon: CupertinoIcons.chat_bubble,
-            value: _allowAnonymousDMs,
-            onChanged: (value) {
-              setState(() => _allowAnonymousDMs = value);
-              AppLog.log('Toggling anonymous DMs: $value');
-            },
-          ),
-          const AppDivider(),
-          _buildToggleMenuItem(
-            context,
-            label: context.l10n.setting_menu_ghost_mode,
-            subTitle: context.l10n.setting_menu_ghost_mode_subtitle,
-            icon: Icons.visibility_off,
-            value: _ghostMode,
-            onChanged: (value) {
-              setState(() => _ghostMode = value);
-              AppLog.log('Toggling ghost mode: $value');
-            },
-          ),
-        ],
-      ),
-    );
-  }
+/// Language row: rebuilds only when the active locale changes.
+class _LanguageRow extends StatelessWidget {
+  const _LanguageRow();
 
-  Widget _buildNotificationMenuCard(BuildContext context) {
-    return AppCard.rounded(
-      cornerRadius: AppCardCornerRadius.lg,
-      child: Column(
-        children: [
-          _buildToggleMenuItem(
-            context,
-            label: context.l10n.setting_menu_push_notifications,
-            icon: CupertinoIcons.bell,
-            value: _pushNotifications,
-            onChanged: (value) {
-              setState(() => _pushNotifications = value);
-              AppLog.log('Toggling push notifications: $value');
-            },
-          ),
-          const AppDivider(),
-          _buildToggleMenuItem(
-            context,
-            label: context.l10n.setting_menu_sound,
-            icon: CupertinoIcons.volume_up,
-            value: _sound,
-            onChanged: (value) {
-              setState(() => _sound = value);
-              AppLog.log('Toggling sound: $value');
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDanzerZoneMenuCard(BuildContext context) {
-    return AppCard.rounded(
-      cornerRadius: AppCardCornerRadius.lg,
-      tone: AppCardTone.danzer,
-      child: Column(
-        children: [
-          _buildMenuItem(
-            context,
-            label: context.l10n.setting_menu_wipe_posts,
-            subTitle: context.l10n.setting_menu_wipe_posts_subtitle,
-            icon: CupertinoIcons.bin_xmark,
-            onTap: () {
-              AppLog.log('Wiping all posts...');
-            },
-          ),
-          AppDivider(
-            colorOverride: context.appColors.borderPrimary,
-          ),
-          _buildMenuItem(
-            context,
-            label: context.l10n.setting_menu_delete_account,
-            subTitle: context.l10n.setting_menu_delete_account_subtitle,
-            icon: CupertinoIcons.trash,
-            onTap: () {
-              context.goNamed(AppRouteName.loginScreen);
-            },
-          ),
-          AppDivider(
-            colorOverride: context.appColors.borderPrimary,
-          ),
-          _buildMenuItem(
-            context,
-            label: context.l10n.setting_menu_sign_out,
-            subTitle: context.l10n.setting_menu_sign_out_subtitle,
-            icon: CupertinoIcons.arrow_right_square,
-            onTap: () => _onLogoutTap(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMenuItem(BuildContext context, {required String label, String? subTitle, required IconData icon, VoidCallback? onTap}) {
-    return ListTile(
-      leading: Icon(icon, color: context.appColors.brand),
-      title: AppText.bodyMedium(label, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-      subtitle: subTitle != null ? AppText.captionSmall(subTitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light) : null,
-      trailing: Icon(Icons.chevron_right, color: context.appColors.contentTertiary),
-      onTap: onTap,
-    );
-  }
-
-  Widget _buildLanguageChangeMenu() {
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<LocalizationCubit, Locale>(
       builder: (context, locale) {
         return ListTile(
           leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
           title: AppText.bodyMedium(context.l10n.setting_menu_language, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-          subtitle: AppText.captionSmall(
-            context.l10n.setting_menu_language_subtitle,
-            color: context.appColors.contentSecondary,
-            textWeight: AppTextWeight.light,
-          ),
+          subtitle: AppText.captionSmall(context.l10n.setting_menu_language_subtitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
           trailing: LanguagePillToggle(
             isEnglish: locale.languageCode == AppConstants.en,
             onToggle: (isEnglish) {
-              final newLocale = isEnglish ? const Locale(AppConstants.en) : const Locale(AppConstants.bn);
-              context.read<LocalizationCubit>().changeLocale(newLocale.languageCode);
+              final code = isEnglish ? AppConstants.en : AppConstants.bn;
+              context.read<LocalizationCubit>().changeLocale(code);
             },
           ),
         );
       },
     );
   }
+}
 
-  Widget _buildToggleMenuItem(
-    BuildContext context, {
-    required String label,
-    String? subTitle,
-    required IconData icon,
-    required bool value,
-    ValueChanged<bool>? onChanged,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: context.appColors.brand),
-      title: AppText.bodyMedium(label, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-      subtitle: subTitle != null ? AppText.captionSmall(subTitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light) : null,
-      trailing: AppSwitch(
-        value: value,
-        onChanged: onChanged,
-        size: AppSwitchSize.sm,
+/// Notification card: push notifications and sound toggles.
+class _NotificationSection extends StatelessWidget {
+  const _NotificationSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SettingCubit>();
+    return AppCard.rounded(
+      cornerRadius: AppCardCornerRadius.lg,
+      child: Column(
+        children: [
+          // Rebuilds only when the push-notifications flag changes.
+          BlocSelector<SettingCubit, SettingState, bool>(
+            selector: (state) => state.pushNotifications,
+            builder: (context, enabled) {
+              return SettingToggleTile(
+                label: context.l10n.setting_menu_push_notifications,
+                icon: CupertinoIcons.bell,
+                value: enabled,
+                onChanged: (value) => cubit.setPushNotifications,
+              );
+            },
+          ),
+          const AppDivider(),
+          // Rebuilds only when the sound flag changes.
+          BlocSelector<SettingCubit, SettingState, bool>(
+            selector: (state) => state.soundEnabled,
+            builder: (context, enabled) {
+              return SettingToggleTile(
+                label: context.l10n.setting_menu_sound,
+                icon: CupertinoIcons.volume_up,
+                value: enabled,
+                onChanged: (value) => cubit.setSoundEnabled,
+              );
+            },
+          ),
+        ],
       ),
-      onTap: onChanged == null ? null : () => onChanged(!value),
+    );
+  }
+}
+
+/// Privacy card: anonymous DMs and ghost mode toggles.
+class _PrivacySection extends StatelessWidget {
+  const _PrivacySection();
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SettingCubit>();
+    return AppCard.rounded(
+      cornerRadius: AppCardCornerRadius.lg,
+      child: Column(
+        children: [
+          // Rebuilds only when the anonymous-DMs flag changes.
+          BlocSelector<SettingCubit, SettingState, bool>(
+            selector: (state) => state.allowAnonymousDms,
+            builder: (context, enabled) {
+              return SettingToggleTile(
+                label: context.l10n.setting_menu_allow_anonymous_dms,
+                subtitle: context.l10n.setting_menu_allow_anonymous_dms_subtitle,
+                icon: CupertinoIcons.chat_bubble,
+                value: enabled,
+                onChanged: (value) => cubit.setAllowAnonymousDms,
+              );
+            },
+          ),
+          const AppDivider(),
+          // Rebuilds only when the ghost-mode flag changes.
+          BlocSelector<SettingCubit, SettingState, bool>(
+            selector: (state) => state.ghostMode,
+            builder: (context, enabled) {
+              return SettingToggleTile(
+                label: context.l10n.setting_menu_ghost_mode,
+                subtitle: context.l10n.setting_menu_ghost_mode_subtitle,
+                icon: Icons.visibility_off,
+                value: enabled,
+                onChanged: (value) => cubit.setGhostMode,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Danger zone card: destructive actions (wipe posts, delete account, sign out).
+class _DangerZoneSection extends StatelessWidget {
+  const _DangerZoneSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final divider = AppDivider(colorOverride: context.appColors.borderPrimary);
+    return AppCard.rounded(
+      cornerRadius: AppCardCornerRadius.lg,
+      tone: AppCardTone.danzer,
+      child: Column(
+        children: [
+          SettingMenuTile(
+            label: context.l10n.setting_menu_wipe_posts,
+            subtitle: context.l10n.setting_menu_wipe_posts_subtitle,
+            icon: CupertinoIcons.bin_xmark,
+            onTap: () => AppLog.log('Wiping all posts...'),
+          ),
+          divider,
+          SettingMenuTile(
+            label: context.l10n.setting_menu_delete_account,
+            subtitle: context.l10n.setting_menu_delete_account_subtitle,
+            icon: CupertinoIcons.trash,
+            onTap: () => context.goNamed(AppRouteName.loginScreen),
+          ),
+          divider,
+          SettingMenuTile(
+            label: context.l10n.setting_menu_sign_out,
+            subtitle: context.l10n.setting_menu_sign_out_subtitle,
+            icon: CupertinoIcons.arrow_right_square,
+            onTap: () => _onSignOut(context),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildTitle({required String title, required Color textColor}) {
-    return AppText.captionMedium(title, color: textColor, textWeight: AppTextWeight.light);
-  }
-
-  void _onLogoutTap(BuildContext context) async {
+  /// Clears persisted data, flips the router's auth guard and sends the user to
+  /// a clean home/login location.
+  Future<void> _onSignOut(BuildContext context) async {
     await GetIt.I<AppPrefStorage>().clear();
-    // Flips the router's auth guard; keeps an explicit go so the
-    // user lands on a clean login location without a redirect param.
+    // Flips the router's auth guard; an explicit go (not a redirect) lands the
+    // user on a clean location without a leftover redirect param.
     authStateNotifier.setLoggedIn(isLoggedIn: false);
     if (context.mounted) context.goNamed(AppRouteName.homeScreen);
   }

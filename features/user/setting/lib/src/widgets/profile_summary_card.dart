@@ -1,26 +1,27 @@
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// A compact card that displays the user's avatar, name, and email.
+/// A compact card that displays the user's avatar, name and a secondary line.
 ///
-/// Shown at the top of the Settings screen to give the user a quick
-/// snapshot of their identity.
+/// Shown at the top of the Settings screen to give the user a quick snapshot of
+/// their identity. Purely presentational — every value is supplied by the
+/// parent, so the card holds no state and never fetches anything itself.
 class ProfileSummaryCard extends StatelessWidget {
   /// The user's display name.
   final String name;
 
-  /// The user's email address.
-  final String email;
+  /// Secondary line beneath the name (e.g. phone number or email).
+  final String subtitle;
 
-  /// URL for the user's avatar image.
-  /// Falls back to a default icon when empty.
+  /// URL for the user's avatar image. Falls back to a default icon when empty
+  /// or when the image fails to load.
   final String avatarUrl;
 
   const ProfileSummaryCard({
     super.key,
     required this.name,
-    required this.email,
+    required this.subtitle,
     required this.avatarUrl,
   });
 
@@ -32,26 +33,17 @@ class ProfileSummaryCard extends StatelessWidget {
       cornerRadius: AppCardCornerRadius.lg,
       child: Row(
         children: [
-          // Avatar circle
           _buildAvatar(context),
           SizedBox(width: AppSpacing.s16.w),
 
-          // Name and email
+          // Name and secondary line.
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText.titleSmall(
-                  name,
-                  textWeight: AppTextWeight.bold,
-                  color: context.appColors.contentBrand,
-                ),
+                AppText.titleSmall(name, textWeight: AppTextWeight.bold, color: context.appColors.contentBrand),
                 SizedBox(height: AppSpacing.s4.h),
-                AppText.bodySmall(
-                  email,
-                  color: context.appColors.contentSecondary,
-                  textWeight: AppTextWeight.light,
-                ),
+                AppText.bodySmall(subtitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
               ],
             ),
           ),
@@ -60,12 +52,13 @@ class ProfileSummaryCard extends StatelessWidget {
     );
   }
 
-  /// Builds a circular avatar.
-  ///
-  /// Uses a default person icon when [avatarUrl] is empty.
+  /// Builds a circular avatar from [avatarUrl], showing a person icon when the
+  /// URL is empty or the network image cannot be loaded.
   Widget _buildAvatar(BuildContext context) {
+    if (avatarUrl.isEmpty) return _avatarFallback(context);
+
     return AppImage.network(
-      'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+      avatarUrl,
       width: IconSizes.prominent,
       height: IconSizes.prominent,
       shape: ImageShape.circle,
@@ -73,6 +66,21 @@ class ProfileSummaryCard extends StatelessWidget {
       borderColor: context.appColors.borderBrand,
       borderWidth: 1,
       padding: EdgeInsets.all(AppSpacing.s2.r),
+      errorBuilder: (_, _, _) => _avatarFallback(context),
+    );
+  }
+
+  /// Default avatar shown when no image is available.
+  Widget _avatarFallback(BuildContext context) {
+    return Container(
+      width: IconSizes.prominent,
+      height: IconSizes.prominent,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: context.appColors.surfaceSecondary,
+        border: Border.all(color: context.appColors.borderBrand),
+      ),
+      child: Icon(CupertinoIcons.person_fill, color: context.appColors.contentTertiary),
     );
   }
 }

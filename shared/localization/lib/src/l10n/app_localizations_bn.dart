@@ -485,6 +485,15 @@ class AppLocalizationsBn extends AppLocalizations {
   String get setting_menu_language_subtitle => 'অ্যাপের ভাষা পরিবর্তন করুন';
 
   @override
+  String setting_menu_alias_current(String alias) {
+    return 'বর্তমানে: $alias';
+  }
+
+  @override
+  String get setting_menu_change_password_subtitle =>
+      'আপনার অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তন করুন';
+
+  @override
   String get profile_action_regenerate_avatar => 'অবতার পুনরায় তৈরি করুন';
 
   @override
