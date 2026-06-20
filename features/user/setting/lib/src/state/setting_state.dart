@@ -9,9 +9,8 @@ part 'setting_state.freezed.dart';
 @freezed
 abstract class SettingState with _$SettingState {
   const factory SettingState({
-    @Default('') String userName,
-    @Default('') String userEmail,
+    @Default('') String fullname,
+    @Default('') String phone,
     @Default('') String avatarUrl,
-    @Default(false) bool isLoading,
   }) = _SettingState;
 }

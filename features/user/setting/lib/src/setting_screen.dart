@@ -21,12 +21,6 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   @override
-  void initState() {
-    super.initState();
-    context.read<SettingCubit>().loadUserProfile();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppTopBar(
@@ -47,8 +41,8 @@ class _SettingScreenState extends State<SettingScreen> {
               children: [
                 // User profile summary at the top
                 ProfileSummaryCard(
-                  name: state.userName,
-                  email: state.userEmail,
+                  name: state.fullname,
+                  email: state.phone,
                   avatarUrl: state.avatarUrl,
                 ),
                 SizedBox(height: AppSpacing.s24.h),

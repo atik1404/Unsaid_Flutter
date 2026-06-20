@@ -171,8 +171,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 }
 
-// ── Dumb presentational widgets ─────────────────────────────────────────────
-
 /// Logo, title and subtitle (which echoes the destination [phone] number).
 class _OtpHeader extends StatelessWidget {
   final String phone;
