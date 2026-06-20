@@ -56,7 +56,8 @@ final class AppPrefStorage extends BasePrefStorage {
   @override
   Future<String> getString(String key) async {
     if (_isSecured(key)) {
-      return await _secure.read(key) as String;
+      final value = await _secure.read(key);
+      return value ?? '';
     }
     return _prefs.get<String>(key) ?? '';
   }

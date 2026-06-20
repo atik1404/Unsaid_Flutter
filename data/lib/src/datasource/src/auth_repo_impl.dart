@@ -102,7 +102,6 @@ final class AuthRepoImpl implements AuthRepository {
     final result = await _client.post(
       '/auth/check-user',
       data: params.toJson(),
-      options: AuthOptions.authenticated(),
       parser: (data) => CommonDto.fromJson(data).toEntity(),
     );
     return result;
