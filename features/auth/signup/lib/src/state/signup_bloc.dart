@@ -45,7 +45,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress, errorMessage: null));
 
-    final result = await _signupUseCase.call(SignupParams(email: state.email.value, password: state.password.value, phone: state.phone.value, fullname: state.name.value));
+    final result = await _signupUseCase.call(
+      SignupParams(email: state.email.value.isEmpty ? null : state.email.value, password: state.password.value, phone: state.phone.value.formatPhone(), fullname: state.name.value),
+    );
 
     result.when(
       success: (data) {

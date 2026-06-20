@@ -2,9 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'signup_params.g.dart';
 
-@JsonSerializable(
-  createFactory: false,
-)
+@JsonSerializable(createFactory: false, includeIfNull: false)
 final class SignupParams {
   final String fullname; // email or phone number
   final String password;
