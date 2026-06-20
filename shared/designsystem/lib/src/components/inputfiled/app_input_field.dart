@@ -129,6 +129,7 @@ class _AppInputFieldState extends State<AppInputField> {
       enabled: widget.enabled,
       readOnly: widget.readOnly,
       obscureText: widget.obscureText,
+      textAlign: widget.textAlign ?? TextAlign.start,
       maxLength: widget.maxLength,
       maxLines: widget.obscureText ? 1 : widget.maxLines,
       minLines: widget.minLines,

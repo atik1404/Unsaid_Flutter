@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otp_verification/src/state/otp_verification_state.dart';
 
@@ -37,7 +38,8 @@ class OtpVerificationCubit extends Cubit<OtpVerificationState> {
   }
 
   Future<void> verifyOtp() async {
-    if (state.otp.length < 6) {
+    // Reject submission until every digit of the code has been entered.
+    if (state.otp.length < AppConstants.otpLength) {
       emit(state.copyWith(errorMessage: 'incomplete'));
       return;
     }
