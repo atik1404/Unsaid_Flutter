@@ -1033,6 +1033,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password must be at least 6 characters.'**
   String get validation_password_too_short;
+
+  /// Validation error shown when the name field is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required.'**
+  String get validation_name_required;
+
+  /// Validation error shown when the name is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Name is invalid.'**
+  String get validation_name_invalid;
+
+  /// Validation error shown when the name is shorter than the minimum length
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at least 3 characters.'**
+  String get validation_name_too_short;
+
+  /// Validation error shown when the name is longer than the maximum length
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be less than 32 characters.'**
+  String get validation_name_too_long;
+
+  /// Validation error shown when the email format is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address.'**
+  String get validation_email_invalid;
 }
 
 class _AppLocalizationsDelegate

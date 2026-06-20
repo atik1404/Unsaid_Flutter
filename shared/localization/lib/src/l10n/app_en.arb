@@ -665,5 +665,25 @@
     "validation_password_too_short": "Password must be at least 6 characters.",
     "@validation_password_too_short": {
         "description": "Validation error shown when the password is shorter than the minimum length"
+    },
+    "validation_name_required": "Name is required.",
+    "@validation_name_required": {
+        "description": "Validation error shown when the name field is empty"
+    },
+    "validation_name_invalid": "Name is invalid.",
+    "@validation_name_invalid": {
+        "description": "Validation error shown when the name is invalid"
+    },
+    "validation_name_too_short": "Name must be at least 3 characters.",
+    "@validation_name_too_short": {
+        "description": "Validation error shown when the name is shorter than the minimum length"
+    },
+    "validation_name_too_long": "Name must be less than 32 characters.",
+    "@validation_name_too_long": {
+        "description": "Validation error shown when the name is longer than the maximum length"
+    },
+    "validation_email_invalid": "Enter a valid email address.",
+    "@validation_email_invalid": {
+        "description": "Validation error shown when the email format is invalid"
     }
 }

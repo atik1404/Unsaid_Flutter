@@ -662,5 +662,25 @@
     "validation_password_too_short": "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।",
     "@validation_password_too_short": {
         "description": "Validation error shown when the password is shorter than the minimum length"
+    },
+    "validation_name_required": "নাম আবশ্যক।",
+    "@validation_name_required": {
+        "description": "Validation error shown when the name field is empty"
+    },
+    "validation_name_invalid": "নামটি সঠিক নয়।",
+    "@validation_name_invalid": {
+        "description": "Validation error shown when the name is invalid"
+    },
+    "validation_name_too_short": "নাম কমপক্ষে ৩ অক্ষরের হতে হবে।",
+    "@validation_name_too_short": {
+        "description": "Validation error shown when the name is shorter than the minimum length"
+    },
+    "validation_name_too_long": "নাম ৩২ অক্ষরের কম হতে হবে।",
+    "@validation_name_too_long": {
+        "description": "Validation error shown when the name is longer than the maximum length"
+    },
+    "validation_email_invalid": "একটি সঠিক ইমেইল ঠিকানা দিন।",
+    "@validation_email_invalid": {
+        "description": "Validation error shown when the email format is invalid"
     }
 }

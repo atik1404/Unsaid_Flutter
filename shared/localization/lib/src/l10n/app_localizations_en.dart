@@ -516,4 +516,20 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get validation_password_too_short =>
       'Password must be at least 6 characters.';
+
+  @override
+  String get validation_name_required => 'Name is required.';
+
+  @override
+  String get validation_name_invalid => 'Name is invalid.';
+
+  @override
+  String get validation_name_too_short => 'Name must be at least 3 characters.';
+
+  @override
+  String get validation_name_too_long =>
+      'Name must be less than 32 characters.';
+
+  @override
+  String get validation_email_invalid => 'Enter a valid email address.';
 }

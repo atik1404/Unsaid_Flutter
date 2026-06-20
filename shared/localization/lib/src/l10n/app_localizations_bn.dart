@@ -519,4 +519,19 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get validation_password_too_short =>
       'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।';
+
+  @override
+  String get validation_name_required => 'নাম আবশ্যক।';
+
+  @override
+  String get validation_name_invalid => 'নামটি সঠিক নয়।';
+
+  @override
+  String get validation_name_too_short => 'নাম কমপক্ষে ৩ অক্ষরের হতে হবে।';
+
+  @override
+  String get validation_name_too_long => 'নাম ৩২ অক্ষরের কম হতে হবে।';
+
+  @override
+  String get validation_email_invalid => 'একটি সঠিক ইমেইল ঠিকানা দিন।';
 }

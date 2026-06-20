@@ -31,9 +31,6 @@ class LoginScreen extends StatefulWidget {
 ///
 /// Reads [LoginBloc] from context — always available because [LoginScreen]
 class _LoginScreenState extends State<LoginScreen> {
-  final _phoneController = TextEditingController();
-  final _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final pagePadding = EdgeInsets.all(AppSpacing.s24.r);
@@ -68,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const _LoginHeader(),
                     verticalSpacing,
 
-                    _LoginView(_phoneController, _passwordController, onForgotPasswordPressed: widget.onForgotPasswordPressed),
+                    _LoginView(onForgotPasswordPressed: widget.onForgotPasswordPressed),
                     verticalSpacing,
                     _CreateAccountPrompt(onSignUpPressed: widget.onSignUpPressed),
 
@@ -103,28 +100,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onStateChanged(LoginState state) {
     if (state.status == FormzSubmissionStatus.success) {
-      //AppToast.toast(message: 'Login successful', toastType: ToastType.success);
       widget.onLoginSuccess.call();
     } else if (state.status == FormzSubmissionStatus.failure) {
       final message = state.errorMessage ?? 'Something went wrong';
       AppToast.toast(message: message, toastType: ToastType.error);
     }
   }
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
 }
 
 final class _LoginView extends StatelessWidget {
-  final TextEditingController _phoneController;
-  final TextEditingController _passwordController;
   final VoidCallback onForgotPasswordPressed;
 
-  const _LoginView(this._phoneController, this._passwordController, {required this.onForgotPasswordPressed});
+  const _LoginView({required this.onForgotPasswordPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +131,8 @@ final class _LoginView extends StatelessWidget {
         BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             return _PhoneInput(
+              phone: state.phone.value,
               errorText: state.showErrors && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
-              controller: _phoneController,
               onChanged: (value) => context.read<LoginBloc>().add(LoginPhoneChanged(value)),
             );
           },
@@ -162,8 +149,8 @@ final class _LoginView extends StatelessWidget {
         BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             return _PasswordInput(
+              password: state.password.value,
               errorText: state.showErrors && state.password.isNotValid ? _passwordErrorText(context, state.password.error) : null,
-              controller: _passwordController,
               onChanged: (value) => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
               showPassword: state.showPassword,
               onToggleVisibility: () => context.read<LoginBloc>().add(const LoginTogglePasswordVisibility()),
@@ -243,12 +230,12 @@ class _LoginHeader extends StatelessWidget {
 }
 
 class _PhoneInput extends StatelessWidget {
-  final TextEditingController controller;
+  final String phone;
   final String? errorText;
   final void Function(String) onChanged;
 
   const _PhoneInput({
-    required this.controller,
+    required this.phone,
     this.errorText,
     required this.onChanged,
   });
@@ -261,7 +248,6 @@ class _PhoneInput extends StatelessWidget {
       textInputAction: TextInputAction.next,
       variant: AppInputFieldVariant.filledOpt,
       maxLength: 11,
-      controller: controller,
       errorText: errorText,
       onChanged: onChanged,
     );
@@ -269,14 +255,14 @@ class _PhoneInput extends StatelessWidget {
 }
 
 class _PasswordInput extends StatelessWidget {
-  final TextEditingController controller;
+  final String password;
   final String? errorText;
   final bool showPassword;
   final void Function(String) onChanged;
   final VoidCallback onToggleVisibility;
 
   const _PasswordInput({
-    required this.controller,
+    required this.password,
     this.errorText,
     required this.showPassword,
     required this.onChanged,
@@ -290,8 +276,7 @@ class _PasswordInput extends StatelessWidget {
       obscureText: !showPassword,
       variant: AppInputFieldVariant.filledOpt,
       textInputAction: TextInputAction.done,
-      maxLength: 20,
-      controller: controller,
+      maxLength: 25,
       errorText: errorText,
       onChanged: onChanged,
       suffixIcon: AppIcon(

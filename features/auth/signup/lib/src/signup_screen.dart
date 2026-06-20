@@ -183,10 +183,10 @@ class _SignupForm extends StatelessWidget {
 
   String _nameValidationErrorText(BuildContext context, ValidationError? error) {
     return switch (error) {
-      ValidationError.empty => 'The name field is required',
-      ValidationError.invalid => 'The name is invalid',
-      ValidationError.tooShort => 'The name must be at least 3 characters long',
-      ValidationError.tooLong => 'The name must be less than 32 characters long',
+      ValidationError.empty => context.l10n.validation_name_required,
+      ValidationError.invalid => context.l10n.validation_name_invalid,
+      ValidationError.tooShort => context.l10n.validation_name_too_short,
+      ValidationError.tooLong => context.l10n.validation_name_too_long,
       _ => '',
     };
   }
@@ -209,7 +209,7 @@ class _SignupForm extends StatelessWidget {
 
   String _emailErrorText(BuildContext context, ValidationError? error) {
     return switch (error) {
-      ValidationError.invalid => 'The email is invalid',
+      ValidationError.invalid => context.l10n.validation_email_invalid,
       _ => '',
     };
   }
