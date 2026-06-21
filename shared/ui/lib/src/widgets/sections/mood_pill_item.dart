@@ -2,7 +2,6 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ui/ui.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:common/common.dart';
 
 class MoodPillItem extends StatelessWidget {
   final String mood;
@@ -24,7 +23,7 @@ class MoodPillItem extends StatelessWidget {
   Widget _buildMoodPillItem(
     BuildContext context,
   ) {
-    final effectiveIcon = mood == "ALL" ? null : _getMoodIcon(mood);
+    final effectiveIcon = mood == "ALL" ? null : MoodDecoration.getMoodIcon(mood);
 
     final contentColor = isSelected ? context.appColors.contentPrimary : context.appColors.contentSecondary;
 
@@ -62,31 +61,5 @@ class MoodPillItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getMoodIcon(String mood) {
-    final moodType = MoodTypeX.fromString(mood);
-    switch (moodType) {
-      case MoodType.neutral:
-        return AppDrawables.icNeutral;
-      case MoodType.angry:
-        return AppDrawables.icAngry;
-      case MoodType.love:
-        return AppDrawables.icLove;
-      case MoodType.happy:
-        return AppDrawables.icHappy;
-      case MoodType.sad:
-        return AppDrawables.icSad;
-      case MoodType.lonely:
-        return AppDrawables.icLonely;
-      case MoodType.excited:
-        return AppDrawables.icExcited;
-      case MoodType.confused:
-        return AppDrawables.icConfused;
-      case MoodType.dark:
-        return AppDrawables.icDark;
-      default:
-        return ""; // Return an empty string or a default icon path if mood is not recognized
-    }
   }
 }

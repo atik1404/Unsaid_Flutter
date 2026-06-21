@@ -3,6 +3,7 @@ import 'package:designsystem/designsystem.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:navigation/navigation.dart';
 import 'package:ui/ui.dart';
 
 final class PostDetailsCard extends StatelessWidget {
@@ -33,7 +34,10 @@ final class PostDetailsCard extends StatelessWidget {
               color: context.appColors.contentPrimary,
             ),
             SizedBox(height: AppSpacing.s12.h),
-            _buildBottomActionsButton(context),
+            Visibility(
+              visible: AuthStateNotifier().isLoggedIn,
+              child: _buildBottomActionsButton(context),
+            ),
           ],
         ),
       ),

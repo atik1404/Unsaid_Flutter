@@ -8,7 +8,9 @@ import 'package:localization/localization.dart';
 import 'package:ui/ui.dart';
 
 class CreatePostScreen extends StatefulWidget {
-  const CreatePostScreen({super.key});
+  final String _fullname;
+
+  const CreatePostScreen({super.key, required String fullname}) : _fullname = fullname;
 
   @override
   State<CreatePostScreen> createState() => _CreatePostScreenState();
@@ -62,7 +64,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AnonymousCard(),
+              AnonymousCard(
+                anonymousName: widget._fullname,
+              ),
               SizedBox(height: AppSpacing.s16.h),
               AppText.bodyLarge(context.l10n.create_post_mood_label, textWeight: AppTextWeight.semiBold, color: context.appColors.contentPrimary),
               SizedBox(height: AppSpacing.s12.h),

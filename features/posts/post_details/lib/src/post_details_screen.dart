@@ -1,10 +1,10 @@
-import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
+import 'package:navigation/navigation.dart';
 import 'package:post_details/src/state/post_details_cubit.dart';
 import 'package:post_details/src/state/post_details_state.dart';
 import 'package:post_details/src/widgets/comment_input_box.dart';
@@ -35,7 +35,6 @@ class PostDetailsScreen extends StatelessWidget {
           if (state.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          AppLog.log('Post Details State: ${state.postDetails?.authorName}');
           if (state.postDetails == null) {
             return Center(
               child: AppText.bodyMedium(
@@ -63,7 +62,10 @@ class PostDetailsScreen extends StatelessWidget {
         },
       ),
 
-      bottomNavigationBar: const CommentInputBox(),
+      bottomNavigationBar: Visibility(
+        visible: AuthStateNotifier().isLoggedIn,
+        child: const CommentInputBox(),
+      ),
     );
   }
 

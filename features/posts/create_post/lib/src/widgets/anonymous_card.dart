@@ -6,7 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 
 class AnonymousCard extends StatelessWidget {
-  const AnonymousCard({super.key});
+  final String _anonymousName;
+
+  const AnonymousCard({super.key, required String anonymousName}) : _anonymousName = anonymousName;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class AnonymousCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText.bodySmall(
-          "Ghoost_8821",
+          _anonymousName,
           textWeight: AppTextWeight.regular,
           color: context.appColors.contentPrimary,
         ),
