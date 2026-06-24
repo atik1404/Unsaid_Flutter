@@ -1,5 +1,6 @@
 import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:post_details/src/state/post_details_event.dart';
 import 'package:post_details/src/state/post_details_state.dart';
 import 'package:domain/domain.dart';
 
@@ -8,15 +9,19 @@ import 'package:domain/domain.dart';
 /// Receives post data through [setPost] — usually called immediately
 /// after the route is pushed with the [PostDetailsModel] passed as
 /// a GoRouter extra.
-class PostDetailsCubit extends Cubit<PostDetailsState> {
+class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
   final FetchPostDetailsUseCase _fetchPostDetailsUseCase;
-  PostDetailsCubit({required FetchPostDetailsUseCase fetchPostDetailsUseCase}) : _fetchPostDetailsUseCase = fetchPostDetailsUseCase, super(const PostDetailsState());
+  PostDetailsBloc({required FetchPostDetailsUseCase fetchPostDetailsUseCase}) : _fetchPostDetailsUseCase = fetchPostDetailsUseCase, super(const PostDetailsState()) {
+    on<FetchPostDetailsEvent>(_fetchPostDetails);
+  }
 
   /// Stores the incoming post data and marks loading as complete.
-  Future<void> fetchPostDetails(String postId) async {
-    AppLog.log('postId: $postId');
+  Future<void> _fetchPostDetails(
+    FetchPostDetailsEvent event,
+    Emitter<PostDetailsState> emit,
+  ) async {
     emit(state.copyWith(isLoading: true, postDetails: null, errorMessage: ''));
-    final result = await _fetchPostDetailsUseCase(postId);
+    final result = await _fetchPostDetailsUseCase(event.postId);
 
     result.when(
       success: (data) {
@@ -36,4 +41,9 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
       },
     );
   }
+
+  Future<void> postNewComment(
+    PostNewCommentEvent event,
+    Emitter<PostDetailsState> emit,
+  ) async {}
 }

@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          const _MoodListView(),
+          const _MoodListHorizontalView(),
           SizedBox(height: AppSpacing.s16.h),
           Expanded(child: _PostListView(scrollController: _scrollController)),
         ],
@@ -111,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
 /// Horizontal scrollable row of mood-filter pills.
 ///
 /// Reads [HomeBloc] from context and dispatches [SelectMoodEvent] on tap.
-class _MoodListView extends StatelessWidget {
-  const _MoodListView();
+class _MoodListHorizontalView extends StatelessWidget {
+  const _MoodListHorizontalView();
 
   @override
   Widget build(BuildContext context) {

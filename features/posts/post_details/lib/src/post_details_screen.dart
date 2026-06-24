@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
-import 'package:post_details/src/state/post_details_cubit.dart';
+import 'package:post_details/src/state/post_details_bloc.dart';
 import 'package:post_details/src/state/post_details_state.dart';
 import 'package:post_details/src/widgets/comment_input_box.dart';
 import 'package:post_details/src/widgets/comments_card.dart';
@@ -16,55 +16,66 @@ import 'package:post_details/src/widgets/post_details_card.dart';
 /// Receives post data via the cubit (set from GoRouter extras) and
 /// displays a header card followed by the full description card.
 class PostDetailsScreen extends StatelessWidget {
-  const PostDetailsScreen({super.key});
+  final String postId;
+  const PostDetailsScreen({super.key, required this.postId});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      appBar: AppTopBar(
-        backgroundColor: context.scaffoldTheme.backgroundColor,
-        titleWidget: AppText.headlineSmall(
-          context.l10n.post_details_title,
-          color: context.appColors.contentBrand,
-          textWeight: AppTextWeight.extraBold,
-        ),
-        foregroundColor: context.appColors.brand,
-      ),
-      body: BlocBuilder<PostDetailsCubit, PostDetailsState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state.postDetails == null) {
-            return Center(
-              child: AppText.bodyMedium(
-                'post details not found',
-                color: context.appColors.contentPrimary,
-              ),
-            );
-          }
-
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(AppSpacing.s16.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PostDetailsCard(
-                  postDetails: state.postDetails!,
-                ),
-                SizedBox(height: AppSpacing.s16.h),
-                _buildReplyCountText(context, state.postDetails!.commentCount),
-                SizedBox(height: AppSpacing.s8.h),
-                _buildCommentsSection(state.postDetails!.comments),
-              ],
+    return BlocConsumer<PostDetailsBloc, PostDetailsState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return AppScaffold(
+          appBar: AppTopBar(
+            backgroundColor: context.scaffoldTheme.backgroundColor,
+            titleWidget: AppText.headlineSmall(
+              context.l10n.post_details_title,
+              color: context.appColors.contentBrand,
+              textWeight: AppTextWeight.extraBold,
             ),
-          );
-        },
-      ),
+            foregroundColor: context.appColors.brand,
+          ),
+          isLoading: state.isLoading,
+          body: _buildBody(context, state),
+          bottomNavigationBar: Visibility(
+            visible: AuthStateNotifier().isLoggedIn && state.postDetails != null,
+            child: const CommentInputBox(),
+          ),
+        );
+      },
+    );
+  }
 
-      bottomNavigationBar: Visibility(
-        visible: AuthStateNotifier().isLoggedIn,
-        child: const CommentInputBox(),
+  /// Renders the error message on failure, otherwise the post details.
+  Widget _buildBody(BuildContext context, PostDetailsState state) {
+    if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.all(AppSpacing.s16.r),
+          child: AppText.bodyLarge(
+            state.errorMessage!,
+            textAlign: TextAlign.center,
+            color: context.appColors.contentError,
+          ),
+        ),
+      );
+    }
+
+    if (state.postDetails == null) {
+      return const SizedBox.shrink();
+    }
+
+    final postDetails = state.postDetails!;
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(AppSpacing.s16.r),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PostDetailsCard(postDetails: postDetails),
+          SizedBox(height: AppSpacing.s16.h),
+          _buildReplyCountText(context, postDetails.commentCount),
+          SizedBox(height: AppSpacing.s8.h),
+          _buildCommentsSection(postDetails.comments),
+        ],
       ),
     );
   }

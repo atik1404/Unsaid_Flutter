@@ -15,3 +15,10 @@ abstract class PostDetailsState with _$PostDetailsState {
     @Default('') String? errorMessage,
   }) = _PostDetailsState;
 }
+
+// @freezed
+// sealed class PostDetailsState with _$PostDetailsState {
+//   const factory PostDetailsState.success({required PostDetailsEntity postDetails}) = _Success;
+//   const factory PostDetailsState.loading() = _Loading;
+//   const factory PostDetailsState.error({required String error}) = _Error;
+// }
