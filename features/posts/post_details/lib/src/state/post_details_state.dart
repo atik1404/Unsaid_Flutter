@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:entity/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,7 +13,7 @@ abstract class PostDetailsState with _$PostDetailsState {
   const factory PostDetailsState({
     PostDetailsEntity? postDetails,
     @Default(false) bool isLoading,
-    @Default('') String? errorMessage,
+    @Default(null) Failure? errorMessage,
   }) = _PostDetailsState;
 }
 

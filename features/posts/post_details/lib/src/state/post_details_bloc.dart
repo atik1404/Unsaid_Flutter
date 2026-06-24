@@ -20,7 +20,12 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     FetchPostDetailsEvent event,
     Emitter<PostDetailsState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true, postDetails: null, errorMessage: ''));
+    emit(
+      state.copyWith(
+        isLoading: true,
+        postDetails: null,
+      ),
+    );
     final result = await _fetchPostDetailsUseCase(event.postId);
 
     result.when(
@@ -37,7 +42,7 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
           RawStringMessage(:final value) => value,
           LocaleKeyMessage(:final key) => key.name,
         };
-        emit(state.copyWith(isLoading: false, errorMessage: message));
+        emit(state.copyWith(isLoading: false, errorMessage: failure));
       },
     );
   }

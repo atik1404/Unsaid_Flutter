@@ -10,6 +10,7 @@ import 'package:post_details/src/state/post_details_state.dart';
 import 'package:post_details/src/widgets/comment_input_box.dart';
 import 'package:post_details/src/widgets/comments_card.dart';
 import 'package:post_details/src/widgets/post_details_card.dart';
+import 'package:ui/ui.dart';
 
 /// The Post Details screen.
 ///
@@ -47,16 +48,9 @@ class PostDetailsScreen extends StatelessWidget {
 
   /// Renders the error message on failure, otherwise the post details.
   Widget _buildBody(BuildContext context, PostDetailsState state) {
-    if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
-      return Center(
-        child: Padding(
-          padding: EdgeInsets.all(AppSpacing.s16.r),
-          child: AppText.bodyLarge(
-            state.errorMessage!,
-            textAlign: TextAlign.center,
-            color: context.appColors.contentError,
-          ),
-        ),
+    if (state.errorMessage != null) {
+      return AppErrorScreen(
+        message: state.errorMessage?.resolveMessage(context),
       );
     }
 

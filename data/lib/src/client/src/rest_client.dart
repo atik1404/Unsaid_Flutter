@@ -150,10 +150,6 @@ final class RestClient {
       return SuccessResult(parsed);
     } on DioException catch (e) {
       return FailureResult(_mapDioException(e));
-    } on TypeError catch (e, stackTrace) {
-      if (kDebugMode) rethrow; // fail loud in dev
-      _logError('TypeError during parsing', e, stackTrace);
-      return FailureResult(ParseFailure(FailureKey.unknown, e.toString()));
     } on FormatException catch (e, stackTrace) {
       if (kDebugMode) rethrow;
       _logError('FormatException during parsing', e, stackTrace);
