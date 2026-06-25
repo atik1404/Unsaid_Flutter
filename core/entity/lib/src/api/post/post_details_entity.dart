@@ -1,6 +1,6 @@
 final class PostDetailsEntity {
-  final String id;
-  final DateTime createdAt;
+  final String postId;
+  final String createdAt;
   final String authorUserId;
   final String topicId;
   final String type;
@@ -17,7 +17,7 @@ final class PostDetailsEntity {
   final List<CommentEntity> comments;
 
   const PostDetailsEntity({
-    required this.id,
+    required this.postId,
     required this.createdAt,
     required this.authorUserId,
     required this.topicId,
@@ -37,8 +37,8 @@ final class PostDetailsEntity {
 }
 
 final class CommentEntity {
-  final String id;
-  final DateTime createdAt;
+  final String commentId;
+  final String createdAt;
   final String postId;
   final String authorUserId;
   final String? parentCommentId;
@@ -51,7 +51,7 @@ final class CommentEntity {
   final String authorAvatar;
 
   const CommentEntity({
-    required this.id,
+    required this.commentId,
     required this.createdAt,
     required this.postId,
     required this.authorUserId,

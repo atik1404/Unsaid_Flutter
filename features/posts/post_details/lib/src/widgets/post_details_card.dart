@@ -3,6 +3,7 @@ import 'package:designsystem/designsystem.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:navigation/navigation.dart';
 import 'package:ui/ui.dart';
 
@@ -77,7 +78,7 @@ final class PostDetailsCard extends StatelessWidget {
           color: context.appColors.contentPrimary,
         ),
         AppText.captionSmall(
-          postDetails.createdAt.toRelativeTime(),
+          Jiffy.parse(postDetails.createdAt).dateTime.toRelativeTime(),
           textWeight: AppTextWeight.light,
           color: context.appColors.contentSecondary,
         ),

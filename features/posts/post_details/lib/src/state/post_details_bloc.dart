@@ -1,4 +1,3 @@
-import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:post_details/src/state/post_details_event.dart';
 import 'package:post_details/src/state/post_details_state.dart';
@@ -11,8 +10,9 @@ import 'package:domain/domain.dart';
 /// a GoRouter extra.
 class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
   final FetchPostDetailsUseCase _fetchPostDetailsUseCase;
-  PostDetailsBloc({required FetchPostDetailsUseCase fetchPostDetailsUseCase}) : _fetchPostDetailsUseCase = fetchPostDetailsUseCase, super(const PostDetailsState()) {
+  PostDetailsBloc({required FetchPostDetailsUseCase fetchPostDetailsUseCase, required String postId}) : _fetchPostDetailsUseCase = fetchPostDetailsUseCase, super(const PostDetailsState()) {
     on<FetchPostDetailsEvent>(_fetchPostDetails);
+    add(FetchPostDetailsEvent(postId));
   }
 
   /// Stores the incoming post data and marks loading as complete.
@@ -26,6 +26,7 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
         postDetails: null,
       ),
     );
+
     final result = await _fetchPostDetailsUseCase(event.postId);
 
     result.when(
@@ -38,10 +39,6 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
         );
       },
       failure: (failure) {
-        final message = switch (failure.message) {
-          RawStringMessage(:final value) => value,
-          LocaleKeyMessage(:final key) => key.name,
-        };
         emit(state.copyWith(isLoading: false, errorMessage: failure));
       },
     );

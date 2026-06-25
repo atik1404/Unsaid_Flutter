@@ -3,6 +3,37 @@ import 'package:designsystem/designsystem.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:localization/localization.dart';
+
+final class CommentsSection extends StatelessWidget {
+  final List<CommentEntity> comments;
+  const CommentsSection({super.key, required this.comments});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppText.captionMedium(
+          context.l10n.post_details_replies_count(comments.length),
+          color: context.appColors.contentPrimary,
+          textWeight: AppTextWeight.light,
+        ),
+        SizedBox(height: AppSpacing.s8.h),
+        ListView.separated(
+          itemCount: comments.length,
+          shrinkWrap: true,
+          separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s8.h),
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return CommentsCard(comment: comments[index]);
+          },
+        ),
+      ],
+    );
+  }
+}
 
 final class CommentsCard extends StatelessWidget {
   final CommentEntity comment;
@@ -61,7 +92,7 @@ final class CommentsCard extends StatelessWidget {
         ),
         SizedBox(width: AppSpacing.s4.w),
         AppText.captionSmall(
-          comment.createdAt.toRelativeTime(),
+          Jiffy.parse(comment.createdAt).dateTime.toRelativeTime(),
           textWeight: AppTextWeight.light,
           color: context.appColors.contentSecondary,
         ),

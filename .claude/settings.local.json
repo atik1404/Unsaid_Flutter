@@ -9,7 +9,9 @@
       "Bash(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\('package_name:', c['client_info']['android_client_info']['android_package_name']\\) for c in d['client']]\")",
       "Bash(python3 -c \"import json; d=json.load\\(open\\('/Volumes/Personal/Projects/Playground/Flutter/flutter_multi_package/apps/android/app/google-services.json'\\)\\); print\\(json.dumps\\(d, indent=2\\)\\)\")",
-      "Bash(flutter analyze *)"
+      "Bash(flutter analyze *)",
+      "Bash(flutter --version)",
+      "Bash(flutter devices *)"
     ]
   }
 }

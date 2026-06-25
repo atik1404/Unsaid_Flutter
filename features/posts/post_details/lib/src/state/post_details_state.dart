@@ -13,13 +13,8 @@ abstract class PostDetailsState with _$PostDetailsState {
   const factory PostDetailsState({
     PostDetailsEntity? postDetails,
     @Default(false) bool isLoading,
+    @Default(false) bool isSubmitting,
+    @Default(false) bool showToastMessage,
     @Default(null) Failure? errorMessage,
   }) = _PostDetailsState;
 }
-
-// @freezed
-// sealed class PostDetailsState with _$PostDetailsState {
-//   const factory PostDetailsState.success({required PostDetailsEntity postDetails}) = _Success;
-//   const factory PostDetailsState.loading() = _Loading;
-//   const factory PostDetailsState.error({required String error}) = _Error;
-// }

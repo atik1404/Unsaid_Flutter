@@ -3,8 +3,8 @@ import 'package:entity/entity.dart';
 
 extension PostDetailsApiMapper on PostDetailsDto {
   PostDetailsEntity toEntity() => PostDetailsEntity(
-    id: id ?? '',
-    createdAt: DateTime.tryParse(createdAt ?? '') ?? DateTime.now(),
+    postId: id ?? '',
+    createdAt: createdAt ?? '',
     authorUserId: authorUserId ?? '',
     topicId: topicId ?? '',
     type: type ?? '',
@@ -24,8 +24,8 @@ extension PostDetailsApiMapper on PostDetailsDto {
 
 extension _CommentMapper on CommentDto {
   CommentEntity toEntity() => CommentEntity(
-    id: id ?? '',
-    createdAt: DateTime.tryParse(createdAt ?? '') ?? DateTime.now(),
+    commentId: id ?? '',
+    createdAt: createdAt ?? '',
     postId: postId ?? '',
     authorUserId: authorUserId ?? '',
     parentCommentId: parentCommentId,
