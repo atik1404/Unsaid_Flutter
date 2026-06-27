@@ -39,7 +39,7 @@ class PostDetailsScreen extends StatelessWidget {
           bottomNavigationBar: Visibility(
             visible: state.postDetails != null && authStateNotifier.isLoggedIn,
             child: CommentInputBox(
-              onCommentSubmitted: (commnet)=>{
+              onCommentSubmitted: (commnet) => {
                 AppLog.log(commnet),
               },
             ),
@@ -71,6 +71,7 @@ class PostDetailsScreen extends StatelessWidget {
           SizedBox(height: AppSpacing.s16.h),
 
           CommentsSection(comments: postDetails.comments),
+          SizedBox(height: AppSpacing.s16.h),
         ],
       ),
     );
