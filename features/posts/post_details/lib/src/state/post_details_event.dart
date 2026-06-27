@@ -9,5 +9,15 @@ final class FetchPostDetailsEvent extends PostDetailsEvent {
 
 final class AddCommentEvent extends PostDetailsEvent {
   final String comment;
-  const AddCommentEvent({ required this.comment});
+  const AddCommentEvent({required this.comment});
+}
+
+final class AddReactEvent extends PostDetailsEvent {
+  final String postId;
+  const AddReactEvent({required this.postId});
+}
+
+final class RemoveReactEvent extends PostDetailsEvent {
+  final String postId;
+  const RemoveReactEvent({required this.postId});
 }

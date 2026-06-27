@@ -10,4 +10,6 @@ abstract class PostRepository {
   Future<Result<PostDetailsEntity, Failure>> fetchPostDetails(String postId);
 
   Future<Result<CommentEntity, Failure>> addComment(AddCommentParams params);
+
+  Future<Result<ReactionEntity, Failure>> addReact(AddReactParams params);
 }

@@ -1,7 +1,5 @@
-import 'package:common/common.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:post_details/src/state/post_details_event.dart';
 import 'package:post_details/src/state/post_details_state.dart';
 import 'package:domain/domain.dart';
@@ -14,15 +12,19 @@ import 'package:domain/domain.dart';
 class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
   final FetchPostDetailsUseCase _fetchPostDetailsUseCase;
   final AddCommentUseCase _addCommentUseCase;
+  final AddReactUseCase _addReactUseCase;
   final String _postId;
 
-  PostDetailsBloc({required String postId, required FetchPostDetailsUseCase fetchPostDetailsUseCase, required AddCommentUseCase addCommentUseCase})
+  PostDetailsBloc({required String postId, required FetchPostDetailsUseCase fetchPostDetailsUseCase, required AddCommentUseCase addCommentUseCase, required AddReactUseCase addReactUseCase})
     : _fetchPostDetailsUseCase = fetchPostDetailsUseCase,
       _addCommentUseCase = addCommentUseCase,
+      _addReactUseCase = addReactUseCase,
       _postId = postId,
       super(const PostDetailsState()) {
     on<FetchPostDetailsEvent>(_fetchPostDetails);
     on<AddCommentEvent>(_addComment);
+    on<AddReactEvent>(_addReact);
+    on<RemoveReactEvent>(_removeReact);
     add(FetchPostDetailsEvent(postId));
   }
 
@@ -72,4 +74,14 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
       },
     );
   }
+
+  Future<void> _addReact(
+    AddReactEvent event,
+    Emitter<PostDetailsState> emit,
+  ) async{}
+
+  Future<void> _removeReact(
+    RemoveReactEvent event,
+    Emitter<PostDetailsState> emit,
+  ) async{}
 }

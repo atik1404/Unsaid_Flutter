@@ -21,7 +21,7 @@ final class PostDetailsScreenRouter implements BaseRouter {
           return buildPageWithTransition(
             state: state,
             child: BlocProvider(
-              create: (_) => PostDetailsBloc(fetchPostDetailsUseCase: GetIt.I.get(), addCommentUseCase: GetIt.I.get(), postId: postId ?? ''),
+              create: (_) => PostDetailsBloc(fetchPostDetailsUseCase: GetIt.I.get(), addCommentUseCase: GetIt.I.get(), addReactUseCase: GetIt.I.get(), postId: postId ?? ''),
               child: const PostDetailsScreen(),
             ),
           );

@@ -2,8 +2,10 @@ import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:data/src/dto/dto.dart';
 import 'package:data/src/dto/src/post/comment_dto.dart';
+import 'package:data/src/dto/src/post/add_react_dto.dart';
 import 'package:data/src/mapper/mapper.dart';
 import 'package:data/src/mapper/src/post/add_comment_api_mapper.dart';
+import 'package:data/src/mapper/src/post/add_react_api_mapper.dart';
 import 'package:data/src/mapper/src/post/my_post_api_mapper.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
@@ -47,6 +49,16 @@ final class PostRepoImpl implements PostRepository {
       data: params.toJson(),
       options: AuthOptions.authenticated(),
       parser: (data) => CommentDto.fromJson(data).toEntity(),
+    );
+  }
+
+  @override
+  Future<Result<ReactionEntity, Failure>> addReact(AddReactParams params) async {
+    return _restClient.post(
+      '/posts/${params.postId}/reactions',
+      data: params.toJson(),
+      options: AuthOptions.authenticated(),
+      parser: (data) => AddReactDto.fromJson(data).toEntity(),
     );
   }
 }
