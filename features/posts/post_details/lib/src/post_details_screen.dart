@@ -1,4 +1,3 @@
-import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:post_details/src/state/post_details_bloc.dart';
+import 'package:post_details/src/state/post_details_event.dart';
 import 'package:post_details/src/state/post_details_state.dart';
 import 'package:post_details/src/widgets/comment_input_box.dart';
 import 'package:post_details/src/widgets/comments_section.dart';
@@ -39,8 +39,9 @@ class PostDetailsScreen extends StatelessWidget {
           bottomNavigationBar: Visibility(
             visible: state.postDetails != null && authStateNotifier.isLoggedIn,
             child: CommentInputBox(
+              isLoading: state.isSubmitting,
               onCommentSubmitted: (commnet) => {
-                AppLog.log(commnet),
+                context.read<PostDetailsBloc>().add(AddCommentEvent(comment: commnet)),
               },
             ),
           ),
@@ -70,7 +71,7 @@ class PostDetailsScreen extends StatelessWidget {
           PostDetailsCard(postDetails: postDetails),
           SizedBox(height: AppSpacing.s16.h),
 
-          CommentsSection(comments: postDetails.comments),
+          CommentsSection(comments: state.comments),
           SizedBox(height: AppSpacing.s16.h),
         ],
       ),

@@ -7,8 +7,7 @@ final class FetchPostDetailsEvent extends PostDetailsEvent {
   const FetchPostDetailsEvent(this.postId);
 }
 
-final class PostNewCommentEvent extends PostDetailsEvent {
-  final String postId;
+final class AddCommentEvent extends PostDetailsEvent {
   final String comment;
-  const PostNewCommentEvent({required this.postId, required this.comment});
+  const AddCommentEvent({ required this.comment});
 }

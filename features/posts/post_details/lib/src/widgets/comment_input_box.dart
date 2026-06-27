@@ -4,9 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 
 class CommentInputBox extends StatefulWidget {
+  final bool isLoading;
   final Function(String) onCommentSubmitted;
 
-  const CommentInputBox({super.key, required this.onCommentSubmitted});
+  const CommentInputBox({super.key, required this.onCommentSubmitted, required this.isLoading});
 
   @override
   State<CommentInputBox> createState() => _CommentInputBoxState();
@@ -42,7 +43,16 @@ class _CommentInputBoxState extends State<CommentInputBox> {
           SizedBox(width: AppSpacing.s8.w),
           _buildInputField(context),
           SizedBox(width: AppSpacing.s8.w),
-          _buildSendButton(context),
+          if (widget.isLoading)
+            const SizedBox(
+              width: IconSizes.inline,
+              height: IconSizes.inline,
+              child: CircularProgressIndicator(
+                strokeWidth: 1,
+              ),
+            )
+          else
+            _buildSendButton(context),
         ],
       ),
     );
@@ -84,7 +94,12 @@ class _CommentInputBoxState extends State<CommentInputBox> {
         color: context.appColors.brand,
         tint: true,
       ),
-      onPressed: () {},
+      onPressed: isButtonEnable
+          ? () {
+              widget.onCommentSubmitted(_textController.text);
+              _textController.clear();
+            }
+          : null,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:data/src/dto/dto.dart';
+import 'package:data/src/mapper/src/post/add_comment_api_mapper.dart';
 import 'package:entity/entity.dart';
 
 extension PostDetailsApiMapper on PostDetailsDto {
@@ -18,23 +19,6 @@ extension PostDetailsApiMapper on PostDetailsDto {
     score: score ?? 0,
     authorName: '${author?.anonymousTag ?? ''}-${author?.fullName ?? ''}',
     authorAvatar: author?.avatarSeed?.toString() ?? '',
-    comments: comments?.map((c) => c.toEntity()).toList() ?? [],
-  );
-}
-
-extension _CommentMapper on CommentDto {
-  CommentEntity toEntity() => CommentEntity(
-    commentId: id ?? '',
-    createdAt: createdAt ?? '',
-    postId: postId ?? '',
-    authorUserId: authorUserId ?? '',
-    parentCommentId: parentCommentId,
-    body: body ?? '',
-    visibility: visibility ?? '',
-    reactionCount: reactionCount ?? 0,
-    reportCount: reportCount ?? 0,
-    score: score ?? 0,
-    authorName: '${author?.anonymousTag ?? ''}-${author?.fullName ?? ''}',
-    authorAvatar: author?.avatarSeed?.toString() ?? '',
+    comments: comments?.map((comment) => comment.toEntity()).toList() ?? [],
   );
 }

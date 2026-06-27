@@ -1,3 +1,4 @@
+import 'package:data/src/dto/src/post/comment_dto.dart';
 import 'package:data/src/dto/src/post/posts_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -30,7 +31,7 @@ class PostDetailsDto {
   final int? reportCount;
   final int? score;
   final PostAuthorDto? author;
-  final List<CommentDto>? comments;
+  final List<CommentData>? comments;
 
   const PostDetailsDto({
     this.id,
@@ -53,44 +54,4 @@ class PostDetailsDto {
   });
 
   factory PostDetailsDto.fromJson(Map<String, dynamic> json) => _$PostDetailsDtoFromJson(json);
-}
-
-@JsonSerializable(createToJson: false)
-class CommentDto {
-  final String? id;
-  @JsonKey(name: 'created_at')
-  final String? createdAt;
-  @JsonKey(name: 'updated_at')
-  final String? updatedAt;
-  @JsonKey(name: 'post_id')
-  final String? postId;
-  @JsonKey(name: 'author_user_id')
-  final String? authorUserId;
-  @JsonKey(name: 'parent_comment_id')
-  final String? parentCommentId;
-  final String? body;
-  final String? visibility;
-  @JsonKey(name: 'reaction_count')
-  final int? reactionCount;
-  @JsonKey(name: 'report_count')
-  final int? reportCount;
-  final int? score;
-  final PostAuthorDto? author;
-
-  const CommentDto({
-    this.id,
-    this.createdAt,
-    this.updatedAt,
-    this.postId,
-    this.authorUserId,
-    this.parentCommentId,
-    this.body,
-    this.visibility,
-    this.reactionCount,
-    this.reportCount,
-    this.score,
-    this.author,
-  });
-
-  factory CommentDto.fromJson(Map<String, dynamic> json) => _$CommentDtoFromJson(json);
 }

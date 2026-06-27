@@ -16,5 +16,6 @@ abstract class PostDetailsState with _$PostDetailsState {
     @Default(false) bool isSubmitting,
     @Default(false) bool showToastMessage,
     @Default(null) Failure? errorMessage,
+    @Default([]) List<CommentEntity> comments,
   }) = _PostDetailsState;
 }

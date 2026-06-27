@@ -1,7 +1,9 @@
 import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:data/src/dto/dto.dart';
+import 'package:data/src/dto/src/post/comment_dto.dart';
 import 'package:data/src/mapper/mapper.dart';
+import 'package:data/src/mapper/src/post/add_comment_api_mapper.dart';
 import 'package:data/src/mapper/src/post/my_post_api_mapper.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
@@ -33,7 +35,18 @@ final class PostRepoImpl implements PostRepository {
     return _restClient.get(
       '/profile/posts',
       queryParameters: params.toJson(),
+      options: AuthOptions.authenticated(),
       parser: (data) => MyPostsDto.fromJson(data).toEntity(),
+    );
+  }
+
+  @override
+  Future<Result<CommentEntity, Failure>> addComment(AddCommentParams params) async {
+    return _restClient.post(
+      '/posts/${params.postId}/comments',
+      data: params.toJson(),
+      options: AuthOptions.authenticated(),
+      parser: (data) => CommentDto.fromJson(data).toEntity(),
     );
   }
 }
