@@ -1,3 +1,5 @@
+part of 'post_details_bloc.dart';
+
 sealed class PostDetailsEvent {
   const PostDetailsEvent();
 }
@@ -12,12 +14,14 @@ final class AddCommentEvent extends PostDetailsEvent {
   const AddCommentEvent({required this.comment});
 }
 
-final class AddReactEvent extends PostDetailsEvent {
-  final String postId;
-  const AddReactEvent({required this.postId});
+final class SubmitReactEvent extends PostDetailsEvent {
+  const SubmitReactEvent();
 }
 
-final class RemoveReactEvent extends PostDetailsEvent {
-  final String postId;
-  const RemoveReactEvent({required this.postId});
+final class _AddReactEvent extends PostDetailsEvent {
+  const _AddReactEvent();
+}
+
+final class _RemoveReactEvent extends PostDetailsEvent {
+  const _RemoveReactEvent();
 }

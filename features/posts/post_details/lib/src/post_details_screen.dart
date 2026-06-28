@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:post_details/src/state/post_details_bloc.dart';
-import 'package:post_details/src/state/post_details_event.dart';
 import 'package:post_details/src/state/post_details_state.dart';
 import 'package:post_details/src/widgets/comment_input_box.dart';
 import 'package:post_details/src/widgets/comments_section.dart';

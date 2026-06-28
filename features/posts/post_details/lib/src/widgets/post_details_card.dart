@@ -66,7 +66,7 @@ final class PostDetailsCard extends StatelessWidget {
           child: _buildHeaderTitle(context),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context, postDetails.mood, textColor, bgColor),
+        _buildTag(postDetails.mood, textColor, bgColor),
       ],
     );
   }
@@ -89,7 +89,7 @@ final class PostDetailsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(BuildContext context, String tag, Color textColor, Color bgColor) {
+  Widget _buildTag(String tag, Color textColor, Color bgColor) {
     return AppTag(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
       backgroundColor: bgColor,

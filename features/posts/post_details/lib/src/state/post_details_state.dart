@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'post_details_state.freezed.dart';
 
+
 /// State for the Post Details screen.
 ///
 /// Wraps the [PostDetailsEntity] and a loading flag.
@@ -15,6 +16,7 @@ abstract class PostDetailsState with _$PostDetailsState {
     @Default(false) bool isLoading,
     @Default(false) bool isSubmitting,
     @Default(false) bool showToastMessage,
+    @Default(false) bool isReacted,
     @Default(null) Failure? errorMessage,
     @Default([]) List<CommentEntity> comments,
   }) = _PostDetailsState;

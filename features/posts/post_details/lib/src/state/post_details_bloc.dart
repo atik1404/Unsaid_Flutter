@@ -1,8 +1,9 @@
 import 'package:entity/entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:post_details/src/state/post_details_event.dart';
-import 'package:post_details/src/state/post_details_state.dart';
 import 'package:domain/domain.dart';
+import 'package:post_details/src/state/post_details_state.dart';
+
+part 'post_details_event.dart';
 
 /// Manages the state for the Post Details screen.
 ///
@@ -13,18 +14,26 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
   final FetchPostDetailsUseCase _fetchPostDetailsUseCase;
   final AddCommentUseCase _addCommentUseCase;
   final AddReactUseCase _addReactUseCase;
+  final RemoveReactUseCase _removeReactUseCase;
   final String _postId;
 
-  PostDetailsBloc({required String postId, required FetchPostDetailsUseCase fetchPostDetailsUseCase, required AddCommentUseCase addCommentUseCase, required AddReactUseCase addReactUseCase})
-    : _fetchPostDetailsUseCase = fetchPostDetailsUseCase,
-      _addCommentUseCase = addCommentUseCase,
-      _addReactUseCase = addReactUseCase,
-      _postId = postId,
-      super(const PostDetailsState()) {
+  PostDetailsBloc({
+    required String postId,
+    required FetchPostDetailsUseCase fetchPostDetailsUseCase,
+    required AddCommentUseCase addCommentUseCase,
+    required RemoveReactUseCase removeReactUseCase,
+    required AddReactUseCase addReactUseCase,
+  }) : _fetchPostDetailsUseCase = fetchPostDetailsUseCase,
+       _addCommentUseCase = addCommentUseCase,
+       _addReactUseCase = addReactUseCase,
+       _removeReactUseCase = removeReactUseCase,
+       _postId = postId,
+       super(const PostDetailsState()) {
     on<FetchPostDetailsEvent>(_fetchPostDetails);
     on<AddCommentEvent>(_addComment);
-    on<AddReactEvent>(_addReact);
-    on<RemoveReactEvent>(_removeReact);
+    on<SubmitReactEvent>(_submitReact);
+    on<_AddReactEvent>(_addReact);
+    on<_RemoveReactEvent>(_removeReact);
     add(FetchPostDetailsEvent(postId));
   }
 
@@ -75,13 +84,48 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     );
   }
 
-  Future<void> _addReact(
-    AddReactEvent event,
+  Future<void> _submitReact(
+    SubmitReactEvent event,
     Emitter<PostDetailsState> emit,
-  ) async{}
+  ) async {
+    if (state.isReacted) {
+      add(const _RemoveReactEvent());
+    } else {
+      add(const _AddReactEvent());
+    }
+  }
+
+  Future<void> _addReact(
+    _AddReactEvent event,
+    Emitter<PostDetailsState> emit,
+  ) async {
+    final result = await _addReactUseCase.call(AddReactParams(postId: _postId, react: 'support'));
+
+    result.when(
+      success: (data) {
+        emit(state.copyWith(isReacted: true));
+      },
+      failure: (_) {
+        emit(state.copyWith(isReacted: false));
+      },
+    );
+  }
 
   Future<void> _removeReact(
-    RemoveReactEvent event,
+    _RemoveReactEvent event,
     Emitter<PostDetailsState> emit,
-  ) async{}
+  ) async {
+    final result = await _removeReactUseCase.call(
+      _postId,
+    );
+
+    result.when(
+      success: (data) {
+        emit(state.copyWith(isReacted: false));
+      },
+      failure: (_) {
+        emit(state.copyWith(isReacted: true));
+      },
+    );
+  }
 }

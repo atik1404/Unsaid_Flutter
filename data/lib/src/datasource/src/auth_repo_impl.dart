@@ -1,12 +1,7 @@
 import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:data/src/dto/dto.dart';
-import 'package:data/src/dto/src/auth/send_otp_dto.dart';
-import 'package:data/src/dto/src/auth/verify_otp_dto.dart';
 import 'package:data/src/mapper/mapper.dart';
-import 'package:data/src/mapper/src/auth/send_otp_api_mapper.dart';
-import 'package:data/src/mapper/src/auth/signup_api_mapper.dart';
-import 'package:data/src/mapper/src/auth/verify_otp_api_mapper.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
 import 'package:pref_storage/pref_storage.dart';

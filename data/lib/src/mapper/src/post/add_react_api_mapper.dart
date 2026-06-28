@@ -1,7 +1,7 @@
-import 'package:data/src/dto/src/post/add_react_dto.dart';
+import 'package:data/src/dto/src/post/post_react_submit_dto.dart';
 import 'package:entity/entity.dart';
 
-extension AddReactApiMapper on AddReactDto {
+extension AddReactApiMapper on PostReactSubmitDto {
   ReactionEntity toEntity() {
     final reaction = data;
 
@@ -9,7 +9,7 @@ extension AddReactApiMapper on AddReactDto {
   }
 }
 
-extension AddReactDataMapper on AddReactData? {
+extension AddReactDataMapper on ReactData? {
   ReactionEntity toEntity() => ReactionEntity(
     postId: this?.postId ?? '',
     react: this?.react ?? '',
