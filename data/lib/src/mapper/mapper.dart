@@ -11,3 +11,4 @@ export 'src/post/post_details_api_mapper.dart';
 export 'src/post/my_post_api_mapper.dart';
 export 'src/post/add_react_api_mapper.dart';
 export 'src/post/add_comment_api_mapper.dart';
+export 'src/post/create_post_api_mapper.dart';

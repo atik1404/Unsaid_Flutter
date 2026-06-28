@@ -7,6 +7,7 @@ export 'src/params/auth/signup_params.dart';
 export 'src/params/post/fetch_posts_params.dart';
 export 'src/params/post/add_comment_params.dart';
 export 'src/params/post/add_react_params.dart';
+export 'src/params/post/create_post_params.dart';
 
 //repostiory
 export 'src/repository/auth_repository.dart';
@@ -28,5 +29,6 @@ export 'src/usecase/post/fetch_post_details_use_case.dart';
 export 'src/usecase/post/add_comment_use_case.dart';
 export 'src/usecase/post/add_react_use_case.dart';
 export 'src/usecase/post/remove_react_use_case.dart';
+export 'src/usecase/post/create_post_use_case.dart';
 
 export 'src/di/domain_di.dart';

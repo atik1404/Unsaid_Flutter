@@ -3,6 +3,8 @@ import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
 
 abstract class PostRepository {
+  Future<Result<CreatePostEntity, Failure>> createPost(CreatePostParams params);
+
   Future<Result<PostPagerEntity, Failure>> fetchPosts(FetchPostsParams params);
 
   Future<Result<PostPagerEntity, Failure>> fetchMyPosts(FetchPostsParams params);

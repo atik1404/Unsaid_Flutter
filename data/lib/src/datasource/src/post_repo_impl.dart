@@ -11,6 +11,16 @@ final class PostRepoImpl implements PostRepository {
   const PostRepoImpl(this._restClient);
 
   @override
+  Future<Result<CreatePostEntity, Failure>> createPost(CreatePostParams params) {
+    return _restClient.post(
+      '/posts',
+      data: params.toJson(),
+      options: AuthOptions.authenticated(),
+      parser: (data) => CreatePostDto.fromJson(data).toEntity(),
+    );
+  }
+
+  @override
   Future<Result<PostPagerEntity, Failure>> fetchPosts(FetchPostsParams params) {
     return _restClient.get(
       '/posts',

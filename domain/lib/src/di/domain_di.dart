@@ -17,6 +17,7 @@ final class DomainDi {
       ..registerLazySingleton<AddCommentUseCase>(() => AddCommentUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<AddReactUseCase>(() => AddReactUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<RemoveReactUseCase>(() => RemoveReactUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<CreatePostUseCase>(() => CreatePostUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<FetchPostDetailsUseCase>(() => FetchPostDetailsUseCase(getIt<PostRepository>()));
   }
 }
