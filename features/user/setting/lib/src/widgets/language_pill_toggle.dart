@@ -3,10 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:common/common.dart';
 
+/// A compact two-segment pill that switches the app language between English
+/// and Bangla.
+///
+/// Stateless and controlled: [isEnglish] drives which segment is highlighted
+/// and [onToggle] reports the user's choice (true = English) back to the owner,
+/// which holds the actual locale state.
 class LanguagePillToggle extends StatelessWidget {
   const LanguagePillToggle({super.key, required this.isEnglish, required this.onToggle});
 
+  /// Whether the English segment is currently selected.
   final bool isEnglish;
+
+  /// Called with the chosen language (true = English, false = Bangla).
   final ValueChanged<bool> onToggle;
 
   @override

@@ -4,9 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
+import 'package:ui/ui.dart';
 
 class AnonymousCard extends StatelessWidget {
-  const AnonymousCard({super.key});
+  final String _anonymousName;
+
+  const AnonymousCard({super.key, required String anonymousName}) : _anonymousName = anonymousName;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class AnonymousCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText.bodySmall(
-          "Ghoost_8821",
+          _anonymousName,
           textWeight: AppTextWeight.regular,
           color: context.appColors.contentPrimary,
         ),
@@ -55,7 +58,7 @@ class AnonymousCard extends StatelessWidget {
   }
 
   Widget _buildTag(BuildContext context, String tag) {
-    final colors = _getTagColor(tag, context);
+    final colors = MoodDecoration.getColor(context, tag: tag);
     return AppTag(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
       backgroundColor: colors.$1,
@@ -64,23 +67,5 @@ class AnonymousCard extends StatelessWidget {
         color: colors.$2,
       ),
     );
-  }
-
-  (Color, Color) _getTagColor(String tag, BuildContext context) {
-    final colors = context.modeColors;
-    final mood = MoodTypeX.fromString(tag) ?? MoodType.neutral;
-
-    return switch (mood) {
-      MoodType.love => (colors.love.backgroundColor, colors.love.textColor),
-      MoodType.angry => (colors.angry.backgroundColor, colors.angry.textColor),
-      MoodType.happy => (colors.happy.backgroundColor, colors.happy.textColor),
-      MoodType.sad => (colors.sad.backgroundColor, colors.sad.textColor),
-      MoodType.lonely => (colors.lonely.backgroundColor, colors.lonely.textColor),
-      MoodType.excited => (colors.excited.backgroundColor, colors.excited.textColor),
-      MoodType.dark => (colors.dark.backgroundColor, colors.dark.textColor),
-      MoodType.neutral => (colors.neutral.backgroundColor, colors.neutral.textColor),
-      MoodType.all => (context.appColors.backgroundPrimary, context.appColors.contentPrimary),
-      MoodType.confused => (colors.confused.backgroundColor, colors.confused.textColor),
-    };
   }
 }

@@ -14,7 +14,7 @@ class DataDiModule {
   static void init(GetIt getIt) {
     final prefStorage = getIt<AppPrefStorage>();
 
-    final tokenRefreshDio = DioFactory.createTokenRefreshClient(prefStorage);
+    final tokenRefreshDio = DioFactory.createTokenRefreshClient();
     getIt
       ..registerSingleton<Dio>(tokenRefreshDio, instanceName: _tokenRefreshClientName)
       // API Dio — base URL for all JSON endpoints

@@ -1,5 +1,5 @@
 import 'package:common/common.dart';
-import 'package:domain/src/params/login_params.dart';
+import 'package:domain/src/params/auth/login_params.dart';
 import 'package:domain/src/repository/auth_repository.dart';
 import 'package:domain/src/usecase/base_usecase.dart';
 import 'package:entity/entity.dart';

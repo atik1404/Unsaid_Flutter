@@ -7,12 +7,17 @@ final class DomainDi {
   static void init(GetIt getIt) {
     getIt
       ..registerLazySingleton<LoginUseCase>(() => LoginUseCase(getIt<AuthRepository>()))
+      ..registerLazySingleton<SignupUseCase>(() => SignupUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<SendOtpUseCase>(() => SendOtpUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<VerifyOtpUseCase>(() => VerifyOtpUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<FetchProfileUseCase>(() => FetchProfileUseCase(getIt<AuthRepository>()))
-      ..registerLazySingleton<FetchUserExistenceUseCase>(() => FetchUserExistenceUseCase(getIt<CommonRepository>()))
+      ..registerLazySingleton<FetchUserExistenceUseCase>(() => FetchUserExistenceUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<FetchPostsUseCase>(() => FetchPostsUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<FetchMyPostsUseCase>(() => FetchMyPostsUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<AddCommentUseCase>(() => AddCommentUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<AddReactUseCase>(() => AddReactUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<RemoveReactUseCase>(() => RemoveReactUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<CreatePostUseCase>(() => CreatePostUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<FetchPostDetailsUseCase>(() => FetchPostDetailsUseCase(getIt<PostRepository>()));
   }
 }

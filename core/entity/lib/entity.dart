@@ -6,6 +6,8 @@ export 'src/api/common/common_api_entity.dart';
 
 export 'src/api/post/post_pager_entity.dart';
 export 'src/api/post/post_details_entity.dart';
+export 'src/api/post/reaction_entity.dart';
+export 'src/api/post/create_post_entity.dart';
 
 //internal
 export 'src/internal/onboarding_pager_entity.dart';

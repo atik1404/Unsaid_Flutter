@@ -17,7 +17,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final moodColors = _moodColors(post.mood, context);
+    final (bg, _, stroke) = MoodDecoration.getColor(context, tag: post.mood);
 
     return GestureDetector(
       onTap: onTap,
@@ -25,7 +25,7 @@ class PostCard extends StatelessWidget {
         padding: EdgeInsets.only(left: AppSpacing.s2.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.r16.r),
-          color: moodColors.$2,
+          color: bg,
         ),
         child: AppCard.rounded(
           variant: AppCardVariant.outline,
@@ -34,7 +34,13 @@ class PostCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _PostHeader(post: post, borderColor: moodColors.$2),
+              _PostHeader(
+                mood: post.mood,
+                authorName: post.authorName,
+                dateTime: post.createdAt.toRelativeTime(),
+                avatar: post.authorAvatar,
+                borderColor: stroke,
+              ),
               SizedBox(height: AppSpacing.s8.h),
               AppText.bodySmall(
                 post.body,
@@ -62,19 +68,20 @@ class PostCard extends StatelessWidget {
 
 /// Author row: avatar, name + timestamp, and mood tag.
 class _PostHeader extends StatelessWidget {
-  final PostEntity post;
-
-  /// Accent colour derived from the post mood, used as the avatar border.
+  final String mood;
+  final String authorName;
+  final String dateTime;
+  final String avatar;
   final Color borderColor;
 
-  const _PostHeader({required this.post, required this.borderColor});
+  const _PostHeader({required this.mood, required this.authorName, required this.dateTime, required this.borderColor, required this.avatar});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         AppImage.network(
-          'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+          avatar,
           width: IconSizes.prominent,
           height: IconSizes.prominent,
           shape: ImageShape.circle,
@@ -86,12 +93,12 @@ class _PostHeader extends StatelessWidget {
         SizedBox(width: AppSpacing.s8.w),
         Expanded(
           child: _HeaderTitle(
-            username: post.authorName,
-            dateTime: post.createdAt.toRelativeTime(),
+            username: authorName,
+            dateTime: dateTime,
           ),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _MoodTag(tag: post.mood.toUpperCase()),
+        _MoodTag(tag: mood.toUpperCase()),
       ],
     );
   }
@@ -132,11 +139,11 @@ class _MoodTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = _moodColors(tag, context);
+    final (bg, text, _) = MoodDecoration.getColor(context, tag: tag);
     return AppTag(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
-      backgroundColor: colors.$1,
-      child: AppText.captionSmall(tag, color: colors.$2),
+      backgroundColor: bg,
+      child: AppText.captionSmall(tag, color: text),
     );
   }
 }
@@ -191,27 +198,4 @@ class _PostActions extends StatelessWidget {
       ],
     );
   }
-}
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-/// Returns `(backgroundColor, textColor)` for the given [mood] string.
-(Color, Color) _moodColors(String mood, BuildContext context) {
-  final colors = context.modeColors;
-  final moodType = MoodTypeX.fromString(mood) ?? MoodType.neutral;
-
-  return switch (moodType) {
-    MoodType.love => (colors.love.backgroundColor, colors.love.textColor),
-    MoodType.angry => (colors.angry.backgroundColor, colors.angry.textColor),
-    MoodType.happy => (colors.happy.backgroundColor, colors.happy.textColor),
-    MoodType.sad => (colors.sad.backgroundColor, colors.sad.textColor),
-    MoodType.lonely => (colors.lonely.backgroundColor, colors.lonely.textColor),
-    MoodType.excited => (colors.excited.backgroundColor, colors.excited.textColor),
-    MoodType.dark => (colors.dark.backgroundColor, colors.dark.textColor),
-    MoodType.neutral => (colors.neutral.backgroundColor, colors.neutral.textColor),
-    MoodType.all => (context.appColors.backgroundPrimary, context.appColors.contentPrimary),
-    MoodType.confused => (colors.confused.backgroundColor, colors.confused.textColor),
-  };
 }

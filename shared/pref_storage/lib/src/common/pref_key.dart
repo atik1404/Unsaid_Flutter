@@ -5,6 +5,7 @@ final class PrefKey {
   static const String refreshToken = 'auth.refreshToken';
   static const String loginStatus = 'auth.loginStatus';
   static const String isFirstLaunch = 'auth.isFirstLaunch';
+  static const String accessTokenExpiresIn = 'auth.accessTokenExpiresIn';
 
   static const String appLanguage = 'app.language';
   static const String appTheme = 'app.theme';

@@ -1,15 +1,15 @@
-import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
-import 'package:entity/entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
-import 'package:post_details/src/state/post_details_cubit.dart';
+import 'package:navigation/navigation.dart';
+import 'package:post_details/src/state/post_details_bloc.dart';
 import 'package:post_details/src/state/post_details_state.dart';
 import 'package:post_details/src/widgets/comment_input_box.dart';
-import 'package:post_details/src/widgets/comments_card.dart';
+import 'package:post_details/src/widgets/comments_section.dart';
 import 'package:post_details/src/widgets/post_details_card.dart';
+import 'package:ui/ui.dart';
 
 /// The Post Details screen.
 ///
@@ -20,70 +20,60 @@ class PostDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      appBar: AppTopBar(
-        backgroundColor: context.scaffoldTheme.backgroundColor,
-        titleWidget: AppText.headlineSmall(
-          context.l10n.post_details_title,
-          color: context.appColors.contentBrand,
-          textWeight: AppTextWeight.extraBold,
-        ),
-        foregroundColor: context.appColors.brand,
-      ),
-      body: BlocBuilder<PostDetailsCubit, PostDetailsState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          AppLog.log('Post Details State: ${state.postDetails?.authorName}');
-          if (state.postDetails == null) {
-            return Center(
-              child: AppText.bodyMedium(
-                'post details not found',
-                color: context.appColors.contentPrimary,
-              ),
-            );
-          }
-
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(AppSpacing.s16.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PostDetailsCard(
-                  postDetails: state.postDetails!,
-                ),
-                SizedBox(height: AppSpacing.s16.h),
-                _buildReplyCountText(context, state.postDetails!.commentCount),
-                SizedBox(height: AppSpacing.s8.h),
-                _buildCommentsSection(state.postDetails!.comments),
-              ],
+    return BlocConsumer<PostDetailsBloc, PostDetailsState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return AppScaffold(
+          appBar: AppTopBar(
+            backgroundColor: context.scaffoldTheme.backgroundColor,
+            titleWidget: AppText.headlineSmall(
+              context.l10n.post_details_title,
+              color: context.appColors.contentBrand,
+              textWeight: AppTextWeight.extraBold,
             ),
-          );
-        },
-      ),
-
-      bottomNavigationBar: const CommentInputBox(),
-    );
-  }
-
-  Widget _buildCommentsSection(List<CommentEntity> comments) {
-    return ListView.separated(
-      itemCount: comments.length,
-      shrinkWrap: true,
-      separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s8.h),
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return CommentsCard(comment: comments[index]);
+            foregroundColor: context.appColors.brand,
+          ),
+          isLoading: state.isLoading,
+          body: _buildBody(context, state),
+          bottomNavigationBar: Visibility(
+            visible: state.postDetails != null && authStateNotifier.isLoggedIn,
+            child: CommentInputBox(
+              isLoading: state.isSubmitting,
+              onCommentSubmitted: (commnet) => {
+                context.read<PostDetailsBloc>().add(AddCommentEvent(comment: commnet)),
+              },
+            ),
+          ),
+        );
       },
     );
   }
 
-  Widget _buildReplyCountText(BuildContext context, int count) {
-    return AppText.captionMedium(
-      context.l10n.post_details_replies_count(count),
-      color: context.appColors.contentPrimary,
-      textWeight: AppTextWeight.light,
+  /// Renders the error message on failure, otherwise the post details.
+  Widget _buildBody(BuildContext context, PostDetailsState state) {
+    if (state.errorMessage != null) {
+      return AppErrorScreen(
+        message: state.errorMessage!.resolveMessage(context),
+      );
+    }
+
+    if (state.postDetails == null) {
+      return const SizedBox.shrink();
+    }
+
+    final postDetails = state.postDetails!;
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(AppSpacing.s16.r),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PostDetailsCard(postDetails: postDetails),
+          SizedBox(height: AppSpacing.s16.h),
+
+          CommentsSection(comments: state.comments),
+          SizedBox(height: AppSpacing.s16.h),
+        ],
+      ),
     );
   }
 }

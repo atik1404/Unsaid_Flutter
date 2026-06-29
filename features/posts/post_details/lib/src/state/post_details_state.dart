@@ -1,7 +1,9 @@
+import 'package:common/common.dart';
 import 'package:entity/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'post_details_state.freezed.dart';
+
 
 /// State for the Post Details screen.
 ///
@@ -12,6 +14,10 @@ abstract class PostDetailsState with _$PostDetailsState {
   const factory PostDetailsState({
     PostDetailsEntity? postDetails,
     @Default(false) bool isLoading,
-    @Default('') String? errorMessage,
+    @Default(false) bool isSubmitting,
+    @Default(false) bool showToastMessage,
+    @Default(false) bool isReacted,
+    @Default(null) Failure? errorMessage,
+    @Default([]) List<CommentEntity> comments,
   }) = _PostDetailsState;
 }

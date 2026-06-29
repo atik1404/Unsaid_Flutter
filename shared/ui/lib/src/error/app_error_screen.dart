@@ -53,7 +53,7 @@ class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProvid
 
             const Spacer(),
 
-            // ২. contentError Title
+            // ২. Error Title
             StaggeredFadeSlide(
               delay: 0,
               duration: const Duration(milliseconds: 600),
@@ -66,7 +66,7 @@ class _AppErrorScreenState extends State<AppErrorScreen> with SingleTickerProvid
               ),
             ),
 
-            // ৩. contentError Message (20% Delay)
+            // ৩. Error Message (20% Delay)
             const SizedBox(height: 8),
             StaggeredFadeSlide(
               delay: 0.2,

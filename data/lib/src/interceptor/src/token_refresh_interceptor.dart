@@ -3,8 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:pref_storage/pref_storage.dart';
 
 final class TokenRefreshInterceptor extends QueuedInterceptor {
-  static const _kAccessTokenKey = 'accessToken';
-  static const _kRefreshTokenKey = 'refreshToken';
+  static const _kAccessTokenKey = 'access_token';
+  static const _kRefreshTokenKey = 'refresh_token';
+  static const _kExpiresInKey = 'expires_in';
 
   final Dio _tokenRefreshDio;
   final AppPrefStorage _prefStorage;
@@ -13,7 +14,7 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   TokenRefreshInterceptor({
     required Dio tokenRefreshDio,
     required AppPrefStorage prefStorage,
-    String refreshPath = '/auth/api/v1/partner/refresh-token',
+    String refreshPath = '/auth/refresh',
   }) : _tokenRefreshDio = tokenRefreshDio,
        _prefStorage = prefStorage,
        _refreshPath = refreshPath;
@@ -62,8 +63,8 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 
     late final String newToken;
     try {
-      final (accessToken, refreshToken) = await _fetchNewTokens();
-      await _saveTokens(accessToken, refreshToken);
+      final (accessToken, refreshToken, expiresIn) = await _fetchNewTokens();
+      await _saveTokens(accessToken, refreshToken, expiresIn);
       newToken = accessToken;
     } on DioException catch (e) {
       if (_isNetworkError(e)) return handler.next(err);
@@ -91,7 +92,7 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   }
 
   /// Calls the refresh endpoint using a dedicated Dio (no interceptors).
-  Future<_TokenPair> _fetchNewTokens() async {
+  Future<_TokenRecord> _fetchNewTokens() async {
     final refreshToken = await _prefStorage.getString(PrefKey.refreshToken);
     if (refreshToken.isEmpty) {
       throw DioException(
@@ -106,10 +107,11 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 
     if (response.statusCode == 200 && response.data is Map) {
       final data = response.data as Map<String, dynamic>;
-      final newAccessToken = data['data'][_kAccessTokenKey]?.toString();
-      final newRefreshToken = data['data'][_kRefreshTokenKey]?.toString();
-      if (newAccessToken != null && newRefreshToken != null) {
-        return (newAccessToken, newRefreshToken);
+      final newAccessToken = data[_kAccessTokenKey]?.toString();
+      final newRefreshToken = data[_kRefreshTokenKey]?.toString();
+      final expiresIn = data[_kExpiresInKey]?.toString();
+      if (newAccessToken != null && newRefreshToken != null && expiresIn != null) {
+        return (newAccessToken, newRefreshToken, expiresIn);
       }
     }
     throw DioException(
@@ -136,9 +138,10 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 
   String? _toBearerHeader(String? token) => (token == null || token.isEmpty) ? null : 'Bearer $token';
 
-  Future<void> _saveTokens(String accessToken, String refreshToken) async {
+  Future<void> _saveTokens(String accessToken, String refreshToken, String expiresIn) async {
     await _prefStorage.write(PrefKey.accessToken, accessToken);
     await _prefStorage.write(PrefKey.refreshToken, refreshToken);
+    await _prefStorage.write(PrefKey.accessTokenExpiresIn, expiresIn);
   }
 
   Future<void> _handleAuthFailure(
@@ -158,4 +161,4 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 // -------------------------------------------------------
 // INTERNAL: Token pair from refresh response
 // -------------------------------------------------------
-typedef _TokenPair = (String accessToken, String refreshToken);
+typedef _TokenRecord = (String accessToken, String refreshToken, String expiresIn);

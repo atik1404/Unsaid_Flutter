@@ -1,11 +1,7 @@
 import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:data/src/dto/dto.dart';
-import 'package:data/src/dto/src/auth/send_otp_dto.dart';
-import 'package:data/src/dto/src/auth/verify_otp_dto.dart';
 import 'package:data/src/mapper/mapper.dart';
-import 'package:data/src/mapper/src/auth/send_otp_api_mapper.dart';
-import 'package:data/src/mapper/src/auth/verify_otp_api_mapper.dart';
 import 'package:domain/domain.dart';
 import 'package:entity/entity.dart';
 import 'package:pref_storage/pref_storage.dart';
@@ -17,29 +13,30 @@ final class AuthRepoImpl implements AuthRepository {
   const AuthRepoImpl(this._client, this._prefStorage);
 
   @override
-  Future<Result<ProfileEntity, Failure>> fetchProfile() async {
-    final result = await _client.get(
-      '/profile',
-      options: AuthOptions.authenticated(),
-      parser: (data) => ProfileDto.fromJson(data).toEntity(),
-    );
-    if (result is SuccessResult<ProfileEntity, Failure>) {
-      await _prefStorage.write(PrefKey.anonymousName, result.data.identity.fullName);
-      await _prefStorage.write(PrefKey.email, result.data.identity.email);
-      await _prefStorage.write(PrefKey.phoneNumber, result.data.identity.phoneE164);
-      await _prefStorage.write(PrefKey.profilePicture, result.data.avatarSeed);
-      await _prefStorage.write(PrefKey.userId, result.data.id);
-      await _prefStorage.write(PrefKey.dateOfBirth, result.data.identity.dateOfBirth.toString());
-    }
-    return result;
-  }
-
-  @override
   Future<Result<LoginEntity, Failure>> login(LoginParams params) async {
     final result = await _client.post(
       '/auth/login',
       data: params.toJson(),
       parser: (data) => LoginDto.fromJson(data).toEntity(),
+    );
+
+    if (result is SuccessResult<LoginEntity, Failure>) {
+      await Future.wait([
+        _prefStorage.write(PrefKey.accessToken, result.data.accessToken),
+        _prefStorage.write(PrefKey.refreshToken, result.data.refreshToken),
+        _prefStorage.write(PrefKey.loginStatus, true),
+      ]);
+    }
+
+    return result;
+  }
+
+  @override
+  Future<Result<LoginEntity, Failure>> signup(SignupParams params) async {
+    final result = await _client.post(
+      '/auth/signup',
+      data: params.toJson(),
+      parser: (data) => SignupDto.fromJson(data).toEntity(),
     );
 
     if (result is SuccessResult<LoginEntity, Failure>) {
@@ -72,6 +69,36 @@ final class AuthRepoImpl implements AuthRepository {
       parser: (data) => VerifyOtpDto.fromJson(data).toEntity(),
     );
 
+    return result;
+  }
+
+  @override
+  Future<Result<ProfileEntity, Failure>> fetchProfile() async {
+    final result = await _client.get(
+      '/profile',
+      options: AuthOptions.authenticated(),
+      parser: (data) => ProfileDto.fromJson(data).toEntity(),
+    );
+    if (result is SuccessResult<ProfileEntity, Failure>) {
+      final identity = result.data.identity;
+
+      await _prefStorage.write(PrefKey.anonymousName, identity.fullName);
+      await _prefStorage.write(PrefKey.email, identity.email);
+      await _prefStorage.write(PrefKey.phoneNumber, identity.phoneE164);
+      await _prefStorage.write(PrefKey.profilePicture, result.data.avatarSeed.toString());
+      await _prefStorage.write(PrefKey.userId, result.data.id);
+      await _prefStorage.write(PrefKey.dateOfBirth, result.data.identity.dateOfBirth.toString());
+    }
+    return result;
+  }
+
+  @override
+  Future<Result<CommonApiEntity, Failure>> checkUserExistence(UserParams params) async {
+    final result = await _client.post(
+      '/auth/check-user',
+      data: params.toJson(),
+      parser: (data) => CommonDto.fromJson(data).toEntity(),
+    );
     return result;
   }
 }

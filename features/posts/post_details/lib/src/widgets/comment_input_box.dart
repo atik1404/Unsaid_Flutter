@@ -3,8 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 
-class CommentInputBox extends StatelessWidget {
-  const CommentInputBox({super.key});
+class CommentInputBox extends StatefulWidget {
+  final bool isLoading;
+  final Function(String) onCommentSubmitted;
+
+  const CommentInputBox({super.key, required this.onCommentSubmitted, required this.isLoading});
+
+  @override
+  State<CommentInputBox> createState() => _CommentInputBoxState();
+}
+
+class _CommentInputBoxState extends State<CommentInputBox> {
+  final TextEditingController _textController = TextEditingController();
+  bool isButtonEnable = false;
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _textController.addListener(() {
+      setState(() {
+        isButtonEnable = _textController.text.isNotEmpty;
+      });
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +43,16 @@ class CommentInputBox extends StatelessWidget {
           SizedBox(width: AppSpacing.s8.w),
           _buildInputField(context),
           SizedBox(width: AppSpacing.s8.w),
-          _buildSendButton(context),
+          if (widget.isLoading)
+            const SizedBox(
+              width: IconSizes.inline,
+              height: IconSizes.inline,
+              child: CircularProgressIndicator(
+                strokeWidth: 1,
+              ),
+            )
+          else
+            _buildSendButton(context),
         ],
       ),
     );
@@ -25,8 +61,8 @@ class CommentInputBox extends StatelessWidget {
   Widget _buildAvatar(BuildContext context) {
     return AppImage.network(
       'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
-      width: IconSizes.prominent,
-      height: IconSizes.prominent,
+      width: IconSizes.dense,
+      height: IconSizes.dense,
       shape: ImageShape.circle,
       fit: BoxFit.cover,
       borderColor: context.appColors.contentPrimary,
@@ -38,31 +74,32 @@ class CommentInputBox extends StatelessWidget {
   Widget _buildInputField(BuildContext context) {
     return Expanded(
       child: AppInputField(
+        controller: _textController,
         shape: AppInputFieldShape.pill,
         hint: context.l10n.post_details_comment_hint,
+        // maxLines: 3,
+        // keyboardType: TextInputType.multiline,
       ),
     );
   }
 
   Widget _buildSendButton(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(AppSpacing.s8.r),
-      decoration: BoxDecoration(
-        color: context.appColors.brand,
-        shape: BoxShape.circle,
-      ),
-      child: AppIconButton(
-        AppIcon(
-          const AppImage.asset(
-            AppDrawables.icSend,
-            width: IconSizes.dense,
-            height: IconSizes.dense,
-          ),
-          color: context.appColors.white,
-          tint: true,
+    return AppIconButton(
+      AppIcon(
+        const AppImage.asset(
+          AppDrawables.icSend,
+          width: IconSizes.standard,
+          height: IconSizes.standard,
         ),
-        onPressed: () {},
+        color: context.appColors.brand,
+        tint: true,
       ),
+      onPressed: isButtonEnable
+          ? () {
+              widget.onCommentSubmitted(_textController.text);
+              _textController.clear();
+            }
+          : null,
     );
   }
 }

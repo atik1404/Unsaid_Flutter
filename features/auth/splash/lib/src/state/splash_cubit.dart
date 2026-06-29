@@ -20,11 +20,10 @@ class SplashCubit extends Cubit<SplashState> {
     final isAuthorized = _prefStorage.getBoolean(PrefKey.loginStatus);
     final isIntroScreenVisible = _prefStorage.getBoolean(PrefKey.isFirstLaunch);
 
-    await Future.delayed(const Duration(seconds: 2));
-
     if (isAuthorized) {
       await _fetchProfile();
     } else {
+      await Future.delayed(const Duration(seconds: 2));
       if (!isIntroScreenVisible) {
         emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.onboardingScreen));
       } else {

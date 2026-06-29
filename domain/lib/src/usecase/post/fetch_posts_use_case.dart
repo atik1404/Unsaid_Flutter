@@ -1,6 +1,5 @@
 import 'package:common/common.dart';
-import 'package:domain/src/params/fetch_posts_params.dart';
-import 'package:domain/src/repository/post_repository.dart';
+import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/base_usecase.dart';
 import 'package:entity/entity.dart';
 
