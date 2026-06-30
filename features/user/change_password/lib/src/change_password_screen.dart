@@ -5,13 +5,16 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:localization/localization.dart';
 import 'package:ui/ui.dart';
 
-/// The Change Password screen.
+/// The Change Password screen (the "smart" widget).
 ///
-/// Presents a form with old, new, and confirm password fields.
-/// Uses [BlocConsumer] to react to validation errors and success events.
+/// Owns the [BlocListener] that reacts to terminal submission states —
+/// toasting success/failure feedback — and lays out the static page chrome.
+/// The form fields themselves live in the const [PasswordForm] "dumb" widget,
+/// which talks back to [ChangePasswordCubit] directly.
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
 
@@ -27,48 +30,28 @@ class ChangePasswordScreen extends StatelessWidget {
         backgroundColor: context.scaffoldTheme.backgroundColor,
         foregroundColor: context.appColors.brand,
       ),
-      body: BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
-        listener: _handleStateChanges,
-        builder: (context, state) {
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(AppSpacing.s24.r),
-            child: PasswordForm(
-              isLoading: state.isLoading,
-              onSubmit:
-                  ({
-                    required oldPassword,
-                    required newPassword,
-                    required confirmPassword,
-                  }) {
-                    context.read<ChangePasswordCubit>().changePassword(
-                      oldPassword: oldPassword,
-                      newPassword: newPassword,
-                      confirmPassword: confirmPassword,
-                    );
-                  },
-            ),
-          );
-        },
+      body: BlocListener<ChangePasswordCubit, ChangePasswordState>(
+        // Only react when the submission status changes to avoid duplicate
+        // toasts triggered by unrelated field updates.
+        listenWhen: (prev, curr) => prev.status != curr.status,
+        listener: _onStateChanged,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(AppSpacing.s24.r),
+          child: const PasswordForm(),
+        ),
       ),
     );
   }
 
-  /// Reacts to cubit state changes by showing toast feedback.
-  void _handleStateChanges(
-    BuildContext context,
-    ChangePasswordState state,
-  ) {
-    if (state.isSuccess) {
+  /// Handles terminal states: toast on success then reset the form, toast on
+  /// failure. Pure side effects — no rebuilding happens here.
+  void _onStateChanged(BuildContext context, ChangePasswordState state) {
+    if (state.status.isSuccess) {
       AppToast.toast(message: context.l10n.change_password_success, toastType: ToastType.success);
-      // Reset so the form can be reused
+      // Reset so the form can be reused.
       context.read<ChangePasswordCubit>().resetState();
-    }
-
-    if (state.errorMessage != null) {
-      // Map known error codes to localised messages
-      final message = state.errorMessage == 'mismatch' ? context.l10n.change_password_error_mismatch : state.errorMessage!;
-
-      AppToast.toast(message: message, toastType: ToastType.error);
+    } else if (state.status.isFailure && state.errorMessage != null) {
+      AppToast.toast(message: state.errorMessage!, toastType: ToastType.error);
     }
   }
 }

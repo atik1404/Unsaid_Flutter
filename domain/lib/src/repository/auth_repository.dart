@@ -11,6 +11,8 @@ abstract class AuthRepository {
 
   Future<Result<String, Failure>> verifyOtp(VerifyOtpParams params);
 
+  Future<Result<String, Failure>> changePassword(ChangePasswordParams params);
+
   Future<Result<ProfileEntity, Failure>> fetchProfile();
 
   Future<Result<CommonApiEntity, Failure>> checkUserExistence(UserParams params);

@@ -3,6 +3,7 @@ export 'src/auth/login_dto.dart';
 export 'src/auth/signup_dto.dart';
 export 'src/auth/send_otp_dto.dart';
 export 'src/auth/verify_otp_dto.dart';
+export 'src/auth/change_password_dto.dart';
 
 export 'src/common/common_dto.dart';
 

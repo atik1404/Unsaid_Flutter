@@ -73,6 +73,19 @@ final class AuthRepoImpl implements AuthRepository {
   }
 
   @override
+  Future<Result<String, Failure>> changePassword(ChangePasswordParams params) {
+    // Authenticated endpoint — the interceptor attaches the Bearer token.
+    final result = _client.post(
+      '/auth/change-password',
+      data: params.toJson(),
+      options: AuthOptions.authenticated(),
+      parser: (data) => ChangePasswordDto.fromJson(data).toEntity(),
+    );
+
+    return result;
+  }
+
+  @override
   Future<Result<ProfileEntity, Failure>> fetchProfile() async {
     final result = await _client.get(
       '/profile',
