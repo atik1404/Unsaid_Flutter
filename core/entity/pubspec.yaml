@@ -18,10 +18,10 @@ resolution: workspace
 #   2. Add it to the pubspec.yaml file for future updates.
 
 environment:
-  sdk: ^3.11.4
+  sdk: ^3.12.2
 
 dependencies:
   code_analyzer: ^0.0.1
 
 dev_dependencies:
-  dart_code_linter: ^4.0.2
+  dart_code_linter: ^4.1.5

@@ -1,1 +1,10 @@
 include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    # Flutter's SwiftPM integration checks Firebase packages (with their own
+    # Dart example apps) into the iOS build folder; don't analyze generated/
+    # vendored code.
+    - build/**
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"

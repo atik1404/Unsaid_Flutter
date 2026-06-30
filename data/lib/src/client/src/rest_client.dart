@@ -177,6 +177,8 @@ final class RestClient {
       DioExceptionType.badResponse => _handleServerError(statusCode, e.response?.data),
 
       DioExceptionType.badCertificate || DioExceptionType.unknown => UnknownFailure(FailureKey.unknown, statusCode),
+
+      DioExceptionType.transformTimeout => UnknownFailure(FailureKey.unknown, statusCode),
     };
   }
 
