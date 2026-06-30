@@ -67,7 +67,12 @@ class PostDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PostDetailsCard(postDetails: postDetails),
+          PostDetailsCard(
+            postDetails: postDetails,
+            onReaction: (_) {
+              context.read<PostDetailsBloc>().add(const SubmitReactEvent());
+            },
+          ),
           SizedBox(height: AppSpacing.s16.h),
 
           CommentsSection(comments: state.comments),

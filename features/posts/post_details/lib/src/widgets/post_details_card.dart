@@ -9,7 +9,9 @@ import 'package:ui/ui.dart';
 
 final class PostDetailsCard extends StatelessWidget {
   final PostDetailsEntity postDetails;
-  const PostDetailsCard({super.key, required this.postDetails});
+  final Function(String) onReaction;
+
+  const PostDetailsCard({super.key, required this.postDetails, required this.onReaction});
 
   @override
   Widget build(BuildContext context) {
@@ -118,12 +120,13 @@ final class PostDetailsCard extends StatelessWidget {
         ),
 
         InlineIconLabel(
+          onTap: () => onReaction(postDetails.postId),
           text: AppText.captionSmall(postDetails.reactionCount.toString(), color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.heart,
             size: IconSizes.inline,
-            color: colors.contentTertiary,
+            color: postDetails.isReacted ? colors.secondary : colors.contentTertiary,
           ),
         ),
 
