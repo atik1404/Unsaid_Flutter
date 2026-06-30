@@ -13,7 +13,7 @@ part 'create_post_event.dart';
 class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   final CreatePostUseCase _createPostUseCase;
 
-  CreatePostBloc({required CreatePostUseCase createPostUseCase}) : _createPostUseCase = createPostUseCase, super(const CreatePostState()) {
+  CreatePostBloc({required this._createPostUseCase}) : super(const CreatePostState()) {
     on<PostBodyChanged>(_onPostBodyChanged);
     on<MoodSelected>(_onMoodSelected);
     on<CreatePostSubmitted>(_onSubmitted);

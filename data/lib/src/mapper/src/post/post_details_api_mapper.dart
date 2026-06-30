@@ -17,6 +17,7 @@ extension PostDetailsApiMapper on PostDetailsDto {
     commentCount: commentCount ?? 0,
     reportCount: reportCount ?? 0,
     score: score ?? 0,
+    isReacted: isReacted ?? false,
     authorName: '${author?.anonymousTag ?? ''}-${author?.fullName ?? ''}',
     authorAvatar: author?.avatarSeed?.toString() ?? '',
     comments: comments?.map((comment) => comment.toEntity()).toList() ?? [],

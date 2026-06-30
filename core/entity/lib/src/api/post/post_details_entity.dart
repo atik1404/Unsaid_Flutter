@@ -14,6 +14,7 @@ final class PostDetailsEntity {
   final int score;
   final String authorName;
   final String authorAvatar;
+  final bool isReacted;
   final List<CommentEntity> comments;
 
   const PostDetailsEntity({
@@ -32,6 +33,7 @@ final class PostDetailsEntity {
     required this.score,
     required this.authorName,
     required this.authorAvatar,
+    required this.isReacted,
     required this.comments,
   });
 }

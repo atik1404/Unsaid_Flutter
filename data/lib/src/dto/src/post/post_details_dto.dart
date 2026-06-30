@@ -30,6 +30,8 @@ class PostDetailsDto {
   @JsonKey(name: 'report_count')
   final int? reportCount;
   final int? score;
+  @JsonKey(name: 'is_reacted')
+  final bool? isReacted;
   final PostAuthorDto? author;
   final List<CommentData>? comments;
 
@@ -51,6 +53,7 @@ class PostDetailsDto {
     this.score,
     this.author,
     this.comments,
+    this.isReacted,
   });
 
   factory PostDetailsDto.fromJson(Map<String, dynamic> json) => _$PostDetailsDtoFromJson(json);

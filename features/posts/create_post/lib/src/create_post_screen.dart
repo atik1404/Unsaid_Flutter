@@ -21,7 +21,7 @@ class CreatePostScreen extends StatelessWidget {
   /// The anonymous display name shown in the post header.
   final String _fullname;
 
-  const CreatePostScreen({super.key, required String fullname}) : _fullname = fullname;
+  const CreatePostScreen({super.key, required this._fullname});
 
   @override
   Widget build(BuildContext context) {

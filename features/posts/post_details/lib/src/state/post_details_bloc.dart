@@ -19,15 +19,11 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
 
   PostDetailsBloc({
     required String postId,
-    required FetchPostDetailsUseCase fetchPostDetailsUseCase,
-    required AddCommentUseCase addCommentUseCase,
-    required RemoveReactUseCase removeReactUseCase,
-    required AddReactUseCase addReactUseCase,
-  }) : _fetchPostDetailsUseCase = fetchPostDetailsUseCase,
-       _addCommentUseCase = addCommentUseCase,
-       _addReactUseCase = addReactUseCase,
-       _removeReactUseCase = removeReactUseCase,
-       _postId = postId,
+    required this._fetchPostDetailsUseCase,
+    required this._addCommentUseCase,
+    required this._removeReactUseCase,
+    required this._addReactUseCase,
+  }) : _postId = postId,
        super(const PostDetailsState()) {
     on<FetchPostDetailsEvent>(_fetchPostDetails);
     on<AddCommentEvent>(_addComment);

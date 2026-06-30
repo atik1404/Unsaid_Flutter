@@ -1,7 +1,6 @@
 import 'package:create_post/src/state/create_post_bloc.dart';
 import 'package:create_post/src/state/create_post_state.dart';
 import 'package:flutter/material.dart';
-import 'package:common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,13 +66,13 @@ class AnonymousCard extends StatelessWidget {
         if (state.selectedMood == null) {
           return const SizedBox.shrink();
         }
-        final colors = MoodDecoration.getColor(context, tag: state.selectedMood!.name);
+        final (bg, text, _) = MoodDecoration.getColor(context, tag: state.selectedMood!.name);
         return AppTag(
           padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
-          backgroundColor: colors.$1,
+          backgroundColor: bg,
           child: AppText.captionSmall(
             state.selectedMood!.name,
-            color: colors.$2,
+            color: text,
           ),
         );
       },
