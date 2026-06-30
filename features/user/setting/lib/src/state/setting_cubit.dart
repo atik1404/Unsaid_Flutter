@@ -14,10 +14,10 @@ class SettingCubit extends Cubit<SettingState> {
   SettingCubit({required AppPrefStorage prefStorage}) : _prefStorage = prefStorage, super(const SettingState());
 
   /// Loads the current user's profile summary from persistent storage.
-  void loadUserProfile() async {
-    final name = await _prefStorage.getString(PrefKey.anonymousName);
-    final avatar = await _prefStorage.getString(PrefKey.profilePicture);
-    final phone = await _prefStorage.getString(PrefKey.phoneNumber);
+  void loadUserProfile() {
+    final name = _prefStorage.getString(PrefKey.anonymousName);
+    final avatar = _prefStorage.getString(PrefKey.profilePicture);
+    final phone = _prefStorage.getString(PrefKey.phoneNumber);
     emit(
       state.copyWith(
         fullname: name,

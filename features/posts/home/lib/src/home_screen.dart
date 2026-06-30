@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
         trailingPadding: AppSpacing.s16.w,
         actions: [
           AppIconButton(
-            const AppIcon(Icon(CupertinoIcons.search)),
+            const AppIcon(Icon(CupertinoIcons.tornado)),
             onPressed: () {},
           ),
           AppIconButton(

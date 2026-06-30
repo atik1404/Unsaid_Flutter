@@ -33,8 +33,8 @@ final class AppPrefStorage extends BasePrefStorage {
   @override
   Future<void> clear() async {
     //fetch app language and app theme before clear storage
-    final appLanguage = await getString(PrefKey.appLanguage);
-    final appTheme = await getString(PrefKey.appTheme);
+    final appLanguage = getString(PrefKey.appLanguage);
+    final appTheme = getString(PrefKey.appTheme);
     //clear storage
     await _prefs.clear();
     await _secure.deleteAll();
@@ -61,11 +61,14 @@ final class AppPrefStorage extends BasePrefStorage {
   }
 
   @override
-  Future<String> getString(String key) async {
-    if (_isSecured(key)) {
-      final value = await _secure.read(key);
-      return value ?? '';
-    }
+  String getString(String key) {
+    assert(!_isSecured(key), 'Use getSecureString() for secured key: $key');
     return _prefs.get<String>(key) ?? '';
+  }
+
+  @override
+  Future<String> getSecureString(String key) async {
+    final value = await _secure.read(key);
+    return value ?? '';
   }
 }

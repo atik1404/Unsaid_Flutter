@@ -9,8 +9,8 @@ final class LocalizationCubit extends Cubit<Locale> {
     _loadLocale();
   }
 
-  void _loadLocale() async {
-    var languageCode = await _prefStorage.getString(PrefKey.appLanguage);
+  void _loadLocale() {
+    var languageCode = _prefStorage.getString(PrefKey.appLanguage);
     if(languageCode.isEmpty) {
       languageCode = AppConstants.en;
     }

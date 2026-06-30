@@ -13,9 +13,7 @@ part 'create_post_event.dart';
 class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   final CreatePostUseCase _createPostUseCase;
 
-  CreatePostBloc({required CreatePostUseCase createPostUseCase})
-    : _createPostUseCase = createPostUseCase,
-      super(const CreatePostState()) {
+  CreatePostBloc({required CreatePostUseCase createPostUseCase}) : _createPostUseCase = createPostUseCase, super(const CreatePostState()) {
     on<PostBodyChanged>(_onPostBodyChanged);
     on<MoodSelected>(_onMoodSelected);
     on<CreatePostSubmitted>(_onSubmitted);
@@ -46,7 +44,7 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
         // Text-only posts for now; media support will introduce other types.
         type: 'text',
         // The API expects the lowercase mood key (e.g. "happy").
-        mood: state.selectedMood.name,
+        mood: state.selectedMood?.name ?? '',
       ),
     );
 

@@ -3,17 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_post_state.freezed.dart';
 
-/// Lifecycle of a create-post submission.
-///
-/// Drives both the UI (button spinner, enabled state) and the side effects
-/// handled by the screen's [BlocListener] (success/error toasts, navigation).
-enum CreatePostStatus { initial, submitting, success, failure }
-
 /// Immutable UI state for the Create Post screen.
 ///
 /// Holds the user's draft ([postBody], [selectedMood]) plus the submission
 /// [status]. The post body lives here so the "Post" action can be validated and
-/// enabled/disabled reactively.
 @freezed
 abstract class CreatePostState with _$CreatePostState {
   const factory CreatePostState({
@@ -21,7 +14,7 @@ abstract class CreatePostState with _$CreatePostState {
     @Default('') String postBody,
 
     /// Currently selected mood for the post.
-    @Default(MoodType.all) MoodType selectedMood,
+    @Default(null) MoodType? selectedMood,
 
     /// Current submission lifecycle state.
     @Default(CreatePostStatus.initial) CreatePostStatus status,
@@ -42,3 +35,9 @@ abstract class CreatePostState with _$CreatePostState {
   /// request.
   bool get canSubmit => postBody.trim().isNotEmpty && !isSubmitting;
 }
+
+/// Lifecycle of a create-post submission.
+///
+/// Drives both the UI (button spinner, enabled state) and the side effects
+/// handled by the screen's [BlocListener] (success/error toasts, navigation).
+enum CreatePostStatus { initial, submitting, success, failure }

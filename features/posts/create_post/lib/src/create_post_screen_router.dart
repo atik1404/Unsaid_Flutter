@@ -20,7 +20,9 @@ final class CreatePostScreenRouter implements BaseRouter {
             state: state,
             child: BlocProvider(
               create: (_) => CreatePostBloc(createPostUseCase: GetIt.I.get()),
-              child: CreatePostScreen(fullname: fullname.toString()),
+              child: CreatePostScreen(
+                fullname: fullname,
+              ),
             ),
           );
         },

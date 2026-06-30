@@ -69,8 +69,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
 
     result.when(
-      success: (_) {
-        debugPrint('loginStatus: ${_appPrefStorage.getBoolean(PrefKey.loginStatus)}, accessToken: ${_appPrefStorage.getString(PrefKey.accessToken)}');
+      success: (_) async {
+        final accessToken = await _appPrefStorage.getSecureString(PrefKey.accessToken);
+        debugPrint('loginStatus: ${_appPrefStorage.getBoolean(PrefKey.loginStatus)}, accessToken: $accessToken');
         add(const FetchProfile()); // Chain the next step to fetch the user's profile after successful login.
         //emit(state.copyWith(status: FormzSubmissionStatus.success));
       },

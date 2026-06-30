@@ -45,7 +45,7 @@ class CreatePostScreen extends StatelessWidget {
           actions: const [_PostActionButton()],
         ),
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.all(AppSpacing.s16.r),
+          padding: EdgeInsets.all(AppSpacing.s24.r),
           child: const _VisibilityFooter(),
         ),
         body: SingleChildScrollView(
@@ -124,14 +124,15 @@ class _MoodSelector extends StatelessWidget {
     return BlocBuilder<CreatePostBloc, CreatePostState>(
       buildWhen: (prev, curr) => prev.selectedMood != curr.selectedMood,
       builder: (context, state) {
+        final listMoods = List<MoodType>.from(MoodType.values)..remove(MoodType.all);
         return SizedBox(
           height: AppSpacing.s24.h,
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: MoodType.values.length,
+            itemCount: listMoods.length,
             itemBuilder: (context, index) {
-              final mood = MoodType.values[index];
+              final mood = listMoods[index];
               return MoodPillItem(
                 mood: mood.name,
                 isSelected: mood == state.selectedMood,
@@ -176,8 +177,9 @@ class _VisibilityFooter extends StatelessWidget {
     return InlineIconLabel(
       leadingWidget: AppIcon(
         const Icon(CupertinoIcons.info),
-        color: context.appColors.contentSecondary,
-        size: IconSizes.inline,
+        color: context.appColors.contentWarning,
+        size: IconSizes.indicator,
+        tint: true,
       ),
       horizontalGap: AppSpacing.s16.w,
       text: AppText.captionLarge(

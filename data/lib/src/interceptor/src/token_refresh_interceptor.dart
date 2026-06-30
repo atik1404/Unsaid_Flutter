@@ -27,7 +27,7 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!_requiresAuth(options)) return handler.next(options);
 
-    final bearerToken = _toBearerHeader(await _prefStorage.getString(PrefKey.accessToken));
+    final bearerToken = _toBearerHeader(await _prefStorage.getSecureString(PrefKey.accessToken));
     if (bearerToken == null) {
       await _forceLogout();
       return handler.reject(DioException(requestOptions: options));
@@ -54,7 +54,7 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
     if (_isRefreshRequest(err.requestOptions)) return _handleAuthFailure(err, handler);
 
     final attemptedAuth = err.requestOptions.headers['Authorization'];
-    final currentAuth = _toBearerHeader(await _prefStorage.getString(PrefKey.accessToken));
+    final currentAuth = _toBearerHeader(await _prefStorage.getSecureString(PrefKey.accessToken));
 
     if (currentAuth != null && attemptedAuth != currentAuth) {
       await _retry(err, currentAuth, handler);
@@ -93,7 +93,7 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 
   /// Calls the refresh endpoint using a dedicated Dio (no interceptors).
   Future<_TokenRecord> _fetchNewTokens() async {
-    final refreshToken = await _prefStorage.getString(PrefKey.refreshToken);
+    final refreshToken = await _prefStorage.getSecureString(PrefKey.refreshToken);
     if (refreshToken.isEmpty) {
       throw DioException(
         requestOptions: RequestOptions(path: _refreshPath),

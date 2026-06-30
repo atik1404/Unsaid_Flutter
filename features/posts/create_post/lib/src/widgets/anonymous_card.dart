@@ -1,7 +1,10 @@
+import 'package:create_post/src/state/create_post_bloc.dart';
+import 'package:create_post/src/state/create_post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:designsystem/designsystem.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:ui/ui.dart';
@@ -34,7 +37,7 @@ class AnonymousCard extends StatelessWidget {
           child: _buildHeaderTitle(context),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context, MoodType.happy.name.toUpperCase()),
+        _buildTag(context),
       ],
     );
   }
@@ -57,15 +60,23 @@ class AnonymousCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(BuildContext context, String tag) {
-    final colors = MoodDecoration.getColor(context, tag: tag);
-    return AppTag(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
-      backgroundColor: colors.$1,
-      child: AppText.captionSmall(
-        tag,
-        color: colors.$2,
-      ),
+  Widget _buildTag(BuildContext context) {
+    return BlocBuilder<CreatePostBloc, CreatePostState>(
+      //selector: (state) => state.mood,
+      builder: (context, state) {
+        if (state.selectedMood == null) {
+          return const SizedBox.shrink();
+        }
+        final colors = MoodDecoration.getColor(context, tag: state.selectedMood!.name);
+        return AppTag(
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
+          backgroundColor: colors.$1,
+          child: AppText.captionSmall(
+            state.selectedMood!.name,
+            color: colors.$2,
+          ),
+        );
+      },
     );
   }
 }
