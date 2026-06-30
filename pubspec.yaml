@@ -167,11 +167,11 @@ melos:
 
     build_runner: |
       melos exec -c 1 --scope="domain" --scope="data" -- \
-        flutter pub run build_runner build --delete-conflicting-outputs
+        dart run build_runner build --delete-conflicting-outputs
 
     build_runner_feature:
       description: Run build_runner for feature packages only
-      exec: flutter pub run build_runner build --delete-conflicting-outputs
+      exec: dart run build_runner build --delete-conflicting-outputs
       packageFilters:
         tags:
           - feature
