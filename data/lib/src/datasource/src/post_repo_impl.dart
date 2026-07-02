@@ -42,6 +42,7 @@ final class PostRepoImpl implements PostRepository {
   Future<Result<PostDetailsEntity, Failure>> fetchPostDetails(String postId) {
     return _restClient.get(
       '/posts/$postId',
+      options: AuthOptions.authenticated(),
       parser: (data) => PostDetailsDto.fromJson(data).toEntity(),
     );
   }

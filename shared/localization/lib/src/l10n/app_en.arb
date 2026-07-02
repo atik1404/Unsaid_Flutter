@@ -525,6 +525,18 @@
     "@create_post_anonymous_subtitle": {
         "description": "Subtitle shown below the anonymous username on the Create Post screen"
     },
+    "create_post_topics_label": "Topics",
+    "@create_post_topics_label": {
+        "description": "Section heading above the topic selector on the Create Post screen"
+    },
+    "create_post_topics_show_more": "Show more",
+    "@create_post_topics_show_more": {
+        "description": "Button label to expand the collapsed topic list on the Create Post screen"
+    },
+    "create_post_topics_show_less": "Show less",
+    "@create_post_topics_show_less": {
+        "description": "Button label to collapse the expanded topic list on the Create Post screen"
+    },
     "setting_section_identity": "IDENTITY",
     "@setting_section_identity": {
         "description": "Section heading for identity-related settings"

@@ -4,6 +4,7 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localization/localization.dart';
 import 'package:ui/ui.dart';
 
 class TopicSelector extends StatefulWidget {
@@ -24,9 +25,6 @@ class _TopicSelectorState extends State<TopicSelector> {
     return BlocBuilder<CreatePostBloc, CreatePostState>(
       //buildWhen: (prev, curr) => prev.selectedTopic != curr.selectedTopic,
       builder: (context, state) {
-        if (state.status == CreatePostStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
-        }
         final topics = state.topics;
         final hasMore = topics.length > _collapsedCount;
         final visibleCount = _expanded || !hasMore ? topics.length : _collapsedCount;
@@ -54,7 +52,7 @@ class _TopicSelectorState extends State<TopicSelector> {
             ),
             if (hasMore)
               AppTextButton(
-                _expanded ? 'Show less' : 'Show more',
+                _expanded ? context.l10n.create_post_topics_show_less : context.l10n.create_post_topics_show_more,
                 onPressed: () => setState(() => _expanded = !_expanded),
               ),
           ],

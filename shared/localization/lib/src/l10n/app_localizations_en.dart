@@ -409,6 +409,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'Post anything you want to share with the world!';
 
   @override
+  String get create_post_topics_label => 'Topics';
+
+  @override
+  String get create_post_topics_show_more => 'Show more';
+
+  @override
+  String get create_post_topics_show_less => 'Show less';
+
+  @override
   String get setting_section_identity => 'IDENTITY';
 
   @override

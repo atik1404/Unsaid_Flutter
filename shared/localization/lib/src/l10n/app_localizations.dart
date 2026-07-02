@@ -830,6 +830,24 @@ abstract class AppLocalizations {
   /// **'Post anything you want to share with the world!'**
   String get create_post_anonymous_subtitle;
 
+  /// Section heading above the topic selector on the Create Post screen
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get create_post_topics_label;
+
+  /// Button label to expand the collapsed topic list on the Create Post screen
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get create_post_topics_show_more;
+
+  /// Button label to collapse the expanded topic list on the Create Post screen
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get create_post_topics_show_less;
+
   /// Section heading for identity-related settings
   ///
   /// In en, this message translates to:

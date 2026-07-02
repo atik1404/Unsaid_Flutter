@@ -124,7 +124,7 @@ final class PostDetailsCard extends StatelessWidget {
           text: AppText.captionSmall(postDetails.reactionCount.toString(), color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
-            CupertinoIcons.heart,
+            postDetails.isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
             size: IconSizes.inline,
             color: postDetails.isReacted ? colors.secondary : colors.contentTertiary,
           ),

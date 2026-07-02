@@ -522,6 +522,18 @@
     "@create_post_anonymous_subtitle": {
         "description": "Subtitle shown below the anonymous username on the Create Post screen"
     },
+    "create_post_topics_label": "বিষয়",
+    "@create_post_topics_label": {
+        "description": "Section heading above the topic selector on the Create Post screen"
+    },
+    "create_post_topics_show_more": "আরও দেখুন",
+    "@create_post_topics_show_more": {
+        "description": "Button label to expand the collapsed topic list on the Create Post screen"
+    },
+    "create_post_topics_show_less": "কম দেখুন",
+    "@create_post_topics_show_less": {
+        "description": "Button label to collapse the expanded topic list on the Create Post screen"
+    },
     "setting_section_identity": "পরিচয়",
     "@setting_section_identity": {
         "description": "Section heading for identity-related settings"

@@ -411,6 +411,15 @@ class AppLocalizationsBn extends AppLocalizations {
       'পৃথিবীর সঙ্গে যা শেয়ার করতে চান তা পোস্ট করুন!';
 
   @override
+  String get create_post_topics_label => 'বিষয়';
+
+  @override
+  String get create_post_topics_show_more => 'আরও দেখুন';
+
+  @override
+  String get create_post_topics_show_less => 'কম দেখুন';
+
+  @override
   String get setting_section_identity => 'পরিচয়';
 
   @override

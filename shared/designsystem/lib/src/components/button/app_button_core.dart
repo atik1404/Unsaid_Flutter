@@ -54,6 +54,9 @@ class AppButtonCore extends StatelessWidget {
     final isInteractive = onPressed != null && !isLoading;
     final hasGradient = variant == AppButtonVariant.filled && colors.gradient != null;
 
+    // Dismiss the soft keyboard on every button press, app-wide.
+    final effectiveOnPressed = isLoading ? null : _withKeyboardDismiss(onPressed);
+
     if (hasGradient) {
       return Opacity(
         opacity: isInteractive ? 1.0 : _disabledOpacity,
@@ -66,7 +69,7 @@ class AppButtonCore extends StatelessWidget {
               shape: _resolveShape(),
             ),
             child: ElevatedButton(
-              onPressed: isLoading ? null : onPressed,
+              onPressed: effectiveOnPressed,
               style: ElevatedButton.styleFrom(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
@@ -102,7 +105,7 @@ class AppButtonCore extends StatelessWidget {
       height: shrinkWrap ? null : dims.height,
       width: width,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
+        onPressed: effectiveOnPressed,
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: colors.background,
@@ -119,6 +122,16 @@ class AppButtonCore extends StatelessWidget {
         child: _buildChild(effectiveForeground, dims.loadingSize, textStyle),
       ),
     );
+  }
+
+  /// Wraps [callback] so any button tap first dismisses the soft keyboard.
+  /// Returns null when there is no callback so the button stays disabled.
+  VoidCallback? _withKeyboardDismiss(VoidCallback? callback) {
+    if (callback == null) return null;
+    return () {
+      FocusManager.instance.primaryFocus?.unfocus();
+      callback();
+    };
   }
 
   BorderSide? _resolveBorderSide(AppButtonColors colors, bool isInteractive) {

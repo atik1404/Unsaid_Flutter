@@ -1,4 +1,5 @@
 import 'package:designsystem/src/theme/app_theme_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -102,9 +103,9 @@ class AppScaffold extends StatelessWidget {
               canPop: false,
               child: AbsorbPointer(
                 child: ColoredBox(
-                  color: context.appColors.black.withValues(alpha: 0.3),
-                  child: const Center(
-                    child: CircularProgressIndicator.adaptive(),
+                  color: Colors.black.withValues(alpha: 0.3),
+                  child: Center(
+                    child: CupertinoActivityIndicator(color: context.appColors.brand),
                   ),
                 ),
               ),
@@ -114,7 +115,10 @@ class AppScaffold extends StatelessWidget {
     );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: theme.overlayStyle,
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: context.appColors.backgroundPrimary,
+      ),
       child: stack,
     );
   }

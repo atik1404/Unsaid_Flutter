@@ -5,7 +5,6 @@ import 'package:create_post/src/widgets/anonymous_card.dart';
 import 'package:create_post/src/widgets/topics_selection.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
@@ -28,60 +27,65 @@ class CreatePostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreatePostBloc, CreatePostState>(
+    return BlocConsumer<CreatePostBloc, CreatePostState>(
       // Only react to lifecycle transitions, not to every keystroke/mood change.
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: _onStateChanged,
-      child: AppScaffold(
-        appBar: AppTopBar(
-          titleWidget: AppText.headlineSmall(
-            context.l10n.create_post_title,
-            textWeight: AppTextWeight.extraBold,
-            color: context.appColors.contentBrand,
-          ),
-          backgroundColor: context.scaffoldTheme.backgroundColor,
-          foregroundColor: context.appColors.brand,
-          leading: AppIconButton(
-            AppIcon(const Icon(CupertinoIcons.clear), color: context.appColors.brand),
-            onPressed: () => context.pop(),
-          ),
-          actions: const [_PostActionButton()],
-        ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.all(AppSpacing.s24.r),
-          child: const _VisibilityFooter(),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(AppSpacing.s16.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AnonymousCard(anonymousName: _prefStorage.getString(PrefKey.anonymousName), avatar: _prefStorage.getString(PrefKey.profilePicture)),
-                SizedBox(height: AppSpacing.s16.h),
-                AppText.bodyLarge(
-                  context.l10n.create_post_mood_label,
-                  textWeight: AppTextWeight.semiBold,
-                  color: context.appColors.contentPrimary,
-                ),
-                SizedBox(height: AppSpacing.s12.h),
-                const _MoodSelector(),
-                SizedBox(height: AppSpacing.s8.h),
+      builder: _buildScaffold,
+    );
+  }
 
-                const AppDivider(),
-                SizedBox(height: AppSpacing.s8.h),
-                const _PostInputField(),
-                SizedBox(height: AppSpacing.s8.h),
-                AppText.bodyLarge(
-                  'Topics',
-                  textWeight: AppTextWeight.semiBold,
-                  color: context.appColors.contentPrimary,
-                ),
-                SizedBox(height: AppSpacing.s12.h),
-                const TopicSelector(),
-                SizedBox(height: AppSpacing.s8.h),
-              ],
-            ),
+  Widget _buildScaffold(BuildContext context, CreatePostState state) {
+    return AppScaffold(
+      isLoading: state.status == CreatePostStatus.submitting || state.status == CreatePostStatus.loading,
+      appBar: AppTopBar(
+        titleWidget: AppText.headlineSmall(
+          context.l10n.create_post_title,
+          textWeight: AppTextWeight.extraBold,
+          color: context.appColors.contentBrand,
+        ),
+        backgroundColor: context.scaffoldTheme.backgroundColor,
+        foregroundColor: context.appColors.brand,
+        leading: AppIconButton(
+          AppIcon(const Icon(CupertinoIcons.clear), color: context.appColors.brand),
+          onPressed: () => context.pop(),
+        ),
+        actions: const [_PostActionButton()],
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(AppSpacing.s24.r),
+        child: const _VisibilityFooter(),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(AppSpacing.s16.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AnonymousCard(anonymousName: _prefStorage.getString(PrefKey.anonymousName), avatar: _prefStorage.getString(PrefKey.profilePicture)),
+              SizedBox(height: AppSpacing.s16.h),
+              AppText.bodyLarge(
+                context.l10n.create_post_mood_label,
+                textWeight: AppTextWeight.semiBold,
+                color: context.appColors.contentPrimary,
+              ),
+              SizedBox(height: AppSpacing.s12.h),
+              const _MoodSelector(),
+              SizedBox(height: AppSpacing.s8.h),
+
+              const AppDivider(),
+              SizedBox(height: AppSpacing.s8.h),
+              const _PostInputField(),
+              SizedBox(height: AppSpacing.s8.h),
+              AppText.bodyLarge(
+                context.l10n.create_post_topics_label,
+                textWeight: AppTextWeight.semiBold,
+                color: context.appColors.contentPrimary,
+              ),
+              SizedBox(height: AppSpacing.s12.h),
+              const TopicSelector(),
+              SizedBox(height: AppSpacing.s8.h),
+            ],
           ),
         ),
       ),
