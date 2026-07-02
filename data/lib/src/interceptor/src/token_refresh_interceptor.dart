@@ -12,12 +12,10 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   final String _refreshPath;
 
   TokenRefreshInterceptor({
-    required Dio tokenRefreshDio,
-    required AppPrefStorage prefStorage,
-    String refreshPath = '/auth/refresh',
-  }) : _tokenRefreshDio = tokenRefreshDio,
-       _prefStorage = prefStorage,
-       _refreshPath = refreshPath;
+    required this._tokenRefreshDio,
+    required this._prefStorage,
+    this._refreshPath = '/auth/refresh',
+  });
 
   // -------------------------------------------------------
   // REQUEST: Attach token if requiresAuth
@@ -25,10 +23,14 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (!_requiresAuth(options)) return handler.next(options);
+    final requiresAuth = _requiresAuth(options);
+    final optionalAuth = _optionalAuth(options);
+    if (!requiresAuth && !optionalAuth) return handler.next(options);
 
     final bearerToken = _toBearerHeader(await _prefStorage.getSecureString(PrefKey.accessToken));
     if (bearerToken == null) {
+      // Optional-auth endpoints proceed as a guest when no token is stored.
+      if (optionalAuth) return handler.next(options);
       await _forceLogout();
       return handler.reject(DioException(requestOptions: options));
     }
@@ -127,14 +129,26 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 
   bool _requiresAuth(RequestOptions options) => options.extra[DioExtraKeys.requiresAuth] == true;
 
+  bool _optionalAuth(RequestOptions options) => options.extra[DioExtraKeys.optionalAuth] == true;
+
+  /// True when the request participates in the auth lifecycle: either it
+  /// strictly requires auth, or it is optional-auth and actually carried a
+  /// token (so a 401 is worth a refresh). Guest optional-auth requests are
+  /// excluded — there is nothing to refresh.
+  bool _isAuthEnforced(RequestOptions options) =>
+      _requiresAuth(options) || (_optionalAuth(options) && options.headers.containsKey('Authorization'));
+
   bool _isRefreshRequest(RequestOptions options) => options.path == _refreshPath || options.path.endsWith(_refreshPath);
 
-  bool _isUnauthorized(DioException err) => err.response?.statusCode == 401 && _requiresAuth(err.requestOptions);
+  bool _isUnauthorized(DioException err) => err.response?.statusCode == 401 && _isAuthEnforced(err.requestOptions);
 
-  bool _isSessionConflict(DioException err) => err.response?.statusCode == 409 && _requiresAuth(err.requestOptions);
+  bool _isSessionConflict(DioException err) => err.response?.statusCode == 409 && _isAuthEnforced(err.requestOptions);
 
   bool _isNetworkError(DioException e) =>
-      e.type == DioExceptionType.connectionTimeout || e.type == DioExceptionType.sendTimeout || e.type == DioExceptionType.receiveTimeout || e.type == DioExceptionType.connectionError;
+      e.type == DioExceptionType.connectionTimeout ||
+      e.type == DioExceptionType.sendTimeout ||
+      e.type == DioExceptionType.receiveTimeout ||
+      e.type == DioExceptionType.connectionError;
 
   String? _toBearerHeader(String? token) => (token == null || token.isEmpty) ? null : 'Bearer $token';
 
