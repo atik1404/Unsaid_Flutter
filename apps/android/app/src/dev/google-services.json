@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "767391468658",
+    "project_id": "unsaid-c8001",
+    "storage_bucket": "unsaid-c8001.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767391468658:android:62cff0ba7fb8cc77d086eb",
+        "android_client_info": {
+          "package_name": "com.user.unsaid.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQX6ECrGLUsGPZ9dPe58BuU8vp6S9Inj8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

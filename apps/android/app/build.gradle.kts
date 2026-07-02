@@ -3,9 +3,8 @@ import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("com.google.gms.google-services")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id("com.google.firebase.crashlytics")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -40,29 +39,15 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
     flavorDimensions += "environment"
     productFlavors {
         create("dev") {
             dimension = "environment"
-            //applicationIdSuffix = ".dev"
-            resValue(
-                type = "string",
-                name = "app_name",
-                value = "Dev Unsaid"
-            )
+            applicationIdSuffix = ".dev"
         }
 
         create("prod") {
-            dimension = "environment"
-            resValue(
-                type = "string",
-                name = "app_name",
-                value = "Unsaid"
-            )
+            
         }
     }
 
@@ -88,16 +73,19 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
 flutter {
     source = "../.."
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:34.15.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.multidex:multidex:2.0.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-
-    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
-    //implementation("com.google.firebase:firebase-auth")
-    //implementation("com.google.firebase:firebase-appcheck-playintegrity")
-    implementation("com.google.firebase:firebase-analytics")
 }
