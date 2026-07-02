@@ -2,7 +2,7 @@ import 'package:common/common.dart';
 import 'package:create_post/src/state/create_post_bloc.dart';
 import 'package:create_post/src/state/create_post_state.dart';
 import 'package:create_post/src/widgets/anonymous_card.dart';
-import 'package:create_post/src/widgets/topics_selector.dart';
+import 'package:create_post/src/widgets/topic_selector.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
