@@ -2,9 +2,12 @@ import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:navigation/navigation.dart';
+import 'package:post_details/src/state/post_details_bloc.dart';
+import 'package:post_details/src/state/post_details_state.dart';
 import 'package:ui/ui.dart';
 
 final class PostDetailsCard extends StatelessWidget {
@@ -119,15 +122,19 @@ final class PostDetailsCard extends StatelessWidget {
           ),
         ),
 
-        InlineIconLabel(
-          onTap: () => onReaction(postDetails.postId),
-          text: AppText.captionSmall(postDetails.reactionCount.toString(), color: colors.contentTertiary),
-          horizontalGap: AppSpacing.s4.w,
-          leadingWidget: Icon(
-            postDetails.isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-            size: IconSizes.inline,
-            color: postDetails.isReacted ? colors.secondary : colors.contentTertiary,
-          ),
+        BlocBuilder<PostDetailsBloc, PostDetailsState>(
+          builder: (context, state) {
+            return InlineIconLabel(
+              onTap: () => onReaction(postDetails.postId),
+              text: AppText.captionSmall(postDetails.reactionCount.toString(), color: colors.contentTertiary),
+              horizontalGap: AppSpacing.s4.w,
+              leadingWidget: Icon(
+                state.isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                size: IconSizes.inline,
+                color: state.isReacted ? colors.secondary : colors.contentTertiary,
+              ),
+            );
+          },
         ),
 
         InlineIconLabel(

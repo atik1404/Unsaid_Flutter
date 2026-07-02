@@ -18,6 +18,7 @@ extension PostApiMapper on PostsDto {
               body: post.body ?? '',
               visibility: post.visibility ?? '',
               isLocked: post.isLocked ?? false,
+              isReacted: post.isReacted ?? false,
               reactionCount: post.reactionCount ?? 0,
               commentCount: post.commentCount ?? 0,
               reportCount: post.reportCount ?? 0,

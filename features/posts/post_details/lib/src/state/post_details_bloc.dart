@@ -52,6 +52,7 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
           state.copyWith(
             isLoading: false,
             postDetails: data,
+            isReacted: data.isReacted,
             comments: data.comments,
           ),
         );
@@ -86,6 +87,9 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     SubmitReactEvent event,
     Emitter<PostDetailsState> emit,
   ) {
+    if (state.isReacting) {
+      return;
+    }
     if (state.isReacted) {
       add(const _RemoveReactEvent());
     } else {
@@ -97,11 +101,12 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     _AddReactEvent event,
     Emitter<PostDetailsState> emit,
   ) async {
+    emit(state.copyWith(isReacted: true, isReacting: true));
     final result = await _addReactUseCase.call(AddReactParams(postId: _postId, react: 'support'));
 
     result.when(
       success: (data) {
-        emit(state.copyWith(isReacted: true));
+        emit(state.copyWith(isReacted: true, isReacting: false));
       },
       failure: (_) {
         emit(state.copyWith(isReacted: false));
@@ -113,16 +118,17 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     _RemoveReactEvent event,
     Emitter<PostDetailsState> emit,
   ) async {
+    emit(state.copyWith(isReacted: false, isReacting: true));
     final result = await _removeReactUseCase.call(
       _postId,
     );
 
     result.when(
       success: (data) {
-        emit(state.copyWith(isReacted: false));
+        emit(state.copyWith(isReacted: false, isReacting: false));
       },
       failure: (_) {
-        emit(state.copyWith(isReacted: true));
+        emit(state.copyWith(isReacted: true, isReacting: false));
       },
     );
   }

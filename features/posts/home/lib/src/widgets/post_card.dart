@@ -53,6 +53,7 @@ class PostCard extends StatelessWidget {
                 score: post.score,
                 reactionCount: post.reactionCount,
                 commentCount: post.commentCount,
+                isReacted: post.isReacted,
               ),
             ],
           ),
@@ -153,11 +154,13 @@ class _PostActions extends StatelessWidget {
   final int score;
   final int reactionCount;
   final int commentCount;
+  final bool isReacted;
 
   const _PostActions({
     required this.score,
     required this.reactionCount,
     required this.commentCount,
+    required this.isReacted,
   });
 
   @override
@@ -178,12 +181,13 @@ class _PostActions extends StatelessWidget {
           ),
         ),
         InlineIconLabel(
-          text: AppText.captionSmall('$reactionCount', color: colors.contentTertiary),
+          onTap: () => {},
+          text: AppText.captionSmall(reactionCount.toString(), color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
-            CupertinoIcons.heart,
+            isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
             size: IconSizes.inline,
-            color: colors.contentTertiary,
+            color: isReacted ? colors.secondary : colors.contentTertiary,
           ),
         ),
         InlineIconLabel(

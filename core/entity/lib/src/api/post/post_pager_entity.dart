@@ -18,6 +18,7 @@ final class PostEntity {
   final String body;
   final String visibility;
   final bool isLocked;
+  final bool isReacted;
   final int reactionCount;
   final int commentCount;
   final int reportCount;
@@ -35,6 +36,7 @@ final class PostEntity {
     required this.body,
     required this.visibility,
     required this.isLocked,
+    required this.isReacted,
     required this.reactionCount,
     required this.commentCount,
     required this.reportCount,

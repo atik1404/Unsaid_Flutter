@@ -31,6 +31,8 @@ class PostDto {
   final String? visibility;
   @JsonKey(name: 'is_locked')
   final bool? isLocked;
+  @JsonKey(name: 'is_reacted')
+  final bool? isReacted;
   @JsonKey(name: 'reaction_count')
   final int? reactionCount;
   @JsonKey(name: 'comment_count')
@@ -52,6 +54,7 @@ class PostDto {
     this.body,
     this.visibility,
     this.isLocked,
+    this.isReacted,
     this.reactionCount,
     this.commentCount,
     this.reportCount,

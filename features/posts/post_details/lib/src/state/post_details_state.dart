@@ -15,6 +15,7 @@ abstract class PostDetailsState with _$PostDetailsState {
     PostDetailsEntity? postDetails,
     @Default(false) bool isLoading,
     @Default(false) bool isSubmitting,
+    @Default(false) bool isReacting,
     @Default(false) bool showToastMessage,
     @Default(false) bool isReacted,
     @Default(null) Failure? errorMessage,
