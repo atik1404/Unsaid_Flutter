@@ -37,7 +37,7 @@ class AnonymousCard extends StatelessWidget {
           child: _buildHeaderTitle(context),
         ),
         SizedBox(width: AppSpacing.s8.w),
-        _buildTag(context),
+        _buildTag(),
       ],
     );
   }
@@ -60,7 +60,7 @@ class AnonymousCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(BuildContext context) {
+  Widget _buildTag() {
     return BlocBuilder<CreatePostBloc, CreatePostState>(
       //selector: (state) => state.mood,
       builder: (context, state) {
