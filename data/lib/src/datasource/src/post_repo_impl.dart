@@ -30,6 +30,15 @@ final class PostRepoImpl implements PostRepository {
   }
 
   @override
+  Future<Result<List<TopicEntity>, Failure>> fetchTopics() {
+    return _restClient.get(
+      '/topics/get_topics',
+      options: AuthOptions.authenticated(),
+      parser: (data) => TopicsDto.fromJson(data).toEntities(),
+    );
+  }
+
+  @override
   Future<Result<PostDetailsEntity, Failure>> fetchPostDetails(String postId) {
     return _restClient.get(
       '/posts/$postId',

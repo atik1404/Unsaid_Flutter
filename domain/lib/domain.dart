@@ -32,5 +32,6 @@ export 'src/usecase/post/add_comment_use_case.dart';
 export 'src/usecase/post/add_react_use_case.dart';
 export 'src/usecase/post/remove_react_use_case.dart';
 export 'src/usecase/post/create_post_use_case.dart';
+export 'src/usecase/post/fetch_topics_use_case.dart';
 
 export 'src/di/domain_di.dart';

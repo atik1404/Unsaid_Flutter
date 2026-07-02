@@ -13,3 +13,4 @@ export 'src/post/post_react_submit_dto.dart';
 export 'src/post/my_posts_dto.dart';
 export 'src/post/post_details_dto.dart';
 export 'src/post/create_post_dto.dart';
+export 'src/post/topics_dto.dart';

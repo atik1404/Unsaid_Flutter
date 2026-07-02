@@ -11,7 +11,7 @@ import 'package:setting/src/state/setting_state.dart';
 class SettingCubit extends Cubit<SettingState> {
   final AppPrefStorage _prefStorage;
 
-  SettingCubit({required AppPrefStorage prefStorage}) : _prefStorage = prefStorage, super(const SettingState());
+  SettingCubit({required this._prefStorage}) : super(const SettingState());
 
   /// Loads the current user's profile summary from persistent storage.
   void loadUserProfile() {

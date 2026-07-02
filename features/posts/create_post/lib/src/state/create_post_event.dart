@@ -17,7 +17,16 @@ final class MoodSelected extends CreatePostEvent {
   const MoodSelected(this.mood);
 }
 
+final class TopicSelected extends CreatePostEvent {
+  final String topic;
+  const TopicSelected(this.topic);
+}
+
 /// Fired when the user taps the "Post" action to publish the draft.
 final class CreatePostSubmitted extends CreatePostEvent {
   const CreatePostSubmitted();
+}
+
+final class FetchTopics extends CreatePostEvent {
+  const FetchTopics();
 }

@@ -2,12 +2,16 @@ import 'package:common/common.dart';
 import 'package:create_post/src/state/create_post_bloc.dart';
 import 'package:create_post/src/state/create_post_state.dart';
 import 'package:create_post/src/widgets/anonymous_card.dart';
+import 'package:create_post/src/widgets/topics_selection.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
+import 'package:pref_storage/pref_storage.dart';
 import 'package:ui/ui.dart';
 
 /// Entry point for the Create Post feature ("smart" widget).
@@ -18,10 +22,9 @@ import 'package:ui/ui.dart';
 /// everything they need through their constructors and report user intent back
 /// to [CreatePostBloc].
 class CreatePostScreen extends StatelessWidget {
-  /// The anonymous display name shown in the post header.
-  final String _fullname;
+  final AppPrefStorage _prefStorage = GetIt.I.get();
 
-  const CreatePostScreen({super.key, required this._fullname});
+  CreatePostScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class CreatePostScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AnonymousCard(anonymousName: _fullname),
+                AnonymousCard(anonymousName: _prefStorage.getString(PrefKey.anonymousName), avatar: _prefStorage.getString(PrefKey.profilePicture)),
                 SizedBox(height: AppSpacing.s16.h),
                 AppText.bodyLarge(
                   context.l10n.create_post_mood_label,
@@ -64,9 +67,19 @@ class CreatePostScreen extends StatelessWidget {
                 SizedBox(height: AppSpacing.s12.h),
                 const _MoodSelector(),
                 SizedBox(height: AppSpacing.s8.h),
+
                 const AppDivider(),
                 SizedBox(height: AppSpacing.s8.h),
                 const _PostInputField(),
+                SizedBox(height: AppSpacing.s8.h),
+                AppText.bodyLarge(
+                  'Topics',
+                  textWeight: AppTextWeight.semiBold,
+                  color: context.appColors.contentPrimary,
+                ),
+                SizedBox(height: AppSpacing.s12.h),
+                const TopicSelector(),
+                SizedBox(height: AppSpacing.s8.h),
               ],
             ),
           ),
@@ -86,6 +99,8 @@ class CreatePostScreen extends StatelessWidget {
         AppToast.toast(message: state.errorMessage?.resolveMessage(context) ?? '', toastType: ToastType.error);
       case CreatePostStatus.initial:
       case CreatePostStatus.submitting:
+        break;
+      case CreatePostStatus.loading:
         break;
     }
   }

@@ -10,8 +10,9 @@ import 'package:ui/ui.dart';
 
 class AnonymousCard extends StatelessWidget {
   final String _anonymousName;
+  final String _avatar;
 
-  const AnonymousCard({super.key, required String anonymousName}) : _anonymousName = anonymousName;
+  const AnonymousCard({super.key, required this._anonymousName, required this._avatar});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class AnonymousCard extends StatelessWidget {
     return Row(
       children: [
         AppImage.network(
-          'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+          _avatar,
           width: IconSizes.prominent,
           height: IconSizes.prominent,
           shape: ImageShape.circle,
@@ -47,7 +48,7 @@ class AnonymousCard extends StatelessWidget {
       children: [
         AppText.bodySmall(
           _anonymousName,
-          textWeight: AppTextWeight.regular,
+          textWeight: AppTextWeight.bold,
           color: context.appColors.contentPrimary,
         ),
         AppText.captionSmall(
@@ -71,7 +72,7 @@ class AnonymousCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
           backgroundColor: bg,
           child: AppText.captionSmall(
-            state.selectedMood!.name,
+            state.selectedMood!.name.toUpperCase(),
             color: text,
           ),
         );

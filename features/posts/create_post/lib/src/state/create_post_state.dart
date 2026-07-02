@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:entity/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_post_state.freezed.dart';
@@ -15,9 +16,11 @@ abstract class CreatePostState with _$CreatePostState {
 
     /// Currently selected mood for the post.
     @Default(null) MoodType? selectedMood,
+    @Default(null) String? selectedTopic,
 
     /// Current submission lifecycle state.
     @Default(CreatePostStatus.initial) CreatePostStatus status,
+    @Default([]) List<TopicEntity> topics,
 
     /// Server acknowledgement message, shown on success.
     String? successMessage,
@@ -33,11 +36,11 @@ abstract class CreatePostState with _$CreatePostState {
 
   /// The post can only be submitted with non-empty content and no in-flight
   /// request.
-  bool get canSubmit => postBody.trim().isNotEmpty && !isSubmitting;
+  bool get canSubmit => postBody.trim().isNotEmpty && !isSubmitting && selectedMood != null && selectedTopic != null;
 }
 
 /// Lifecycle of a create-post submission.
 ///
 /// Drives both the UI (button spinner, enabled state) and the side effects
 /// handled by the screen's [BlocListener] (success/error toasts, navigation).
-enum CreatePostStatus { initial, submitting, success, failure }
+enum CreatePostStatus { initial, loading, submitting, success, failure }
