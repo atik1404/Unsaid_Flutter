@@ -36,6 +36,46 @@ final class PostDetailsEntity {
     required this.isReacted,
     required this.comments,
   });
+
+  PostDetailsEntity copyWith({
+    String? postId,
+    String? createdAt,
+    String? authorUserId,
+    String? topicId,
+    String? type,
+    String? mood,
+    String? body,
+    String? visibility,
+    bool? isLocked,
+    int? reactionCount,
+    int? commentCount,
+    int? reportCount,
+    int? score,
+    String? authorName,
+    String? authorAvatar,
+    bool? isReacted,
+    List<CommentEntity>? comments,
+  }) {
+    return PostDetailsEntity(
+      postId: postId ?? this.postId,
+      createdAt: createdAt ?? this.createdAt,
+      authorUserId: authorUserId ?? this.authorUserId,
+      topicId: topicId ?? this.topicId,
+      type: type ?? this.type,
+      mood: mood ?? this.mood,
+      body: body ?? this.body,
+      visibility: visibility ?? this.visibility,
+      isLocked: isLocked ?? this.isLocked,
+      reactionCount: reactionCount ?? this.reactionCount,
+      commentCount: commentCount ?? this.commentCount,
+      reportCount: reportCount ?? this.reportCount,
+      score: score ?? this.score,
+      authorName: authorName ?? this.authorName,
+      authorAvatar: authorAvatar ?? this.authorAvatar,
+      isReacted: isReacted ?? this.isReacted,
+      comments: comments ?? this.comments,
+    );
+  }
 }
 
 final class CommentEntity {

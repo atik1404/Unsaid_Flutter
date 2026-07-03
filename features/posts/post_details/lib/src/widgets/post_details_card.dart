@@ -118,9 +118,9 @@ final class PostDetailsCard extends StatelessWidget {
               text: AppText.captionSmall(postDetails.reactionCount.toString(), color: colors.contentTertiary),
               horizontalGap: AppSpacing.s4.w,
               leadingWidget: Icon(
-                state.isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                state.postDetails!.isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
                 size: IconSizes.inline,
-                color: state.isReacted ? colors.secondary : colors.contentTertiary,
+                color: state.postDetails!.isReacted ? colors.secondary : colors.contentTertiary,
               ),
             );
           },

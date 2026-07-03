@@ -50,8 +50,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     return BlocConsumer<PostDetailsBloc, PostDetailsState>(
       // Only after a user-submitted comment succeeds (isSubmitting true -> false
       // with a new comment), not on the initial fetch that populates comments.
-      listenWhen: (previous, current) =>
-          previous.isSubmitting && !current.isSubmitting && current.comments.length > previous.comments.length,
+      listenWhen: (previous, current) => previous.isSubmitting && !current.isSubmitting,
       listener: (context, state) => _scrollToFirstComments(),
       builder: (context, state) {
         return AppScaffold(
@@ -113,7 +112,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           ),
           SizedBox(height: AppSpacing.s16.h),
 
-          CommentsSection(key: _commentsSectionKey, comments: state.comments),
+          CommentsSection(key: _commentsSectionKey, comments: state.postDetails!.comments),
           SizedBox(height: AppSpacing.s16.h),
         ],
       ),

@@ -50,8 +50,6 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
           state.copyWith(
             isLoading: false,
             postDetails: data,
-            isReacted: data.isReacted,
-            comments: data.comments,
           ),
         );
       },
@@ -72,8 +70,14 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
 
     result.when(
       success: (data) {
-        final comments = List<CommentEntity>.from(state.comments)..add(data);
-        emit(state.copyWith(isSubmitting: false, comments: comments));
+        final comments = List<CommentEntity>.from(state.postDetails!.comments)..add(data);
+        emit(
+          state.copyWith(
+            isSubmitting: false,
+            postDetails: state.postDetails!.copyWith(comments: comments, commentCount: comments.length),
+            showToastMessage: true,
+          ),
+        );
       },
       failure: (failure) {
         emit(state.copyWith(isSubmitting: false, errorMessage: failure, showToastMessage: true));
@@ -88,7 +92,7 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     if (state.isReacting) {
       return;
     }
-    if (state.isReacted) {
+    if (state.postDetails!.isReacted) {
       add(const _RemoveReactEvent());
     } else {
       add(const _AddReactEvent());
@@ -99,15 +103,15 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     _AddReactEvent event,
     Emitter<PostDetailsState> emit,
   ) async {
-    emit(state.copyWith(isReacted: true, isReacting: true));
-    final result = await _addReactUseCase.call(AddReactParams(postId: _postId, react: 'support'));
+    emit(state.copyWith(isReacting: true, postDetails: _toggleReaction(reacted: true)));
+    final result = await _addReactUseCase.call(AddReactParams(postId: _postId));
 
     result.when(
       success: (data) {
-        emit(state.copyWith(isReacted: true, isReacting: false));
+        emit(state.copyWith(isReacting: false));
       },
       failure: (_) {
-        emit(state.copyWith(isReacted: false));
+        emit(state.copyWith(isReacting: false, postDetails: _toggleReaction(reacted: false)));
       },
     );
   }
@@ -116,18 +120,31 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     _RemoveReactEvent event,
     Emitter<PostDetailsState> emit,
   ) async {
-    emit(state.copyWith(isReacted: false, isReacting: true));
+    emit(state.copyWith(isReacting: true, postDetails: _toggleReaction(reacted: false)));
     final result = await _removeReactUseCase.call(
       _postId,
     );
 
     result.when(
       success: (data) {
-        emit(state.copyWith(isReacted: false, isReacting: false));
+        emit(state.copyWith(isReacting: false));
       },
       failure: (_) {
-        emit(state.copyWith(isReacted: true, isReacting: false));
+        emit(state.copyWith(isReacting: false, postDetails: _toggleReaction(reacted: true)));
       },
     );
+  }
+
+  /// Returns a new posts list with the reaction state of the [postId] item
+  /// set to [reacted], adjusting [PostEntity.reactionCount] accordingly.
+  ///
+  /// Only the matching item is rebuilt; the rest keep their identity.
+  PostDetailsEntity _toggleReaction({required bool reacted}) {
+    final post = state.postDetails!;
+    final updatedPost = post.copyWith(
+      isReacted: reacted,
+      reactionCount: reacted ? post.reactionCount + 1 : post.reactionCount - 1,
+    );
+    return updatedPost;
   }
 }
