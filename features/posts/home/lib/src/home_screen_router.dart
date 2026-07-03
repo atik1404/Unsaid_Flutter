@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:home/src/home_screen.dart';
 import 'package:home/src/state/home_bloc.dart';
 import 'package:navigation/navigation.dart';
-import 'package:domain/domain.dart';
 
 final class HomeScreenRouter implements BaseRouter {
   @override
@@ -17,7 +16,9 @@ final class HomeScreenRouter implements BaseRouter {
           state: state,
           child: BlocProvider(
             create: (_) => HomeBloc(
-              fetchPostsUseCase: GetIt.I<FetchPostsUseCase>(),
+              fetchPostsUseCase: GetIt.I.get(),
+              addReactUseCase: GetIt.I.get(),
+              removeReactUseCase: GetIt.I.get(),
             ),
             child: const HomeScreen(),
           ),

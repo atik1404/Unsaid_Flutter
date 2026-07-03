@@ -1,4 +1,5 @@
 import 'package:common/common.dart';
+import 'package:entity/entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/state/home_event.dart';
 import 'package:home/src/state/home_state.dart';
@@ -12,11 +13,14 @@ import 'package:domain/domain.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final FetchPostsUseCase _fetchPostsUseCase;
 
-  HomeBloc({required FetchPostsUseCase fetchPostsUseCase})
-      : _fetchPostsUseCase = fetchPostsUseCase,
-        super(const HomeState()) {
+  final AddReactUseCase _addReactUseCase;
+  final RemoveReactUseCase _removeReactUseCase;
+
+  HomeBloc({required this._fetchPostsUseCase, required this._addReactUseCase, required this._removeReactUseCase}) : super(const HomeState()) {
     on<LoadPostsEvent>((event, emit) => _loadPosts(emit));
     on<SelectMoodEvent>(_selectMood);
+    on<AddReactEvent>(_addReact);
+    on<RemoveReactEvent>(_removeReact);
   }
 
   /// Switches the active mood filter and resets pagination state before
@@ -62,5 +66,60 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(isLoading: false, errorMessage: message));
       },
     );
+  }
+
+  Future<void> _addReact(
+    AddReactEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    if (state.isReacting) return;
+    emit(state.copyWith(isReacting: true, posts: _toggleReaction(event.postId, reacted: true)));
+    final result = await _addReactUseCase.call(AddReactParams(postId: event.postId));
+
+    result.when(
+      success: (data) {
+        emit(state.copyWith(isReacting: false));
+      },
+      failure: (_) {
+        emit(state.copyWith(isReacting: false, posts: _toggleReaction(event.postId, reacted: false)));
+      },
+    );
+  }
+
+  Future<void> _removeReact(
+    RemoveReactEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    if (state.isReacting) return;
+    emit(state.copyWith(isReacting: true, posts: _toggleReaction(event.postId, reacted: false)));
+    final result = await _removeReactUseCase.call(
+      event.postId,
+    );
+
+    result.when(
+      success: (data) {
+        emit(state.copyWith(isReacting: false));
+      },
+      failure: (_) {
+        emit(state.copyWith(isReacting: false, posts: _toggleReaction(event.postId, reacted: true)));
+      },
+    );
+  }
+
+  /// Returns a new posts list with the reaction state of the [postId] item
+  /// set to [reacted], adjusting [PostEntity.reactionCount] accordingly.
+  ///
+  /// Only the matching item is rebuilt; the rest keep their identity.
+  List<PostEntity> _toggleReaction(String postId, {required bool reacted}) {
+    final index = state.posts.indexWhere((post) => post.id == postId);
+    if (index == -1 || state.posts[index].isReacted == reacted) return state.posts;
+
+    final post = state.posts[index];
+    final updatedPosts = List<PostEntity>.of(state.posts);
+    updatedPosts[index] = post.copyWith(
+      isReacted: reacted,
+      reactionCount: reacted ? post.reactionCount + 1 : post.reactionCount - 1,
+    );
+    return updatedPosts;
   }
 }

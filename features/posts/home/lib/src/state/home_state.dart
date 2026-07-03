@@ -13,6 +13,7 @@ abstract class HomeState with _$HomeState {
 
     /// True while a page fetch is in flight.
     @Default(false) bool isLoading,
+    @Default(false) bool isReacting,
 
     /// True once the last available page has been loaded.
     @Default(false) bool hasReachedMax,

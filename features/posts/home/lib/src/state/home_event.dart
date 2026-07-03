@@ -21,3 +21,13 @@ final class SelectMoodEvent extends HomeEvent {
   final MoodType mood;
   const SelectMoodEvent(this.mood);
 }
+
+final class AddReactEvent extends HomeEvent {
+  final String postId;
+  const AddReactEvent(this.postId);
+}
+
+final class RemoveReactEvent extends HomeEvent {
+  final String postId;
+  const RemoveReactEvent(this.postId);
+}

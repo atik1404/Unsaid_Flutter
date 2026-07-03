@@ -44,4 +44,42 @@ final class PostEntity {
     required this.authorName,
     required this.authorAvatar,
   });
+
+  PostEntity copyWith({
+    String? id,
+    DateTime? createdAt,
+    String? authorUserId,
+    String? topicId,
+    String? type,
+    String? mood,
+    String? body,
+    String? visibility,
+    bool? isLocked,
+    bool? isReacted,
+    int? reactionCount,
+    int? commentCount,
+    int? reportCount,
+    int? score,
+    String? authorName,
+    String? authorAvatar,
+  }) {
+    return PostEntity(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      authorUserId: authorUserId ?? this.authorUserId,
+      topicId: topicId ?? this.topicId,
+      type: type ?? this.type,
+      mood: mood ?? this.mood,
+      body: body ?? this.body,
+      visibility: visibility ?? this.visibility,
+      isLocked: isLocked ?? this.isLocked,
+      isReacted: isReacted ?? this.isReacted,
+      reactionCount: reactionCount ?? this.reactionCount,
+      commentCount: commentCount ?? this.commentCount,
+      reportCount: reportCount ?? this.reportCount,
+      score: score ?? this.score,
+      authorName: authorName ?? this.authorName,
+      authorAvatar: authorAvatar ?? this.authorAvatar,
+    );
+  }
 }

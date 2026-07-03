@@ -82,7 +82,7 @@ final class PostDetailsCard extends StatelessWidget {
       children: [
         AppText.bodySmall(
           postDetails.authorName,
-          textWeight: AppTextWeight.regular,
+          textWeight: AppTextWeight.semiBold,
           color: context.appColors.contentPrimary,
         ),
         AppText.captionSmall(

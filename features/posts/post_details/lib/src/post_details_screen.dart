@@ -15,13 +15,44 @@ import 'package:ui/ui.dart';
 ///
 /// Receives post data via the cubit (set from GoRouter extras) and
 /// displays a header card followed by the full description card.
-class PostDetailsScreen extends StatelessWidget {
+class PostDetailsScreen extends StatefulWidget {
   const PostDetailsScreen({super.key});
+
+  @override
+  State<PostDetailsScreen> createState() => _PostDetailsScreenState();
+}
+
+class _PostDetailsScreenState extends State<PostDetailsScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _commentsSectionKey = GlobalKey();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  /// Brings the comments section into view after a new comment is posted.
+  void _scrollToFirstComments() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final commentsContext = _commentsSectionKey.currentContext;
+      if (commentsContext == null) return;
+      Scrollable.ensureVisible(
+        commentsContext,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PostDetailsBloc, PostDetailsState>(
-      listener: (context, state) {},
+      // Only after a user-submitted comment succeeds (isSubmitting true -> false
+      // with a new comment), not on the initial fetch that populates comments.
+      listenWhen: (previous, current) =>
+          previous.isSubmitting && !current.isSubmitting && current.comments.length > previous.comments.length,
+      listener: (context, state) => _scrollToFirstComments(),
       builder: (context, state) {
         return AppScaffold(
           appBar: AppTopBar(
@@ -69,6 +100,7 @@ class PostDetailsScreen extends StatelessWidget {
 
     final postDetails = state.postDetails!;
     return SingleChildScrollView(
+      controller: _scrollController,
       padding: EdgeInsets.all(AppSpacing.s16.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +113,7 @@ class PostDetailsScreen extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.s16.h),
 
-          CommentsSection(comments: state.comments),
+          CommentsSection(key: _commentsSectionKey, comments: state.comments),
           SizedBox(height: AppSpacing.s16.h),
         ],
       ),

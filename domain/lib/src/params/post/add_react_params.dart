@@ -11,7 +11,7 @@ final class AddReactParams {
   @JsonKey(name: 'post_id', includeToJson: false)
   final String postId;
 
-  const AddReactParams({required this.react, required this.postId});
+  const AddReactParams({this.react = 'support', required this.postId});
 
   Map<String, dynamic> toJson() => _$AddReactParamsToJson(this);
 }

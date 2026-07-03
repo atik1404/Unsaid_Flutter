@@ -178,6 +178,13 @@ class _PostListView extends StatelessWidget {
             return PostCard(
               post: state.posts[index],
               onTap: () => context.pushNamed(AppRouteName.postDetailsScreen, extra: state.posts[index].id),
+              onReact: () {
+                if (state.posts[index].isReacted) {
+                  context.read<HomeBloc>().add(RemoveReactEvent(state.posts[index].id));
+                } else {
+                  context.read<HomeBloc>().add(AddReactEvent(state.posts[index].id));
+                }
+              },
             );
           },
         );

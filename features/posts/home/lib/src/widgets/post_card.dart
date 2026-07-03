@@ -11,9 +11,10 @@ import 'package:ui/ui.dart';
 /// and a row of engagement counters (score, reactions, comments).
 class PostCard extends StatelessWidget {
   final PostEntity post;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
+  final VoidCallback onReact;
 
-  const PostCard({super.key, required this.post, required this.onTap});
+  const PostCard({super.key, required this.post, required this.onTap, required this.onReact});
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,7 @@ class PostCard extends StatelessWidget {
                 reactionCount: post.reactionCount,
                 commentCount: post.commentCount,
                 isReacted: post.isReacted,
+                onReact: onReact.call,
               ),
             ],
           ),
@@ -155,12 +157,14 @@ class _PostActions extends StatelessWidget {
   final int reactionCount;
   final int commentCount;
   final bool isReacted;
+  final VoidCallback onReact;
 
   const _PostActions({
     required this.score,
     required this.reactionCount,
     required this.commentCount,
     required this.isReacted,
+    required this.onReact,
   });
 
   @override
@@ -181,7 +185,7 @@ class _PostActions extends StatelessWidget {
           ),
         ),
         InlineIconLabel(
-          onTap: () => {},
+          onTap: onReact,
           text: AppText.captionSmall(reactionCount.toString(), color: colors.contentTertiary),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
