@@ -37,11 +37,17 @@ class PostDetailsScreen extends StatelessWidget {
           body: _buildBody(context, state),
           bottomNavigationBar: Visibility(
             visible: state.postDetails != null && authStateNotifier.isLoggedIn,
-            child: CommentInputBox(
-              isLoading: state.isSubmitting,
-              onCommentSubmitted: (commnet) => {
-                context.read<PostDetailsBloc>().add(AddCommentEvent(comment: commnet)),
-              },
+            // bottomNavigationBar is pinned to the physical bottom and is not
+            // lifted above the soft keyboard, so add the keyboard inset as
+            // padding to keep the input field and send button visible.
+            child: Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+              child: CommentInputBox(
+                isLoading: state.isSubmitting,
+                onCommentSubmitted: (commnet) => {
+                  context.read<PostDetailsBloc>().add(AddCommentEvent(comment: commnet)),
+                },
+              ),
             ),
           ),
         );

@@ -75,7 +75,10 @@ class _CommentInputBoxState extends State<CommentInputBox> {
     return Expanded(
       child: AppInputField(
         controller: _textController,
-        shape: AppInputFieldShape.pill,
+        minLines: 1,
+        maxLines: 5,
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.newline,
         hint: context.l10n.post_details_comment_hint,
         // maxLines: 3,
         // keyboardType: TextInputType.multiline,
@@ -84,22 +87,23 @@ class _CommentInputBoxState extends State<CommentInputBox> {
   }
 
   Widget _buildSendButton(BuildContext context) {
-    return AppIconButton(
-      AppIcon(
-        const AppImage.asset(
-          AppDrawables.icSend,
-          width: IconSizes.standard,
-          height: IconSizes.standard,
+    return Visibility(
+      visible: isButtonEnable,
+      child: AppIconButton(
+        AppIcon(
+          const AppImage.asset(
+            AppDrawables.icSend,
+            width: IconSizes.standard,
+            height: IconSizes.standard,
+          ),
+          color: context.appColors.brand,
+          tint: true,
         ),
-        color: context.appColors.brand,
-        tint: true,
+        onPressed: () {
+          widget.onCommentSubmitted(_textController.text);
+          _textController.clear();
+        },
       ),
-      onPressed: isButtonEnable
-          ? () {
-              widget.onCommentSubmitted(_textController.text);
-              _textController.clear();
-            }
-          : null,
     );
   }
 }

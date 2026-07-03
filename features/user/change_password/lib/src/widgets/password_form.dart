@@ -59,8 +59,7 @@ class PasswordForm extends StatelessWidget {
         _FieldLabel(context.l10n.change_password_label_confirm),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
-          buildWhen: (prev, curr) =>
-              prev.confirmPassword != curr.confirmPassword || prev.newPassword != curr.newPassword || prev.showError != curr.showError,
+          buildWhen: (prev, curr) => prev.confirmPassword != curr.confirmPassword || prev.newPassword != curr.newPassword || prev.showError != curr.showError,
           builder: (context, state) {
             return _PasswordField(
               hint: context.l10n.change_password_hint_confirm,
@@ -79,7 +78,11 @@ class PasswordForm extends StatelessWidget {
             return AppFilledButton.text(
               context.l10n.change_password_button,
               isLoading: isLoading,
-              onPressed: isLoading ? null : cubit.changePassword,
+              onPressed: () {
+                if (!isLoading) {
+                  cubit.changePassword();
+                }
+              },
             );
           },
         ),

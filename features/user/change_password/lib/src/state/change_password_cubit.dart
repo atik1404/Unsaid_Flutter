@@ -12,9 +12,8 @@ import 'package:formz/formz.dart';
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   final ChangePasswordUseCase _changePasswordUseCase;
 
-  ChangePasswordCubit({required ChangePasswordUseCase changePasswordUseCase})
-    : _changePasswordUseCase = changePasswordUseCase,
-      super(const ChangePasswordState());
+  ChangePasswordCubit({required this._changePasswordUseCase})
+    : super(const ChangePasswordState());
 
   void updateOldPassword(String value) {
     emit(state.copyWith(oldPassword: PasswordInputValidator.dirty(value), errorMessage: null));

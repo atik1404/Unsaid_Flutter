@@ -111,17 +111,6 @@ final class PostDetailsCard extends StatelessWidget {
     return Row(
       spacing: AppSpacing.s12,
       children: [
-        InlineIconLabel(
-          text: AppText.captionSmall(postDetails.score.toString(), color: colors.contentTertiary),
-          horizontalGap: AppSpacing.s4.w,
-          leadingWidget: AppImage.asset(
-            AppDrawables.icFlame,
-            width: IconSizes.inline,
-            height: IconSizes.inline,
-            color: colors.contentTertiary,
-          ),
-        ),
-
         BlocBuilder<PostDetailsBloc, PostDetailsState>(
           builder: (context, state) {
             return InlineIconLabel(
@@ -135,6 +124,16 @@ final class PostDetailsCard extends StatelessWidget {
               ),
             );
           },
+        ),
+        InlineIconLabel(
+          text: AppText.captionSmall(postDetails.score.toString(), color: colors.contentTertiary),
+          horizontalGap: AppSpacing.s4.w,
+          leadingWidget: AppImage.asset(
+            AppDrawables.icFlame,
+            width: IconSizes.inline,
+            height: IconSizes.inline,
+            color: colors.contentTertiary,
+          ),
         ),
 
         InlineIconLabel(

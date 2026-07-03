@@ -1,4 +1,3 @@
-import 'package:common/common.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
@@ -47,7 +46,6 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
 
     result.when(
       success: (data) {
-        AppLog.log('isReacted: ${data.isReacted}');
         emit(
           state.copyWith(
             isLoading: false,

@@ -36,6 +36,8 @@ class CreatePostScreen extends StatelessWidget {
   }
 
   Widget _buildScaffold(BuildContext context, CreatePostState state) {
+    final verticalGap = SizedBox(height: AppSpacing.s8.h);
+
     return AppScaffold(
       isLoading: state.status == CreatePostStatus.submitting || state.status == CreatePostStatus.loading,
       appBar: AppTopBar(
@@ -63,28 +65,28 @@ class CreatePostScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AnonymousCard(anonymousName: _prefStorage.getString(PrefKey.anonymousName), avatar: _prefStorage.getString(PrefKey.profilePicture)),
-              SizedBox(height: AppSpacing.s16.h),
+              verticalGap,
               AppText.bodyLarge(
                 context.l10n.create_post_mood_label,
                 textWeight: AppTextWeight.semiBold,
                 color: context.appColors.contentPrimary,
               ),
-              SizedBox(height: AppSpacing.s12.h),
+              verticalGap,
               const _MoodSelector(),
-              SizedBox(height: AppSpacing.s8.h),
+              verticalGap,
 
               const AppDivider(),
-              SizedBox(height: AppSpacing.s8.h),
+              verticalGap,
               const _PostInputField(),
-              SizedBox(height: AppSpacing.s8.h),
+              verticalGap,
               AppText.bodyLarge(
                 context.l10n.create_post_topics_label,
                 textWeight: AppTextWeight.semiBold,
                 color: context.appColors.contentPrimary,
               ),
-              SizedBox(height: AppSpacing.s12.h),
+              verticalGap,
               const TopicSelector(),
-              SizedBox(height: AppSpacing.s8.h),
+              verticalGap,
             ],
           ),
         ),

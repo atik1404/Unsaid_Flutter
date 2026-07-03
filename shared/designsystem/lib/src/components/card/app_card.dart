@@ -19,7 +19,7 @@ class AppCard extends StatelessWidget {
     required this.child,
     required this.tone,
     required this.variant,
-    required AppCardShape shape,
+    required this._shape,
     required this.padding,
     required this.cornerRadius,
     required this.cornerMode,
@@ -28,7 +28,7 @@ class AppCard extends StatelessWidget {
     this.height,
     this.onTap,
     this.onLongPress,
-  }) : _shape = shape;
+  });
 
   factory AppCard.rounded({
     required Widget child,

@@ -24,7 +24,7 @@ final class CommentsSection extends StatelessWidget {
         ListView.separated(
           itemCount: comments.length,
           shrinkWrap: true,
-          separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s8.h),
+          separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s4.h),
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return CommentsCard(comment: comments[index]);
@@ -44,7 +44,6 @@ final class CommentsCard extends StatelessWidget {
     return AppCard.rounded(
       padding: EdgeInsets.all(AppSpacing.s12.r),
       variant: AppCardVariant.outline,
-      cornerRadius: AppCardCornerRadius.lg,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -87,7 +86,7 @@ final class CommentsCard extends StatelessWidget {
       children: [
         AppText.bodySmall(
           comment.authorName,
-          textWeight: AppTextWeight.regular,
+          textWeight: AppTextWeight.semiBold,
           color: context.appColors.contentPrimary,
         ),
         SizedBox(width: AppSpacing.s4.w),
