@@ -962,6 +962,48 @@ abstract class AppLocalizations {
   /// **'Permanently delete ghost account.'**
   String get setting_menu_delete_account_subtitle;
 
+  /// Title of the delete account confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get delete_account_sheet_title;
+
+  /// Warning message inside the delete account confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete your ghost account and all associated data. This action cannot be undone.'**
+  String get delete_account_sheet_message;
+
+  /// Instruction telling the user to type DELETE to confirm account deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Type DELETE to confirm.'**
+  String get delete_account_sheet_prompt;
+
+  /// Hint text inside the delete account confirmation input field
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get delete_account_sheet_hint;
+
+  /// Label for the cancel button in the delete account confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get delete_account_cancel_button;
+
+  /// Label for the destructive delete button in the delete account confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete_account_delete_button;
+
+  /// Fallback success message shown after the account is deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been deleted.'**
+  String get delete_account_success;
+
   /// Menu item label to sign out
   ///
   /// In en, this message translates to:

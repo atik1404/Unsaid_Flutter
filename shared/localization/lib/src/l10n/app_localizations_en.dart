@@ -479,6 +479,28 @@ class AppLocalizationsEn extends AppLocalizations {
       'Permanently delete ghost account.';
 
   @override
+  String get delete_account_sheet_title => 'Delete account';
+
+  @override
+  String get delete_account_sheet_message =>
+      'This will permanently delete your ghost account and all associated data. This action cannot be undone.';
+
+  @override
+  String get delete_account_sheet_prompt => 'Type DELETE to confirm.';
+
+  @override
+  String get delete_account_sheet_hint => 'DELETE';
+
+  @override
+  String get delete_account_cancel_button => 'Cancel';
+
+  @override
+  String get delete_account_delete_button => 'Delete';
+
+  @override
+  String get delete_account_success => 'Your account has been deleted.';
+
+  @override
   String get setting_menu_sign_out => 'Sign out';
 
   @override

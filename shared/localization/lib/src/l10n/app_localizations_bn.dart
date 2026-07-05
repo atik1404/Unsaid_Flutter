@@ -481,6 +481,28 @@ class AppLocalizationsBn extends AppLocalizations {
       'ঘোস্ট অ্যাকাউন্ট স্থায়ীভাবে মুছে ফেলুন।';
 
   @override
+  String get delete_account_sheet_title => 'অ্যাকাউন্ট মুছুন';
+
+  @override
+  String get delete_account_sheet_message =>
+      'এটি আপনার ঘোস্ট অ্যাকাউন্ট এবং সম্পর্কিত সমস্ত ডেটা স্থায়ীভাবে মুছে ফেলবে। এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।';
+
+  @override
+  String get delete_account_sheet_prompt => 'নিশ্চিত করতে DELETE টাইপ করুন।';
+
+  @override
+  String get delete_account_sheet_hint => 'DELETE';
+
+  @override
+  String get delete_account_cancel_button => 'বাতিল';
+
+  @override
+  String get delete_account_delete_button => 'মুছুন';
+
+  @override
+  String get delete_account_success => 'আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে।';
+
+  @override
   String get setting_menu_sign_out => 'সাইন আউট';
 
   @override

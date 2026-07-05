@@ -613,6 +613,34 @@
     "@setting_menu_delete_account_subtitle": {
         "description": "Subtitle for the delete account action"
     },
+    "delete_account_sheet_title": "Delete account",
+    "@delete_account_sheet_title": {
+        "description": "Title of the delete account confirmation bottom sheet"
+    },
+    "delete_account_sheet_message": "This will permanently delete your ghost account and all associated data. This action cannot be undone.",
+    "@delete_account_sheet_message": {
+        "description": "Warning message inside the delete account confirmation bottom sheet"
+    },
+    "delete_account_sheet_prompt": "Type DELETE to confirm.",
+    "@delete_account_sheet_prompt": {
+        "description": "Instruction telling the user to type DELETE to confirm account deletion"
+    },
+    "delete_account_sheet_hint": "DELETE",
+    "@delete_account_sheet_hint": {
+        "description": "Hint text inside the delete account confirmation input field"
+    },
+    "delete_account_cancel_button": "Cancel",
+    "@delete_account_cancel_button": {
+        "description": "Label for the cancel button in the delete account confirmation bottom sheet"
+    },
+    "delete_account_delete_button": "Delete",
+    "@delete_account_delete_button": {
+        "description": "Label for the destructive delete button in the delete account confirmation bottom sheet"
+    },
+    "delete_account_success": "Your account has been deleted.",
+    "@delete_account_success": {
+        "description": "Fallback success message shown after the account is deleted"
+    },
     "setting_menu_sign_out": "Sign out",
     "@setting_menu_sign_out": {
         "description": "Menu item label to sign out"

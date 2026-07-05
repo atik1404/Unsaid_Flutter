@@ -15,5 +15,9 @@ abstract class AuthRepository {
 
   Future<Result<ProfileEntity, Failure>> fetchProfile();
 
+  /// Permanently deletes the authenticated user's account.
+  /// Returns the server success message on success.
+  Future<Result<String, Failure>> deleteAccount();
+
   Future<Result<CommonApiEntity, Failure>> checkUserExistence(UserParams params);
 }
