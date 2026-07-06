@@ -1,5 +1,5 @@
-name: setting
-description: "Settings feature package with profile summary and menu options."
+name: delete_account
+description: "Delete account feature package with reason selection and typed confirmation."
 version: 0.0.1
 resolution: workspace
 
@@ -19,6 +19,7 @@ dependencies:
   designsystem: ^0.0.1
   ui: ^0.0.1
   entity: ^0.0.1
+  domain: ^0.0.1
   localization: ^0.0.1
   common: ^0.0.1
   code_analyzer: ^0.0.1
@@ -29,6 +30,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_screenutil: ^5.9.3
   get_it: ^9.2.1
+  formz: ^0.8.0
 
 dev_dependencies:
   flutter_test:

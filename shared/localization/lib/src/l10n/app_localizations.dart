@@ -962,41 +962,107 @@ abstract class AppLocalizations {
   /// **'Permanently delete ghost account.'**
   String get setting_menu_delete_account_subtitle;
 
-  /// Title of the delete account confirmation bottom sheet
+  /// App bar title of the delete account screen
   ///
   /// In en, this message translates to:
   /// **'Delete account'**
-  String get delete_account_sheet_title;
+  String get delete_account_title;
 
-  /// Warning message inside the delete account confirmation bottom sheet
+  /// Heading of the warning banner on the delete account screen
   ///
   /// In en, this message translates to:
-  /// **'This will permanently delete your ghost account and all associated data. This action cannot be undone.'**
-  String get delete_account_sheet_message;
+  /// **'This action is permanent'**
+  String get delete_account_warning_title;
 
-  /// Instruction telling the user to type DELETE to confirm account deletion
+  /// Warning message explaining that account deletion is permanent and irreversible
   ///
   /// In en, this message translates to:
-  /// **'Type DELETE to confirm.'**
-  String get delete_account_sheet_prompt;
+  /// **'Deleting your ghost account erases your profile, posts, and all associated data. Once deleted, your account cannot be recovered.'**
+  String get delete_account_warning_message;
+
+  /// Section heading above the deletion reason list
+  ///
+  /// In en, this message translates to:
+  /// **'Why are you leaving?'**
+  String get delete_account_reason_title;
+
+  /// Deletion reason option: the user no longer uses the app
+  ///
+  /// In en, this message translates to:
+  /// **'I no longer use this app'**
+  String get delete_account_reason_no_longer_use;
+
+  /// Deletion reason option: the user has privacy concerns
+  ///
+  /// In en, this message translates to:
+  /// **'I have privacy concerns'**
+  String get delete_account_reason_privacy;
+
+  /// Deletion reason option: the user found a better alternative
+  ///
+  /// In en, this message translates to:
+  /// **'I found a better alternative'**
+  String get delete_account_reason_better_alternative;
+
+  /// Deletion reason option: the user is experiencing technical issues
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m experiencing technical issues'**
+  String get delete_account_reason_technical;
+
+  /// Deletion reason option: another, free-text reason
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get delete_account_reason_other;
+
+  /// Validation message shown when no deletion reason is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a reason for leaving.'**
+  String get delete_account_reason_error;
+
+  /// Label above the free-text field shown when Other is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us more'**
+  String get delete_account_other_label;
+
+  /// Hint text inside the free-text Other reason field
+  ///
+  /// In en, this message translates to:
+  /// **'Share your reason'**
+  String get delete_account_other_hint;
+
+  /// Validation message shown when the Other reason field is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please tell us why you\'re leaving.'**
+  String get delete_account_other_error;
+
+  /// Section heading above the typed confirmation field
+  ///
+  /// In en, this message translates to:
+  /// **'Type DELETE to confirm'**
+  String get delete_account_confirm_title;
 
   /// Hint text inside the delete account confirmation input field
   ///
   /// In en, this message translates to:
   /// **'DELETE'**
-  String get delete_account_sheet_hint;
+  String get delete_account_confirm_hint;
 
-  /// Label for the cancel button in the delete account confirmation bottom sheet
+  /// Validation message shown when the confirmation text does not match DELETE
   ///
   /// In en, this message translates to:
-  /// **'Cancel'**
-  String get delete_account_cancel_button;
+  /// **'Type DELETE exactly to confirm.'**
+  String get delete_account_confirm_error;
 
-  /// Label for the destructive delete button in the delete account confirmation bottom sheet
+  /// Label for the destructive delete button on the delete account screen
   ///
   /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete_account_delete_button;
+  /// **'Delete my account'**
+  String get delete_account_button;
 
   /// Fallback success message shown after the account is deleted
   ///

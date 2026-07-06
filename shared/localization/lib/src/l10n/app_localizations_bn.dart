@@ -481,23 +481,62 @@ class AppLocalizationsBn extends AppLocalizations {
       'ঘোস্ট অ্যাকাউন্ট স্থায়ীভাবে মুছে ফেলুন।';
 
   @override
-  String get delete_account_sheet_title => 'অ্যাকাউন্ট মুছুন';
+  String get delete_account_title => 'অ্যাকাউন্ট মুছুন';
 
   @override
-  String get delete_account_sheet_message =>
-      'এটি আপনার ঘোস্ট অ্যাকাউন্ট এবং সম্পর্কিত সমস্ত ডেটা স্থায়ীভাবে মুছে ফেলবে। এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।';
+  String get delete_account_warning_title => 'এই কাজটি স্থায়ী';
 
   @override
-  String get delete_account_sheet_prompt => 'নিশ্চিত করতে DELETE টাইপ করুন।';
+  String get delete_account_warning_message =>
+      'আপনার ঘোস্ট অ্যাকাউন্ট মুছে ফেললে আপনার প্রোফাইল, পোস্ট এবং সম্পর্কিত সমস্ত ডেটা মুছে যাবে। একবার মুছে ফেললে অ্যাকাউন্টটি আর ফিরে পাওয়া যাবে না।';
 
   @override
-  String get delete_account_sheet_hint => 'DELETE';
+  String get delete_account_reason_title => 'আপনি কেন চলে যাচ্ছেন?';
 
   @override
-  String get delete_account_cancel_button => 'বাতিল';
+  String get delete_account_reason_no_longer_use =>
+      'আমি আর এই অ্যাপটি ব্যবহার করি না';
 
   @override
-  String get delete_account_delete_button => 'মুছুন';
+  String get delete_account_reason_privacy => 'আমার গোপনীয়তা নিয়ে উদ্বেগ আছে';
+
+  @override
+  String get delete_account_reason_better_alternative =>
+      'আমি আরও ভালো বিকল্প খুঁজে পেয়েছি';
+
+  @override
+  String get delete_account_reason_technical =>
+      'আমি প্রযুক্তিগত সমস্যায় পড়ছি';
+
+  @override
+  String get delete_account_reason_other => 'অন্যান্য';
+
+  @override
+  String get delete_account_reason_error =>
+      'অনুগ্রহ করে চলে যাওয়ার একটি কারণ নির্বাচন করুন।';
+
+  @override
+  String get delete_account_other_label => 'আরও কিছু বলুন';
+
+  @override
+  String get delete_account_other_hint => 'আপনার কারণ লিখুন';
+
+  @override
+  String get delete_account_other_error =>
+      'অনুগ্রহ করে বলুন কেন আপনি চলে যাচ্ছেন।';
+
+  @override
+  String get delete_account_confirm_title => 'নিশ্চিত করতে DELETE টাইপ করুন';
+
+  @override
+  String get delete_account_confirm_hint => 'DELETE';
+
+  @override
+  String get delete_account_confirm_error =>
+      'নিশ্চিত করতে হুবহু DELETE টাইপ করুন।';
+
+  @override
+  String get delete_account_button => 'আমার অ্যাকাউন্ট মুছুন';
 
   @override
   String get delete_account_success => 'আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে।';

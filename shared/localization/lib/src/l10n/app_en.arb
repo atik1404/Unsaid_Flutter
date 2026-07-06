@@ -613,29 +613,73 @@
     "@setting_menu_delete_account_subtitle": {
         "description": "Subtitle for the delete account action"
     },
-    "delete_account_sheet_title": "Delete account",
-    "@delete_account_sheet_title": {
-        "description": "Title of the delete account confirmation bottom sheet"
+    "delete_account_title": "Delete account",
+    "@delete_account_title": {
+        "description": "App bar title of the delete account screen"
     },
-    "delete_account_sheet_message": "This will permanently delete your ghost account and all associated data. This action cannot be undone.",
-    "@delete_account_sheet_message": {
-        "description": "Warning message inside the delete account confirmation bottom sheet"
+    "delete_account_warning_title": "This action is permanent",
+    "@delete_account_warning_title": {
+        "description": "Heading of the warning banner on the delete account screen"
     },
-    "delete_account_sheet_prompt": "Type DELETE to confirm.",
-    "@delete_account_sheet_prompt": {
-        "description": "Instruction telling the user to type DELETE to confirm account deletion"
+    "delete_account_warning_message": "Deleting your ghost account erases your profile, posts, and all associated data. Once deleted, your account cannot be recovered.",
+    "@delete_account_warning_message": {
+        "description": "Warning message explaining that account deletion is permanent and irreversible"
     },
-    "delete_account_sheet_hint": "DELETE",
-    "@delete_account_sheet_hint": {
+    "delete_account_reason_title": "Why are you leaving?",
+    "@delete_account_reason_title": {
+        "description": "Section heading above the deletion reason list"
+    },
+    "delete_account_reason_no_longer_use": "I no longer use this app",
+    "@delete_account_reason_no_longer_use": {
+        "description": "Deletion reason option: the user no longer uses the app"
+    },
+    "delete_account_reason_privacy": "I have privacy concerns",
+    "@delete_account_reason_privacy": {
+        "description": "Deletion reason option: the user has privacy concerns"
+    },
+    "delete_account_reason_better_alternative": "I found a better alternative",
+    "@delete_account_reason_better_alternative": {
+        "description": "Deletion reason option: the user found a better alternative"
+    },
+    "delete_account_reason_technical": "I'm experiencing technical issues",
+    "@delete_account_reason_technical": {
+        "description": "Deletion reason option: the user is experiencing technical issues"
+    },
+    "delete_account_reason_other": "Other",
+    "@delete_account_reason_other": {
+        "description": "Deletion reason option: another, free-text reason"
+    },
+    "delete_account_reason_error": "Please select a reason for leaving.",
+    "@delete_account_reason_error": {
+        "description": "Validation message shown when no deletion reason is selected"
+    },
+    "delete_account_other_label": "Tell us more",
+    "@delete_account_other_label": {
+        "description": "Label above the free-text field shown when Other is selected"
+    },
+    "delete_account_other_hint": "Share your reason",
+    "@delete_account_other_hint": {
+        "description": "Hint text inside the free-text Other reason field"
+    },
+    "delete_account_other_error": "Please tell us why you're leaving.",
+    "@delete_account_other_error": {
+        "description": "Validation message shown when the Other reason field is empty"
+    },
+    "delete_account_confirm_title": "Type DELETE to confirm",
+    "@delete_account_confirm_title": {
+        "description": "Section heading above the typed confirmation field"
+    },
+    "delete_account_confirm_hint": "DELETE",
+    "@delete_account_confirm_hint": {
         "description": "Hint text inside the delete account confirmation input field"
     },
-    "delete_account_cancel_button": "Cancel",
-    "@delete_account_cancel_button": {
-        "description": "Label for the cancel button in the delete account confirmation bottom sheet"
+    "delete_account_confirm_error": "Type DELETE exactly to confirm.",
+    "@delete_account_confirm_error": {
+        "description": "Validation message shown when the confirmation text does not match DELETE"
     },
-    "delete_account_delete_button": "Delete",
-    "@delete_account_delete_button": {
-        "description": "Label for the destructive delete button in the delete account confirmation bottom sheet"
+    "delete_account_button": "Delete my account",
+    "@delete_account_button": {
+        "description": "Label for the destructive delete button on the delete account screen"
     },
     "delete_account_success": "Your account has been deleted.",
     "@delete_account_success": {

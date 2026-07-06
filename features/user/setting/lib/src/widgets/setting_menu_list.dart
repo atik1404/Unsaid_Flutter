@@ -11,7 +11,6 @@ import 'package:navigation/navigation.dart';
 import 'package:pref_storage/pref_storage.dart';
 import 'package:setting/src/state/setting_cubit.dart';
 import 'package:setting/src/state/setting_state.dart';
-import 'package:setting/src/widgets/delete_account_bottom_sheet.dart';
 import 'package:setting/src/widgets/language_pill_toggle.dart';
 import 'package:setting/src/widgets/setting_menu_tile.dart';
 import 'package:setting/src/widgets/setting_section_label.dart';
@@ -52,7 +51,7 @@ class SettingMenuList extends StatelessWidget {
         //SettingSectionLabel(title: context.l10n.setting_section_privacy, color: colors.contentSecondary),
         //gapSmall,
         //const _PrivacySection(),
-       // gapLarge,
+        // gapLarge,
         SettingSectionLabel(title: context.l10n.setting_section_danger_zone, color: colors.contentError),
         gapSmall,
         const _DangerZoneSection(),
@@ -187,6 +186,7 @@ class _NotificationSection extends StatelessWidget {
 }
 
 /// Privacy card: anonymous DMs and ghost mode toggles.
+// ignore: unused_element
 class _PrivacySection extends StatelessWidget {
   const _PrivacySection();
 
@@ -253,7 +253,7 @@ class _DangerZoneSection extends StatelessWidget {
             label: context.l10n.setting_menu_delete_account,
             subtitle: context.l10n.setting_menu_delete_account_subtitle,
             icon: CupertinoIcons.trash,
-            onTap: () => showDeleteAccountBottomSheet(context),
+            onTap: () => context.pushNamed(AppRouteName.deleteAccountScreen),
           ),
           divider,
           SettingMenuTile(

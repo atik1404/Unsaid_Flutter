@@ -4,6 +4,7 @@ export 'src/params/auth/user_params.dart';
 export 'src/params/auth/verify_otp_params.dart';
 export 'src/params/auth/signup_params.dart';
 export 'src/params/auth/change_password_params.dart';
+export 'src/params/auth/delete_account_params.dart';
 
 export 'src/params/post/fetch_posts_params.dart';
 export 'src/params/post/add_comment_params.dart';

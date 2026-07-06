@@ -106,11 +106,13 @@ final class AuthRepoImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<String, Failure>> deleteAccount() {
+  Future<Result<String, Failure>> deleteAccount(DeleteAccountParams params) {
     // Authenticated endpoint — the interceptor attaches the Bearer token.
-    // Only the success message is surfaced to the domain layer.
+    // The churn reason is sent as the request body; only the success message is
+    // surfaced to the domain layer.
     final result = _client.delete(
       '/profile',
+      data: params.toJson(),
       options: AuthOptions.authenticated(),
       parser: (data) => DeleteAccountDto.fromJson(data).toEntity(),
     );

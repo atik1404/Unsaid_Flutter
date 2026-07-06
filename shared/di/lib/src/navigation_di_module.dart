@@ -1,4 +1,5 @@
 import 'package:change_password/change_password.dart';
+import 'package:delete_account/delete_account.dart';
 import 'package:flutter/material.dart';
 import 'package:forgot_password/forgot_password.dart';
 import 'package:get_it/get_it.dart';
@@ -38,6 +39,7 @@ Future<void> registerNavigationModule(GetIt locator) async {
         ...PostDetailsScreenRouter().routes(),
         ...SettingScreenRouter().routes(),
         ...ChangePasswordScreenRouter().routes(),
+        ...DeleteAccountScreenRouter().routes(),
         ...CreatePostScreenRouter().routes(),
         ...ProfileScreenRouter().routes(),
         ...NotificationScreenRouter().routes(),

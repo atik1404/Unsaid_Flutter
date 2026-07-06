@@ -12,7 +12,12 @@
       "Bash(flutter analyze *)",
       "Bash(flutter --version)",
       "Bash(flutter devices *)",
-      "Bash(cd /Volumes/MyFiles/Projects/Playground/unsaid_flutter && sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' apps/ios/Runner.xcodeproj/project.pbxproj && echo \"Remaining 13.0:\" && grep -c \"IPHONEOS_DEPLOYMENT_TARGET = 13.0\" apps/ios/Runner.xcodeproj/project.pbxproj; echo \"Now 15.0:\" && grep -c \"IPHONEOS_DEPLOYMENT_TARGET = 15.0\" apps/ios/Runner.xcodeproj/project.pbxproj)"
+      "Bash(cd /Volumes/MyFiles/Projects/Playground/unsaid_flutter && sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' apps/ios/Runner.xcodeproj/project.pbxproj && echo \"Remaining 13.0:\" && grep -c \"IPHONEOS_DEPLOYMENT_TARGET = 13.0\" apps/ios/Runner.xcodeproj/project.pbxproj; echo \"Now 15.0:\" && grep -c \"IPHONEOS_DEPLOYMENT_TARGET = 15.0\" apps/ios/Runner.xcodeproj/project.pbxproj)",
+      "Bash(xargs cat)",
+      "Bash(rm -f lib/src/delete_account_router.dart lib/src/delete_account_screen.dart lib/src/state/delete_account_cubit.dart lib/src/state/delete_account_state.dart analysis_options.yaml)",
+      "Bash(cp ../change_password/analysis_options.yaml .)",
+      "Read(//Volumes/MyFiles/Projects/Playground/change_password/**)",
+      "Bash(flutter gen-l10n *)"
     ]
   }
 }

@@ -479,23 +479,60 @@ class AppLocalizationsEn extends AppLocalizations {
       'Permanently delete ghost account.';
 
   @override
-  String get delete_account_sheet_title => 'Delete account';
+  String get delete_account_title => 'Delete account';
 
   @override
-  String get delete_account_sheet_message =>
-      'This will permanently delete your ghost account and all associated data. This action cannot be undone.';
+  String get delete_account_warning_title => 'This action is permanent';
 
   @override
-  String get delete_account_sheet_prompt => 'Type DELETE to confirm.';
+  String get delete_account_warning_message =>
+      'Deleting your ghost account erases your profile, posts, and all associated data. Once deleted, your account cannot be recovered.';
 
   @override
-  String get delete_account_sheet_hint => 'DELETE';
+  String get delete_account_reason_title => 'Why are you leaving?';
 
   @override
-  String get delete_account_cancel_button => 'Cancel';
+  String get delete_account_reason_no_longer_use => 'I no longer use this app';
 
   @override
-  String get delete_account_delete_button => 'Delete';
+  String get delete_account_reason_privacy => 'I have privacy concerns';
+
+  @override
+  String get delete_account_reason_better_alternative =>
+      'I found a better alternative';
+
+  @override
+  String get delete_account_reason_technical =>
+      'I\'m experiencing technical issues';
+
+  @override
+  String get delete_account_reason_other => 'Other';
+
+  @override
+  String get delete_account_reason_error =>
+      'Please select a reason for leaving.';
+
+  @override
+  String get delete_account_other_label => 'Tell us more';
+
+  @override
+  String get delete_account_other_hint => 'Share your reason';
+
+  @override
+  String get delete_account_other_error =>
+      'Please tell us why you\'re leaving.';
+
+  @override
+  String get delete_account_confirm_title => 'Type DELETE to confirm';
+
+  @override
+  String get delete_account_confirm_hint => 'DELETE';
+
+  @override
+  String get delete_account_confirm_error => 'Type DELETE exactly to confirm.';
+
+  @override
+  String get delete_account_button => 'Delete my account';
 
   @override
   String get delete_account_success => 'Your account has been deleted.';

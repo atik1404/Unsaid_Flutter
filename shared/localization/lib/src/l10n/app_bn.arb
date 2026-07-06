@@ -610,29 +610,73 @@
     "@setting_menu_delete_account_subtitle": {
         "description": "Subtitle for the delete account action"
     },
-    "delete_account_sheet_title": "অ্যাকাউন্ট মুছুন",
-    "@delete_account_sheet_title": {
-        "description": "Title of the delete account confirmation bottom sheet"
+    "delete_account_title": "অ্যাকাউন্ট মুছুন",
+    "@delete_account_title": {
+        "description": "App bar title of the delete account screen"
     },
-    "delete_account_sheet_message": "এটি আপনার ঘোস্ট অ্যাকাউন্ট এবং সম্পর্কিত সমস্ত ডেটা স্থায়ীভাবে মুছে ফেলবে। এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।",
-    "@delete_account_sheet_message": {
-        "description": "Warning message inside the delete account confirmation bottom sheet"
+    "delete_account_warning_title": "এই কাজটি স্থায়ী",
+    "@delete_account_warning_title": {
+        "description": "Heading of the warning banner on the delete account screen"
     },
-    "delete_account_sheet_prompt": "নিশ্চিত করতে DELETE টাইপ করুন।",
-    "@delete_account_sheet_prompt": {
-        "description": "Instruction telling the user to type DELETE to confirm account deletion"
+    "delete_account_warning_message": "আপনার ঘোস্ট অ্যাকাউন্ট মুছে ফেললে আপনার প্রোফাইল, পোস্ট এবং সম্পর্কিত সমস্ত ডেটা মুছে যাবে। একবার মুছে ফেললে অ্যাকাউন্টটি আর ফিরে পাওয়া যাবে না।",
+    "@delete_account_warning_message": {
+        "description": "Warning message explaining that account deletion is permanent and irreversible"
     },
-    "delete_account_sheet_hint": "DELETE",
-    "@delete_account_sheet_hint": {
+    "delete_account_reason_title": "আপনি কেন চলে যাচ্ছেন?",
+    "@delete_account_reason_title": {
+        "description": "Section heading above the deletion reason list"
+    },
+    "delete_account_reason_no_longer_use": "আমি আর এই অ্যাপটি ব্যবহার করি না",
+    "@delete_account_reason_no_longer_use": {
+        "description": "Deletion reason option: the user no longer uses the app"
+    },
+    "delete_account_reason_privacy": "আমার গোপনীয়তা নিয়ে উদ্বেগ আছে",
+    "@delete_account_reason_privacy": {
+        "description": "Deletion reason option: the user has privacy concerns"
+    },
+    "delete_account_reason_better_alternative": "আমি আরও ভালো বিকল্প খুঁজে পেয়েছি",
+    "@delete_account_reason_better_alternative": {
+        "description": "Deletion reason option: the user found a better alternative"
+    },
+    "delete_account_reason_technical": "আমি প্রযুক্তিগত সমস্যায় পড়ছি",
+    "@delete_account_reason_technical": {
+        "description": "Deletion reason option: the user is experiencing technical issues"
+    },
+    "delete_account_reason_other": "অন্যান্য",
+    "@delete_account_reason_other": {
+        "description": "Deletion reason option: another, free-text reason"
+    },
+    "delete_account_reason_error": "অনুগ্রহ করে চলে যাওয়ার একটি কারণ নির্বাচন করুন।",
+    "@delete_account_reason_error": {
+        "description": "Validation message shown when no deletion reason is selected"
+    },
+    "delete_account_other_label": "আরও কিছু বলুন",
+    "@delete_account_other_label": {
+        "description": "Label above the free-text field shown when Other is selected"
+    },
+    "delete_account_other_hint": "আপনার কারণ লিখুন",
+    "@delete_account_other_hint": {
+        "description": "Hint text inside the free-text Other reason field"
+    },
+    "delete_account_other_error": "অনুগ্রহ করে বলুন কেন আপনি চলে যাচ্ছেন।",
+    "@delete_account_other_error": {
+        "description": "Validation message shown when the Other reason field is empty"
+    },
+    "delete_account_confirm_title": "নিশ্চিত করতে DELETE টাইপ করুন",
+    "@delete_account_confirm_title": {
+        "description": "Section heading above the typed confirmation field"
+    },
+    "delete_account_confirm_hint": "DELETE",
+    "@delete_account_confirm_hint": {
         "description": "Hint text inside the delete account confirmation input field"
     },
-    "delete_account_cancel_button": "বাতিল",
-    "@delete_account_cancel_button": {
-        "description": "Label for the cancel button in the delete account confirmation bottom sheet"
+    "delete_account_confirm_error": "নিশ্চিত করতে হুবহু DELETE টাইপ করুন।",
+    "@delete_account_confirm_error": {
+        "description": "Validation message shown when the confirmation text does not match DELETE"
     },
-    "delete_account_delete_button": "মুছুন",
-    "@delete_account_delete_button": {
-        "description": "Label for the destructive delete button in the delete account confirmation bottom sheet"
+    "delete_account_button": "আমার অ্যাকাউন্ট মুছুন",
+    "@delete_account_button": {
+        "description": "Label for the destructive delete button on the delete account screen"
     },
     "delete_account_success": "আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে।",
     "@delete_account_success": {
