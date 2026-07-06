@@ -154,27 +154,31 @@ class _NotificationSection extends StatelessWidget {
       child: Column(
         children: [
           // Rebuilds only when the push-notifications flag changes.
-          BlocSelector<SettingCubit, SettingState, bool>(
-            selector: (state) => state.pushNotifications,
-            builder: (context, enabled) {
+          BlocBuilder<SettingCubit, SettingState>(
+            //selector: (state) => state.pushNotifications,
+            builder: (context, state) {
               return SettingToggleTile(
                 label: context.l10n.setting_menu_push_notifications,
                 icon: CupertinoIcons.bell,
-                value: enabled,
-                onChanged: (value) => cubit.setPushNotifications,
+                value: state.pushNotifications,
+                onChanged: (value) {
+                  cubit.setPushNotifications(value: value);
+                },
               );
             },
           ),
           const AppDivider(),
           // Rebuilds only when the sound flag changes.
-          BlocSelector<SettingCubit, SettingState, bool>(
-            selector: (state) => state.soundEnabled,
-            builder: (context, enabled) {
+          BlocBuilder<SettingCubit, SettingState>(
+            //selector: (state) => state.soundEnabled,
+            builder: (context, state) {
               return SettingToggleTile(
                 label: context.l10n.setting_menu_sound,
                 icon: CupertinoIcons.volume_up,
-                value: enabled,
-                onChanged: (value) => cubit.setSoundEnabled,
+                value: state.soundEnabled,
+                onChanged: (value) {
+                  cubit.setSoundEnabled(value: value);
+                },
               );
             },
           ),
@@ -191,7 +195,6 @@ class _PrivacySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SettingCubit>();
     return AppCard.rounded(
       cornerRadius: AppCardCornerRadius.lg,
       child: Column(
@@ -205,7 +208,7 @@ class _PrivacySection extends StatelessWidget {
                 subtitle: context.l10n.setting_menu_allow_anonymous_dms_subtitle,
                 icon: CupertinoIcons.chat_bubble,
                 value: enabled,
-                onChanged: (value) => cubit.setAllowAnonymousDms,
+                onChanged: (value) {},
               );
             },
           ),
@@ -219,7 +222,7 @@ class _PrivacySection extends StatelessWidget {
                 subtitle: context.l10n.setting_menu_ghost_mode_subtitle,
                 icon: Icons.visibility_off,
                 value: enabled,
-                onChanged: (value) => cubit.setGhostMode,
+                onChanged: (value) {},
               );
             },
           ),
@@ -288,7 +291,7 @@ Future<void> showDeleteAllPostsBottomSheet(BuildContext context) {
     backgroundColor: Colors.transparent,
     builder: (_) => BlocProvider(
       create: (_) => DeleteAllPostsCubit(deleteAllPostsUseCase: GetIt.I<DeleteAllPostsUseCase>()),
-      child: const DeleteAllPostsSheet(),
+      child: const DeleteAllPostsBottomSheet(),
     ),
   );
 }

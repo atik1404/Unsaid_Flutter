@@ -18,24 +18,28 @@ class SettingCubit extends Cubit<SettingState> {
     final name = _prefStorage.getString(PrefKey.anonymousName);
     final avatar = _prefStorage.getString(PrefKey.profilePicture);
     final phone = _prefStorage.getString(PrefKey.phoneNumber);
+    final isNotificationEnable = _prefStorage.getBoolean(PrefKey.appNotification);
+    final isSoundEnable = _prefStorage.getBoolean(PrefKey.appNotificationSound);
     emit(
       state.copyWith(
         fullname: name,
         phone: phone,
         avatarUrl: avatar,
+        pushNotifications: isNotificationEnable,
+        soundEnabled: isSoundEnable,
       ),
     );
   }
 
-  /// Toggles whether strangers are allowed to send anonymous DMs.
-  void setAllowAnonymousDms({required bool value}) => emit(state.copyWith(allowAnonymousDms: value));
-
-  /// Toggles ghost mode, which hides the user's online status.
-  void setGhostMode({required bool value}) => emit(state.copyWith(ghostMode: value));
-
   /// Toggles push notifications.
-  void setPushNotifications({required bool value}) => emit(state.copyWith(pushNotifications: value));
+  void setPushNotifications({required bool value}) {
+    _prefStorage.write(PrefKey.appNotification, value);
+    emit(state.copyWith(pushNotifications: value));
+  }
 
   /// Toggles in-app notification sounds.
-  void setSoundEnabled({required bool value}) => emit(state.copyWith(soundEnabled: value));
+  void setSoundEnabled({required bool value}) {
+    _prefStorage.write(PrefKey.appNotificationSound, value);
+    emit(state.copyWith(soundEnabled: value));
+  }
 }

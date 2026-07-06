@@ -9,6 +9,8 @@ final class PrefKey {
 
   static const String appLanguage = 'app.language';
   static const String appTheme = 'app.theme';
+  static const String appNotification = 'app.notification';
+  static const String appNotificationSound = 'app.notificationSound';
 
   static const String fullName = 'user.fullName';
   static const String anonymousName = 'user.anonymousName';

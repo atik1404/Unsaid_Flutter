@@ -13,8 +13,8 @@ import 'package:ui/ui.dart';
 /// Hosts the [BlocListener] that reacts to terminal states — dismissing on
 /// success, toasting on failure — and lays out the header, warning,
 /// confirmation field and action buttons.
-class DeleteAllPostsSheet extends StatelessWidget {
-  const DeleteAllPostsSheet({super.key});
+class DeleteAllPostsBottomSheet extends StatelessWidget {
+  const DeleteAllPostsBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
