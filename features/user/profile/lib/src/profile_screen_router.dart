@@ -2,9 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:profile/src/profile_screen.dart';
-import 'package:profile/src/state/profile_bloc.dart';
 import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
+import 'package:profile/src/state/profile_cubit.dart';
 
 /// Router definition for the Profile screen.
 ///
@@ -20,7 +20,7 @@ final class ProfileScreenRouter implements BaseRouter {
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => ProfileBloc(
+            create: (_) => ProfileCubit(
               fetchProfileUseCase: GetIt.I.get<FetchProfileUseCase>(),
               fetchMyPostsUseCase: GetIt.I.get<FetchMyPostsUseCase>(),
             ),

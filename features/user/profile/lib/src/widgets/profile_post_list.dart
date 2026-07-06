@@ -19,17 +19,13 @@ class ProfilePostList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section heading
-        AppText.captionLarge(
-          context.l10n.profile_section_confessions,
-          color: context.appColors.contentTertiary,
-        ),
-        SizedBox(height: AppSpacing.s12.h),
-
-        // Post list or empty state
-        if (posts.isEmpty)
-          _buildEmptyState(context)
-        else
+        if (posts.isNotEmpty) ...[
+          // Section heading
+          AppText.captionLarge(
+            context.l10n.profile_section_confessions,
+            color: context.appColors.contentTertiary,
+          ),
+          SizedBox(height: AppSpacing.s12.h),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -40,6 +36,8 @@ class ProfilePostList extends StatelessWidget {
               onTap: () {},
             ),
           ),
+        ] else
+          _buildEmptyState(context),
       ],
     );
   }
@@ -51,7 +49,7 @@ class ProfilePostList extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: AppSpacing.s32.h),
         child: AppText.bodySmall(
           context.l10n.profile_no_posts,
-          color: context.appColors.contentSecondary,
+          color: context.appColors.contentError,
           textWeight: AppTextWeight.medium,
         ),
       ),

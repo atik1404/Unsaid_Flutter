@@ -8,10 +8,10 @@ import 'package:common/common.dart';
 /// Loads the user's personal information and their own posts.
 /// In production this would delegate to a repository; here we use
 /// simulated data so the UI can be verified independently.
-class ProfileBloc extends Cubit<ProfileState> {
+class ProfileCubit extends Cubit<ProfileState> {
   final FetchProfileUseCase _fetchProfileUseCase;
   final FetchMyPostsUseCase _fetchMyPostsUseCase;
-  ProfileBloc({
+  ProfileCubit({
     required this._fetchProfileUseCase,
     required this._fetchMyPostsUseCase,
   }) : super(const ProfileState());
@@ -24,12 +24,8 @@ class ProfileBloc extends Cubit<ProfileState> {
 
     result.when(
       success: (data) {
-        fetchMyPosts();
-        emit(
-          state.copyWith(
-            profile: data,
-          ),
-        );
+        _fetchMyPosts();
+        emit(state.copyWith(profile: data, isLoading: false));
       },
       failure: (failure) {
         final message = switch (failure.message) {
@@ -46,23 +42,19 @@ class ProfileBloc extends Cubit<ProfileState> {
     );
   }
 
-  Future<void> fetchMyPosts() async {
-    if (!state.isLoading) {
-      emit(state.copyWith(isLoading: true));
-    }
+  Future<void> _fetchMyPosts() async {
+    emit(state.copyWith(isPostLoading: true));
 
     final result = await _fetchMyPostsUseCase(
-      FetchPostsParams(pageNo: state.currentPage),
+      const FetchPostsParams(),
     );
 
     result.when(
       success: (data) {
         emit(
           state.copyWith(
-            posts: [...state.posts, ...data.posts],
-            isLoading: false,
-            isLastPage: data.hasReachedMax,
-            currentPage: state.currentPage + 1,
+            posts: data.posts,
+            isPostLoading: false,
           ),
         );
       },
@@ -74,7 +66,7 @@ class ProfileBloc extends Cubit<ProfileState> {
         emit(
           state.copyWith(
             errorMessage: message,
-            isLoading: false,
+            isPostLoading: false,
           ),
         );
       },

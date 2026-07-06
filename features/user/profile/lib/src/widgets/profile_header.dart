@@ -136,10 +136,10 @@ final class _InfoBox extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppText.headlineMedium(
+          AppText.headlineSmall(
             value,
             color: color,
-            textWeight: AppTextWeight.medium,
+            textWeight: AppTextWeight.semiBold,
           ),
           SizedBox(height: AppSpacing.s8.h),
           AppText.captionSmall(

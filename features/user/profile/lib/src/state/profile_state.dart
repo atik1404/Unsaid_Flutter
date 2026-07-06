@@ -13,8 +13,7 @@ abstract class ProfileState with _$ProfileState {
     ProfileEntity? profile,
     @Default([]) List<PostEntity> posts,
     @Default(false) bool isLoading,
-    @Default(false) bool isLastPage,
-    @Default(1) int currentPage,
+    @Default(false) bool isPostLoading,
     String? errorMessage,
   }) = _ProfileState;
 }
