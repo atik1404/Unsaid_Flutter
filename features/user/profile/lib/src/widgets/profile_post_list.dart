@@ -1,28 +1,41 @@
 import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:entity/entity.dart';
 
 /// Displays a section heading ("My Posts") followed by the user's own posts.
 ///
-/// Shows an empty-state message when [posts] is empty.
+/// Shows an empty-state message when [posts] is empty. When [onDeleteAll] is
+/// provided and there are posts, a "Delete all" action is surfaced next to the
+/// heading.
 class ProfilePostList extends StatelessWidget {
   /// The list of posts authored by the profile owner.
   final List<PostEntity> posts;
 
-  const ProfilePostList({super.key, required this.posts});
+  /// Invoked when the user taps the "Delete all" action. When null the action
+  /// is hidden.
+  final VoidCallback? onDeleteAll;
+
+  const ProfilePostList({super.key, required this.posts, this.onDeleteAll});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section heading
-        AppText.captionLarge(
-          context.l10n.profile_section_confessions,
-          color: context.appColors.contentTertiary,
+        // Section heading with an optional destructive "Delete all" action.
+        Row(
+          children: [
+            Expanded(
+              child: AppText.captionLarge(
+                context.l10n.profile_section_confessions,
+                color: context.appColors.contentTertiary,
+              ),
+            ),
+            if (onDeleteAll != null && posts.isNotEmpty) _DeleteAllAction(onTap: onDeleteAll!),
+          ],
         ),
         SizedBox(height: AppSpacing.s12.h),
 
@@ -54,6 +67,34 @@ class ProfilePostList extends StatelessWidget {
           color: context.appColors.contentSecondary,
           textWeight: AppTextWeight.medium,
         ),
+      ),
+    );
+  }
+}
+
+/// Inline destructive "Delete all" affordance shown beside the posts heading.
+class _DeleteAllAction extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _DeleteAllAction({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = context.appColors.contentError;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(CupertinoIcons.bin_xmark, color: color, size: AppSpacing.s16.r),
+          SizedBox(width: AppSpacing.s4.w),
+          AppText.captionLarge(
+            context.l10n.profile_delete_all_posts,
+            color: color,
+            textWeight: AppTextWeight.semiBold,
+          ),
+        ],
       ),
     );
   }

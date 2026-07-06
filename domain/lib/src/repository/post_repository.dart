@@ -19,4 +19,8 @@ abstract class PostRepository {
   Future<Result<ReactionEntity, Failure>> addReact(AddReactParams params);
 
   Future<Result<ReactionEntity, Failure>> removeReact(String postId);
+
+  /// Permanently deletes all posts authored by the authenticated user
+  /// (`DELETE /profile/posts`). Returns the server success message.
+  Future<Result<String, Failure>> deleteAllPosts();
 }

@@ -86,4 +86,15 @@ final class PostRepoImpl implements PostRepository {
       parser: (data) => PostReactSubmitDto.fromJson(data).toEntity(),
     );
   }
+
+  @override
+  Future<Result<String, Failure>> deleteAllPosts() {
+    // Authenticated endpoint — the interceptor attaches the Bearer token.
+    // Only the success message is surfaced to the domain layer.
+    return _restClient.delete(
+      '/profile/posts',
+      options: AuthOptions.authenticated(),
+      parser: (data) => DeleteResponseDto.fromJson(data).toEntity(),
+    );
+  }
 }

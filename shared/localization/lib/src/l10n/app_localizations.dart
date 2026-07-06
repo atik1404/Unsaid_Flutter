@@ -1070,6 +1070,54 @@ abstract class AppLocalizations {
   /// **'Your account has been deleted.'**
   String get delete_account_success;
 
+  /// Inline action label to delete all of the user's posts
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all'**
+  String get profile_delete_all_posts;
+
+  /// Title of the delete all posts confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all posts'**
+  String get delete_all_posts_title;
+
+  /// Warning message inside the delete all posts confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete every post you\'ve shared. This action cannot be undone.'**
+  String get delete_all_posts_message;
+
+  /// Instruction telling the user to type DELETE to confirm deleting all posts
+  ///
+  /// In en, this message translates to:
+  /// **'Type DELETE to confirm.'**
+  String get delete_all_posts_prompt;
+
+  /// Hint text inside the delete all posts confirmation input field
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get delete_all_posts_hint;
+
+  /// Label for the cancel button in the delete all posts confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get delete_all_posts_cancel_button;
+
+  /// Label for the destructive delete button in the delete all posts confirmation bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete_all_posts_delete_button;
+
+  /// Fallback success message shown after all posts are deleted
+  ///
+  /// In en, this message translates to:
+  /// **'All your posts have been deleted.'**
+  String get delete_all_posts_success;
+
   /// Menu item label to sign out
   ///
   /// In en, this message translates to:

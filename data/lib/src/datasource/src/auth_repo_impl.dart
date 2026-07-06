@@ -114,7 +114,7 @@ final class AuthRepoImpl implements AuthRepository {
       '/profile',
       data: params.toJson(),
       options: AuthOptions.authenticated(),
-      parser: (data) => DeleteAccountDto.fromJson(data).toEntity(),
+      parser: (data) => DeleteResponseDto.fromJson(data).toEntity(),
     );
 
     return result;

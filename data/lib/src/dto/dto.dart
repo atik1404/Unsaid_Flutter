@@ -4,9 +4,9 @@ export 'src/auth/signup_dto.dart';
 export 'src/auth/send_otp_dto.dart';
 export 'src/auth/verify_otp_dto.dart';
 export 'src/auth/change_password_dto.dart';
-export 'src/auth/delete_account_dto.dart';
 
 export 'src/common/common_dto.dart';
+export 'src/common/delete_response_dto.dart';
 
 export 'src/post/posts_dto.dart';
 export 'src/post/comment_dto.dart';

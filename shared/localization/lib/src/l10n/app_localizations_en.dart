@@ -538,6 +538,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete_account_success => 'Your account has been deleted.';
 
   @override
+  String get profile_delete_all_posts => 'Delete all';
+
+  @override
+  String get delete_all_posts_title => 'Delete all posts';
+
+  @override
+  String get delete_all_posts_message =>
+      'This will permanently delete every post you\'ve shared. This action cannot be undone.';
+
+  @override
+  String get delete_all_posts_prompt => 'Type DELETE to confirm.';
+
+  @override
+  String get delete_all_posts_hint => 'DELETE';
+
+  @override
+  String get delete_all_posts_cancel_button => 'Cancel';
+
+  @override
+  String get delete_all_posts_delete_button => 'Delete';
+
+  @override
+  String get delete_all_posts_success => 'All your posts have been deleted.';
+
+  @override
   String get setting_menu_sign_out => 'Sign out';
 
   @override

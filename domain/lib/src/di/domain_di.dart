@@ -21,6 +21,7 @@ final class DomainDi {
       ..registerLazySingleton<RemoveReactUseCase>(() => RemoveReactUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<CreatePostUseCase>(() => CreatePostUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<FetchPostDetailsUseCase>(() => FetchPostDetailsUseCase(getIt<PostRepository>()))
-      ..registerLazySingleton<FetchTopicsUseCase>(() => FetchTopicsUseCase(getIt<PostRepository>()));
+      ..registerLazySingleton<FetchTopicsUseCase>(() => FetchTopicsUseCase(getIt<PostRepository>()))
+      ..registerLazySingleton<DeleteAllPostsUseCase>(() => DeleteAllPostsUseCase(getIt<PostRepository>()));
   }
 }

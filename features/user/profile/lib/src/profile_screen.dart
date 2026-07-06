@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
 import 'package:profile/src/state/profile_bloc.dart';
 import 'package:profile/src/state/profile_state.dart';
+import 'package:profile/src/widgets/delete_all_posts_bottom_sheet.dart';
 import 'package:profile/src/widgets/profile_header.dart';
 import 'package:profile/src/widgets/profile_post_list.dart';
 
@@ -56,12 +57,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: AppSpacing.s24.h),
 
                 // Own posts section
-                ProfilePostList(posts: state.posts),
+                ProfilePostList(
+                  posts: state.posts,
+                  onDeleteAll: () => _onDeleteAllPosts(context),
+                ),
               ],
             ),
           );
         },
       ),
     );
+  }
+
+  /// Opens the delete-all-posts confirmation sheet, clearing the visible list
+  /// once the server confirms the deletion.
+  void _onDeleteAllPosts(BuildContext context) {
+    final bloc = context.read<ProfileBloc>();
+    showDeleteAllPostsBottomSheet(context, onDeleted: bloc.clearPosts);
   }
 }

@@ -542,6 +542,31 @@ class AppLocalizationsBn extends AppLocalizations {
   String get delete_account_success => 'আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে।';
 
   @override
+  String get profile_delete_all_posts => 'সব মুছুন';
+
+  @override
+  String get delete_all_posts_title => 'সব পোস্ট মুছুন';
+
+  @override
+  String get delete_all_posts_message =>
+      'এটি আপনার শেয়ার করা প্রতিটি পোস্ট স্থায়ীভাবে মুছে ফেলবে। এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।';
+
+  @override
+  String get delete_all_posts_prompt => 'নিশ্চিত করতে DELETE টাইপ করুন।';
+
+  @override
+  String get delete_all_posts_hint => 'DELETE';
+
+  @override
+  String get delete_all_posts_cancel_button => 'বাতিল';
+
+  @override
+  String get delete_all_posts_delete_button => 'মুছুন';
+
+  @override
+  String get delete_all_posts_success => 'আপনার সব পোস্ট মুছে ফেলা হয়েছে।';
+
+  @override
   String get setting_menu_sign_out => 'সাইন আউট';
 
   @override

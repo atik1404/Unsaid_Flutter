@@ -685,6 +685,38 @@
     "@delete_account_success": {
         "description": "Fallback success message shown after the account is deleted"
     },
+    "profile_delete_all_posts": "Delete all",
+    "@profile_delete_all_posts": {
+        "description": "Inline action label to delete all of the user's posts"
+    },
+    "delete_all_posts_title": "Delete all posts",
+    "@delete_all_posts_title": {
+        "description": "Title of the delete all posts confirmation bottom sheet"
+    },
+    "delete_all_posts_message": "This will permanently delete every post you've shared. This action cannot be undone.",
+    "@delete_all_posts_message": {
+        "description": "Warning message inside the delete all posts confirmation bottom sheet"
+    },
+    "delete_all_posts_prompt": "Type DELETE to confirm.",
+    "@delete_all_posts_prompt": {
+        "description": "Instruction telling the user to type DELETE to confirm deleting all posts"
+    },
+    "delete_all_posts_hint": "DELETE",
+    "@delete_all_posts_hint": {
+        "description": "Hint text inside the delete all posts confirmation input field"
+    },
+    "delete_all_posts_cancel_button": "Cancel",
+    "@delete_all_posts_cancel_button": {
+        "description": "Label for the cancel button in the delete all posts confirmation bottom sheet"
+    },
+    "delete_all_posts_delete_button": "Delete",
+    "@delete_all_posts_delete_button": {
+        "description": "Label for the destructive delete button in the delete all posts confirmation bottom sheet"
+    },
+    "delete_all_posts_success": "All your posts have been deleted.",
+    "@delete_all_posts_success": {
+        "description": "Fallback success message shown after all posts are deleted"
+    },
     "setting_menu_sign_out": "Sign out",
     "@setting_menu_sign_out": {
         "description": "Menu item label to sign out"

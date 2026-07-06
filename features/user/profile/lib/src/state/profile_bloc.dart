@@ -82,4 +82,10 @@ class ProfileBloc extends Cubit<ProfileState> {
       },
     );
   }
+
+  /// Clears the locally-held posts and resets paging after every post has been
+  /// deleted server-side, so the UI reflects the empty state immediately.
+  void clearPosts() {
+    emit(state.copyWith(posts: [], isLastPage: false, currentPage: 1));
+  }
 }
