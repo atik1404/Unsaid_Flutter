@@ -17,7 +17,9 @@ import 'package:localization/localization.dart';
 /// sits behind its own narrowly-scoped [BlocBuilder] so a keystroke or a
 /// selection only rebuilds the piece it affects.
 class DeleteAccountForm extends StatelessWidget {
-  const DeleteAccountForm({super.key});
+  final VoidCallback onDelete;
+
+  const DeleteAccountForm({super.key, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +128,8 @@ class DeleteAccountForm extends StatelessWidget {
                   ),
                 ),
               ),
-
               // Armed only when the form is complete; null disables the button.
-              onPressed: state.canSubmit && !isLoading ? cubit.deleteAccount : null,
+              onPressed: state.canSubmit && !isLoading ? onDelete : null,
             );
           },
         ),

@@ -42,7 +42,11 @@ class DeleteAccountScreen extends StatelessWidget {
         listener: _onStateChanged,
         child: SingleChildScrollView(
           padding: EdgeInsets.all(AppSpacing.s24.r),
-          child: const DeleteAccountForm(),
+          child: DeleteAccountForm(
+            onDelete: () {
+              context.read<DeleteAccountCubit>().deleteAccount(); //call delete api
+            },
+          ),
         ),
       ),
     );
