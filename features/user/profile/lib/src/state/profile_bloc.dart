@@ -12,11 +12,9 @@ class ProfileBloc extends Cubit<ProfileState> {
   final FetchProfileUseCase _fetchProfileUseCase;
   final FetchMyPostsUseCase _fetchMyPostsUseCase;
   ProfileBloc({
-    required FetchProfileUseCase fetchProfileUseCase,
-    required FetchMyPostsUseCase fetchMyPostsUseCase,
-  }) : _fetchProfileUseCase = fetchProfileUseCase,
-       _fetchMyPostsUseCase = fetchMyPostsUseCase,
-       super(const ProfileState());
+    required this._fetchProfileUseCase,
+    required this._fetchMyPostsUseCase,
+  }) : super(const ProfileState());
 
   /// Fetches the profile owner's data and their posts.
   void fetchProfile() async {
@@ -81,11 +79,5 @@ class ProfileBloc extends Cubit<ProfileState> {
         );
       },
     );
-  }
-
-  /// Clears the locally-held posts and resets paging after every post has been
-  /// deleted server-side, so the UI reflects the empty state immediately.
-  void clearPosts() {
-    emit(state.copyWith(posts: [], isLastPage: false, currentPage: 1));
   }
 }

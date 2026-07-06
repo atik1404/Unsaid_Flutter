@@ -538,9 +538,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete_account_success => 'Your account has been deleted.';
 
   @override
-  String get profile_delete_all_posts => 'Delete all';
-
-  @override
   String get delete_all_posts_title => 'Delete all posts';
 
   @override

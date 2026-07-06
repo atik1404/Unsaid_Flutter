@@ -682,10 +682,6 @@
     "@delete_account_success": {
         "description": "Fallback success message shown after the account is deleted"
     },
-    "profile_delete_all_posts": "সব মুছুন",
-    "@profile_delete_all_posts": {
-        "description": "Inline action label to delete all of the user's posts"
-    },
     "delete_all_posts_title": "সব পোস্ট মুছুন",
     "@delete_all_posts_title": {
         "description": "Title of the delete all posts confirmation bottom sheet"

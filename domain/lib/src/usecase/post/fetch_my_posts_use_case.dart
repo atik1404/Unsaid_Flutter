@@ -10,6 +10,6 @@ final class FetchMyPostsUseCase extends UseCase<PostPagerEntity, FetchPostsParam
 
   @override
   Future<Result<PostPagerEntity, Failure>> call(FetchPostsParams params) {
-    return _repository.fetchPosts(params);
+    return _repository.fetchMyPosts(params);
   }
 }

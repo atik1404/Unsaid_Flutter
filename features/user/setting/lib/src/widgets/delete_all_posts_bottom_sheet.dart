@@ -1,46 +1,20 @@
 import 'package:designsystem/designsystem.dart';
-import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:get_it/get_it.dart';
 import 'package:localization/localization.dart';
-import 'package:profile/src/state/delete_all_posts_cubit.dart';
-import 'package:profile/src/state/delete_all_posts_state.dart';
+import 'package:setting/src/state/delete_all_posts_cubit.dart';
+import 'package:setting/src/state/delete_all_posts_state.dart';
 import 'package:ui/ui.dart';
-
-/// Opens the delete-all-posts confirmation bottom sheet.
-///
-/// The sheet owns its own [DeleteAllPostsCubit], scoped to the modal route, so
-/// the destructive flow is fully self-contained and torn down on dismissal.
-/// [onDeleted] is invoked after a successful deletion so the caller can refresh
-/// the visible post list.
-Future<void> showDeleteAllPostsBottomSheet(
-  BuildContext context, {
-  required VoidCallback onDeleted,
-}) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (_) => BlocProvider(
-      create: (_) => DeleteAllPostsCubit(deleteAllPostsUseCase: GetIt.I<DeleteAllPostsUseCase>()),
-      child: _DeleteAllPostsSheet(onDeleted: onDeleted),
-    ),
-  );
-}
 
 /// Confirmation sheet for the destructive delete-all-posts action.
 ///
-/// Hosts the [BlocListener] that reacts to terminal states — dismissing and
-/// refreshing on success, toasting on failure — and lays out the header,
-/// warning, confirmation field and action buttons.
-class _DeleteAllPostsSheet extends StatelessWidget {
-  final VoidCallback onDeleted;
-
-  const _DeleteAllPostsSheet({required this.onDeleted});
+/// Hosts the [BlocListener] that reacts to terminal states — dismissing on
+/// success, toasting on failure — and lays out the header, warning,
+/// confirmation field and action buttons.
+class DeleteAllPostsSheet extends StatelessWidget {
+  const DeleteAllPostsSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +72,7 @@ class _DeleteAllPostsSheet extends StatelessWidget {
                 onChanged: context.read<DeleteAllPostsCubit>().updateConfirmationText,
               ),
               SizedBox(height: AppSpacing.s24.h),
-              _ActionButtons(onDeleted: onDeleted),
+              const _ActionButtons(),
             ],
           ),
         ),
@@ -106,14 +80,13 @@ class _DeleteAllPostsSheet extends StatelessWidget {
     );
   }
 
-  /// Terminal-state side effects. On success: toast, dismiss the sheet and let
-  /// the caller refresh the list. On failure: surface the error via a toast.
+  /// Terminal-state side effects. On success: toast and dismiss the sheet. On
+  /// failure: surface the error via a toast.
   void _onStateChanged(BuildContext context, DeleteAllPostsState state) {
     if (state.status.isSuccess) {
       final message = (state.successMessage?.isNotEmpty ?? false) ? state.successMessage! : context.l10n.delete_all_posts_success;
       AppToast.toast(message: message, toastType: ToastType.success);
       Navigator.of(context).pop();
-      onDeleted();
     } else if (state.status.isFailure && state.errorMessage != null) {
       AppToast.toast(message: state.errorMessage!, toastType: ToastType.error);
     }
@@ -123,9 +96,7 @@ class _DeleteAllPostsSheet extends StatelessWidget {
 /// Cancel + Delete action row. Delete stays disabled until the typed text
 /// exactly matches the required keyword, and shows a spinner while in flight.
 class _ActionButtons extends StatelessWidget {
-  final VoidCallback onDeleted;
-
-  const _ActionButtons({required this.onDeleted});
+  const _ActionButtons();
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,16 +10,14 @@ import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:navigation/navigation.dart';
 import 'package:pref_storage/pref_storage.dart';
+import 'package:setting/src/state/delete_all_posts_cubit.dart';
 import 'package:setting/src/state/setting_cubit.dart';
 import 'package:setting/src/state/setting_state.dart';
+import 'package:setting/src/widgets/delete_all_posts_bottom_sheet.dart';
 import 'package:setting/src/widgets/language_pill_toggle.dart';
 import 'package:setting/src/widgets/setting_menu_tile.dart';
 import 'package:setting/src/widgets/setting_section_label.dart';
 import 'package:setting/src/widgets/setting_toggle_tile.dart';
-
-/// Placeholder alias shown until alias generation is wired up. Demo data, so it
-/// is interpolated into a localized template rather than translated itself.
-const String _demoAlias = 'ghost_8899';
 
 /// The full menu shown on the Settings screen, grouped into four cards:
 /// Identity, Notification, Privacy and a Danger Zone.
@@ -79,7 +78,7 @@ class _IdentitySection extends StatelessWidget {
           const AppDivider(),
           SettingMenuTile(
             label: context.l10n.setting_menu_regenerate_alias,
-            subtitle: context.l10n.setting_menu_alias_current(_demoAlias),
+            subtitle: context.l10n.setting_menu_alias_current('Echo'),
             icon: CupertinoIcons.refresh,
             onTap: () => AppLog.log('Regenerating alias...'),
           ),
@@ -246,7 +245,7 @@ class _DangerZoneSection extends StatelessWidget {
             label: context.l10n.setting_menu_wipe_posts,
             subtitle: context.l10n.setting_menu_wipe_posts_subtitle,
             icon: CupertinoIcons.bin_xmark,
-            onTap: () => AppLog.log('Wiping all posts...'),
+            onTap: () => showDeleteAllPostsBottomSheet(context),
           ),
           divider,
           SettingMenuTile(
@@ -276,4 +275,20 @@ class _DangerZoneSection extends StatelessWidget {
     authStateNotifier.setLoggedIn(isLoggedIn: false);
     if (context.mounted) context.goNamed(AppRouteName.homeScreen);
   }
+}
+
+/// Opens the delete-all-posts confirmation bottom sheet.
+///
+/// The sheet owns its own [DeleteAllPostsCubit], scoped to the modal route, so
+/// the destructive flow is fully self-contained and torn down on dismissal.
+Future<void> showDeleteAllPostsBottomSheet(BuildContext context) {
+  return showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) => BlocProvider(
+      create: (_) => DeleteAllPostsCubit(deleteAllPostsUseCase: GetIt.I<DeleteAllPostsUseCase>()),
+      child: const DeleteAllPostsSheet(),
+    ),
+  );
 }

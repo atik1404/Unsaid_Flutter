@@ -1070,12 +1070,6 @@ abstract class AppLocalizations {
   /// **'Your account has been deleted.'**
   String get delete_account_success;
 
-  /// Inline action label to delete all of the user's posts
-  ///
-  /// In en, this message translates to:
-  /// **'Delete all'**
-  String get profile_delete_all_posts;
-
   /// Title of the delete all posts confirmation bottom sheet
   ///
   /// In en, this message translates to:

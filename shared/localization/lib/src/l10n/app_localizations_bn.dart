@@ -542,9 +542,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get delete_account_success => 'আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে।';
 
   @override
-  String get profile_delete_all_posts => 'সব মুছুন';
-
-  @override
   String get delete_all_posts_title => 'সব পোস্ট মুছুন';
 
   @override

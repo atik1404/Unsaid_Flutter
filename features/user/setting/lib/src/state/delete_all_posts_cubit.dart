@@ -2,14 +2,13 @@ import 'package:common/common.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:profile/src/state/delete_all_posts_state.dart';
+import 'package:setting/src/state/delete_all_posts_state.dart';
 
 /// Manages the state for the delete-all-posts confirmation bottom sheet.
 ///
 /// Tracks the confirmation text the user types and, once it exactly matches
 /// [deleteAllPostsKeyword], delegates the destructive request to
-/// [DeleteAllPostsUseCase]. Refreshing the visible post list is left to the
-/// presentation layer, which reacts to the success state.
+/// [DeleteAllPostsUseCase]. The presentation layer reacts to the success state.
 class DeleteAllPostsCubit extends Cubit<DeleteAllPostsState> {
   final DeleteAllPostsUseCase _deleteAllPostsUseCase;
 
