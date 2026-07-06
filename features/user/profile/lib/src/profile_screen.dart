@@ -7,6 +7,7 @@ import 'package:profile/src/state/profile_bloc.dart';
 import 'package:profile/src/state/profile_state.dart';
 import 'package:profile/src/widgets/profile_header.dart';
 import 'package:profile/src/widgets/profile_post_list.dart';
+import 'package:ui/ui.dart';
 
 /// The Profile screen.
 ///
@@ -45,13 +46,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return const Center(child: CircularProgressIndicator());
           }
 
+          if (state.profile == null) {
+            return const AppErrorScreen();
+          }
+
           return SingleChildScrollView(
             padding: EdgeInsets.all(AppSpacing.s16.r),
             child: Column(
               children: [
                 // Personal information
                 ProfileHeader(
-                  profile: state.profile,
+                  profile: state.profile!,
                 ),
                 SizedBox(height: AppSpacing.s24.h),
 

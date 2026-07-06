@@ -1,14 +1,14 @@
 import 'package:data/src/dto/dto.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'my_posts_dto.g.dart';
-
-@JsonSerializable(createToJson: false)
 class MyPostsDto {
-  final List<PostDto>? data;
-  final PostMetaDto? meta;
+  final List<PostDto>? posts;
 
-  const MyPostsDto({this.data, this.meta});
+  const MyPostsDto({this.posts});
 
-  factory MyPostsDto.fromJson(Map<String, dynamic> json) => _$MyPostsDtoFromJson(json);
+  /// The endpoint returns a top-level array, so this takes a [List] rather than
+  /// a map. json_serializable can't target a top-level array, hence the manual
+  /// factory instead of `@JsonSerializable`.
+  factory MyPostsDto.fromJson(List<dynamic> json) => MyPostsDto(
+    posts: json.whereType<Map<String, dynamic>>().map(PostDto.fromJson).toList(),
+  );
 }

@@ -3,10 +3,8 @@ import 'package:entity/entity.dart';
 
 extension MyPostApiMapper on MyPostsDto {
   PostPagerEntity toEntity() {
-    final posts = data ?? [];
-    final hasReachedMax = (meta?.pageNo ?? 0) >= (meta?.totalPages ?? 0);
     return PostPagerEntity(
-      posts: posts
+      posts: (posts ?? [])
           .map(
             (post) => PostEntity(
               id: post.id ?? '',
@@ -28,7 +26,7 @@ extension MyPostApiMapper on MyPostsDto {
             ),
           )
           .toList(),
-      hasReachedMax: hasReachedMax,
+      hasReachedMax: false,
     );
   }
 }

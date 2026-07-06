@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:designsystem/designsystem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +11,7 @@ import 'package:entity/entity.dart';
 /// and bio in a styled card container.
 class ProfileHeader extends StatelessWidget {
   /// The user's display name.
-  final ProfileEntity? profile;
+  final ProfileEntity profile;
 
   const ProfileHeader({
     super.key,
@@ -41,7 +42,7 @@ class ProfileHeader extends StatelessWidget {
 
           // Name
           AppText.titleMedium(
-            profile?.identity.fullName ?? '',
+            profile.identity.fullName,
             color: context.appColors.contentBrand,
             textWeight: AppTextWeight.bold,
           ),
@@ -65,19 +66,19 @@ class ProfileHeader extends StatelessWidget {
             children: [
               _InfoBox(
                 label: context.l10n.profile_stat_post,
-                value: profile?.postCount.toString() ?? '0',
+                value: profile.postCount.toString(),
                 color: context.appColors.contentBrand,
               ),
 
               _InfoBox(
                 label: context.l10n.profile_stat_reaction,
-                value: profile?.reputation.toString() ?? '0',
+                value: profile.reputation.toCompactString(),
                 color: context.appColors.contentInfo,
               ),
 
               _InfoBox(
                 label: context.l10n.profile_stat_days,
-                value: '11',
+                value: DateTime.now().difference(profile.createdAt).inDays.toString(),
                 color: context.appColors.contentWarning,
               ),
             ],
