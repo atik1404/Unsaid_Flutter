@@ -45,6 +45,7 @@ class UserIdentityDto {
   final String? email;
   @JsonKey(name: 'phone_e164')
   final String? phoneE164;
+  final String? bio;
   @JsonKey(name: 'date_of_birth')
   final String? dateOfBirth;
   @JsonKey(name: 'address_line1')
@@ -61,6 +62,7 @@ class UserIdentityDto {
     this.fullName,
     this.email,
     this.phoneE164,
+    this.bio,
     this.dateOfBirth,
     this.addressLine1,
     this.addressLine2,

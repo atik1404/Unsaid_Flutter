@@ -17,6 +17,8 @@ final class AppRouteName {
   static const String settingPath = '/setting';
   static const String profileScreen = 'profileScreen';
   static const String profilePath = '/profile';
+  static const String editProfileScreen = 'editProfileScreen';
+  static const String editProfilePath = '/edit-profile';
   static const String changePasswordScreen = 'changePasswordScreen';
   static const String changePasswordPath = '/change-password';
   static const String deleteAccountScreen = 'deleteAccountScreen';

@@ -1243,6 +1243,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a valid email address.'**
   String get validation_email_invalid;
+
+  /// Validation error shown when the email field is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required.'**
+  String get validation_email_required;
+
+  /// Validation error shown when the bio exceeds the maximum length
+  ///
+  /// In en, this message translates to:
+  /// **'Bio is too long.'**
+  String get validation_bio_too_long;
+
+  /// Label for the Edit action in the Profile screen app bar
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get profile_edit;
+
+  /// Title for the Edit Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get edit_profile_title;
+
+  /// Label above the full name input field on the Edit Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get edit_profile_label_name;
+
+  /// Hint text inside the full name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name'**
+  String get edit_profile_hint_name;
+
+  /// Label above the email input field on the Edit Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get edit_profile_label_email;
+
+  /// Hint text inside the email input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address'**
+  String get edit_profile_hint_email;
+
+  /// Label above the phone number input field on the Edit Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get edit_profile_label_phone;
+
+  /// Hint text inside the phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get edit_profile_hint_phone;
+
+  /// Label above the bio input field on the Edit Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get edit_profile_label_bio;
+
+  /// Hint text inside the bio input field
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us a little about yourself'**
+  String get edit_profile_hint_bio;
+
+  /// Submit button label on the Edit Profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get edit_profile_button;
+
+  /// Success message shown after the profile is updated
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully.'**
+  String get edit_profile_success;
 }
 
 class _AppLocalizationsDelegate

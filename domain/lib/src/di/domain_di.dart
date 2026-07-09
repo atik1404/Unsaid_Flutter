@@ -13,6 +13,7 @@ final class DomainDi {
       ..registerLazySingleton<ChangePasswordUseCase>(() => ChangePasswordUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<DeleteAccountUseCase>(() => DeleteAccountUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<FetchProfileUseCase>(() => FetchProfileUseCase(getIt<AuthRepository>()))
+      ..registerLazySingleton<UpdateProfileUseCase>(() => UpdateProfileUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<FetchUserExistenceUseCase>(() => FetchUserExistenceUseCase(getIt<AuthRepository>()))
       ..registerLazySingleton<FetchPostsUseCase>(() => FetchPostsUseCase(getIt<PostRepository>()))
       ..registerLazySingleton<FetchMyPostsUseCase>(() => FetchMyPostsUseCase(getIt<PostRepository>()))

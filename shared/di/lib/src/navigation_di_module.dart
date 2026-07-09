@@ -19,6 +19,7 @@ import 'package:setting/setting.dart';
 import 'package:create_post/create_post.dart';
 import 'package:notification/notification.dart';
 import 'package:profile/profile.dart';
+import 'package:edit_profile/edit_profile.dart';
 
 Future<void> registerNavigationModule(GetIt locator) async {
   // Seed the auth guard with the persisted session before the router is
@@ -42,6 +43,7 @@ Future<void> registerNavigationModule(GetIt locator) async {
         ...DeleteAccountScreenRouter().routes(),
         ...CreatePostScreenRouter().routes(),
         ...ProfileScreenRouter().routes(),
+        ...EditProfileScreenRouter().routes(),
         ...NotificationScreenRouter().routes(),
       ],
     ),

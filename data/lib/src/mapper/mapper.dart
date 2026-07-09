@@ -4,6 +4,7 @@ export 'src/auth/signup_api_mapper.dart';
 export 'src/auth/send_otp_api_mapper.dart';
 export 'src/auth/verify_otp_api_mapper.dart';
 export 'src/auth/change_password_api_mapper.dart';
+export 'src/auth/update_profile_api_mapper.dart';
 
 export 'src/common/common_api_mapper.dart';
 export 'src/common/delete_response_api_mapper.dart';

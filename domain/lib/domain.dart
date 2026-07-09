@@ -4,6 +4,7 @@ export 'src/params/auth/user_params.dart';
 export 'src/params/auth/verify_otp_params.dart';
 export 'src/params/auth/signup_params.dart';
 export 'src/params/auth/change_password_params.dart';
+export 'src/params/auth/update_profile_params.dart';
 export 'src/params/auth/delete_account_params.dart';
 
 export 'src/params/post/fetch_posts_params.dart';
@@ -23,6 +24,7 @@ export 'src/usecase/auth/fetch_profile_use_case.dart';
 export 'src/usecase/auth/send_otp_use_case.dart';
 export 'src/usecase/auth/verify_otp_use_case.dart';
 export 'src/usecase/auth/change_password_use_case.dart';
+export 'src/usecase/auth/update_profile_use_case.dart';
 export 'src/usecase/auth/delete_account_use_case.dart';
 
 export 'src/usecase/common/fetch_user_existence_use_case.dart';

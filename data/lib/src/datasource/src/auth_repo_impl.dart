@@ -106,6 +106,21 @@ final class AuthRepoImpl implements AuthRepository {
   }
 
   @override
+  Future<Result<String, Failure>> updateProfile(UpdateProfileParams params) {
+    // Authenticated endpoint — the interceptor attaches the Bearer token.
+    // Only the editable identity fields are sent; the refreshed profile is
+    // re-fetched by the caller after a successful update.
+    final result = _client.patch(
+      '/profile',
+      data: params.toJson(),
+      options: AuthOptions.authenticated(),
+      parser: (data) => UpdateProfileDto.fromJson(data).toEntity(),
+    );
+
+    return result;
+  }
+
+  @override
   Future<Result<String, Failure>> deleteAccount(DeleteAccountParams params) {
     // Authenticated endpoint — the interceptor attaches the Bearer token.
     // The churn reason is sent as the request body; only the success message is

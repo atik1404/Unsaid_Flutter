@@ -10,6 +10,7 @@ const Set<String> privateRouteNames = {
   AppRouteName.changePasswordScreen,
   AppRouteName.notificationScreen,
   AppRouteName.profileScreen,
+  AppRouteName.editProfileScreen,
   AppRouteName.settingScreen,
 };
 

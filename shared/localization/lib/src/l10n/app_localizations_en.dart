@@ -631,4 +631,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validation_email_invalid => 'Enter a valid email address.';
+
+  @override
+  String get validation_email_required => 'Email is required.';
+
+  @override
+  String get validation_bio_too_long => 'Bio is too long.';
+
+  @override
+  String get profile_edit => 'Edit';
+
+  @override
+  String get edit_profile_title => 'Edit Profile';
+
+  @override
+  String get edit_profile_label_name => 'Full Name';
+
+  @override
+  String get edit_profile_hint_name => 'Enter your full name';
+
+  @override
+  String get edit_profile_label_email => 'Email Address';
+
+  @override
+  String get edit_profile_hint_email => 'Enter your email address';
+
+  @override
+  String get edit_profile_label_phone => 'Phone Number';
+
+  @override
+  String get edit_profile_hint_phone => 'Enter your phone number';
+
+  @override
+  String get edit_profile_label_bio => 'Bio';
+
+  @override
+  String get edit_profile_hint_bio => 'Tell us a little about yourself';
+
+  @override
+  String get edit_profile_button => 'Save Changes';
+
+  @override
+  String get edit_profile_success => 'Profile updated successfully.';
 }

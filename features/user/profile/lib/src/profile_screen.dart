@@ -1,9 +1,10 @@
 import 'package:designsystem/designsystem.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
+import 'package:navigation/navigation.dart';
 import 'package:profile/src/state/profile_cubit.dart';
 import 'package:profile/src/state/profile_state.dart';
 import 'package:profile/src/widgets/profile_header.dart';
@@ -43,7 +44,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             foregroundColor: context.appColors.brand,
             elevation: 0,
             actions: [
-              AppTextButton('Edit', onPressed: () {}),
+              if (state.profile != null)
+                AppTextButton(
+                  context.l10n.profile_edit,
+                  onPressed: () => _openEditProfile(context, state),
+                ),
             ],
           ),
           isLoading: state.isLoading,
@@ -51,6 +56,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
+  }
+
+  /// Opens the Edit Profile screen, seeding it with the current profile. If the
+  /// user saved changes (the screen pops with `true`), refreshes the profile.
+  Future<void> _openEditProfile(BuildContext context, ProfileState state) async {
+    final cubit = context.read<ProfileCubit>();
+    final updated = await context.pushNamed<bool>(
+      AppRouteName.editProfileScreen,
+      extra: state.profile,
+    );
+
+    if (updated == true) {
+      cubit.fetchProfile();
+    }
   }
 
   Widget _buildBody(ProfileState state) {

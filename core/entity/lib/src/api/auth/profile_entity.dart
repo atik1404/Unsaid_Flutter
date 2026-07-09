@@ -28,6 +28,7 @@ final class UserIdentityEntity {
   final String fullName;
   final String email;
   final String phoneE164;
+  final String? bio;
   final DateTime? dateOfBirth;
   final String addressLine1;
   final String? addressLine2;
@@ -40,6 +41,7 @@ final class UserIdentityEntity {
     required this.fullName,
     required this.email,
     required this.phoneE164,
+    this.bio,
     this.dateOfBirth,
     required this.addressLine1,
     this.addressLine2,

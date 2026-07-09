@@ -32,6 +32,7 @@ extension _UserIdentityMapper on UserIdentityDto {
     fullName: fullName ?? '',
     email: email ?? '',
     phoneE164: phoneE164 ?? '',
+    bio: bio,
     dateOfBirth: dateOfBirth != null ? DateTime.tryParse(dateOfBirth!) : null,
     addressLine1: addressLine1 ?? '',
     addressLine2: addressLine2,

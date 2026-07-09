@@ -635,4 +635,46 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get validation_email_invalid => 'একটি সঠিক ইমেইল ঠিকানা দিন।';
+
+  @override
+  String get validation_email_required => 'ইমেইল আবশ্যক।';
+
+  @override
+  String get validation_bio_too_long => 'বায়ো অনেক বড় হয়ে গেছে।';
+
+  @override
+  String get profile_edit => 'সম্পাদনা';
+
+  @override
+  String get edit_profile_title => 'প্রোফাইল সম্পাদনা';
+
+  @override
+  String get edit_profile_label_name => 'পুরো নাম';
+
+  @override
+  String get edit_profile_hint_name => 'আপনার পুরো নাম লিখুন';
+
+  @override
+  String get edit_profile_label_email => 'ইমেইল ঠিকানা';
+
+  @override
+  String get edit_profile_hint_email => 'আপনার ইমেইল ঠিকানা লিখুন';
+
+  @override
+  String get edit_profile_label_phone => 'ফোন নম্বর';
+
+  @override
+  String get edit_profile_hint_phone => 'আপনার ফোন নম্বর লিখুন';
+
+  @override
+  String get edit_profile_label_bio => 'বায়ো';
+
+  @override
+  String get edit_profile_hint_bio => 'আপনার সম্পর্কে কিছু বলুন';
+
+  @override
+  String get edit_profile_button => 'পরিবর্তন সংরক্ষণ করুন';
+
+  @override
+  String get edit_profile_success => 'প্রোফাইল সফলভাবে আপডেট হয়েছে।';
 }

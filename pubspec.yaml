@@ -33,6 +33,7 @@ workspace:
   # user related features
   - features/user/setting/
   - features/user/profile/
+  - features/user/edit_profile/
   - features/user/change_password/
   - features/user/delete_account/
   - features/user/notification/

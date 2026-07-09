@@ -807,5 +807,61 @@
     "validation_email_invalid": "একটি সঠিক ইমেইল ঠিকানা দিন।",
     "@validation_email_invalid": {
         "description": "Validation error shown when the email format is invalid"
+    },
+    "validation_email_required": "ইমেইল আবশ্যক।",
+    "@validation_email_required": {
+        "description": "Validation error shown when the email field is empty"
+    },
+    "validation_bio_too_long": "বায়ো অনেক বড় হয়ে গেছে।",
+    "@validation_bio_too_long": {
+        "description": "Validation error shown when the bio exceeds the maximum length"
+    },
+    "profile_edit": "সম্পাদনা",
+    "@profile_edit": {
+        "description": "Label for the Edit action in the Profile screen app bar"
+    },
+    "edit_profile_title": "প্রোফাইল সম্পাদনা",
+    "@edit_profile_title": {
+        "description": "Title for the Edit Profile screen"
+    },
+    "edit_profile_label_name": "পুরো নাম",
+    "@edit_profile_label_name": {
+        "description": "Label above the full name input field on the Edit Profile screen"
+    },
+    "edit_profile_hint_name": "আপনার পুরো নাম লিখুন",
+    "@edit_profile_hint_name": {
+        "description": "Hint text inside the full name input field"
+    },
+    "edit_profile_label_email": "ইমেইল ঠিকানা",
+    "@edit_profile_label_email": {
+        "description": "Label above the email input field on the Edit Profile screen"
+    },
+    "edit_profile_hint_email": "আপনার ইমেইল ঠিকানা লিখুন",
+    "@edit_profile_hint_email": {
+        "description": "Hint text inside the email input field"
+    },
+    "edit_profile_label_phone": "ফোন নম্বর",
+    "@edit_profile_label_phone": {
+        "description": "Label above the phone number input field on the Edit Profile screen"
+    },
+    "edit_profile_hint_phone": "আপনার ফোন নম্বর লিখুন",
+    "@edit_profile_hint_phone": {
+        "description": "Hint text inside the phone number input field"
+    },
+    "edit_profile_label_bio": "বায়ো",
+    "@edit_profile_label_bio": {
+        "description": "Label above the bio input field on the Edit Profile screen"
+    },
+    "edit_profile_hint_bio": "আপনার সম্পর্কে কিছু বলুন",
+    "@edit_profile_hint_bio": {
+        "description": "Hint text inside the bio input field"
+    },
+    "edit_profile_button": "পরিবর্তন সংরক্ষণ করুন",
+    "@edit_profile_button": {
+        "description": "Submit button label on the Edit Profile screen"
+    },
+    "edit_profile_success": "প্রোফাইল সফলভাবে আপডেট হয়েছে।",
+    "@edit_profile_success": {
+        "description": "Success message shown after the profile is updated"
     }
 }

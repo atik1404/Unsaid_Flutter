@@ -15,6 +15,10 @@ abstract class AuthRepository {
 
   Future<Result<ProfileEntity, Failure>> fetchProfile();
 
+  /// Updates the authenticated user's editable profile fields.
+  /// Returns the server success message on success.
+  Future<Result<String, Failure>> updateProfile(UpdateProfileParams params);
+
   /// Permanently deletes the authenticated user's account.
   /// [params] carries the churn reason the user selected.
   /// Returns the server success message on success.
