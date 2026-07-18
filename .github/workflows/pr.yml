@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------------------
+# Pull-request pipeline.
+#
+# Runs on every PR targeting main. Validates the code and builds a debug APK of
+# the `dev` flavor as a smoke test — no signing secrets and no distribution are
+# needed, so it also works for fork PRs. Mark the "Validate" and "Build" checks
+# as *required* in branch protection to prevent merging when they fail.
+# ---------------------------------------------------------------------------
+name: PR
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# Least-privilege token.
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    # Skip draft PRs to save CI minutes; they run once marked "ready".
+    if: ${{ !github.event.pull_request.draft }}
+    uses: ./.github/workflows/_ci.yml
+    with:
+      flavor: dev
+      build-mode: debug
+      entry-target: lib/main_dev.dart
+      distribute: false
+      run-tests: true
+      artifact-retention-days: 7
+    secrets: inherit

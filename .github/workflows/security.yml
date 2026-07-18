@@ -1,0 +1,81 @@
+# ---------------------------------------------------------------------------
+# Security scanning.
+#
+# Two independent, complementary scanners:
+#   codeql   – static security analysis of the native Android (Kotlin/Java)
+#              sources. NOTE: CodeQL does not support Dart, so the Flutter/Dart
+#              code is covered by analysis (flutter analyze) + the OSV scan
+#              below rather than CodeQL.
+#   osv-scan – dependency vulnerability scanning across every ecosystem in the
+#              repo (Dart/pub via pubspec.lock, Gradle, GitHub Actions).
+#
+# Findings surface in the repository's Security ▸ Code scanning tab.
+# ---------------------------------------------------------------------------
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly deep scan (Mondays 03:00 UTC) to catch newly disclosed CVEs.
+    - cron: "0 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  codeql:
+    name: CodeQL (Kotlin/Java)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      security-events: write # upload results to code scanning
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # build-mode "none" analyses source directly — no Gradle build required,
+      # which keeps this fast and avoids the full Flutter codegen dance.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java-kotlin
+          build-mode: none
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java-kotlin"
+
+  osv-scan:
+    name: Dependency vulnerabilities (OSV)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Scans committed lockfiles (pubspec.lock, Gradle, actions) against the
+      # OSV database and uploads SARIF to code scanning.
+      - name: Run OSV Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v2
+        continue-on-error: true # report, don't block, on newly found CVEs
+        with:
+          scan-args: |-
+            --recursive
+            --skip-git
+            --format=sarif
+            --output=osv-results.sarif
+            ./
+
+      - name: Upload OSV results
+        if: ${{ always() && hashFiles('osv-results.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: osv-results.sarif

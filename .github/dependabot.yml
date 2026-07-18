@@ -1,0 +1,51 @@
+# ---------------------------------------------------------------------------
+# Dependabot — automated dependency update PRs.
+#
+# Grouped, weekly PRs keep the noise down. Dependabot opens PRs which then run
+# through the PR pipeline (pr.yml), so nothing merges without passing CI.
+# ---------------------------------------------------------------------------
+version: 2
+updates:
+  # --- GitHub Actions used by the workflows above ----------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns: ["*"]
+    labels: ["dependencies", "ci"]
+
+  # --- Dart / Flutter packages (root pub workspace) --------------------
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    groups:
+      flutter-firebase:
+        patterns: ["firebase*"]
+      dart-dev:
+        dependency-type: "development"
+    labels: ["dependencies", "dart"]
+
+  # --- App package (the buildable Flutter app) -------------------------
+  - package-ecosystem: "pub"
+    directory: "/apps"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "dart"]
+
+  # --- Android / Gradle ------------------------------------------------
+  - package-ecosystem: "gradle"
+    directory: "/apps/android"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "android"]

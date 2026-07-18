@@ -1,0 +1,305 @@
+# ---------------------------------------------------------------------------
+# Reusable CI workflow (the engine behind PR / CD / nightly / release).
+#
+# Callers invoke it with `uses: ./.github/workflows/_ci.yml` and pass inputs to
+# control flavor, build mode and whether to distribute. Keeping the heavy
+# lifting here means every trigger shares one battle-tested implementation.
+#
+# Jobs:
+#   validate    – format check, Gradle wrapper validation, static analysis, unit
+#                 tests. Fails fast; blocks the rest of the pipeline.
+#   build       – produces a (signed, if secrets present) APK for the requested
+#                 flavor and uploads APK / mapping / reports as artifacts.
+#   distribute  – (optional) ships the APK to Firebase App Distribution.
+#   notify      – (optional) posts success/failure to Slack.
+# ---------------------------------------------------------------------------
+name: CI (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      flavor:
+        description: "Product flavor to build (dev | prod)."
+        required: true
+        type: string
+      build-mode:
+        description: "Build mode (release | debug)."
+        required: false
+        default: "release"
+        type: string
+      entry-target:
+        description: "Dart entry point for the flavor."
+        required: true
+        type: string
+      distribute:
+        description: "Upload the APK to Firebase App Distribution."
+        required: false
+        default: false
+        type: boolean
+      tester-groups:
+        description: "Comma-separated Firebase App Distribution tester groups."
+        required: false
+        default: "qa"
+        type: string
+      run-tests:
+        description: "Run unit tests during validation."
+        required: false
+        default: true
+        type: boolean
+      artifact-retention-days:
+        description: "How long to keep uploaded artifacts."
+        required: false
+        default: 14
+        type: number
+
+# Cancel superseded runs on the same ref to save minutes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ inputs.flavor }}
+  cancel-in-progress: true
+
+jobs:
+  # =========================================================================
+  # 1. VALIDATE — fail fast on formatting, analysis or test errors.
+  # =========================================================================
+  validate:
+    name: Validate (format · analyze · test)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history for changelog / blame-based tools
+
+      - name: Setup Flutter workspace
+        uses: ./.github/actions/setup-flutter
+
+      # Verify the checked-in Gradle wrapper JAR has not been tampered with.
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      # Dart formatting gate. Only checks version-controlled Dart files so that
+      # generated code (*.g.dart / *.freezed.dart, all git-ignored) can't cause
+      # false failures. `--set-exit-if-changed` turns drift into a failure.
+      - name: Check code formatting
+        run: |
+          set -euo pipefail
+          git ls-files '*.dart' -z | xargs -0 dart format --output=none --set-exit-if-changed
+
+      # Static analysis. `flutter analyze` also runs the dart_code_linter plugin
+      # configured in core/code_analyzer, so this is our Lint + Detekt/Ktlint
+      # equivalent for a Flutter codebase. Reports are collected for artifacts.
+      - name: Static analysis (flutter analyze + dart_code_linter)
+        run: |
+          set -o pipefail
+          mkdir -p reports
+          melos exec -- flutter analyze 2>&1 | tee reports/analyze.txt
+
+      # Unit tests, only where a `test/` directory exists (avoids "no tests"
+      # false-negatives in packages that have none yet). Coverage is collected.
+      - name: Run unit tests
+        if: ${{ inputs.run-tests }}
+        run: |
+          melos exec --dir-exists=test -- flutter test --coverage --reporter expanded
+
+      - name: Upload analysis & test reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-${{ inputs.flavor }}
+          path: |
+            reports/
+            **/coverage/lcov.info
+            **/test/**/failures/**
+          if-no-files-found: ignore
+          retention-days: ${{ inputs.artifact-retention-days }}
+
+  # =========================================================================
+  # 2. BUILD — assemble the APK (signed when secrets are available).
+  # =========================================================================
+  build:
+    name: Build ${{ inputs.flavor }} (${{ inputs.build-mode }})
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      apk-path: ${{ steps.locate.outputs.apk }}
+      version-name: ${{ steps.version.outputs.name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter workspace
+        uses: ./.github/actions/setup-flutter
+
+      # Materialise the upload keystore + keystore.properties from secrets.
+      # If KEYSTORE_BASE64 is not set (e.g. a fork PR), we skip this and the
+      # Gradle config falls back to debug signing — the build still succeeds.
+      - name: Configure release signing
+        id: signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${KEYSTORE_BASE64:-}" ]; then
+            echo "No signing secrets present — falling back to debug signing."
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "$KEYSTORE_BASE64" | base64 --decode > apps/android/app/upload-keystore.jks
+          cat > apps/android/keystore.properties <<EOF
+          KEYSTORE_FILE=upload-keystore.jks
+          KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
+          KEY_ALIAS=${KEY_ALIAS}
+          KEY_PASSWORD=${KEY_PASSWORD}
+          EOF
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
+      # Unique, monotonically increasing version code (workflow run number) and
+      # a version name enriched with the short commit SHA for traceability.
+      - name: Compute version metadata
+        id: version
+        run: |
+          set -euo pipefail
+          BASE_NAME=$(grep '^version:' apps/pubspec.yaml | head -1 | sed -E 's/version:\s*//; s/\+.*//')
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "code=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+          echo "name=${BASE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "sha=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+          echo "Building ${BASE_NAME}+${{ github.run_number }} (${SHORT_SHA})"
+
+      # The APK. `--build-number` feeds versionCode; `--build-name` feeds
+      # versionName. Both are consumed by the Gradle config we patched.
+      - name: Build APK
+        working-directory: apps
+        run: |
+          flutter build apk \
+            --flavor ${{ inputs.flavor }} \
+            --${{ inputs.build-mode }} \
+            --target=${{ inputs.entry-target }} \
+            --build-number=${{ steps.version.outputs.code }} \
+            --build-name=${{ steps.version.outputs.name }}
+
+      # Build-dir relocation in root build.gradle.kts makes the exact path
+      # awkward to hard-code, so we locate the freshly built APK by glob.
+      - name: Locate APK
+        id: locate
+        run: |
+          set -euo pipefail
+          APK=$(find . -path '*flutter-apk/app-${{ inputs.flavor }}-${{ inputs.build-mode }}.apk' | head -1)
+          if [ -z "$APK" ]; then
+            echo "::error::Could not locate built APK"; exit 1
+          fi
+          echo "apk=$APK" >> "$GITHUB_OUTPUT"
+          echo "Built: $APK"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ inputs.flavor }}-${{ inputs.build-mode }}
+          path: ${{ steps.locate.outputs.apk }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact-retention-days }}
+
+      # Only produced when R8/minify is enabled; harmless glob otherwise.
+      - name: Upload R8 mapping (if present)
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapping-${{ inputs.flavor }}-${{ inputs.build-mode }}
+          path: "**/mapping/${{ inputs.flavor }}${{ inputs.build-mode == 'release' && 'Release' || 'Debug' }}/mapping.txt"
+          if-no-files-found: ignore
+          retention-days: ${{ inputs.artifact-retention-days }}
+
+  # =========================================================================
+  # 3. DISTRIBUTE — push the APK to Firebase App Distribution.
+  # =========================================================================
+  distribute:
+    name: Distribute to Firebase
+    needs: build
+    if: ${{ inputs.distribute }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 50 # enough history for the release notes
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: apk-${{ inputs.flavor }}-${{ inputs.build-mode }}
+          path: dist
+
+      # Resolve the concrete APK path (with:) values cannot do shell expansion.
+      - name: Resolve APK path
+        id: apk
+        run: echo "path=$(find dist -name '*.apk' | head -1)" >> "$GITHUB_OUTPUT"
+
+      # Auto-generated, human-readable release notes: branch, run number,
+      # commit and the recent commit subjects.
+      - name: Generate release notes
+        id: notes
+        run: |
+          set -euo pipefail
+          {
+            echo "🏷 Flavor: ${{ inputs.flavor }} · Mode: ${{ inputs.build-mode }}"
+            echo "🔢 Build #${{ github.run_number }} · v${{ needs.build.outputs.version-name }}"
+            echo "🌿 Branch: ${{ github.ref_name }}"
+            echo "🔗 Commit: $(git rev-parse --short HEAD)"
+            echo "🕒 $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo ""
+            echo "Recent changes:"
+            git log -10 --pretty=format:'• %s (%an)'
+          } > release-notes.txt
+          cat release-notes.txt
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          groups: ${{ inputs.tester-groups }}
+          file: ${{ steps.apk.outputs.path }}
+          releaseNotesFile: release-notes.txt
+
+  # =========================================================================
+  # 4. NOTIFY — Slack ping on success/failure (skipped if webhook not set).
+  # =========================================================================
+  notify:
+    name: Notify Slack
+    needs: [validate, build, distribute]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - name: Post status to Slack
+        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
+        run: |
+          set -euo pipefail
+          # Roll the needed jobs' results into a single status.
+          if [ "${{ contains(needs.*.result, 'failure') }}" = "true" ]; then
+            STATUS="❌ FAILED"; COLOR="#E01E5A"
+          elif [ "${{ contains(needs.*.result, 'cancelled') }}" = "true" ]; then
+            STATUS="⚠️ CANCELLED"; COLOR="#ECB22E"
+          else
+            STATUS="✅ SUCCESS"; COLOR="#2EB67D"
+          fi
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          curl -sf -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"attachments\": [{
+                \"color\": \"${COLOR}\",
+                \"blocks\": [{
+                  \"type\": \"section\",
+                  \"text\": { \"type\": \"mrkdwn\", \"text\": \"*${STATUS}* — ${{ github.workflow }} (${{ inputs.flavor }})\n*Repo:* ${{ github.repository }}\n*Branch:* ${{ github.ref_name }}\n*Run:* <${RUN_URL}|#${{ github.run_number }}>\" }
+                }]
+              }]
+            }" \
+            "$SLACK_WEBHOOK_URL"

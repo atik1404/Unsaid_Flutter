@@ -1,0 +1,30 @@
+# ---------------------------------------------------------------------------
+# Scheduled nightly build.
+#
+# Builds a signed `dev` release APK every night and distributes it to the
+# "nightly" tester group so QA always has the latest main. Runnable on demand
+# via workflow_dispatch.
+# ---------------------------------------------------------------------------
+name: Nightly
+
+on:
+  schedule:
+    # 02:00 UTC every day. GitHub cron is UTC and best-effort.
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nightly:
+    uses: ./.github/workflows/_ci.yml
+    with:
+      flavor: dev
+      build-mode: release
+      entry-target: lib/main_dev.dart
+      distribute: true
+      tester-groups: nightly
+      run-tests: true
+      artifact-retention-days: 14
+    secrets: inherit

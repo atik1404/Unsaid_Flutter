@@ -43,3 +43,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Signing secrets — NEVER commit these. In CI they are materialised from
+# GitHub Secrets at build time (see CI_CD_SETUP.md).
+**/keystore.properties
+**/key.properties
+*.jks
+*.keystore
+**/upload-keystore.jks
+# Firebase service account used by App Distribution
+**/firebase-service-account.json

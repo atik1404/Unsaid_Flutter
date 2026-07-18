@@ -1,0 +1,101 @@
+# ---------------------------------------------------------------------------
+# Composite action: setup-flutter
+#
+# Single source of truth for preparing a CI job to build/analyze/test this
+# Flutter + Melos monorepo. Every workflow uses this so the toolchain versions,
+# caching strategy and (mandatory) code-generation sequence stay consistent.
+#
+# What it does:
+#   1. Installs a pinned JDK (Android/Gradle toolchain).
+#   2. Installs a pinned Flutter SDK with the tool's own SDK cache.
+#   3. Restores the Gradle caches (dependencies + wrapper + configuration cache).
+#   4. Restores the Dart pub-cache keyed on the committed lockfile.
+#   5. Bootstraps the Melos workspace and runs code generation.
+#
+# Code generation is REQUIRED: *.g.dart / *.freezed.dart are git-ignored, so a
+# fresh checkout has no generated code. `flutter analyze` and `flutter build`
+# will fail without this step.
+# ---------------------------------------------------------------------------
+name: "Setup Flutter workspace"
+description: "Install the toolchain, restore caches, bootstrap Melos and run code generation."
+
+inputs:
+  java-version:
+    description: "JDK major version used by the Android/Gradle toolchain."
+    required: false
+    default: "17"
+  flutter-version:
+    description: "Exact Flutter SDK version to install (keep in sync with the team's stable channel)."
+    required: false
+    default: "3.44.4"
+  run-codegen:
+    description: "Run build_runner / envied / l10n generation (needed for analyze, test and build)."
+    required: false
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    # --- JDK -------------------------------------------------------------
+    - name: Set up JDK ${{ inputs.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: "temurin"
+        java-version: ${{ inputs.java-version }}
+
+    # --- Gradle caches + configuration cache -----------------------------
+    # setup-gradle transparently caches ~/.gradle (dependencies, wrapper dists)
+    # and enables read/write of the Gradle configuration cache across runs.
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+    # --- Flutter SDK -----------------------------------------------------
+    - name: Set up Flutter ${{ inputs.flutter-version }}
+      uses: subosito/flutter-action@v2
+      with:
+        channel: "stable"
+        flutter-version: ${{ inputs.flutter-version }}
+        cache: true
+
+    # --- Dart pub-cache --------------------------------------------------
+    # Keyed on every committed lockfile so a dependency bump busts the cache.
+    - name: Cache Dart pub packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pub-cache
+        key: pub-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+        restore-keys: |
+          pub-${{ runner.os }}-
+
+    # --- Melos -----------------------------------------------------------
+    - name: Activate Melos
+      shell: bash
+      run: dart pub global activate melos 8.0.0
+
+    - name: Bootstrap workspace (pub get across all packages)
+      shell: bash
+      run: melos bootstrap
+
+    # --- Code generation -------------------------------------------------
+    # Order matters: env → domain/data (freezed/json) → feature packages.
+    # l10n is committed but regenerated defensively so builds never drift.
+    - name: Generate code (envied, build_runner, l10n)
+      if: ${{ inputs.run-codegen == 'true' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        echo "::group::Generate env (envied)"
+        melos run gen:env
+        echo "::endgroup::"
+        echo "::group::build_runner (domain, data)"
+        melos run build_runner
+        echo "::endgroup::"
+        echo "::group::build_runner (feature packages)"
+        melos run build_runner_feature
+        echo "::endgroup::"
+        echo "::group::Localization (gen-l10n)"
+        melos run locale_gen
+        echo "::endgroup::"

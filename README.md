@@ -1,6 +1,13 @@
 # Flutter Multi-Package Playground
 
+[![CD (main)](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/cd.yml/badge.svg?branch=main)](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/cd.yml)
+[![PR](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/pr.yml/badge.svg)](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/pr.yml)
+[![Nightly](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/nightly.yml/badge.svg)](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/nightly.yml)
+[![Security](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/security.yml/badge.svg)](https://github.com/atik1404/Flutter-Multi-Package-App/actions/workflows/security.yml)
+
 A production-ready Flutter monorepo demonstrating Clean Architecture across multiple packages, managed with [Melos](https://melos.invertase.dev/). The project is structured to support scalable, maintainable, and independently testable feature modules.
+
+> **CI/CD:** GitHub Actions pipeline (validate → build → Firebase App Distribution → notify), plus nightly builds, tagged releases, CodeQL and dependency scanning. See **[CI_CD_SETUP.md](CI_CD_SETUP.md)** for setup, required secrets and troubleshooting.
 
 ---
 

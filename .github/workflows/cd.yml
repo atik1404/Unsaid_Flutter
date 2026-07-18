@@ -1,0 +1,38 @@
+# ---------------------------------------------------------------------------
+# Continuous delivery pipeline.
+#
+# Runs on every push to main. Validates, builds a signed `prod` release APK,
+# ships it to Firebase App Distribution and notifies Slack. Also exposed via
+# workflow_dispatch for manual re-runs.
+# ---------------------------------------------------------------------------
+name: CD (main)
+
+on:
+  push:
+    branches: [main]
+    # Skip pushes that only touch docs/CI-config to save build minutes.
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+  workflow_dispatch:
+    inputs:
+      tester-groups:
+        description: "Firebase tester groups"
+        required: false
+        default: "qa"
+
+permissions:
+  contents: read
+
+jobs:
+  cd:
+    uses: ./.github/workflows/_ci.yml
+    with:
+      flavor: prod
+      build-mode: release
+      entry-target: lib/main_prod.dart
+      distribute: true
+      tester-groups: ${{ github.event.inputs.tester-groups || 'qa' }}
+      run-tests: true
+      artifact-retention-days: 30
+    secrets: inherit
