@@ -37,7 +37,7 @@ dependencies:
   jiffy: ^6.4.5
   fluttertoast: ^9.1.0
   image_picker: ^1.2.2
-  flutter_image_compress: ^2.4.0
+  flutter_image_compress: ^2.5.0
   path: ^1.9.1
   path_provider: ^2.1.6
 
