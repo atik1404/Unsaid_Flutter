@@ -27,4 +27,4 @@ dependencies:
   get_it: ^9.2.1
 
 dev_dependencies:
-  dart_code_linter: ^4.1.5
+  dart_code_linter: ^4.1.7

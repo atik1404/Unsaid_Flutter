@@ -1,4 +1,4 @@
-name: flutter_multi_package_playground
+name: unsaid
 
 workspace:
   # apps
@@ -46,7 +46,7 @@ environment:
   sdk: ^3.12.2
 
 dev_dependencies:
-  melos: ^8.0.0
+  melos: ^8.2.2
 
 melos:
   command:
@@ -78,45 +78,45 @@ melos:
         get_it: ^9.2.1
         cupertino_icons: ^1.0.9
         shared_preferences: ^2.5.5
-        equatable: ^2.0.8
+        equatable: ^2.1.0
         flutter_svg: ^2.3.0
         formz: ^0.8.0
         dio: ^5.10.0
         jiffy: ^6.4.5
         fluttertoast: ^9.1.0
-        image_picker: ^1.2.2
+        image_picker: ^1.2.3
         url_launcher: ^6.3.2
-        webview_flutter: ^4.14.0
+        webview_flutter: ^4.14.1
         json_annotation: ^4.12.0
-        envied: ^1.3.7
-        flutter_local_notifications: ^22.0.1
+        envied: ^1.3.8
+        flutter_local_notifications: ^22.1.0
         intl: ^0.20.2
         freezed: ^3.2.5
         freezed_annotation: ^3.1.0
         carousel_slider: ^5.1.2
         flutter_screenutil: ^5.9.3
-        lottie: ^3.4.0
+        lottie: ^3.5.1
         font_awesome_flutter: ^11.0.0
         flutter_widget_from_html: ^0.17.2
         logger: ^2.7.0
         yaml_edit: ^2.2.4
         go_router: ^17.3.0
         flutter_inappwebview: ^6.1.5
-        background_downloader: ^9.5.5
+        background_downloader: ^9.5.6
         rxdart: ^0.28.0
         flutter_html: ^3.0.0
-        firebase_core: ^4.11.0
-        firebase_messaging: ^16.4.1
-        firebase_crashlytics: ^5.2.4
-        firebase_analytics: ^12.4.3
-        firebase_auth: ^6.5.4
+        firebase_core: ^4.12.1
+        firebase_messaging: ^16.4.3
+        firebase_crashlytics: ^5.2.6
+        firebase_analytics: ^12.4.5
+        firebase_auth: ^6.5.6
         #firebase_remote_config: ^6.3.0
         clarity_flutter: ^1.9.0
-        in_app_update: ^4.2.5
-        package_info_plus: ^10.2.0
+        in_app_update: ^5.0.0
+        package_info_plus: ^10.2.1
         cached_network_image: ^3.4.1
         flutter_secure_storage: ^10.3.1
-        flutter_image_compress: ^2.4.0
+        flutter_image_compress: ^2.5.0
         path: ^1.9.1
         path_provider: ^2.1.6
         sqflite: ^2.4.3
@@ -126,14 +126,14 @@ melos:
         flutter_test:
           sdk: flutter
         flutter_lints: ^6.0.0
-        dart_code_linter: ^4.1.5
-        melos: ^8.0.0
+        dart_code_linter: ^4.1.7
+        melos: ^8.2.2
         json_serializable: ^6.14.0
         build_runner: ^2.15.0
-        envied_generator: ^1.3.7
+        envied_generator: ^1.3.8
         # Pinned: intl_utils 2.8.15+ requires analyzer ^13, which conflicts
         # with freezed 3.2.5 (analyzer <11). 2.8.14 resolves on analyzer 10.x.
-        intl_utils: 2.8.14
+        intl_utils: ^2.8.14
         mockito: ^5.7.0
 
   scripts:
