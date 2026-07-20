@@ -1,9 +1,9 @@
 # ---------------------------------------------------------------------------
 # Continuous delivery pipeline.
 #
-# Runs on every push to main. Validates, builds a signed `prod` release APK,
-# ships it to Firebase App Distribution and notifies Slack. Also exposed via
-# workflow_dispatch for manual re-runs.
+# Runs on every push to main. Validates, builds a signed `prod` release APK and
+# ships it to Firebase App Distribution. Also exposed via workflow_dispatch for
+# manual re-runs.
 # ---------------------------------------------------------------------------
 name: CD (main)
 

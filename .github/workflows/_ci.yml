@@ -11,7 +11,6 @@
 #   build       – produces a (signed, if secrets present) APK for the requested
 #                 flavor and uploads APK / mapping / reports as artifacts.
 #   distribute  – (optional) ships the APK to Firebase App Distribution.
-#   notify      – (optional) posts success/failure to Slack.
 # ---------------------------------------------------------------------------
 name: CI (reusable)
 
@@ -267,39 +266,3 @@ jobs:
           groups: ${{ inputs.tester-groups }}
           file: ${{ steps.apk.outputs.path }}
           releaseNotesFile: release-notes.txt
-
-  # =========================================================================
-  # 4. NOTIFY — Slack ping on success/failure (skipped if webhook not set).
-  # =========================================================================
-  notify:
-    name: Notify Slack
-    needs: [validate, build, distribute]
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-    steps:
-      - name: Post status to Slack
-        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
-        run: |
-          set -euo pipefail
-          # Roll the needed jobs' results into a single status.
-          if [ "${{ contains(needs.*.result, 'failure') }}" = "true" ]; then
-            STATUS="❌ FAILED"; COLOR="#E01E5A"
-          elif [ "${{ contains(needs.*.result, 'cancelled') }}" = "true" ]; then
-            STATUS="⚠️ CANCELLED"; COLOR="#ECB22E"
-          else
-            STATUS="✅ SUCCESS"; COLOR="#2EB67D"
-          fi
-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          curl -sf -X POST -H 'Content-type: application/json' \
-            --data "{
-              \"attachments\": [{
-                \"color\": \"${COLOR}\",
-                \"blocks\": [{
-                  \"type\": \"section\",
-                  \"text\": { \"type\": \"mrkdwn\", \"text\": \"*${STATUS}* — ${{ github.workflow }} (${{ inputs.flavor }})\n*Repo:* ${{ github.repository }}\n*Branch:* ${{ github.ref_name }}\n*Run:* <${RUN_URL}|#${{ github.run_number }}>\" }
-                }]
-              }]
-            }" \
-            "$SLACK_WEBHOOK_URL"

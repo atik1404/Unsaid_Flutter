@@ -5,13 +5,16 @@ monorepo (the buildable app lives in [`apps/`](apps/), Android project in
 [`apps/android/`](apps/android/)).
 
 - [Pipeline overview](#pipeline-overview)
+- [The reusable engine (`_ci.yml`)](#the-reusable-engine-_ciyml)
+- [The composite action (`setup-flutter`)](#the-composite-action-setup-flutter)
+- [Trigger workflows](#trigger-workflows)
 - [Required GitHub Secrets](#required-github-secrets)
 - [Firebase App Distribution setup](#firebase-app-distribution-setup)
 - [Signing configuration](#signing-configuration)
 - [How to trigger each workflow](#how-to-trigger-each-workflow)
 - [Versioning](#versioning)
 - [Branch protection (required checks)](#branch-protection-required-checks)
-- [Slack notifications](#slack-notifications)
+- [Dependency updates](#dependency-updates)
 - [Troubleshooting](#troubleshooting)
 
 ---
@@ -21,21 +24,136 @@ monorepo (the buildable app lives in [`apps/`](apps/), Android project in
 | Workflow | File | Trigger | What it does |
 |----------|------|---------|--------------|
 | **PR** | [`pr.yml`](.github/workflows/pr.yml) | PR → `main` | Validate + build a `dev` **debug** APK (no secrets → fork-safe). |
-| **CD** | [`cd.yml`](.github/workflows/cd.yml) | Push → `main` | Validate + build signed `prod` **release** APK → Firebase → Slack. |
+| **CD** | [`cd.yml`](.github/workflows/cd.yml) | Push → `main` | Validate + build signed `prod` **release** APK → Firebase. |
 | **Nightly** | [`nightly.yml`](.github/workflows/nightly.yml) | Cron 02:00 UTC | Signed `dev` release → Firebase "nightly" group. |
 | **Release** | [`release.yml`](.github/workflows/release.yml) | Tag `v*.*.*` | Signed `prod` release → Firebase + GitHub Release + changelog. |
 | **Security** | [`security.yml`](.github/workflows/security.yml) | Push/PR/weekly | CodeQL (Kotlin/Java) + OSV dependency scan. |
-| _reusable engine_ | [`_ci.yml`](.github/workflows/_ci.yml) | `workflow_call` | validate → build → distribute → notify. |
+| _reusable engine_ | [`_ci.yml`](.github/workflows/_ci.yml) | `workflow_call` | validate → build → distribute. |
 | _shared setup_ | [`actions/setup-flutter`](.github/actions/setup-flutter/action.yml) | composite | JDK + Flutter + caches + Melos bootstrap + **codegen**. |
-| **Dependabot** | [`dependabot.yml`](.github/dependabot.yml) | weekly | Update PRs for pub, Gradle, Actions. |
 
-All the real logic lives once in `_ci.yml`; the trigger workflows just call it
-with different inputs. Change build behaviour there and every pipeline follows.
+The architecture is deliberately **one engine, many triggers**: all real logic
+lives once in `_ci.yml`, and the five trigger workflows are thin callers that
+pass different inputs. Change build behaviour there and every pipeline follows.
+`security.yml` is the one exception — it is fully independent, because scanning
+needs neither the Flutter toolchain nor a build.
+
+```
+pr.yml ──┐
+cd.yml ──┤
+nightly ─┼──> _ci.yml ──> validate ──> build ──> distribute
+release ─┘                    │           │          │
+                              └───────────┴──────────┴──> setup-flutter
+security.yml ──> codeql + osv-scan   (independent, no build)
+```
 
 > **Why codegen runs in CI:** `*.g.dart` / `*.freezed.dart` are git-ignored, so a
 > fresh checkout has no generated code. The setup action runs `melos run gen:env`,
 > `build_runner`, `build_runner_feature` and `locale_gen` before any
 > analyze/test/build. Without it those steps fail.
+
+---
+
+## The reusable engine (`_ci.yml`)
+
+Called via `uses: ./.github/workflows/_ci.yml`. It is never triggered directly.
+
+### Inputs
+
+| Input | Type | Default | Purpose |
+|-------|------|---------|---------|
+| `flavor` | string | _required_ | Product flavor to build (`dev` \| `prod`). |
+| `build-mode` | string | `release` | `release` or `debug`. |
+| `entry-target` | string | _required_ | Dart entry point (e.g. `lib/main_dev.dart`). |
+| `distribute` | boolean | `false` | Upload the APK to Firebase App Distribution. |
+| `tester-groups` | string | `qa` | Comma-separated Firebase tester groups. |
+| `run-tests` | boolean | `true` | Run unit tests during validation. |
+| `artifact-retention-days` | number | `14` | How long uploaded artifacts are kept. |
+
+Runs are deduplicated by a `concurrency` group keyed on workflow + ref + flavor,
+so pushing twice to a branch cancels the superseded run and saves minutes.
+
+### Jobs
+
+**1. `validate`** — the fail-fast quality gate. Blocks everything downstream.
+
+| Step | Purpose |
+|------|---------|
+| Checkout (`fetch-depth: 0`) | Full history for changelog/blame-based tooling. |
+| Setup Flutter workspace | The composite action below. |
+| Validate Gradle wrapper | Verifies the checked-in wrapper JAR isn't tampered with (supply-chain guard). |
+| Check code formatting | `dart format --set-exit-if-changed` over **version-controlled** Dart files only, so git-ignored generated code can't cause false failures. |
+| Static analysis | `melos exec -- flutter analyze`, which also runs the `dart_code_linter` plugin from `core/code_analyzer`. Output tee'd to `reports/`. |
+| Run unit tests | `melos exec --dir-exists=test` — only packages that actually have a `test/` dir, avoiding "no tests found" false negatives. Collects coverage. |
+| Upload reports | `always()`, so reports survive a failure. |
+
+**2. `build`** — `needs: validate`. Produces the APK.
+
+| Step | Purpose |
+|------|---------|
+| Configure release signing | Materializes the keystore + `keystore.properties` from secrets. **If `KEYSTORE_BASE64` is absent it exits cleanly** and Gradle falls back to debug signing — this is what makes fork PRs work. |
+| Compute version metadata | `versionCode` = `github.run_number` (unique, monotonic); `versionName` from `apps/pubspec.yaml`. |
+| Build APK | `flutter build apk` with flavor, mode, target, `--build-number`, `--build-name`. |
+| Locate APK | Finds the artifact by glob, since the root `build.gradle.kts` relocates the build dir. Hard-fails if not found. |
+| Upload APK | `if-no-files-found: error` — a missing APK is a real failure. |
+| Upload R8 mapping | `if-no-files-found: ignore` — only exists when minify is on. |
+
+**3. `distribute`** — `needs: build`, gated on `if: inputs.distribute`. Downloads
+the APK artifact, generates human-readable release notes (flavor, build number,
+branch, commit, recent commit subjects) and uploads to Firebase App Distribution.
+
+---
+
+## The composite action (`setup-flutter`)
+
+[`.github/actions/setup-flutter/action.yml`](.github/actions/setup-flutter/action.yml)
+is the single source of truth for preparing any job. Every job that touches Dart
+uses it, so toolchain versions and caching stay consistent by construction.
+
+| Input | Default | Purpose |
+|-------|---------|---------|
+| `java-version` | `17` | JDK for the Android/Gradle toolchain. |
+| `flutter-version` | `3.44.4` | Pinned Flutter SDK — keep in sync with the team's stable channel. |
+| `run-codegen` | `true` | Run envied / build_runner / l10n generation. |
+
+Steps, in order:
+
+1. **JDK** — `actions/setup-java` (Temurin).
+2. **Gradle** — `gradle/actions/setup-gradle`, caching `~/.gradle` and the
+   configuration cache. Cache is **read-only off `main`** so branch builds can't
+   poison the shared cache.
+3. **Flutter SDK** — `subosito/flutter-action` with its own SDK cache.
+4. **Pub cache** — `actions/cache` on `~/.pub-cache`, keyed on
+   `hashFiles('**/pubspec.lock')`, so a dependency change busts it.
+5. **Melos** — `dart pub global activate melos 8.0.0`, then `melos bootstrap`.
+6. **Codegen** — `gen:env` → `build_runner` (domain, data) → `build_runner_feature`
+   → `locale_gen`. **Order matters**; later generators consume earlier output.
+
+---
+
+## Trigger workflows
+
+Each is a thin caller. All pass `secrets: inherit` so the engine can reach the
+signing and Firebase secrets.
+
+- **`pr.yml`** — `dev` + `debug`, `distribute: false`, 7-day artifacts. Skips
+  draft PRs (`if: !github.event.pull_request.draft`) to save minutes. Needs no
+  secrets, so it works for fork PRs.
+- **`cd.yml`** — `prod` + `release`, distributes to `qa`, 30-day artifacts.
+  `paths-ignore` skips doc-only pushes. `workflow_dispatch` allows overriding
+  tester groups for a manual run.
+- **`nightly.yml`** — `dev` + `release`, distributes to the `nightly` group,
+  14-day artifacts. Cron `0 2 * * *` (UTC, best-effort) plus manual dispatch.
+- **`release.yml`** — `prod` + `release` on a `v*.*.*` tag, 90-day artifacts.
+  Adds a second `github-release` job (`contents: write`) that builds a changelog
+  from commits since the previous tag, renames the APK to `unsaid-<tag>.apk` and
+  publishes a GitHub Release. Tags containing `-` are marked prerelease.
+- **`security.yml`** — two independent jobs. `codeql` analyses Kotlin/Java with
+  `build-mode: none` (source-only, no Gradle build needed). `osv-scan` checks
+  every committed lockfile against the OSV database and uploads SARIF. The scan
+  step is `continue-on-error` so a newly disclosed CVE reports without blocking.
+
+All workflows declare least-privilege `permissions: contents: read` at the top
+and escalate only per-job where required.
 
 ---
 
@@ -53,7 +171,6 @@ release workflows — PRs run fine without them.
 | `KEY_PASSWORD` | signing | Key password for that alias. |
 | `FIREBASE_APP_ID` | distribution | Firebase **App ID** (e.g. `1:123:android:abc`). |
 | `FIREBASE_SERVICE_ACCOUNT` | distribution | **Full JSON** of a service account with App Distribution access. |
-| `SLACK_WEBHOOK_URL` | notifications _(optional)_ | Incoming-webhook URL. If unset, Slack step is skipped. |
 
 > Nothing sensitive is ever committed. `.gitignore` blocks `*.jks`,
 > `keystore.properties`, `key.properties` and `firebase-service-account.json`.
@@ -166,13 +283,26 @@ enable **Require status checks to pass** and select:
 
 ---
 
-## Slack notifications
+## Dependency updates
 
-Set `SLACK_WEBHOOK_URL` to an [incoming webhook](https://api.slack.com/messaging/webhooks).
-The `notify` job posts a colored success/cancel/failure card with a link back to
-the run. No webhook → the step is silently skipped, so this is fully optional.
-To swap in Discord/Teams/email, replace the single `curl` in the `notify` job of
-[`_ci.yml`](.github/workflows/_ci.yml).
+Dependency updates are **manual and deliberate** — there is no Dependabot config
+and no automated bump job. Package versions change only when a human edits
+`pubspec.yaml` and commits a matching `pubspec.lock`.
+
+This is intentional. The workspace pins several packages that share a
+transitive `analyzer` constraint (notably `freezed`, `build_runner` and
+`intl_utils`); an automated single-package bump routinely produces an unsolvable
+version graph. Bump these together, as one reviewed change.
+
+To check what's available without changing anything:
+
+```bash
+melos run outdated        # Flutter packages
+melos run outdated:all    # including pure Dart packages
+```
+
+Then edit the shared dependency block in the root [`pubspec.yaml`](pubspec.yaml),
+run `melos bootstrap`, and commit the resulting lockfile.
 
 ---
 
@@ -182,15 +312,18 @@ To swap in Discord/Teams/email, replace the single `curl` in the `notify` job of
 |---------|--------------------|
 | `Target of URI hasn't been generated: *.g.dart` | Codegen didn't run/failed. Check the **Generate code** step; run `melos run gen:env && melos run build_runner && melos run build_runner_feature` locally. |
 | `flutter analyze` fails only in CI | Run `dart format .` and `melos exec -- flutter analyze` locally; formatting drift and analyzer warnings both fail the gate. |
+| Validate fails instantly on formatting | The format gate covers every tracked `.dart` file. Run `git ls-files '*.dart' -z \| xargs -0 dart format` and commit. |
+| `version solving failed` mentioning `analyzer` | Incompatible bump across `freezed` / `build_runner` / `intl_utils`. See [Dependency updates](#dependency-updates) — these must move together. |
 | `Could not locate built APK` | Flavor/mode mismatch. The APK glob expects `app-<flavor>-<mode>.apk`; confirm the `flavor`/`build-mode` inputs match `productFlavors` in `build.gradle.kts` (`dev`/`prod`). |
 | Release APK installs but is unsigned / "App not installed" | Signing secrets missing → debug fallback. Verify `KEYSTORE_BASE64` et al. are set on the repo. |
 | Firebase step: `INVALID_ARGUMENT` / `app not found` | `FIREBASE_APP_ID` doesn't match the built flavor's app, or the service account lacks the App Distribution Admin role. |
 | `keystoreProperties["KEY_ALIAS"]` cast error | `keystore.properties` is missing a key. All four keys (`KEYSTORE_FILE/PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`) are required when present. |
 | Gradle OOM | `org.gradle.jvmargs` is already `-Xmx8G` in `gradle.properties`; GitHub runners have ~7 GB. Lower to `-Xmx4G` if the build is killed. |
+| Security workflow fails on `upload-sarif` / `analyze` | Code scanning requires **GitHub Advanced Security** on private repos. Enable it under Settings ▸ Code security, or make the repo public. |
 | CodeQL reports nothing for Dart | Expected — CodeQL doesn't support Dart. Dart security relies on `flutter analyze` + the OSV dependency scan. |
 | Nightly didn't run at exactly 02:00 | GitHub cron is best-effort and can lag under load; trigger **Nightly** manually if needed. |
 
 ---
 
-_Generated as part of the CI/CD implementation. Keep this file in sync when you
-change workflow inputs, secrets or signing behaviour._
+_Keep this file in sync when you change workflow inputs, secrets or signing
+behaviour._
