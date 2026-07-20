@@ -66,7 +66,7 @@ jobs:
     timeout-minutes: 40
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0 # full history for changelog / blame-based tools
 
@@ -75,7 +75,7 @@ jobs:
 
       # Verify the checked-in Gradle wrapper JAR has not been tampered with.
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
+        uses: gradle/actions/wrapper-validation@v6
 
       # Dart formatting gate. Only checks version-controlled Dart files so that
       # generated code (*.g.dart / *.freezed.dart, all git-ignored) can't cause
@@ -103,7 +103,7 @@ jobs:
 
       - name: Upload analysis & test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-${{ inputs.flavor }}
           path: |
@@ -126,7 +126,7 @@ jobs:
       version-name: ${{ steps.version.outputs.name }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -198,7 +198,7 @@ jobs:
           echo "Built: $APK"
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: apk-${{ inputs.flavor }}-${{ inputs.build-mode }}
           path: ${{ steps.locate.outputs.apk }}
@@ -207,7 +207,7 @@ jobs:
 
       # Only produced when R8/minify is enabled; harmless glob otherwise.
       - name: Upload R8 mapping (if present)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mapping-${{ inputs.flavor }}-${{ inputs.build-mode }}
           path: "**/mapping/${{ inputs.flavor }}${{ inputs.build-mode == 'release' && 'Release' || 'Debug' }}/mapping.txt"
@@ -225,12 +225,12 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 50 # enough history for the release notes
 
       - name: Download APK artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: apk-${{ inputs.flavor }}-${{ inputs.build-mode }}
           path: dist
