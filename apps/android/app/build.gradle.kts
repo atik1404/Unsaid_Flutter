@@ -1,3 +1,6 @@
+import com.android.build.api.artifact.SingleArtifact
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Properties
 import java.io.File
 import java.io.FileInputStream
@@ -229,6 +232,85 @@ android {
             isShrinkResources = false
 
             buildConfigField("boolean", "DEBUG_FEATURES_ENABLED", "true")
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Human-readable APK copies
+//
+// Produces, for every variant, an extra APK named:
+//
+//     unsaid_<yyyy-MM-dd>_<HH-mm-ss>_<version>_<flavor>_<buildType>.apk
+//     e.g. unsaid_2026-07-20_16-42-08_1.0.0_dev_release.apk
+//
+// WHY A COPY AND NOT A RENAME: the Flutter Gradle plugin hardcodes the final
+// artifact name (`app[-abi][-flavor]-<mode>.apk`) when it copies APKs into
+// `build/app/outputs/flutter-apk/`, and `flutter build apk` fails if that exact
+// file is missing. AGP's `outputFileName` cannot override it either, since
+// Flutter renames again on the way out. So the canonical file is left untouched
+// — which also keeps the CI `Locate APK` glob and `flutter run` working — and
+// the friendly name is written next to it.
+//
+// The copies go to their own `outputs/renamed-apk/` directory. They must NOT be
+// written into `outputs/flutter-apk/`: declaring that shared directory as a
+// Copy task's output makes Gradle's stale-output cleanup delete every file in
+// it that the task did not produce — which silently wipes the canonical
+// `app-<flavor>-<mode>.apk` that Flutter and CI depend on.
+//
+// The timestamp is evaluated at EXECUTION time (inside the rename lambda), not
+// at configuration time, so it reflects when the APK was actually built rather
+// than when Gradle configured the project.
+// ---------------------------------------------------------------------------
+androidComponents {
+    onVariants { variant ->
+        val flavorName = variant.flavorName.orEmpty().ifEmpty { "noflavor" }
+        val buildTypeName = variant.buildType.orEmpty().ifEmpty { "nobuildtype" }
+        val variantTaskName = variant.name.replaceFirstChar { it.uppercase() }
+        val outputDir = layout.buildDirectory.dir("outputs/renamed-apk")
+
+        val renameTask =
+            tasks.register<Copy>("renameApk$variantTaskName") {
+                description =
+                    "Writes a timestamped, human-readable copy of the $variantTaskName APK."
+                group = "build"
+
+                // SingleArtifact.APK is a *directory* containing the APK(s) plus
+                // an output-metadata.json, hence the include filter. Wiring the
+                // provider in also carries the task dependency automatically, so
+                // this cannot run before packaging.
+                from(variant.artifacts.get(SingleArtifact.APK)) {
+                    include("*.apk")
+                }
+                into(outputDir)
+
+                // Timestamped names never match an existing output, so Gradle
+                // would otherwise pile up one APK per build — costly at ~62 MB
+                // each. Drop this variant's previous copies first. Uses plain
+                // java.io so the task stays configuration-cache compatible.
+                doFirst {
+                    val dir = outputDir.get().asFile
+                    if (dir.isDirectory) {
+                        dir.listFiles { file ->
+                            file.isFile &&
+                                file.name.startsWith("unsaid_") &&
+                                file.name.endsWith("_${flavorName}_$buildTypeName.apk")
+                        }?.forEach { it.delete() }
+                    }
+                }
+
+                rename {
+                    val stamp =
+                        LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))
+                    "unsaid_${stamp}_${resolvedVersionName}_${flavorName}_$buildTypeName.apk"
+                }
+            }
+
+        // `finalizedBy` rather than a `dependsOn`: the copy is a side effect of
+        // assembling, and must never be what triggers a build.
+        tasks.matching { it.name == "assemble$variantTaskName" }.configureEach {
+            finalizedBy(renameTask)
         }
     }
 }

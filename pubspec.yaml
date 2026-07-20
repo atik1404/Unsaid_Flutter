@@ -192,12 +192,14 @@ melos:
 
     # Production APK builds
     build:apk:production:release:
-      run: melos exec --scope="app" -- flutter build apk --target=lib/main.dart
-        --flavor production --release
+      run:
+        melos exec --scope="app" -- flutter build apk --target=lib/main_prod.dart
+        --flavor prod --release
       description: Build production APK (release mode)
 
     # Development APK builds
     build:apk:development:release:
-      run: melos exec --scope="app" -- flutter build apk --target=lib/main.dart
-        --flavor development --release
+      run:
+        melos exec --scope="app" -- flutter build apk --target=lib/main_dev.dart
+        --flavor dev --release
       description: Build development APK (release mode)
