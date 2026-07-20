@@ -14,12 +14,12 @@ Future<void> bootstrap(AppEnvironment environment) async {
 
   // ═══════════════════════════════════════════
   // 1. Environment Config (envied based)
+  //
+  // `AppConfig.of` resolves both axes at once: the environment (flavor) picks
+  // the base URLs and secrets, while the compile-time build variant picks the
+  // debug-feature set. Must run before DI, since the Dio clients read it.
   // ═══════════════════════════════════════════
-  final envConfig = switch (environment) {
-    AppEnvironment.dev => AppConfig.dev(DevEnv()),
-    AppEnvironment.prod => AppConfig.prod(ProdEnv()),
-  };
-  AppConfig.init(envConfig);
+  AppConfig.init(AppConfig.of(environment));
 
   // ═══════════════════════════════════════════
   // 2. Firebase
@@ -27,12 +27,16 @@ Future<void> bootstrap(AppEnvironment environment) async {
   final firebaseOptions = DefaultFirebaseOptions.currentPlatform;
   await Firebase.initializeApp(options: firebaseOptions);
 
-  await FirebaseAuth.instance.setSettings(appVerificationDisabledForTesting: true);
+  await FirebaseAuth.instance.setSettings(
+    appVerificationDisabledForTesting: true,
+  );
 
   // ═══════════════════════════════════════════
   // 3. Crashlytics — disable in dev mode
   // ═══════════════════════════════════════════
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(environment == AppEnvironment.prod);
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+    environment == AppEnvironment.prod,
+  );
 
   // ═══════════════════════════════════════════
   // 4. DI

@@ -1,4 +1,5 @@
 import java.util.Properties
+import java.io.File
 import java.io.FileInputStream
 
 plugins {
@@ -22,9 +23,33 @@ plugins {
 // ---------------------------------------------------------------------------
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("keystore.properties")
-val hasReleaseSigning = keystorePropertiesFile.exists()
-if (hasReleaseSigning) {
+if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
+// Resolve KEYSTORE_FILE against both plausible bases:
+//   - `app/`     — where CI materialises the keystore from GitHub Secrets
+//   - `android/` — where it is usually kept locally, beside keystore.properties
+// `file(...)` alone would only ever resolve against the module directory, so a
+// perfectly valid local setup would fail with "Keystore file not found".
+// Absolute paths work unchanged, as `file()` returns them as-is.
+val resolvedKeystoreFile: File? =
+    (keystoreProperties["KEYSTORE_FILE"] as String?)
+        ?.let { path -> listOf(file(path), rootProject.file(path)) }
+        ?.firstOrNull { it.exists() }
+
+// Release signing requires BOTH the properties file and the keystore it points
+// at. Checking only the former meant a missing/misplaced .jks failed the build
+// at `validateSigning...` instead of taking the documented debug-signing
+// fallback below.
+val hasReleaseSigning = keystorePropertiesFile.exists() && resolvedKeystoreFile != null
+
+if (keystorePropertiesFile.exists() && !hasReleaseSigning) {
+    logger.warn(
+        "keystore.properties found but KEYSTORE_FILE " +
+            "('${keystoreProperties["KEYSTORE_FILE"]}') could not be resolved — " +
+            "release builds will fall back to debug signing.",
+    )
 }
 
 // Flutter injects version information into `local.properties` via
@@ -73,15 +98,57 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    buildFeatures {
+        // Required from AGP 8+: BuildConfig generation is opt-in. We expose a
+        // small, non-secret set of fields (see below) so native/plugin code and
+        // crash reporting can tell which environment they are running in.
+        buildConfig = true
+    }
+
+    // -----------------------------------------------------------------------
+    // PRODUCT FLAVORS — "which backend / which app identity"
+    //
+    // A flavor answers exactly one question: *which environment is this?* It
+    // controls the application id, the user-visible label and which
+    // `google-services.json` is picked up (from src/<flavor>/). It deliberately
+    // does NOT decide anything about logging or shrinking — that is the build
+    // type's job (see `buildTypes`), which keeps the two axes independent:
+    //
+    //     flavor    → base URL + app identity + Firebase project
+    //     buildType → logging, debug tooling, R8
+    //
+    // Adding a new environment (qa, staging, uat, ...) is therefore a 3-step,
+    // additive change with no edits to existing flavors or build types:
+    //   1. add a `create("qa") { ... }` block here,
+    //   2. drop `src/qa/google-services.json` in place,
+    //   3. add the matching `AppEnvironment` value + `.env_qa` + entry point on
+    //      the Dart side (see core/app_env/README of AppConfig).
+    //
+    // NOTE ON BASE URLs: they are intentionally *not* declared here. The single
+    // source of truth for environment values is the Dart config layer
+    // (core/app_env, envied-backed) because all networking in this project is
+    // Dart/Dio — nothing on the JVM side consumes a URL. Declaring them in both
+    // places would create two sources of truth that could silently diverge.
+    // -----------------------------------------------------------------------
     flavorDimensions += "environment"
     productFlavors {
         create("dev") {
             dimension = "environment"
+            // Distinct application id so dev and prod can be installed
+            // side-by-side on one device. Must match the package name declared
+            // in src/dev/google-services.json.
             applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            manifestPlaceholders["appLabel"] = "Unsaid Dev"
+            buildConfigField("String", "ENVIRONMENT", "\"dev\"")
         }
 
         create("prod") {
-            
+            dimension = "environment"
+            // No applicationIdSuffix: prod owns the canonical package name
+            // `com.user.unsaid`, matching src/prod/google-services.json.
+            manifestPlaceholders["appLabel"] = "Unsaid"
+            buildConfigField("String", "ENVIRONMENT", "\"prod\"")
         }
     }
 
@@ -92,12 +159,29 @@ android {
             create("release") {
                 keyAlias = keystoreProperties["KEY_ALIAS"] as String
                 keyPassword = keystoreProperties["KEY_PASSWORD"] as String
-                storeFile = (keystoreProperties["KEYSTORE_FILE"] as String?)?.let { file(it) }
+                // Guaranteed non-null and existing: `hasReleaseSigning` is only
+                // true once the file has been resolved.
+                storeFile = resolvedKeystoreFile
                 storePassword = keystoreProperties["KEYSTORE_PASSWORD"] as String
             }
         }
     }
 
+    // -----------------------------------------------------------------------
+    // BUILD TYPES — "how is this built, and how noisy is it?"
+    //
+    // The build type owns shrinking/obfuscation and the debug-feature switch.
+    // Crossed with the two flavors above this yields exactly the four required
+    // variants:
+    //
+    //   devDebug    dev backend   · logging ON  · no shrinking   (local dev)
+    //   devRelease  dev backend   · logging OFF · R8 ON          (QA/nightly)
+    //   prodDebug   prod backend  · logging ON  · no shrinking   (debug prod)
+    //   prodRelease prod backend  · logging OFF · R8 ON          (store build)
+    //
+    // The Dart side derives the same on/off switch from `kDebugMode`, which maps
+    // 1:1 onto these build types — see core/app_env `DebugFeatures`.
+    // -----------------------------------------------------------------------
     buildTypes {
         release {
             // Sign with the real upload key when credentials are present, else
@@ -110,20 +194,41 @@ android {
                     signingConfigs.getByName("debug")
                 }
 
-            // R8/code shrinking is intentionally left OFF by default to avoid
-            // introducing runtime breakage. `proguard-rules.pro` is already in
-            // place; flip these two flags to `true` once the rules are verified
-            // end-to-end. When enabled, R8 emits build/.../mapping.txt which the
-            // CI pipeline already uploads as an artifact for crash de-obfuscation.
-            isMinifyEnabled = false
-            isShrinkResources = false
+            // R8: shrink, optimize and obfuscate. Keep rules live in
+            // `proguard-rules.pro`; `proguard-android-optimize.txt` supplies the
+            // platform defaults, and the Flutter Gradle plugin contributes the
+            // embedding's own rules automatically.
+            //
+            // R8 only ever sees the JVM half of the app (plugins, Firebase, the
+            // Flutter embedding). All Dart code is AOT-compiled into libapp.so
+            // and is untouched by shrinking.
+            //
+            // R8 emits build/.../mapping.txt, which the CI pipeline already
+            // uploads as an artifact for crash de-obfuscation.
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+
+            // Mirrors the Dart-side `DebugFeatures.disabled()` for any native or
+            // plugin code that needs to know. Dart does NOT read this — it uses
+            // `kDebugMode`, which is equivalent for these build types.
+            buildConfigField("boolean", "DEBUG_FEATURES_ENABLED", "false")
         }
+
         debug {
+            // No applicationIdSuffix here on purpose: the Firebase
+            // `google-services.json` files are registered against
+            // `com.user.unsaid` / `com.user.unsaid.dev`, and a `.debug` suffix
+            // would stop Google Services from resolving the app.
             signingConfig = signingConfigs.getByName("debug")
+
+            isMinifyEnabled = false
+            isShrinkResources = false
+
+            buildConfigField("boolean", "DEBUG_FEATURES_ENABLED", "true")
         }
     }
 }

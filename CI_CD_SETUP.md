@@ -12,6 +12,7 @@ monorepo (the buildable app lives in [`apps/`](apps/), Android project in
 - [Firebase App Distribution setup](#firebase-app-distribution-setup)
 - [Signing configuration](#signing-configuration)
 - [How to trigger each workflow](#how-to-trigger-each-workflow)
+- [Build variants](#build-variants)
 - [Versioning](#versioning)
 - [Branch protection (required checks)](#branch-protection-required-checks)
 - [Dependency updates](#dependency-updates)
@@ -229,18 +230,21 @@ KEY_PASSWORD=********
   signed release; otherwise the release build **automatically falls back to
   debug signing** so it still produces an installable APK.
 
-### Enabling R8 / code shrinking (optional)
+### R8 / code shrinking
 
-R8 is intentionally **off** to avoid runtime regressions. `proguard-rules.pro`
-is already wired up. When you're ready, flip in `build.gradle.kts`:
+R8 is **enabled** for both release variants (`devRelease`, `prodRelease`) —
+`isMinifyEnabled` and `isShrinkResources` are both `true`. Keep rules live in
+[`proguard-rules.pro`](apps/android/app/proguard-rules.pro), grouped by the
+library that needs them (Flutter embedding, Gson, Firebase, Play Core, WebView,
+Clarity, secure storage).
 
-```kotlin
-isMinifyEnabled = true
-isShrinkResources = true
-```
+R8 only processes the **JVM half** of the app. All Dart code is AOT-compiled
+into `libapp.so` and is never shrunk or obfuscated, so Dio and Dart-side JSON
+serialization need no rules. The risk surface is reflection from plugins.
 
-Once enabled, `mapping.txt` is produced and the pipeline automatically uploads
-it as an artifact (needed to de-obfuscate Crashlytics stack traces).
+`mapping.txt` is produced on every release build, and the pipeline already
+uploads it as an artifact — required to de-obfuscate Crashlytics stack traces.
+The rules keep `SourceFile,LineNumberTable` so line numbers survive.
 
 ---
 
@@ -256,6 +260,67 @@ it as an artifact (needed to de-obfuscate Crashlytics stack traces).
   ```
   Produces a GitHub Release with an auto changelog + attached APK.
 - **Security scans** — automatic on push/PR and weekly.
+
+---
+
+## Build variants
+
+Two independent axes produce the four variants:
+
+```
+  flavor    (dev | prod)      → base URL, app identity, Firebase project
+  buildType (debug | release) → logging, debug tooling, R8
+```
+
+| Variant | Backend | Logging | R8 | applicationId | Label |
+|---------|---------|---------|----|---------------|-------|
+| `devDebug` | development | ✅ all on | ❌ | `com.user.unsaid.dev` | Unsaid Dev |
+| `devRelease` | development | ❌ all off | ✅ | `com.user.unsaid.dev` | Unsaid Dev |
+| `prodDebug` | production | ✅ all on | ❌ | `com.user.unsaid` | Unsaid |
+| `prodRelease` | production | ❌ all off | ✅ | `com.user.unsaid` | Unsaid |
+
+**The flavor and the Dart entry point must be paired correctly** — Gradle's
+`--flavor` selects the app identity and `google-services.json`, while
+`--target` selects the base URL. Mismatching them yields a prod-signed app
+talking to the dev backend, with nothing to stop you:
+
+```bash
+# Run
+flutter run --flavor dev  --debug   --target=lib/main_dev.dart
+flutter run --flavor prod --debug   --target=lib/main_prod.dart
+
+# Build
+flutter build apk --flavor dev  --debug   --target=lib/main_dev.dart
+flutter build apk --flavor dev  --release --target=lib/main_dev.dart
+flutter build apk --flavor prod --debug   --target=lib/main_prod.dart
+flutter build apk --flavor prod --release --target=lib/main_prod.dart
+```
+
+Every CI workflow passes a matching pair via the `flavor` / `entry-target`
+inputs of `_ci.yml`.
+
+### Where variant behaviour is decided
+
+- **Base URL / secrets** — [`core/app_env`](core/app_env/), envied-backed
+  (`.env_development`, `.env_production`), surfaced through `AppConfig`.
+- **Debug features** — `DebugFeatures`, derived from `BuildVariant` (i.e.
+  `kDebugMode`), *never* from the environment. This is what keeps `devRelease`
+  silent while still pointing at the dev backend.
+- **Identity / shrinking** — [`build.gradle.kts`](apps/android/app/build.gradle.kts).
+
+Consume flags via `AppConfig.I.debugFeatures.<flag>`; never test `kDebugMode`
+inline at a call site.
+
+### Adding an environment (qa, staging, uat)
+
+Additive, with no edits to existing flavors or build types:
+
+1. `create("qa") { ... }` in `build.gradle.kts` + `src/qa/google-services.json`.
+2. `AppEnvironment.qa`, a `.env_qa` file and a `QaEnv` envied class.
+3. A branch in `AppConfig._envFieldsFor` and `apps/lib/main_qa.dart`.
+
+Nothing about logging needs touching — a QA *release* is silent for the same
+reason a prod release is.
 
 ---
 
@@ -316,6 +381,8 @@ run `melos bootstrap`, and commit the resulting lockfile.
 | `version solving failed` mentioning `analyzer` | Incompatible bump across `freezed` / `build_runner` / `intl_utils`. See [Dependency updates](#dependency-updates) — these must move together. |
 | `Could not locate built APK` | Flavor/mode mismatch. The APK glob expects `app-<flavor>-<mode>.apk`; confirm the `flavor`/`build-mode` inputs match `productFlavors` in `build.gradle.kts` (`dev`/`prod`). |
 | Release APK installs but is unsigned / "App not installed" | Signing secrets missing → debug fallback. Verify `KEYSTORE_BASE64` et al. are set on the repo. |
+| `No key with alias '<x>' found in keystore` | `KEY_ALIAS` in `keystore.properties` doesn't match the keystore. List the real aliases with `keytool -list -keystore <file>`. |
+| Release build crashes/misbehaves only when minified | An R8 keep rule is missing for a reflection-based plugin. Reproduce with `flutter build apk --flavor prod --release`, then add a targeted `-keep` to `proguard-rules.pro`. De-obfuscate the trace with the `mapping.txt` artifact. |
 | Firebase step: `INVALID_ARGUMENT` / `app not found` | `FIREBASE_APP_ID` doesn't match the built flavor's app, or the service account lacks the App Distribution Admin role. |
 | `keystoreProperties["KEY_ALIAS"]` cast error | `keystore.properties` is missing a key. All four keys (`KEYSTORE_FILE/PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`) are required when present. |
 | Gradle OOM | `org.gradle.jvmargs` is already `-Xmx8G` in `gradle.properties`; GitHub runners have ~7 GB. Lower to `-Xmx4G` if the build is killed. |
