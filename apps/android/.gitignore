@@ -1,4 +1,6 @@
-gradle-wrapper.jar
+# NOTE: gradle-wrapper.jar is intentionally committed (not ignored) so that
+# CI's `gradle/actions/wrapper-validation` can verify it, and so builds are
+# reproducible. The Flutter template ignores it by default — we override that.
 /.gradle
 /captures/
 /gradlew

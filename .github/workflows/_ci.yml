@@ -33,12 +33,12 @@ on:
       distribute:
         description: "Upload the APK to Firebase App Distribution."
         required: false
-        default: false
+        default: true
         type: boolean
       tester-groups:
         description: "Comma-separated Firebase App Distribution tester groups."
         required: false
-        default: "qa"
+        default: "primary"
         type: string
       run-tests:
         description: "Run unit tests during validation."
