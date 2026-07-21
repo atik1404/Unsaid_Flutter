@@ -29,21 +29,40 @@ jobs:
   codeql:
     name: CodeQL (Kotlin/Java)
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     permissions:
       security-events: write # upload results to code scanning
       contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # build-mode "none" analyses source directly — no Gradle build required,
-      # which keeps this fast and avoids the full Flutter codegen dance.
+      # Autobuild compiles the Kotlin/Java sources via Gradle, so the job needs
+      # the full Android + Flutter toolchain: the app's build.gradle drives the
+      # Flutter Gradle plugin, which reads flutter.sdk from local.properties.
+      # This composite installs the JDK, Flutter SDK, restores caches and
+      # bootstraps the workspace (incl. codegen the Flutter build depends on).
+      - name: Setup Flutter workspace
+        uses: ./.github/actions/setup-flutter
+
+      # Generate android/local.properties (flutter.sdk + sdk.dir) and the Gradle
+      # glue without a full build, so the autobuilder can resolve and compile
+      # the native sources.
+      - name: Prepare Android build config
+        working-directory: apps
+        run: flutter build apk --flavor dev --debug --target=lib/main_dev.dart --config-only
+
+      # build-mode "autobuild" runs the Gradle build so CodeQL can observe the
+      # Kotlin/Java compilation. Heavier than "none", but "none" cannot extract
+      # this project (the only native source is a Flutter stub MainActivity with
+      # imports that aren't resolvable without the build).
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: java-kotlin
-          build-mode: none
+          build-mode: autobuild
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v3
