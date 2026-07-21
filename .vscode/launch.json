@@ -31,7 +31,7 @@
             ]
         },
         {
-            "name": "Production",
+            "name": "Prod-Debug",
             "request": "launch",
             "type": "dart",
             "program": "apps/lib/main_prod.dart",
@@ -39,6 +39,19 @@
                 "--flavor",
                 "prod",
                 "--debug",
+                "--target",
+                "lib/main_prod.dart"
+            ]
+        },
+        {
+            "name": "Prod-Release",
+            "request": "launch",
+            "type": "dart",
+            "program": "apps/lib/main_prod.dart",
+            "args": [
+                "--flavor",
+                "prod",
+                "--release",
                 "--target",
                 "lib/main_prod.dart"
             ]
