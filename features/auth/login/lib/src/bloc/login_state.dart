@@ -25,6 +25,7 @@ abstract class LoginState with _$LoginState {
 
     /// Flip to `true` on the first submit attempt to reveal inline errors.
     @Default(false) bool showErrors,
+
     /// Flip to `true` to reveal the password text.
     @Default(false) bool showPassword,
 

@@ -16,15 +16,30 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     : super(const ChangePasswordState());
 
   void updateOldPassword(String value) {
-    emit(state.copyWith(oldPassword: PasswordInputValidator.dirty(value), errorMessage: null));
+    emit(
+      state.copyWith(
+        oldPassword: PasswordInputValidator.dirty(value),
+        errorMessage: null,
+      ),
+    );
   }
 
   void updateNewPassword(String value) {
-    emit(state.copyWith(newPassword: PasswordInputValidator.dirty(value), errorMessage: null));
+    emit(
+      state.copyWith(
+        newPassword: PasswordInputValidator.dirty(value),
+        errorMessage: null,
+      ),
+    );
   }
 
   void updateConfirmPassword(String value) {
-    emit(state.copyWith(confirmPassword: PasswordInputValidator.dirty(value), errorMessage: null));
+    emit(
+      state.copyWith(
+        confirmPassword: PasswordInputValidator.dirty(value),
+        errorMessage: null,
+      ),
+    );
   }
 
   /// Validates the form and, if valid, calls the change-password use case.
@@ -33,7 +48,9 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     // and flip `showError` so inline messages become visible from now on.
     final oldPassword = PasswordInputValidator.dirty(state.oldPassword.value);
     final newPassword = PasswordInputValidator.dirty(state.newPassword.value);
-    final confirmPassword = PasswordInputValidator.dirty(state.confirmPassword.value);
+    final confirmPassword = PasswordInputValidator.dirty(
+      state.confirmPassword.value,
+    );
 
     emit(
       state.copyWith(
@@ -46,12 +63,20 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     );
 
     // Abort early on any field-level error — the UI already shows them inline.
-    if (!oldPassword.isValid || !newPassword.isValid || !confirmPassword.isValid) return;
+    if (!oldPassword.isValid ||
+        !newPassword.isValid ||
+        !confirmPassword.isValid)
+      return;
 
     // New and confirm must match; the mismatch is surfaced inline by the UI.
     if (newPassword.value != confirmPassword.value) return;
 
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        errorMessage: null,
+      ),
+    );
 
     final result = await _changePasswordUseCase(
       ChangePasswordParams(
@@ -63,7 +88,11 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
 
     result.when(
       success: (message) => emit(
-        state.copyWith(status: FormzSubmissionStatus.success, successMessage: message, errorMessage: null),
+        state.copyWith(
+          status: FormzSubmissionStatus.success,
+          successMessage: message,
+          errorMessage: null,
+        ),
       ),
       failure: (error) {
         // Resolve the failure into a displayable message (raw string or l10n key).
@@ -72,7 +101,12 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
           LocaleKeyMessage(:final key) => key.name,
         };
 
-        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
       },
     );
   }

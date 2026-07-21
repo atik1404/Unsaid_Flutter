@@ -16,7 +16,10 @@ final class CreatePostScreenRouter implements BaseRouter {
           return buildPageWithTransition(
             state: state,
             child: BlocProvider(
-              create: (_) => CreatePostBloc(createPostUseCase: GetIt.I.get(), fetchTopicsUseCase: GetIt.I.get()),
+              create: (_) => CreatePostBloc(
+                createPostUseCase: GetIt.I.get(),
+                fetchTopicsUseCase: GetIt.I.get(),
+              ),
               child: CreatePostScreen(),
             ),
           );

@@ -15,7 +15,8 @@ import 'package:formz/formz.dart';
 class DeleteAccountCubit extends Cubit<DeleteAccountState> {
   final DeleteAccountUseCase _deleteAccountUseCase;
 
-  DeleteAccountCubit({required this._deleteAccountUseCase}) : super(const DeleteAccountState());
+  DeleteAccountCubit({required this._deleteAccountUseCase})
+    : super(const DeleteAccountState());
 
   /// Records the reason the user picked. Clearing the details when a non-"Other"
   /// reason is chosen keeps stale text from being submitted.
@@ -52,7 +53,13 @@ class DeleteAccountCubit extends Cubit<DeleteAccountState> {
       return;
     }
 
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress, showError: true, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        showError: true,
+        errorMessage: null,
+      ),
+    );
 
     final reason = state.selectedReason!;
     final details = state.otherDetails.trim();
@@ -65,7 +72,11 @@ class DeleteAccountCubit extends Cubit<DeleteAccountState> {
 
     result.when(
       success: (message) => emit(
-        state.copyWith(status: FormzSubmissionStatus.success, successMessage: message, errorMessage: null),
+        state.copyWith(
+          status: FormzSubmissionStatus.success,
+          successMessage: message,
+          errorMessage: null,
+        ),
       ),
       failure: (error) {
         // Resolve the failure into a displayable message (raw string or l10n key).
@@ -74,7 +85,12 @@ class DeleteAccountCubit extends Cubit<DeleteAccountState> {
           LocaleKeyMessage(:final key) => key.name,
         };
 
-        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
       },
     );
   }

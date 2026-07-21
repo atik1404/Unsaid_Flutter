@@ -54,5 +54,8 @@ final class AppScaffoldTheme extends ThemeExtension<AppScaffoldTheme> {
 
   // Note: Not fully implemented because currently I do not need smoothness, but the scope is kept.
   @override
-  ThemeExtension<AppScaffoldTheme> lerp(covariant ThemeExtension<AppScaffoldTheme>? other, double t) => this;
+  ThemeExtension<AppScaffoldTheme> lerp(
+    covariant ThemeExtension<AppScaffoldTheme>? other,
+    double t,
+  ) => this;
 }

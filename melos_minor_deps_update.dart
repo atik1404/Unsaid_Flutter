@@ -51,7 +51,9 @@ void main() async {
         final versionString = '^$newVersion';
 
         if (currentConfig != versionString) {
-          print('   ✅ Upgrading $packageName: $currentConfig -> $versionString');
+          print(
+            '   ✅ Upgrading $packageName: $currentConfig -> $versionString',
+          );
           editor.update([...path, packageName], versionString);
         }
       }

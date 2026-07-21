@@ -47,7 +47,10 @@ class ChangePasswordScreen extends StatelessWidget {
   /// failure. Pure side effects — no rebuilding happens here.
   void _onStateChanged(BuildContext context, ChangePasswordState state) {
     if (state.status.isSuccess) {
-      AppToast.toast(message: context.l10n.change_password_success, toastType: ToastType.success);
+      AppToast.toast(
+        message: context.l10n.change_password_success,
+        toastType: ToastType.success,
+      );
       // Reset so the form can be reused.
       context.read<ChangePasswordCubit>().resetState();
     } else if (state.status.isFailure && state.errorMessage != null) {

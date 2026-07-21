@@ -78,7 +78,10 @@ class ProfileHeader extends StatelessWidget {
 
               _InfoBox(
                 label: context.l10n.profile_stat_days,
-                value: DateTime.now().difference(profile.createdAt).inDays.toString(),
+                value: DateTime.now()
+                    .difference(profile.createdAt)
+                    .inDays
+                    .toString(),
                 color: context.appColors.contentWarning,
               ),
             ],
@@ -104,8 +107,16 @@ class ProfileHeader extends StatelessWidget {
 
   Widget _buildRegenerateAvatar(BuildContext context) {
     return AppTag(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
-      leading: AppIcon(Icon(CupertinoIcons.refresh, color: context.modeColors.neutral.textColor)),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.s8.w,
+        vertical: AppSpacing.s2.h,
+      ),
+      leading: AppIcon(
+        Icon(
+          CupertinoIcons.refresh,
+          color: context.modeColors.neutral.textColor,
+        ),
+      ),
       backgroundColor: context.modeColors.neutral.backgroundColor,
       child: AppText.bodySmall(
         context.l10n.profile_action_regenerate_avatar,
@@ -132,7 +143,10 @@ final class _InfoBox extends StatelessWidget {
       elevation: 2,
       tone: AppCardTone.secondary,
       variant: AppCardVariant.outline,
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s24.w, vertical: AppSpacing.s8.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.s24.w,
+        vertical: AppSpacing.s8.h,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

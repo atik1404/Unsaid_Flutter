@@ -84,12 +84,16 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void markAsRead(String id) {
-    final updated = state.notifications.map((n) => n.id == id ? n.copyWith(isRead: true) : n).toList();
+    final updated = state.notifications
+        .map((n) => n.id == id ? n.copyWith(isRead: true) : n)
+        .toList();
     emit(state.copyWith(notifications: updated));
   }
 
   void markAllAsRead() {
-    final updated = state.notifications.map((n) => n.copyWith(isRead: true)).toList();
+    final updated = state.notifications
+        .map((n) => n.copyWith(isRead: true))
+        .toList();
     emit(state.copyWith(notifications: updated));
   }
 

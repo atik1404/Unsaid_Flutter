@@ -3,7 +3,10 @@ import 'package:common/common.dart';
 sealed class Result<S, F extends Failure> {
   const Result();
 
-  R when<R>({required R Function(S data) success, required R Function(F failure) failure}) {
+  R when<R>({
+    required R Function(S data) success,
+    required R Function(F failure) failure,
+  }) {
     return switch (this) {
       SuccessResult<S, F>(data: final d) => success(d),
       FailureResult<S, F>(failure: final f) => failure(f),
@@ -19,7 +22,9 @@ sealed class Result<S, F extends Failure> {
   }
 
   /// Chain dependent async calls
-  Future<Result<R, F>> flatMap<R>(Future<Result<R, F>> Function(S data) transform) async {
+  Future<Result<R, F>> flatMap<R>(
+    Future<Result<R, F>> Function(S data) transform,
+  ) async {
     return switch (this) {
       SuccessResult<S, F>(data: final d) => transform(d),
       FailureResult<S, F>(failure: final f) => FailureResult(f),

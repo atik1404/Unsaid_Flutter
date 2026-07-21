@@ -154,7 +154,9 @@ class AppCard extends StatelessWidget {
   }
 
   ShapeBorder _resolveShape(Color borderColor) {
-    final side = borderColor == Colors.transparent ? BorderSide.none : BorderSide(color: borderColor);
+    final side = borderColor == Colors.transparent
+        ? BorderSide.none
+        : BorderSide(color: borderColor);
 
     return switch (_shape) {
       AppCardShape.pill => StadiumBorder(side: side),

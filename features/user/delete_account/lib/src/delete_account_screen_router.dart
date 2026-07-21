@@ -21,7 +21,9 @@ final class DeleteAccountScreenRouter implements BaseRouter {
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => DeleteAccountCubit(deleteAccountUseCase: GetIt.I<DeleteAccountUseCase>()),
+            create: (_) => DeleteAccountCubit(
+              deleteAccountUseCase: GetIt.I<DeleteAccountUseCase>(),
+            ),
             child: const DeleteAccountScreen(),
           ),
         ),

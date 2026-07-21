@@ -52,10 +52,13 @@ class AppButtonCore extends StatelessWidget {
     final textStyle = _textStyleFor(height, typography);
 
     final isInteractive = onPressed != null && !isLoading;
-    final hasGradient = variant == AppButtonVariant.filled && colors.gradient != null;
+    final hasGradient =
+        variant == AppButtonVariant.filled && colors.gradient != null;
 
     // Dismiss the soft keyboard on every button press, app-wide.
-    final effectiveOnPressed = isLoading ? null : _withKeyboardDismiss(onPressed);
+    final effectiveOnPressed = isLoading
+        ? null
+        : _withKeyboardDismiss(onPressed);
 
     if (hasGradient) {
       return Opacity(
@@ -81,7 +84,9 @@ class AppButtonCore extends StatelessWidget {
                 ),
                 shape: _resolveShape(),
                 padding: padding,
-                tapTargetSize: shrinkWrap ? MaterialTapTargetSize.shrinkWrap : null,
+                tapTargetSize: shrinkWrap
+                    ? MaterialTapTargetSize.shrinkWrap
+                    : null,
                 minimumSize: shrinkWrap ? Size.zero : null,
               ),
               child: _buildChild(
@@ -95,11 +100,17 @@ class AppButtonCore extends StatelessWidget {
       );
     }
 
-    final effectiveForeground = isInteractive ? colors.foreground : colors.foreground.withValues(alpha: _disabledOpacity);
+    final effectiveForeground = isInteractive
+        ? colors.foreground
+        : colors.foreground.withValues(alpha: _disabledOpacity);
 
-    final disabledBackground = variant == AppButtonVariant.filled ? colors.background.withValues(alpha: _disabledOpacity) : Colors.transparent;
+    final disabledBackground = variant == AppButtonVariant.filled
+        ? colors.background.withValues(alpha: _disabledOpacity)
+        : Colors.transparent;
 
-    final overlayColor = variant == AppButtonVariant.filled ? null : colors.foreground.withValues(alpha: _hoverOverlayOpacity);
+    final overlayColor = variant == AppButtonVariant.filled
+        ? null
+        : colors.foreground.withValues(alpha: _hoverOverlayOpacity);
 
     return SizedBox(
       height: shrinkWrap ? null : dims.height,
@@ -110,7 +121,9 @@ class AppButtonCore extends StatelessWidget {
           elevation: 0,
           backgroundColor: colors.background,
           foregroundColor: colors.foreground,
-          disabledBackgroundColor: isLoading ? colors.background : disabledBackground,
+          disabledBackgroundColor: isLoading
+              ? colors.background
+              : disabledBackground,
           side: _resolveBorderSide(colors, isInteractive),
           overlayColor: overlayColor,
           shadowColor: Colors.transparent,
@@ -136,7 +149,9 @@ class AppButtonCore extends StatelessWidget {
 
   BorderSide? _resolveBorderSide(AppButtonColors colors, bool isInteractive) {
     if (variant != AppButtonVariant.outline) return null;
-    final color = isInteractive ? colors.border : colors.border.withValues(alpha: _disabledOpacity);
+    final color = isInteractive
+        ? colors.border
+        : colors.border.withValues(alpha: _disabledOpacity);
     return BorderSide(color: color);
   }
 
@@ -155,11 +170,12 @@ class AppButtonCore extends StatelessWidget {
     AppButtonHeight.lg => const _ButtonDimensions(height: 56, loadingSize: 20),
   };
 
-  TextStyle _textStyleFor(AppButtonHeight h, AppTypographyTheme t) => switch (h) {
-    AppButtonHeight.sm => t.labelSmall,
-    AppButtonHeight.md => t.labelMedium,
-    AppButtonHeight.lg => t.labelLarge,
-  };
+  TextStyle _textStyleFor(AppButtonHeight h, AppTypographyTheme t) =>
+      switch (h) {
+        AppButtonHeight.sm => t.labelSmall,
+        AppButtonHeight.md => t.labelMedium,
+        AppButtonHeight.lg => t.labelLarge,
+      };
 
   Widget _buildChild(
     Color contentColor,

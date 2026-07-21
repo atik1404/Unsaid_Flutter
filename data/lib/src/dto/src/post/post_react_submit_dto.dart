@@ -11,7 +11,8 @@ class PostReactSubmitDto {
 
   const PostReactSubmitDto({this.statusCode, this.message, this.data});
 
-  factory PostReactSubmitDto.fromJson(Map<String, dynamic> json) => _$PostReactSubmitDtoFromJson(json);
+  factory PostReactSubmitDto.fromJson(Map<String, dynamic> json) =>
+      _$PostReactSubmitDtoFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -24,5 +25,6 @@ class ReactData {
 
   const ReactData({this.postId, this.react, this.reactionCount});
 
-  factory ReactData.fromJson(Map<String, dynamic> json) => _$ReactDataFromJson(json);
+  factory ReactData.fromJson(Map<String, dynamic> json) =>
+      _$ReactDataFromJson(json);
 }

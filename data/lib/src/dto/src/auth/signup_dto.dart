@@ -13,7 +13,14 @@ class SignupDto {
   final String? expirationDate;
   final int? statusCode;
 
-  const SignupDto({this.message, this.authToken, this.refreshToken, this.expirationDate, this.statusCode});
+  const SignupDto({
+    this.message,
+    this.authToken,
+    this.refreshToken,
+    this.expirationDate,
+    this.statusCode,
+  });
 
-  factory SignupDto.fromJson(Map<String, dynamic> json) => _$SignupDtoFromJson(json);
+  factory SignupDto.fromJson(Map<String, dynamic> json) =>
+      _$SignupDtoFromJson(json);
 }

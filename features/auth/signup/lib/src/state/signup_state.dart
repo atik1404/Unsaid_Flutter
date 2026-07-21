@@ -19,7 +19,8 @@ abstract class SignupState with _$SignupState {
 
   const SignupState._();
 
-  bool get isValid => phone.isValid && password.isValid && name.isValid && email.isValid;
+  bool get isValid =>
+      phone.isValid && password.isValid && name.isValid && email.isValid;
 
   bool get isLoading => status == FormzSubmissionStatus.inProgress;
 }

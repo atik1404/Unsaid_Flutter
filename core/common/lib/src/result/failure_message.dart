@@ -1,4 +1,3 @@
-
 import 'package:common/src/enums/failure_key.dart';
 
 sealed class FailureMessage {

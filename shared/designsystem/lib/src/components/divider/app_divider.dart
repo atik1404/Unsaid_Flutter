@@ -90,7 +90,9 @@ class AppDivider extends StatelessWidget {
 
   Widget _buildPatterned(Color color) {
     final isHorizontal = direction == Axis.horizontal;
-    final segmentWidth = variant == AppDividerVariant.dashed ? dashWidth : dotWidth;
+    final segmentWidth = variant == AppDividerVariant.dashed
+        ? dashWidth
+        : dotWidth;
 
     return Padding(
       padding: _resolvePadding(),
@@ -102,7 +104,9 @@ class AppDivider extends StatelessWidget {
           gapWidth: gapWidth,
           direction: direction,
         ),
-        size: isHorizontal ? const Size(double.infinity, 1) : const Size(1, double.infinity),
+        size: isHorizontal
+            ? const Size(double.infinity, 1)
+            : const Size(1, double.infinity),
       ),
     );
   }
@@ -159,9 +163,13 @@ class _PatternedDividerPainter extends CustomPainter {
     while (current < totalLength) {
       final segmentEnd = (current + dashWidth).clamp(0, totalLength).toDouble();
 
-      final start = isHorizontal ? Offset(current, center) : Offset(center, current);
+      final start = isHorizontal
+          ? Offset(current, center)
+          : Offset(center, current);
 
-      final end = isHorizontal ? Offset(segmentEnd, center) : Offset(center, segmentEnd);
+      final end = isHorizontal
+          ? Offset(segmentEnd, center)
+          : Offset(center, segmentEnd);
 
       canvas.drawLine(start, end, paint);
 
@@ -171,6 +179,10 @@ class _PatternedDividerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _PatternedDividerPainter oldDelegate) {
-    return color != oldDelegate.color || thickness != oldDelegate.thickness || dashWidth != oldDelegate.dashWidth || gapWidth != oldDelegate.gapWidth || direction != oldDelegate.direction;
+    return color != oldDelegate.color ||
+        thickness != oldDelegate.thickness ||
+        dashWidth != oldDelegate.dashWidth ||
+        gapWidth != oldDelegate.gapWidth ||
+        direction != oldDelegate.direction;
   }
 }

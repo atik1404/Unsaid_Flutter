@@ -108,7 +108,9 @@ class _NotificationContent extends StatelessWidget {
       children: [
         AppText.bodySmall(
           notification.title,
-          textWeight: notification.isRead ? AppTextWeight.regular : AppTextWeight.semiBold,
+          textWeight: notification.isRead
+              ? AppTextWeight.regular
+              : AppTextWeight.semiBold,
           color: context.appColors.contentPrimary,
         ),
         SizedBox(height: AppSpacing.s2.h),

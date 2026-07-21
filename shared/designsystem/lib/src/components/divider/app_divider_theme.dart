@@ -37,5 +37,8 @@ class AppDividerTheme extends ThemeExtension<AppDividerTheme> {
 
   // Note: Not fully implemented because currently I do not need smoothness, but the scope is kept.
   @override
-  ThemeExtension<AppDividerTheme> lerp(covariant ThemeExtension<AppDividerTheme>? other, double t) => this;
+  ThemeExtension<AppDividerTheme> lerp(
+    covariant ThemeExtension<AppDividerTheme>? other,
+    double t,
+  ) => this;
 }

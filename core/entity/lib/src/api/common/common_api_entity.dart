@@ -3,5 +3,9 @@ final class CommonApiEntity {
   final bool exists;
   final int statusCode;
 
-  const CommonApiEntity({required this.message, required this.exists, required this.statusCode});
+  const CommonApiEntity({
+    required this.message,
+    required this.exists,
+    required this.statusCode,
+  });
 }

@@ -14,7 +14,11 @@ final class PostDetailsCard extends StatelessWidget {
   final PostDetailsEntity postDetails;
   final Function(String) onReaction;
 
-  const PostDetailsCard({super.key, required this.postDetails, required this.onReaction});
+  const PostDetailsCard({
+    super.key,
+    required this.postDetails,
+    required this.onReaction,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,12 @@ final class PostDetailsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPostHeader(BuildContext context, Color textColor, Color bgColor, Color strokeColor) {
+  Widget _buildPostHeader(
+    BuildContext context,
+    Color textColor,
+    Color bgColor,
+    Color strokeColor,
+  ) {
     return Row(
       children: [
         AppImage.network(
@@ -96,7 +105,10 @@ final class PostDetailsCard extends StatelessWidget {
 
   Widget _buildTag(String tag, Color textColor, Color bgColor) {
     return AppTag(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.s8.w,
+        vertical: AppSpacing.s2.h,
+      ),
       backgroundColor: bgColor,
       child: AppText.captionSmall(
         tag.toUpperCase(),
@@ -115,18 +127,28 @@ final class PostDetailsCard extends StatelessWidget {
           builder: (context, state) {
             return InlineIconLabel(
               onTap: () => onReaction(postDetails.postId),
-              text: AppText.captionSmall(postDetails.reactionCount.toString(), color: colors.contentTertiary),
+              text: AppText.captionSmall(
+                postDetails.reactionCount.toString(),
+                color: colors.contentTertiary,
+              ),
               horizontalGap: AppSpacing.s4.w,
               leadingWidget: Icon(
-                state.postDetails!.isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                state.postDetails!.isReacted
+                    ? CupertinoIcons.heart_fill
+                    : CupertinoIcons.heart,
                 size: IconSizes.inline,
-                color: state.postDetails!.isReacted ? colors.secondary : colors.contentTertiary,
+                color: state.postDetails!.isReacted
+                    ? colors.secondary
+                    : colors.contentTertiary,
               ),
             );
           },
         ),
         InlineIconLabel(
-          text: AppText.captionSmall(postDetails.score.toString(), color: colors.contentTertiary),
+          text: AppText.captionSmall(
+            postDetails.score.toString(),
+            color: colors.contentTertiary,
+          ),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: AppImage.asset(
             AppDrawables.icFlame,
@@ -137,7 +159,10 @@ final class PostDetailsCard extends StatelessWidget {
         ),
 
         InlineIconLabel(
-          text: AppText.captionSmall(postDetails.commentCount.toString(), color: colors.contentTertiary),
+          text: AppText.captionSmall(
+            postDetails.commentCount.toString(),
+            color: colors.contentTertiary,
+          ),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.chat_bubble,

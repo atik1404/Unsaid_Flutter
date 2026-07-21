@@ -29,14 +29,18 @@ class EditProfileForm extends StatelessWidget {
         _FieldLabel(context.l10n.edit_profile_label_name),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<EditProfileCubit, EditProfileState>(
-          buildWhen: (prev, curr) => prev.fullName != curr.fullName || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.fullName != curr.fullName ||
+              prev.showError != curr.showError,
           builder: (context, state) {
             return _ProfileField(
               initialValue: initial.initialFullName,
               hint: context.l10n.edit_profile_hint_name,
               keyboardType: TextInputType.name,
               maxLength: 30,
-              errorText: state.showError ? _nameErrorText(context, state.fullName.error) : null,
+              errorText: state.showError
+                  ? _nameErrorText(context, state.fullName.error)
+                  : null,
               onChanged: cubit.updateFullName,
             );
           },
@@ -47,13 +51,16 @@ class EditProfileForm extends StatelessWidget {
         _FieldLabel(context.l10n.edit_profile_label_email),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<EditProfileCubit, EditProfileState>(
-          buildWhen: (prev, curr) => prev.email != curr.email || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.email != curr.email || prev.showError != curr.showError,
           builder: (context, state) {
             return _ProfileField(
               initialValue: initial.initialEmail,
               hint: context.l10n.edit_profile_hint_email,
               keyboardType: TextInputType.emailAddress,
-              errorText: state.showError ? _emailErrorText(context, state.email.error) : null,
+              errorText: state.showError
+                  ? _emailErrorText(context, state.email.error)
+                  : null,
               onChanged: cubit.updateEmail,
             );
           },
@@ -64,14 +71,17 @@ class EditProfileForm extends StatelessWidget {
         _FieldLabel(context.l10n.edit_profile_label_phone),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<EditProfileCubit, EditProfileState>(
-          buildWhen: (prev, curr) => prev.phone != curr.phone || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.phone != curr.phone || prev.showError != curr.showError,
           builder: (context, state) {
             return _ProfileField(
               initialValue: initial.initialPhone,
               hint: context.l10n.edit_profile_hint_phone,
               keyboardType: TextInputType.phone,
               maxLength: 11,
-              errorText: state.showError ? _phoneErrorText(context, state.phone.error) : null,
+              errorText: state.showError
+                  ? _phoneErrorText(context, state.phone.error)
+                  : null,
               onChanged: cubit.updatePhone,
             );
           },
@@ -82,7 +92,8 @@ class EditProfileForm extends StatelessWidget {
         _FieldLabel(context.l10n.edit_profile_label_bio),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<EditProfileCubit, EditProfileState>(
-          buildWhen: (prev, curr) => prev.bio != curr.bio || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.bio != curr.bio || prev.showError != curr.showError,
           builder: (context, state) {
             return _ProfileField(
               initialValue: initial.initialBio,
@@ -92,7 +103,9 @@ class EditProfileForm extends StatelessWidget {
               maxLines: 4,
               minLines: 3,
               textInputAction: TextInputAction.newline,
-              errorText: state.showError ? _bioErrorText(context, state.bio.error) : null,
+              errorText: state.showError
+                  ? _bioErrorText(context, state.bio.error)
+                  : null,
               onChanged: cubit.updateBio,
             );
           },

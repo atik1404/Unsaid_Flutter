@@ -98,9 +98,15 @@ final class AuthRepoImpl implements AuthRepository {
       await _prefStorage.write(PrefKey.anonymousName, identity.fullName);
       await _prefStorage.write(PrefKey.email, identity.email);
       await _prefStorage.write(PrefKey.phoneNumber, identity.phoneE164);
-      await _prefStorage.write(PrefKey.profilePicture, result.data.avatarSeed.toString());
+      await _prefStorage.write(
+        PrefKey.profilePicture,
+        result.data.avatarSeed.toString(),
+      );
       await _prefStorage.write(PrefKey.userId, result.data.id);
-      await _prefStorage.write(PrefKey.dateOfBirth, result.data.identity.dateOfBirth.toString());
+      await _prefStorage.write(
+        PrefKey.dateOfBirth,
+        result.data.identity.dateOfBirth.toString(),
+      );
     }
     return result;
   }
@@ -136,7 +142,9 @@ final class AuthRepoImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<CommonApiEntity, Failure>> checkUserExistence(UserParams params) async {
+  Future<Result<CommonApiEntity, Failure>> checkUserExistence(
+    UserParams params,
+  ) async {
     final result = await _client.post(
       '/auth/check-user',
       data: params.toJson(),

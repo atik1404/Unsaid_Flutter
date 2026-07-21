@@ -10,7 +10,9 @@ class SplashCubit extends Cubit<SplashState> {
   final FetchProfileUseCase _fetchProfileUseCase;
   final _prefStorage = GetIt.I.get<AppPrefStorage>();
 
-  SplashCubit({required FetchProfileUseCase fetchProfileUseCase}) : _fetchProfileUseCase = fetchProfileUseCase, super(const SplashState.loading()) {
+  SplashCubit({required FetchProfileUseCase fetchProfileUseCase})
+    : _fetchProfileUseCase = fetchProfileUseCase,
+      super(const SplashState.loading()) {
     Future.microtask(checkAuthorization);
   }
 
@@ -25,9 +27,17 @@ class SplashCubit extends Cubit<SplashState> {
     } else {
       await Future.delayed(const Duration(seconds: 2));
       if (!isIntroScreenVisible) {
-        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.onboardingScreen));
+        emit(
+          const SplashState.navigateToNextScreen(
+            redirect: AppRouteName.onboardingScreen,
+          ),
+        );
       } else {
-        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.homeScreen));
+        emit(
+          const SplashState.navigateToNextScreen(
+            redirect: AppRouteName.homeScreen,
+          ),
+        );
       }
     }
   }
@@ -39,7 +49,11 @@ class SplashCubit extends Cubit<SplashState> {
 
     result.when(
       success: (data) {
-        emit(const SplashState.navigateToNextScreen(redirect: AppRouteName.homeScreen));
+        emit(
+          const SplashState.navigateToNextScreen(
+            redirect: AppRouteName.homeScreen,
+          ),
+        );
       },
       failure: (failure) {
         final message = switch (failure.message) {

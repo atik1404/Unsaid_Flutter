@@ -25,11 +25,16 @@ class DeleteReasonTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.s16.w, vertical: AppSpacing.s12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.s16.w,
+          vertical: AppSpacing.s12.h,
+        ),
         child: Row(
           children: [
             Icon(
-              selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+              selected
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_unchecked,
               color: selected ? colors.brand : colors.contentTertiary,
               size: AppSpacing.s24.r,
             ),
@@ -37,8 +42,12 @@ class DeleteReasonTile extends StatelessWidget {
             Expanded(
               child: AppText.bodyMedium(
                 label,
-                color: selected ? colors.contentPrimary : colors.contentSecondary,
-                textWeight: selected ? AppTextWeight.semiBold : AppTextWeight.regular,
+                color: selected
+                    ? colors.contentPrimary
+                    : colors.contentSecondary,
+                textWeight: selected
+                    ? AppTextWeight.semiBold
+                    : AppTextWeight.regular,
               ),
             ),
           ],

@@ -130,7 +130,8 @@ class _MoodListHorizontalView extends StatelessWidget {
               return MoodPillItem(
                 mood: moodType.name,
                 isSelected: moodType == selectedMood,
-                onTap: () => context.read<HomeBloc>().add(SelectMoodEvent(moodType)),
+                onTap: () =>
+                    context.read<HomeBloc>().add(SelectMoodEvent(moodType)),
               );
             },
           ),
@@ -169,7 +170,9 @@ class _PostListView extends StatelessWidget {
 
         return ListView.separated(
           controller: scrollController,
-          itemCount: state.hasReachedMax ? state.posts.length : state.posts.length + 1,
+          itemCount: state.hasReachedMax
+              ? state.posts.length
+              : state.posts.length + 1,
           separatorBuilder: (_, _) => SizedBox(height: AppSpacing.s16.h),
           itemBuilder: (context, index) {
             if (index >= state.posts.length) {
@@ -177,12 +180,19 @@ class _PostListView extends StatelessWidget {
             }
             return PostCard(
               post: state.posts[index],
-              onTap: () => context.pushNamed(AppRouteName.postDetailsScreen, extra: state.posts[index].id),
+              onTap: () => context.pushNamed(
+                AppRouteName.postDetailsScreen,
+                extra: state.posts[index].id,
+              ),
               onReact: () {
                 if (state.posts[index].isReacted) {
-                  context.read<HomeBloc>().add(RemoveReactEvent(state.posts[index].id));
+                  context.read<HomeBloc>().add(
+                    RemoveReactEvent(state.posts[index].id),
+                  );
                 } else {
-                  context.read<HomeBloc>().add(AddReactEvent(state.posts[index].id));
+                  context.read<HomeBloc>().add(
+                    AddReactEvent(state.posts[index].id),
+                  );
                 }
               },
             );

@@ -21,7 +21,8 @@ extension CommentDataMapper on CommentData? {
     reactionCount: this?.reactionCount ?? 0,
     reportCount: this?.reportCount ?? 0,
     score: this?.score ?? 0,
-    authorName: '${this?.author?.anonymousTag ?? ''}-${this?.author?.fullName ?? ''}',
+    authorName:
+        '${this?.author?.anonymousTag ?? ''}-${this?.author?.fullName ?? ''}',
     authorAvatar: this?.author?.avatarSeed?.toString() ?? '',
   );
 }

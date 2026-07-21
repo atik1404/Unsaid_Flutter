@@ -25,13 +25,22 @@ class DeleteAllPostsBottomSheet extends StatelessWidget {
       listener: _onStateChanged,
       child: Padding(
         // Lift the sheet above the keyboard while the user types.
-        padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.viewInsetsOf(context).bottom,
+        ),
         child: Container(
           decoration: BoxDecoration(
             color: colors.backgroundPrimary,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(AppSpacing.s24.r)),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(AppSpacing.s24.r),
+            ),
           ),
-          padding: EdgeInsets.fromLTRB(AppSpacing.s24.w, AppSpacing.s12.h, AppSpacing.s24.w, AppSpacing.s24.h),
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.s24.w,
+            AppSpacing.s12.h,
+            AppSpacing.s24.w,
+            AppSpacing.s24.h,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +49,11 @@ class DeleteAllPostsBottomSheet extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: AppIconButton(
-                  Icon(CupertinoIcons.xmark, color: colors.contentSecondary, size: AppSpacing.s24.r),
+                  Icon(
+                    CupertinoIcons.xmark,
+                    color: colors.contentSecondary,
+                    size: AppSpacing.s24.r,
+                  ),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
@@ -69,7 +82,9 @@ class DeleteAllPostsBottomSheet extends StatelessWidget {
                 hint: context.l10n.delete_all_posts_hint,
                 variant: AppInputFieldVariant.filled,
                 textInputAction: TextInputAction.done,
-                onChanged: context.read<DeleteAllPostsCubit>().updateConfirmationText,
+                onChanged: context
+                    .read<DeleteAllPostsCubit>()
+                    .updateConfirmationText,
               ),
               SizedBox(height: AppSpacing.s24.h),
               const _ActionButtons(),
@@ -84,7 +99,9 @@ class DeleteAllPostsBottomSheet extends StatelessWidget {
   /// failure: surface the error via a toast.
   void _onStateChanged(BuildContext context, DeleteAllPostsState state) {
     if (state.status.isSuccess) {
-      final message = (state.successMessage?.isNotEmpty ?? false) ? state.successMessage! : context.l10n.delete_all_posts_success;
+      final message = (state.successMessage?.isNotEmpty ?? false)
+          ? state.successMessage!
+          : context.l10n.delete_all_posts_success;
       AppToast.toast(message: message, toastType: ToastType.success);
       Navigator.of(context).pop();
     } else if (state.status.isFailure && state.errorMessage != null) {
@@ -113,14 +130,18 @@ class _ActionButtons extends StatelessWidget {
         Expanded(
           // Rebuilds only when the confirmation match or submission status changes.
           child: BlocBuilder<DeleteAllPostsCubit, DeleteAllPostsState>(
-            buildWhen: (prev, curr) => prev.isConfirmed != curr.isConfirmed || prev.status != curr.status,
+            buildWhen: (prev, curr) =>
+                prev.isConfirmed != curr.isConfirmed ||
+                prev.status != curr.status,
             builder: (context, state) {
               final isLoading = state.status.isInProgress;
               return AppFilledButton.text(
                 context.l10n.delete_all_posts_delete_button,
                 isLoading: isLoading,
                 // Armed only when the keyword matches; null disables the button.
-                onPressed: state.isConfirmed && !isLoading ? context.read<DeleteAllPostsCubit>().deleteAllPosts : null,
+                onPressed: state.isConfirmed && !isLoading
+                    ? context.read<DeleteAllPostsCubit>().deleteAllPosts
+                    : null,
                 style: AppFilledButtonStyle(
                   intent: AppButtonIntent.custom(
                     AppButtonVariantSet.standard(

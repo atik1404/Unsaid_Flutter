@@ -16,9 +16,17 @@ class DataDiModule {
 
     final tokenRefreshDio = DioFactory.createTokenRefreshClient();
     getIt
-      ..registerSingleton<Dio>(tokenRefreshDio, instanceName: _tokenRefreshClientName)
+      ..registerSingleton<Dio>(
+        tokenRefreshDio,
+        instanceName: _tokenRefreshClientName,
+      )
       // API Dio — base URL for all JSON endpoints
-      ..registerSingleton<Dio>(DioFactory.create(prefStorage: prefStorage, tokenRefreshDio: tokenRefreshDio))
+      ..registerSingleton<Dio>(
+        DioFactory.create(
+          prefStorage: prefStorage,
+          tokenRefreshDio: tokenRefreshDio,
+        ),
+      )
       ..registerSingleton<RestClient>(RestClient(getIt<Dio>()))
       // Image Dio — separate host/port for multipart image uploads
       ..registerSingleton<Dio>(

@@ -29,11 +29,15 @@ class PasswordForm extends StatelessWidget {
         _FieldLabel(context.l10n.change_password_label_old),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
-          buildWhen: (prev, curr) => prev.oldPassword != curr.oldPassword || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.oldPassword != curr.oldPassword ||
+              prev.showError != curr.showError,
           builder: (context, state) {
             return _PasswordField(
               hint: context.l10n.change_password_hint_old,
-              errorText: state.showError ? _passwordErrorText(context, state.oldPassword.error) : null,
+              errorText: state.showError
+                  ? _passwordErrorText(context, state.oldPassword.error)
+                  : null,
               onChanged: cubit.updateOldPassword,
             );
           },
@@ -44,11 +48,15 @@ class PasswordForm extends StatelessWidget {
         _FieldLabel(context.l10n.change_password_label_new),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
-          buildWhen: (prev, curr) => prev.newPassword != curr.newPassword || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.newPassword != curr.newPassword ||
+              prev.showError != curr.showError,
           builder: (context, state) {
             return _PasswordField(
               hint: context.l10n.change_password_hint_new,
-              errorText: state.showError ? _passwordErrorText(context, state.newPassword.error) : null,
+              errorText: state.showError
+                  ? _passwordErrorText(context, state.newPassword.error)
+                  : null,
               onChanged: cubit.updateNewPassword,
             );
           },
@@ -59,11 +67,16 @@ class PasswordForm extends StatelessWidget {
         _FieldLabel(context.l10n.change_password_label_confirm),
         SizedBox(height: AppSpacing.s4.h),
         BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
-          buildWhen: (prev, curr) => prev.confirmPassword != curr.confirmPassword || prev.newPassword != curr.newPassword || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.confirmPassword != curr.confirmPassword ||
+              prev.newPassword != curr.newPassword ||
+              prev.showError != curr.showError,
           builder: (context, state) {
             return _PasswordField(
               hint: context.l10n.change_password_hint_confirm,
-              errorText: state.showError ? _confirmErrorText(context, state) : null,
+              errorText: state.showError
+                  ? _confirmErrorText(context, state)
+                  : null,
               onChanged: cubit.updateConfirmPassword,
             );
           },
@@ -136,7 +149,11 @@ class _PasswordField extends StatefulWidget {
   final String? errorText;
   final ValueChanged<String> onChanged;
 
-  const _PasswordField({required this.hint, required this.onChanged, this.errorText});
+  const _PasswordField({
+    required this.hint,
+    required this.onChanged,
+    this.errorText,
+  });
 
   @override
   State<_PasswordField> createState() => _PasswordFieldState();
@@ -158,7 +175,9 @@ class _PasswordFieldState extends State<_PasswordField> {
       suffixIcon: AppIcon(
         GestureDetector(
           onTap: () => setState(() => _obscured = !_obscured),
-          child: Icon(_obscured ? CupertinoIcons.eye_slash : CupertinoIcons.eye),
+          child: Icon(
+            _obscured ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+          ),
         ),
       ),
     );

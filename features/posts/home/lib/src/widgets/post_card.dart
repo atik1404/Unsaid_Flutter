@@ -14,7 +14,12 @@ class PostCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onReact;
 
-  const PostCard({super.key, required this.post, required this.onTap, required this.onReact});
+  const PostCard({
+    super.key,
+    required this.post,
+    required this.onTap,
+    required this.onReact,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +82,13 @@ class _PostHeader extends StatelessWidget {
   final String avatar;
   final Color borderColor;
 
-  const _PostHeader({required this.mood, required this.authorName, required this.dateTime, required this.borderColor, required this.avatar});
+  const _PostHeader({
+    required this.mood,
+    required this.authorName,
+    required this.dateTime,
+    required this.borderColor,
+    required this.avatar,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +155,10 @@ class _MoodTag extends StatelessWidget {
   Widget build(BuildContext context) {
     final (bg, text, _) = MoodDecoration.getColor(context, tag: tag);
     return AppTag(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.s8.w,
+        vertical: AppSpacing.s2.h,
+      ),
       backgroundColor: bg,
       child: AppText.captionSmall(tag, color: text),
     );
@@ -186,7 +200,10 @@ class _PostActions extends StatelessWidget {
         ),
         InlineIconLabel(
           onTap: onReact,
-          text: AppText.captionSmall(reactionCount.toString(), color: colors.contentTertiary),
+          text: AppText.captionSmall(
+            reactionCount.toString(),
+            color: colors.contentTertiary,
+          ),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             isReacted ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
@@ -195,7 +212,10 @@ class _PostActions extends StatelessWidget {
           ),
         ),
         InlineIconLabel(
-          text: AppText.captionSmall('$commentCount', color: colors.contentTertiary),
+          text: AppText.captionSmall(
+            '$commentCount',
+            color: colors.contentTertiary,
+          ),
           horizontalGap: AppSpacing.s4.w,
           leadingWidget: Icon(
             CupertinoIcons.chat_bubble,

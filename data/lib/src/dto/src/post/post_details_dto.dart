@@ -56,5 +56,6 @@ class PostDetailsDto {
     this.isReacted,
   });
 
-  factory PostDetailsDto.fromJson(Map<String, dynamic> json) => _$PostDetailsDtoFromJson(json);
+  factory PostDetailsDto.fromJson(Map<String, dynamic> json) =>
+      _$PostDetailsDtoFromJson(json);
 }

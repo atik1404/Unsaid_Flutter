@@ -23,9 +23,13 @@ class MoodPillItem extends StatelessWidget {
   Widget _buildMoodPillItem(
     BuildContext context,
   ) {
-    final effectiveIcon = mood == "ALL" ? null : MoodDecoration.getMoodIcon(mood);
+    final effectiveIcon = mood == "ALL"
+        ? null
+        : MoodDecoration.getMoodIcon(mood);
 
-    final contentColor = isSelected ? context.appColors.contentPrimary : context.appColors.contentSecondary;
+    final contentColor = isSelected
+        ? context.appColors.contentPrimary
+        : context.appColors.contentSecondary;
 
     return GestureDetector(
       onTap: onTap,
@@ -35,10 +39,14 @@ class MoodPillItem extends StatelessWidget {
           horizontal: AppSpacing.s8.w,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? context.appColors.borderCard : context.appColors.surfaceSecondary,
+          color: isSelected
+              ? context.appColors.borderCard
+              : context.appColors.surfaceSecondary,
           borderRadius: BorderRadius.circular(AppRadius.rFull),
           border: Border.all(
-            color: isSelected ? context.appColors.borderPrimary : context.appColors.borderSecondary,
+            color: isSelected
+                ? context.appColors.borderPrimary
+                : context.appColors.borderSecondary,
           ),
         ),
         child: Center(

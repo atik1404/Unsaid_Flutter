@@ -7,7 +7,11 @@ class CommentInputBox extends StatefulWidget {
   final bool isLoading;
   final Function(String) onCommentSubmitted;
 
-  const CommentInputBox({super.key, required this.onCommentSubmitted, required this.isLoading});
+  const CommentInputBox({
+    super.key,
+    required this.onCommentSubmitted,
+    required this.isLoading,
+  });
 
   @override
   State<CommentInputBox> createState() => _CommentInputBoxState();

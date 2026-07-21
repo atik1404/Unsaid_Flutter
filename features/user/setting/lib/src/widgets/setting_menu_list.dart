@@ -39,11 +39,17 @@ class SettingMenuList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SettingSectionLabel(title: context.l10n.setting_section_identity, color: colors.contentSecondary),
+        SettingSectionLabel(
+          title: context.l10n.setting_section_identity,
+          color: colors.contentSecondary,
+        ),
         gapSmall,
         const _IdentitySection(),
         gapLarge,
-        SettingSectionLabel(title: context.l10n.setting_section_notification, color: colors.contentSecondary),
+        SettingSectionLabel(
+          title: context.l10n.setting_section_notification,
+          color: colors.contentSecondary,
+        ),
         gapSmall,
         const _NotificationSection(),
         gapLarge,
@@ -51,7 +57,10 @@ class SettingMenuList extends StatelessWidget {
         //gapSmall,
         //const _PrivacySection(),
         // gapLarge,
-        SettingSectionLabel(title: context.l10n.setting_section_danger_zone, color: colors.contentError),
+        SettingSectionLabel(
+          title: context.l10n.setting_section_danger_zone,
+          color: colors.contentError,
+        ),
         gapSmall,
         const _DangerZoneSection(),
         SizedBox(height: AppSpacing.s32.h),
@@ -107,7 +116,8 @@ class _IdentitySection extends StatelessWidget {
                 subtitle: context.l10n.setting_menu_dark_mode_subtitle,
                 icon: CupertinoIcons.moon,
                 value: themeMode == ThemeMode.dark,
-                onChanged: (value) => context.read<ThemeCubit>().setDarkMode(value),
+                onChanged: (value) =>
+                    context.read<ThemeCubit>().setDarkMode(value),
               );
             },
           ),
@@ -127,8 +137,16 @@ class _LanguageRow extends StatelessWidget {
       builder: (context, locale) {
         return ListTile(
           leading: Icon(CupertinoIcons.globe, color: context.appColors.brand),
-          title: AppText.bodyMedium(context.l10n.setting_menu_language, color: context.appColors.contentPrimary, textWeight: AppTextWeight.medium),
-          subtitle: AppText.captionSmall(context.l10n.setting_menu_language_subtitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+          title: AppText.bodyMedium(
+            context.l10n.setting_menu_language,
+            color: context.appColors.contentPrimary,
+            textWeight: AppTextWeight.medium,
+          ),
+          subtitle: AppText.captionSmall(
+            context.l10n.setting_menu_language_subtitle,
+            color: context.appColors.contentSecondary,
+            textWeight: AppTextWeight.light,
+          ),
           trailing: LanguagePillToggle(
             isEnglish: locale.languageCode == AppConstants.en,
             onToggle: (isEnglish) {
@@ -205,7 +223,8 @@ class _PrivacySection extends StatelessWidget {
             builder: (context, enabled) {
               return SettingToggleTile(
                 label: context.l10n.setting_menu_allow_anonymous_dms,
-                subtitle: context.l10n.setting_menu_allow_anonymous_dms_subtitle,
+                subtitle:
+                    context.l10n.setting_menu_allow_anonymous_dms_subtitle,
                 icon: CupertinoIcons.chat_bubble,
                 value: enabled,
                 onChanged: (value) {},
@@ -290,7 +309,9 @@ Future<void> showDeleteAllPostsBottomSheet(BuildContext context) {
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (_) => BlocProvider(
-      create: (_) => DeleteAllPostsCubit(deleteAllPostsUseCase: GetIt.I<DeleteAllPostsUseCase>()),
+      create: (_) => DeleteAllPostsCubit(
+        deleteAllPostsUseCase: GetIt.I<DeleteAllPostsUseCase>(),
+      ),
       child: const DeleteAllPostsBottomSheet(),
     ),
   );

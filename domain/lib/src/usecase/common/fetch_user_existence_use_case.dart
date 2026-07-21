@@ -3,7 +3,8 @@ import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/base_usecase.dart';
 import 'package:entity/entity.dart';
 
-final class FetchUserExistenceUseCase extends UseCase<CommonApiEntity, UserParams> {
+final class FetchUserExistenceUseCase
+    extends UseCase<CommonApiEntity, UserParams> {
   final AuthRepository _repository;
 
   FetchUserExistenceUseCase(this._repository);

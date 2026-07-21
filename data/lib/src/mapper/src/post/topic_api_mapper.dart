@@ -18,7 +18,8 @@ extension TopicApiMapper on TopicsDto {
             description: topic.description ?? '',
             isNsfw: topic.isNsfw ?? false,
             isPrivate: topic.isPrivate ?? false,
-            createdAt: DateTime.tryParse(topic.createdAt ?? '') ?? DateTime.now(),
+            createdAt:
+                DateTime.tryParse(topic.createdAt ?? '') ?? DateTime.now(),
           ),
         )
         .toList();

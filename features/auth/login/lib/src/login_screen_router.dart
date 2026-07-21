@@ -30,8 +30,10 @@ final class LoginScreenRouter implements BaseRouter {
                 authStateNotifier.setLoggedIn(isLoggedIn: true);
                 context.goNamed(AppRouteName.homeScreen);
               },
-              onSignUpPressed: () => context.pushNamed(AppRouteName.signupScreen),
-              onForgotPasswordPressed: () => context.pushNamed(AppRouteName.forgotPasswordScreen),
+              onSignUpPressed: () =>
+                  context.pushNamed(AppRouteName.signupScreen),
+              onForgotPasswordPressed: () =>
+                  context.pushNamed(AppRouteName.forgotPasswordScreen),
             ),
           ),
         ),

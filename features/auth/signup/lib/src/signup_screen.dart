@@ -32,7 +32,12 @@ class SignupScreen extends StatefulWidget {
   /// router fully owns the OTP navigation.
   final Future<void> Function(String phoneNumber) onVerifyPhone;
 
-  const SignupScreen({super.key, required this.onSignUpSuccess, required this.onSignInPressed, required this.onVerifyPhone});
+  const SignupScreen({
+    super.key,
+    required this.onSignUpSuccess,
+    required this.onSignInPressed,
+    required this.onVerifyPhone,
+  });
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -48,7 +53,9 @@ class _SignupScreenState extends State<SignupScreen> {
       enableGradientBackground: true,
       body: BlocListener<SignupBloc, SignupState>(
         // Only react to the terminal outcomes (success/error), not every keystroke.
-        listenWhen: (prev, curr) => prev.status != curr.status || prev.errorMessage != curr.errorMessage,
+        listenWhen: (prev, curr) =>
+            prev.status != curr.status ||
+            prev.errorMessage != curr.errorMessage,
         listener: _onStateChanged,
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -58,7 +65,9 @@ class _SignupScreenState extends State<SignupScreen> {
               // Lets the content centre vertically while still scrolling when the
               // keyboard shrinks the available height.
               child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight - pagePadding.vertical),
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - pagePadding.vertical,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +139,9 @@ class _SignupForm extends StatelessWidget {
             return _NameInput(
               name: state.name.value,
               onChanged: (value) => bloc.add(NameUpdate(value)),
-              errorText: state.showValidationError && state.name.isNotValid ? _nameValidationErrorText(context, state.name.error) : null,
+              errorText: state.showValidationError && state.name.isNotValid
+                  ? _nameValidationErrorText(context, state.name.error)
+                  : null,
             );
           },
         ),
@@ -143,7 +154,9 @@ class _SignupForm extends StatelessWidget {
             return _PhoneInput(
               phone: state.phone.value,
               onChanged: (value) => bloc.add(PhoneUpdate(value)),
-              errorText: state.showValidationError && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
+              errorText: state.showValidationError && state.phone.isNotValid
+                  ? _phoneErrorText(context, state.phone.error)
+                  : null,
             );
           },
         ),
@@ -156,7 +169,9 @@ class _SignupForm extends StatelessWidget {
             return _EmailInput(
               email: state.email.value,
               onChanged: (value) => bloc.add(EmailUpdate(value)),
-              errorText: state.showValidationError && state.email.isNotValid ? _emailErrorText(context, state.email.error) : null,
+              errorText: state.showValidationError && state.email.isNotValid
+                  ? _emailErrorText(context, state.email.error)
+                  : null,
             );
           },
         ),
@@ -168,7 +183,9 @@ class _SignupForm extends StatelessWidget {
           builder: (context, state) {
             return _PasswordInput(
               password: state.password.value,
-              errorText: state.showValidationError && state.password.isNotValid ? _passwordErrorText(context, state.password.error) : null,
+              errorText: state.showValidationError && state.password.isNotValid
+                  ? _passwordErrorText(context, state.password.error)
+                  : null,
               showPassword: state.showPassword,
               onChanged: (value) => bloc.add(PasswordUpdate(value)),
               onToggleVisibility: () => bloc.add(TogglePasswordVisibility()),
@@ -181,7 +198,10 @@ class _SignupForm extends StatelessWidget {
     );
   }
 
-  String _nameValidationErrorText(BuildContext context, ValidationError? error) {
+  String _nameValidationErrorText(
+    BuildContext context,
+    ValidationError? error,
+  ) {
     return switch (error) {
       ValidationError.empty => context.l10n.validation_name_required,
       ValidationError.invalid => context.l10n.validation_name_invalid,
@@ -225,7 +245,11 @@ class _FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: AppSpacing.s4.h),
-      child: AppText.bodySmall(text, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+      child: AppText.bodySmall(
+        text,
+        textWeight: AppTextWeight.light,
+        color: context.appColors.contentSubtle,
+      ),
     );
   }
 }
@@ -241,11 +265,23 @@ class _SignupHeader extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppImage.asset(AppDrawables.logoTransparent, width: 100.w, height: 100.h),
+        AppImage.asset(
+          AppDrawables.logoTransparent,
+          width: 100.w,
+          height: 100.h,
+        ),
         SizedBox(height: AppSpacing.s16.h),
-        AppText.titleLarge(context.l10n.signup_title, textWeight: AppTextWeight.extraBold),
+        AppText.titleLarge(
+          context.l10n.signup_title,
+          textWeight: AppTextWeight.extraBold,
+        ),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.signup_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.signup_subtitle,
+          textAlign: TextAlign.center,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
       ],
     );
   }
@@ -257,7 +293,11 @@ class _NameInput extends StatelessWidget {
   final String? errorText;
   final ValueChanged<String> onChanged;
 
-  const _NameInput({required this.name, required this.onChanged, this.errorText});
+  const _NameInput({
+    required this.name,
+    required this.onChanged,
+    this.errorText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +317,11 @@ class _PhoneInput extends StatelessWidget {
   final String? errorText;
   final ValueChanged<String> onChanged;
 
-  const _PhoneInput({required this.phone, required this.onChanged, this.errorText});
+  const _PhoneInput({
+    required this.phone,
+    required this.onChanged,
+    this.errorText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +342,11 @@ class _EmailInput extends StatelessWidget {
   final String? errorText;
   final ValueChanged<String> onChanged;
 
-  const _EmailInput({required this.email, required this.onChanged, this.errorText});
+  const _EmailInput({
+    required this.email,
+    required this.onChanged,
+    this.errorText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +368,13 @@ class _PasswordInput extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final VoidCallback onToggleVisibility;
 
-  const _PasswordInput({required this.password, required this.showPassword, required this.onChanged, required this.onToggleVisibility, this.errorText});
+  const _PasswordInput({
+    required this.password,
+    required this.showPassword,
+    required this.onChanged,
+    required this.onToggleVisibility,
+    this.errorText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +386,14 @@ class _PasswordInput extends StatelessWidget {
       maxLength: 25,
       errorText: errorText,
       onChanged: onChanged,
-      suffixIcon: AppIcon(GestureDetector(onTap: onToggleVisibility, child: Icon(showPassword ? CupertinoIcons.eye : CupertinoIcons.eye_slash))),
+      suffixIcon: AppIcon(
+        GestureDetector(
+          onTap: onToggleVisibility,
+          child: Icon(
+            showPassword ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -348,7 +409,11 @@ class _SignupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
-        return AppFilledButton.text(context.l10n.signup_button, isLoading: state.isLoading, onPressed: state.isLoading ? null : onPressed);
+        return AppFilledButton.text(
+          context.l10n.signup_button,
+          isLoading: state.isLoading,
+          onPressed: state.isLoading ? null : onPressed,
+        );
       },
     );
   }
@@ -365,7 +430,11 @@ class _SignInPrompt extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppText.bodySmall(context.l10n.signup_already_have_account, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.signup_already_have_account,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
         AppTextButton(
           context.l10n.signup_sign_in,
           onPressed: onSignInPressed,
@@ -385,14 +454,28 @@ class _SocialSignupOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppText.bodySmall(context.l10n.login_social_sign_in, textWeight: AppTextWeight.extraBold, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.login_social_sign_in,
+          textWeight: AppTextWeight.extraBold,
+          color: context.appColors.contentSubtle,
+        ),
         SizedBox(height: AppSpacing.s12.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(child: AppFilledButton.text(context.l10n.login_google, onPressed: () {})),
+            Expanded(
+              child: AppFilledButton.text(
+                context.l10n.login_google,
+                onPressed: () {},
+              ),
+            ),
             SizedBox(width: AppSpacing.s16.w),
-            Expanded(child: AppFilledButton.text(context.l10n.login_facebook, onPressed: () {})),
+            Expanded(
+              child: AppFilledButton.text(
+                context.l10n.login_facebook,
+                onPressed: () {},
+              ),
+            ),
           ],
         ),
       ],

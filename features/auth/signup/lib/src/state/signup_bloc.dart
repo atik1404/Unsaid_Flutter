@@ -8,7 +8,9 @@ import 'package:signup/src/state/signup_state.dart';
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final SignupUseCase _signupUseCase;
 
-  SignupBloc({required SignupUseCase signupUsecase}) : _signupUseCase = signupUsecase, super(const SignupState()) {
+  SignupBloc({required SignupUseCase signupUsecase})
+    : _signupUseCase = signupUsecase,
+      super(const SignupState()) {
     on<NameUpdate>(_onNameUpdate);
     on<EmailUpdate>(_onEmailUpdate);
     on<PasswordUpdate>(_onPasswordUpdate);
@@ -18,35 +20,71 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   void _onNameUpdate(NameUpdate event, Emitter<SignupState> emit) {
-    emit(state.copyWith(name: NameInputValidator.dirty(event.name), errorMessage: null));
+    emit(
+      state.copyWith(
+        name: NameInputValidator.dirty(event.name),
+        errorMessage: null,
+      ),
+    );
   }
 
   void _onEmailUpdate(EmailUpdate event, Emitter<SignupState> emit) {
-    emit(state.copyWith(email: EmailOtpInputValidator.dirty(event.email), errorMessage: null));
+    emit(
+      state.copyWith(
+        email: EmailOtpInputValidator.dirty(event.email),
+        errorMessage: null,
+      ),
+    );
   }
 
   void _onPhoneUpdate(PhoneUpdate event, Emitter<SignupState> emit) {
-    emit(state.copyWith(phone: PhoneInputValidator.dirty(event.phone), errorMessage: null));
+    emit(
+      state.copyWith(
+        phone: PhoneInputValidator.dirty(event.phone),
+        errorMessage: null,
+      ),
+    );
   }
 
   void _onPasswordUpdate(PasswordUpdate event, Emitter<SignupState> emit) {
-    emit(state.copyWith(password: PasswordInputValidator.dirty(event.password), errorMessage: null));
+    emit(
+      state.copyWith(
+        password: PasswordInputValidator.dirty(event.password),
+        errorMessage: null,
+      ),
+    );
   }
 
-  void _onTogglePasswordVisibility(TogglePasswordVisibility event, Emitter<SignupState> emit) {
+  void _onTogglePasswordVisibility(
+    TogglePasswordVisibility event,
+    Emitter<SignupState> emit,
+  ) {
     emit(state.copyWith(showPassword: !state.showPassword));
   }
 
-  void _onSignupSubmitted(SignupSubmitted event, Emitter<SignupState> emit) async {
+  void _onSignupSubmitted(
+    SignupSubmitted event,
+    Emitter<SignupState> emit,
+  ) async {
     if (!state.isValid) {
       emit(state.copyWith(showValidationError: true, errorMessage: null));
       return;
     }
 
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        errorMessage: null,
+      ),
+    );
 
     final result = await _signupUseCase.call(
-      SignupParams(email: state.email.value.isEmpty ? null : state.email.value, password: state.password.value, phone: state.phone.value.formatPhone(), fullname: state.name.value),
+      SignupParams(
+        email: state.email.value.isEmpty ? null : state.email.value,
+        password: state.password.value,
+        phone: state.phone.value.formatPhone(),
+        fullname: state.name.value,
+      ),
     );
 
     result.when(
@@ -58,7 +96,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           LocaleKeyMessage(:final key) => key.name,
           RawStringMessage(:final value) => value,
         };
-        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
       },
     );
   }

@@ -16,7 +16,8 @@ class TopicsDto {
 
   const TopicsDto({this.data});
 
-  factory TopicsDto.fromJson(Map<String, dynamic> json) => _$TopicsDtoFromJson(json);
+  factory TopicsDto.fromJson(Map<String, dynamic> json) =>
+      _$TopicsDtoFromJson(json);
 }
 
 /// Transport model for a single topic item as returned by the API.
@@ -46,5 +47,6 @@ class TopicDto {
     this.createdAt,
   });
 
-  factory TopicDto.fromJson(Map<String, dynamic> json) => _$TopicDtoFromJson(json);
+  factory TopicDto.fromJson(Map<String, dynamic> json) =>
+      _$TopicDtoFromJson(json);
 }

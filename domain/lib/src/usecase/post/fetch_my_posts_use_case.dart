@@ -3,7 +3,8 @@ import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/base_usecase.dart';
 import 'package:entity/entity.dart';
 
-final class FetchMyPostsUseCase extends UseCase<PostPagerEntity, FetchPostsParams> {
+final class FetchMyPostsUseCase
+    extends UseCase<PostPagerEntity, FetchPostsParams> {
   final PostRepository _repository;
 
   FetchMyPostsUseCase(this._repository);

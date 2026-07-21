@@ -21,7 +21,12 @@ class LoginScreen extends StatefulWidget {
   final VoidCallback onSignUpPressed;
   final VoidCallback onForgotPasswordPressed;
 
-  const LoginScreen({super.key, required this.onLoginSuccess, required this.onSignUpPressed, required this.onForgotPasswordPressed});
+  const LoginScreen({
+    super.key,
+    required this.onLoginSuccess,
+    required this.onSignUpPressed,
+    required this.onForgotPasswordPressed,
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -65,9 +70,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     const _LoginHeader(),
                     verticalSpacing,
 
-                    _LoginView(onForgotPasswordPressed: widget.onForgotPasswordPressed),
+                    _LoginView(
+                      onForgotPasswordPressed: widget.onForgotPasswordPressed,
+                    ),
                     verticalSpacing,
-                    _CreateAccountPrompt(onSignUpPressed: widget.onSignUpPressed),
+                    _CreateAccountPrompt(
+                      onSignUpPressed: widget.onSignUpPressed,
+                    ),
 
                     verticalSpacing,
                     _SocialLoginOptions(
@@ -132,8 +141,11 @@ final class _LoginView extends StatelessWidget {
           builder: (context, state) {
             return _PhoneInput(
               phone: state.phone.value,
-              errorText: state.showErrors && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
-              onChanged: (value) => context.read<LoginBloc>().add(LoginPhoneChanged(value)),
+              errorText: state.showErrors && state.phone.isNotValid
+                  ? _phoneErrorText(context, state.phone.error)
+                  : null,
+              onChanged: (value) =>
+                  context.read<LoginBloc>().add(LoginPhoneChanged(value)),
             );
           },
         ),
@@ -150,10 +162,15 @@ final class _LoginView extends StatelessWidget {
           builder: (context, state) {
             return _PasswordInput(
               password: state.password.value,
-              errorText: state.showErrors && state.password.isNotValid ? _passwordErrorText(context, state.password.error) : null,
-              onChanged: (value) => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
+              errorText: state.showErrors && state.password.isNotValid
+                  ? _passwordErrorText(context, state.password.error)
+                  : null,
+              onChanged: (value) =>
+                  context.read<LoginBloc>().add(LoginPasswordChanged(value)),
               showPassword: state.showPassword,
-              onToggleVisibility: () => context.read<LoginBloc>().add(const LoginTogglePasswordVisibility()),
+              onToggleVisibility: () => context.read<LoginBloc>().add(
+                const LoginTogglePasswordVisibility(),
+              ),
             );
           },
         ),
@@ -162,7 +179,8 @@ final class _LoginView extends StatelessWidget {
         BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             return _LoginButton(
-              onPressed: () => context.read<LoginBloc>().add(const LoginSubmitted()),
+              onPressed: () =>
+                  context.read<LoginBloc>().add(const LoginSubmitted()),
               isLoading: state.status == FormzSubmissionStatus.inProgress,
             );
           },

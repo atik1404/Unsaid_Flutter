@@ -27,7 +27,9 @@ class _TopicSelectorState extends State<TopicSelector> {
       builder: (context, state) {
         final topics = state.topics;
         final hasMore = topics.length > _collapsedCount;
-        final visibleCount = _expanded || !hasMore ? topics.length : _collapsedCount;
+        final visibleCount = _expanded || !hasMore
+            ? topics.length
+            : _collapsedCount;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -46,13 +48,17 @@ class _TopicSelectorState extends State<TopicSelector> {
                 return TopicPillItem(
                   topic: topic.name,
                   isSelected: topic.id == state.selectedTopic,
-                  onTap: () => context.read<CreatePostBloc>().add(TopicSelected(topic.id)),
+                  onTap: () => context.read<CreatePostBloc>().add(
+                    TopicSelected(topic.id),
+                  ),
                 );
               },
             ),
             if (hasMore)
               AppTextButton(
-                _expanded ? context.l10n.create_post_topics_show_less : context.l10n.create_post_topics_show_more,
+                _expanded
+                    ? context.l10n.create_post_topics_show_less
+                    : context.l10n.create_post_topics_show_more,
                 onPressed: () => setState(() => _expanded = !_expanded),
               ),
           ],

@@ -50,14 +50,18 @@ class InlineIconLabel extends StatelessWidget {
     // final startIconSpec = isRtl ? trailing : leading;
     // final endIconSpec   = isRtl ? leading  : trailing;
 
-    final resolvedWidget = (!wrap && direction == Axis.horizontal) ? Flexible(child: widget) : widget;
+    final resolvedWidget = (!wrap && direction == Axis.horizontal)
+        ? Flexible(child: widget)
+        : widget;
     final resolvedLeading = leadingWidget;
     final resolvedTrailing = trailingWidget;
 
     final children = <Widget>[
-      if (resolvedLeading != null) _maybeInk(child: resolvedLeading, onTap: onTapIcon),
+      if (resolvedLeading != null)
+        _maybeInk(child: resolvedLeading, onTap: onTapIcon),
       resolvedWidget,
-      if (resolvedTrailing != null) _maybeInk(child: resolvedTrailing, onTap: onTapIcon),
+      if (resolvedTrailing != null)
+        _maybeInk(child: resolvedTrailing, onTap: onTapIcon),
     ];
 
     if (wrap) {

@@ -15,7 +15,11 @@ class PrefStorageDi {
 
     // Data sources
     getIt.registerLazySingleton<PrefsDataSource>(() => PrefsDataSource(prefs));
-    getIt.registerLazySingleton<SecureDataSource>(() => SecureDataSource(secureStorage));
-    getIt.registerLazySingleton<AppPrefStorage>(() => AppPrefStorage(getIt<PrefsDataSource>(), getIt<SecureDataSource>()));
+    getIt.registerLazySingleton<SecureDataSource>(
+      () => SecureDataSource(secureStorage),
+    );
+    getIt.registerLazySingleton<AppPrefStorage>(
+      () => AppPrefStorage(getIt<PrefsDataSource>(), getIt<SecureDataSource>()),
+    );
   }
 }

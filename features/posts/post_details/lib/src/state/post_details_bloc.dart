@@ -39,7 +39,11 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     Emitter<PostDetailsState> emit,
   ) async {
     emit(
-      state.copyWith(isLoading: true, postDetails: null, showToastMessage: false),
+      state.copyWith(
+        isLoading: true,
+        postDetails: null,
+        showToastMessage: false,
+      ),
     );
 
     final result = await _fetchPostDetailsUseCase(event.postId);
@@ -54,7 +58,13 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
         );
       },
       failure: (failure) {
-        emit(state.copyWith(isLoading: false, errorMessage: failure, showToastMessage: false));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: failure,
+            showToastMessage: false,
+          ),
+        );
       },
     );
   }
@@ -66,21 +76,33 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     emit(
       state.copyWith(isSubmitting: true),
     );
-    final result = await _addCommentUseCase.call(AddCommentParams(postId: _postId, commentBody: event.comment));
+    final result = await _addCommentUseCase.call(
+      AddCommentParams(postId: _postId, commentBody: event.comment),
+    );
 
     result.when(
       success: (data) {
-        final comments = List<CommentEntity>.from(state.postDetails!.comments)..add(data);
+        final comments = List<CommentEntity>.from(state.postDetails!.comments)
+          ..add(data);
         emit(
           state.copyWith(
             isSubmitting: false,
-            postDetails: state.postDetails!.copyWith(comments: comments, commentCount: comments.length),
+            postDetails: state.postDetails!.copyWith(
+              comments: comments,
+              commentCount: comments.length,
+            ),
             showToastMessage: true,
           ),
         );
       },
       failure: (failure) {
-        emit(state.copyWith(isSubmitting: false, errorMessage: failure, showToastMessage: true));
+        emit(
+          state.copyWith(
+            isSubmitting: false,
+            errorMessage: failure,
+            showToastMessage: true,
+          ),
+        );
       },
     );
   }
@@ -103,7 +125,12 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     _AddReactEvent event,
     Emitter<PostDetailsState> emit,
   ) async {
-    emit(state.copyWith(isReacting: true, postDetails: _toggleReaction(reacted: true)));
+    emit(
+      state.copyWith(
+        isReacting: true,
+        postDetails: _toggleReaction(reacted: true),
+      ),
+    );
     final result = await _addReactUseCase.call(AddReactParams(postId: _postId));
 
     result.when(
@@ -111,7 +138,12 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
         emit(state.copyWith(isReacting: false));
       },
       failure: (_) {
-        emit(state.copyWith(isReacting: false, postDetails: _toggleReaction(reacted: false)));
+        emit(
+          state.copyWith(
+            isReacting: false,
+            postDetails: _toggleReaction(reacted: false),
+          ),
+        );
       },
     );
   }
@@ -120,7 +152,12 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     _RemoveReactEvent event,
     Emitter<PostDetailsState> emit,
   ) async {
-    emit(state.copyWith(isReacting: true, postDetails: _toggleReaction(reacted: false)));
+    emit(
+      state.copyWith(
+        isReacting: true,
+        postDetails: _toggleReaction(reacted: false),
+      ),
+    );
     final result = await _removeReactUseCase.call(
       _postId,
     );
@@ -130,7 +167,12 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
         emit(state.copyWith(isReacting: false));
       },
       failure: (_) {
-        emit(state.copyWith(isReacting: false, postDetails: _toggleReaction(reacted: true)));
+        emit(
+          state.copyWith(
+            isReacting: false,
+            postDetails: _toggleReaction(reacted: true),
+          ),
+        );
       },
     );
   }

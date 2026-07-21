@@ -35,7 +35,8 @@ class ProfileDto {
     this.postCount,
   });
 
-  factory ProfileDto.fromJson(Map<String, dynamic> json) => _$ProfileDtoFromJson(json);
+  factory ProfileDto.fromJson(Map<String, dynamic> json) =>
+      _$ProfileDtoFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -72,5 +73,6 @@ class UserIdentityDto {
     this.country,
   });
 
-  factory UserIdentityDto.fromJson(Map<String, dynamic> json) => _$UserIdentityDtoFromJson(json);
+  factory UserIdentityDto.fromJson(Map<String, dynamic> json) =>
+      _$UserIdentityDtoFromJson(json);
 }

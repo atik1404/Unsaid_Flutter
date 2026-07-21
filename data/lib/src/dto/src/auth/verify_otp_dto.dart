@@ -15,5 +15,6 @@ final class VerifyOtpDto {
     this.verified,
   });
 
-  factory VerifyOtpDto.fromJson(Map<String, dynamic> json) => _$VerifyOtpDtoFromJson(json);
+  factory VerifyOtpDto.fromJson(Map<String, dynamic> json) =>
+      _$VerifyOtpDtoFromJson(json);
 }

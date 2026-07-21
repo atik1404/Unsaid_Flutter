@@ -14,5 +14,6 @@ class CreatePostDto {
 
   const CreatePostDto({this.statusCode, this.message});
 
-  factory CreatePostDto.fromJson(Map<String, dynamic> json) => _$CreatePostDtoFromJson(json);
+  factory CreatePostDto.fromJson(Map<String, dynamic> json) =>
+      _$CreatePostDtoFromJson(json);
 }

@@ -39,19 +39,36 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   }
 
   void updateFullName(String value) {
-    emit(state.copyWith(fullName: NameInputValidator.dirty(value), errorMessage: null));
+    emit(
+      state.copyWith(
+        fullName: NameInputValidator.dirty(value),
+        errorMessage: null,
+      ),
+    );
   }
 
   void updateEmail(String value) {
-    emit(state.copyWith(email: EmailInputValidator.dirty(value), errorMessage: null));
+    emit(
+      state.copyWith(
+        email: EmailInputValidator.dirty(value),
+        errorMessage: null,
+      ),
+    );
   }
 
   void updatePhone(String value) {
-    emit(state.copyWith(phone: PhoneInputValidator.dirty(value), errorMessage: null));
+    emit(
+      state.copyWith(
+        phone: PhoneInputValidator.dirty(value),
+        errorMessage: null,
+      ),
+    );
   }
 
   void updateBio(String value) {
-    emit(state.copyWith(bio: BioInputValidator.dirty(value), errorMessage: null));
+    emit(
+      state.copyWith(bio: BioInputValidator.dirty(value), errorMessage: null),
+    );
   }
 
   /// Validates the form and, if valid and changed, calls the update use case.
@@ -80,7 +97,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     // Nothing to submit if the user hasn't changed anything.
     if (!state.isDirty) return;
 
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        errorMessage: null,
+      ),
+    );
 
     final result = await _updateProfileUseCase(
       UpdateProfileParams(
@@ -93,7 +115,11 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
     result.when(
       success: (message) => emit(
-        state.copyWith(status: FormzSubmissionStatus.success, successMessage: message, errorMessage: null),
+        state.copyWith(
+          status: FormzSubmissionStatus.success,
+          successMessage: message,
+          errorMessage: null,
+        ),
       ),
       failure: (error) {
         // Resolve the failure into a displayable message (raw string or l10n key).
@@ -102,7 +128,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
           LocaleKeyMessage(:final key) => key.name,
         };
 
-        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
       },
     );
   }

@@ -24,5 +24,7 @@ abstract class AuthRepository {
   /// Returns the server success message on success.
   Future<Result<String, Failure>> deleteAccount(DeleteAccountParams params);
 
-  Future<Result<CommonApiEntity, Failure>> checkUserExistence(UserParams params);
+  Future<Result<CommonApiEntity, Failure>> checkUserExistence(
+    UserParams params,
+  );
 }

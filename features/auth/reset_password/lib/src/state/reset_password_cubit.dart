@@ -16,7 +16,10 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   ///
   /// Emits a loading state, validates inputs, simulates an API call,
   /// and finally emits either a success or error result.
-  void resetPassword({required String newPassword, required String confirmPassword}) async {
+  void resetPassword({
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
     emit(state.copyWith(isLoading: true, errorMessage: null, isSuccess: false));
     AppLog.log('newPassword: $newPassword, confirmPassword: $confirmPassword');
 

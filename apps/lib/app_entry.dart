@@ -19,7 +19,9 @@ class AppEntry extends StatelessWidget {
       builder: (context, constraints) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => LocalizationCubit(locator<AppPrefStorage>())),
+            BlocProvider(
+              create: (_) => LocalizationCubit(locator<AppPrefStorage>()),
+            ),
             BlocProvider(create: (_) => ThemeCubit(locator<AppPrefStorage>())),
           ],
           child: BlocBuilder<LocalizationCubit, Locale>(
@@ -38,8 +40,16 @@ class AppEntry extends StatelessWidget {
                         darkTheme: _buildAppTheme(Brightness.dark),
                         themeMode: themeMode,
                         locale: locale,
-                        localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate, AppLocalizations.delegate],
-                        supportedLocales: const [Locale(AppConstants.en, 'US'), Locale(AppConstants.bn, 'BD')],
+                        localizationsDelegates: const [
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalWidgetsLocalizations.delegate,
+                          GlobalCupertinoLocalizations.delegate,
+                          AppLocalizations.delegate,
+                        ],
+                        supportedLocales: const [
+                          Locale(AppConstants.en, 'US'),
+                          Locale(AppConstants.bn, 'BD'),
+                        ],
                         routerConfig: router,
                       );
                     },

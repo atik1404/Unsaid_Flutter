@@ -9,5 +9,6 @@ enum FailureKey {
   connectionTimeout,
   permissionDenied,
   notFound,
-  rateLimitExceeded, requestCancelled,
+  rateLimitExceeded,
+  requestCancelled,
 }

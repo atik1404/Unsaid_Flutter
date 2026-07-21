@@ -36,7 +36,11 @@ abstract class CreatePostState with _$CreatePostState {
 
   /// The post can only be submitted with non-empty content and no in-flight
   /// request.
-  bool get canSubmit => postBody.trim().isNotEmpty && !isSubmitting && selectedMood != null && selectedTopic != null;
+  bool get canSubmit =>
+      postBody.trim().isNotEmpty &&
+      !isSubmitting &&
+      selectedMood != null &&
+      selectedTopic != null;
 }
 
 /// Lifecycle of a create-post submission.

@@ -31,9 +31,7 @@ extension IntegerExtension on int {
     for (final entry in units.entries) {
       if (absValue >= entry.key) {
         final value = absValue / entry.key;
-        final formatted = _trimTrailingZeros(
-          value.toStringAsFixed(decimals),
-        );
+        final formatted = _trimTrailingZeros(value.toStringAsFixed(decimals));
         return '${isNegative ? '-' : ''}$formatted${entry.value}';
       }
     }

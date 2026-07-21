@@ -26,7 +26,8 @@ final class OnboardingScreenRouter implements BaseRouter {
         pageBuilder: (context, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => OnboardingCubit(prefStorage: GetIt.I.get<AppPrefStorage>()),
+            create: (_) =>
+                OnboardingCubit(prefStorage: GetIt.I.get<AppPrefStorage>()),
             child: OnboardingScreen(
               onNavigateToHomeScreen: () {
                 context.goNamed(AppRouteName.homeScreen);

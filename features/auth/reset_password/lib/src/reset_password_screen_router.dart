@@ -18,7 +18,10 @@ final class ResetPasswordScreenRouter implements BaseRouter {
         name: AppRouteName.resetPasswordScreen,
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
-          child: BlocProvider(create: (_) => ResetPasswordCubit(), child: const ResetPasswordScreen()),
+          child: BlocProvider(
+            create: (_) => ResetPasswordCubit(),
+            child: const ResetPasswordScreen(),
+          ),
         ),
         routes: children,
       ),

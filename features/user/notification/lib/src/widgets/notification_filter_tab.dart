@@ -77,8 +77,9 @@ class _FilterPill extends StatelessWidget {
         child: AppText.captionSmall(
           label,
           color: isSelected ? colors.white : colors.contentSecondary,
-          textWeight:
-              isSelected ? AppTextWeight.semiBold : AppTextWeight.regular,
+          textWeight: isSelected
+              ? AppTextWeight.semiBold
+              : AppTextWeight.regular,
         ),
       ),
     );

@@ -32,8 +32,18 @@ class SettingMenuTile extends StatelessWidget {
     final colors = context.appColors;
     return ListTile(
       leading: Icon(icon, color: colors.brand),
-      title: AppText.bodyMedium(label, color: colors.contentPrimary, textWeight: AppTextWeight.medium),
-      subtitle: subtitle != null ? AppText.captionSmall(subtitle!, color: colors.contentSecondary, textWeight: AppTextWeight.light) : null,
+      title: AppText.bodyMedium(
+        label,
+        color: colors.contentPrimary,
+        textWeight: AppTextWeight.medium,
+      ),
+      subtitle: subtitle != null
+          ? AppText.captionSmall(
+              subtitle!,
+              color: colors.contentSecondary,
+              textWeight: AppTextWeight.light,
+            )
+          : null,
       trailing: Icon(Icons.chevron_right, color: colors.contentTertiary),
       onTap: onTap,
     );

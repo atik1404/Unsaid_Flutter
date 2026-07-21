@@ -8,7 +8,8 @@ extension MyPostApiMapper on MyPostsDto {
           .map(
             (post) => PostEntity(
               id: post.id ?? '',
-              createdAt: DateTime.tryParse(post.createdAt ?? '') ?? DateTime.now(),
+              createdAt:
+                  DateTime.tryParse(post.createdAt ?? '') ?? DateTime.now(),
               authorUserId: post.authorUserId ?? '',
               topicId: post.topicId ?? '',
               type: post.type ?? '',
@@ -21,7 +22,8 @@ extension MyPostApiMapper on MyPostsDto {
               commentCount: post.commentCount ?? 0,
               reportCount: post.reportCount ?? 0,
               score: post.score ?? 0,
-              authorName: '${post.author?.anonymousTag ?? ''}-${post.author?.fullName ?? ''}',
+              authorName:
+                  '${post.author?.anonymousTag ?? ''}-${post.author?.fullName ?? ''}',
               authorAvatar: post.author?.avatarSeed.toString() ?? '',
             ),
           )

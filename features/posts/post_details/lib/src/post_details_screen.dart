@@ -50,7 +50,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     return BlocConsumer<PostDetailsBloc, PostDetailsState>(
       // Only after a user-submitted comment succeeds (isSubmitting true -> false
       // with a new comment), not on the initial fetch that populates comments.
-      listenWhen: (previous, current) => previous.isSubmitting && !current.isSubmitting,
+      listenWhen: (previous, current) =>
+          previous.isSubmitting && !current.isSubmitting,
       listener: (context, state) => _scrollToFirstComments(),
       builder: (context, state) {
         return AppScaffold(
@@ -71,11 +72,15 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
             // lifted above the soft keyboard, so add the keyboard inset as
             // padding to keep the input field and send button visible.
             child: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.viewInsetsOf(context).bottom,
+              ),
               child: CommentInputBox(
                 isLoading: state.isSubmitting,
                 onCommentSubmitted: (commnet) => {
-                  context.read<PostDetailsBloc>().add(AddCommentEvent(comment: commnet)),
+                  context.read<PostDetailsBloc>().add(
+                    AddCommentEvent(comment: commnet),
+                  ),
                 },
               ),
             ),
@@ -112,7 +117,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           ),
           SizedBox(height: AppSpacing.s16.h),
 
-          CommentsSection(key: _commentsSectionKey, comments: state.postDetails!.comments),
+          CommentsSection(
+            key: _commentsSectionKey,
+            comments: state.postDetails!.comments,
+          ),
           SizedBox(height: AppSpacing.s16.h),
         ],
       ),

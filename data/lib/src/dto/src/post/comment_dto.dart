@@ -12,7 +12,8 @@ class CommentDto {
 
   const CommentDto({this.statusCode, this.message, this.data});
 
-  factory CommentDto.fromJson(Map<String, dynamic> json) => _$CommentDtoFromJson(json);
+  factory CommentDto.fromJson(Map<String, dynamic> json) =>
+      _$CommentDtoFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -52,5 +53,6 @@ class CommentData {
     this.author,
   });
 
-  factory CommentData.fromJson(Map<String, dynamic> json) => _$CommentDataFromJson(json);
+  factory CommentData.fromJson(Map<String, dynamic> json) =>
+      _$CommentDataFromJson(json);
 }

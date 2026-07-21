@@ -6,7 +6,10 @@ import 'package:otp_verification/src/state/otp_verification_state.dart';
 class OtpVerificationCubit extends Cubit<OtpVerificationState> {
   Timer? _timer;
 
-  OtpVerificationCubit({required String verificationId, required String phone}) : super(OtpVerificationState(verificationId: verificationId, phone: phone)) {
+  OtpVerificationCubit({required String verificationId, required String phone})
+    : super(
+        OtpVerificationState(verificationId: verificationId, phone: phone),
+      ) {
     _startTimer();
   }
 

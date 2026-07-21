@@ -5,7 +5,6 @@ part 'notification_state.freezed.dart';
 
 @freezed
 abstract class NotificationState with _$NotificationState {
-
   const factory NotificationState({
     @Default([]) List<NotificationModel> notifications,
     @Default(false) bool isLoading,
@@ -14,7 +13,10 @@ abstract class NotificationState with _$NotificationState {
   }) = _NotificationState;
   const NotificationState._();
 
-  List<NotificationModel> get visibleNotifications => filter == NotificationFilter.unread ? notifications.where((n) => !n.isRead).toList() : notifications;
+  List<NotificationModel> get visibleNotifications =>
+      filter == NotificationFilter.unread
+      ? notifications.where((n) => !n.isRead).toList()
+      : notifications;
 
   int get unreadCount => notifications.where((n) => !n.isRead).length;
 }

@@ -19,5 +19,6 @@ final class DeleteResponseDto {
     this.message,
   });
 
-  factory DeleteResponseDto.fromJson(Map<String, dynamic> json) => _$DeleteResponseDtoFromJson(json);
+  factory DeleteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$DeleteResponseDtoFromJson(json);
 }

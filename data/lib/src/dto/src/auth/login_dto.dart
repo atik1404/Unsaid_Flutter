@@ -14,7 +14,14 @@ class LoginDto {
   @JsonKey(name: 'status_code')
   final int? statusCode;
 
-  const LoginDto({this.message, this.authToken, this.refreshToken, this.expirationDate, this.statusCode});
+  const LoginDto({
+    this.message,
+    this.authToken,
+    this.refreshToken,
+    this.expirationDate,
+    this.statusCode,
+  });
 
-  factory LoginDto.fromJson(Map<String, dynamic> json) => _$LoginDtoFromJson(json);
+  factory LoginDto.fromJson(Map<String, dynamic> json) =>
+      _$LoginDtoFromJson(json);
 }

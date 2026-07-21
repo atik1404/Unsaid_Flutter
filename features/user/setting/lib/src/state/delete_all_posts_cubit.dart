@@ -12,7 +12,8 @@ import 'package:setting/src/state/delete_all_posts_state.dart';
 class DeleteAllPostsCubit extends Cubit<DeleteAllPostsState> {
   final DeleteAllPostsUseCase _deleteAllPostsUseCase;
 
-  DeleteAllPostsCubit({required this._deleteAllPostsUseCase}) : super(const DeleteAllPostsState());
+  DeleteAllPostsCubit({required this._deleteAllPostsUseCase})
+    : super(const DeleteAllPostsState());
 
   /// Mirrors the confirmation input so the delete button can arm itself.
   void updateConfirmationText(String value) {
@@ -24,13 +25,22 @@ class DeleteAllPostsCubit extends Cubit<DeleteAllPostsState> {
   Future<void> deleteAllPosts() async {
     if (!state.isConfirmed || state.status.isInProgress) return;
 
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        errorMessage: null,
+      ),
+    );
 
     final result = await _deleteAllPostsUseCase();
 
     result.when(
       success: (message) => emit(
-        state.copyWith(status: FormzSubmissionStatus.success, successMessage: message, errorMessage: null),
+        state.copyWith(
+          status: FormzSubmissionStatus.success,
+          successMessage: message,
+          errorMessage: null,
+        ),
       ),
       failure: (error) {
         // Resolve the failure into a displayable message (raw string or l10n key).
@@ -39,7 +49,12 @@ class DeleteAllPostsCubit extends Cubit<DeleteAllPostsState> {
           LocaleKeyMessage(:final key) => key.name,
         };
 
-        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
       },
     );
   }

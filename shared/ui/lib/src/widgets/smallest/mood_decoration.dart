@@ -3,7 +3,10 @@ import 'package:designsystem/designsystem.dart';
 import 'package:flutter/material.dart';
 
 final class MoodDecoration {
-  static (Color bg, Color text, Color stroke) getColor(BuildContext context, {required String tag}) {
+  static (Color bg, Color text, Color stroke) getColor(
+    BuildContext context, {
+    required String tag,
+  }) {
     final colors = context.modeColors;
     final mood = MoodTypeX.fromString(tag) ?? MoodType.neutral;
 

@@ -11,5 +11,6 @@ class CommonDto {
 
   const CommonDto({this.message, this.exists, this.statusCode});
 
-  factory CommonDto.fromJson(Map<String, dynamic> json) => _$CommonDtoFromJson(json);
+  factory CommonDto.fromJson(Map<String, dynamic> json) =>
+      _$CommonDtoFromJson(json);
 }

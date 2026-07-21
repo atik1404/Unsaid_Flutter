@@ -19,5 +19,6 @@ final class SendOtpDto {
     this.messageId,
   });
 
-  factory SendOtpDto.fromJson(Map<String, dynamic> json) => _$SendOtpDtoFromJson(json);
+  factory SendOtpDto.fromJson(Map<String, dynamic> json) =>
+      _$SendOtpDtoFromJson(json);
 }

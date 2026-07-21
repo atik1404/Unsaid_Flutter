@@ -126,7 +126,10 @@ class AppImage extends StatelessWidget {
     if (loadingProgress == null) return child;
     return Center(
       child: CircularProgressIndicator(
-        value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null,
+        value: loadingProgress.expectedTotalBytes != null
+            ? loadingProgress.cumulativeBytesLoaded /
+                  loadingProgress.expectedTotalBytes!
+            : null,
       ),
     );
   }
@@ -140,7 +143,9 @@ class AppImage extends StatelessWidget {
   }
 
   Widget _applyShape(Widget child) {
-    final border = borderColor != null ? Border.all(color: borderColor!, width: borderWidth) : null;
+    final border = borderColor != null
+        ? Border.all(color: borderColor!, width: borderWidth)
+        : null;
 
     return switch (shape) {
       ImageShape.rectangle => Container(
@@ -150,7 +155,9 @@ class AppImage extends StatelessWidget {
       ),
       ImageShape.circle => Container(
         padding: padding ?? EdgeInsets.zero,
-        decoration: borderColor != null ? BoxDecoration(shape: BoxShape.circle, border: border) : null,
+        decoration: borderColor != null
+            ? BoxDecoration(shape: BoxShape.circle, border: border)
+            : null,
         child: ClipOval(child: child),
       ),
       ImageShape.rounded => Container(
@@ -187,7 +194,12 @@ class AppImage extends StatelessWidget {
                 semanticsLabel: semanticLabel,
                 package: package,
                 bundle: bundle,
-                colorFilter: color != null ? ColorFilter.mode(color!, colorBlendMode ?? BlendMode.srcIn) : null,
+                colorFilter: color != null
+                    ? ColorFilter.mode(
+                        color!,
+                        colorBlendMode ?? BlendMode.srcIn,
+                      )
+                    : null,
                 excludeFromSemantics: excludeFromSemantics,
               )
             : Image.asset(

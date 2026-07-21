@@ -18,7 +18,12 @@ import 'package:ui/ui.dart';
 /// navigation on success) and delegates all rendering to the const "dumb"
 /// widgets below so only the subtrees wrapped in a [BlocBuilder] rebuild.
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key, required this.phone, required this.verificationId, required this.otpPurpose});
+  const OtpVerificationScreen({
+    super.key,
+    required this.phone,
+    required this.verificationId,
+    required this.otpPurpose,
+  });
 
   final String phone;
   final String verificationId;
@@ -30,8 +35,14 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   /// One controller/focus node per digit box.
-  final List<TextEditingController> _controllers = List.generate(AppConstants.otpLength, (_) => TextEditingController());
-  final List<FocusNode> _focusNodes = List.generate(AppConstants.otpLength, (_) => FocusNode());
+  final List<TextEditingController> _controllers = List.generate(
+    AppConstants.otpLength,
+    (_) => TextEditingController(),
+  );
+  final List<FocusNode> _focusNodes = List.generate(
+    AppConstants.otpLength,
+    (_) => FocusNode(),
+  );
 
   String get _otpCode => _controllers.map((c) => c.text).join();
 
@@ -57,7 +68,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       dismissKeyboardOnTap: false,
       body: BlocListener<OtpVerificationCubit, OtpVerificationState>(
         // React only to error/success transitions, not to every timer tick.
-        listenWhen: (prev, curr) => prev.errorMessage != curr.errorMessage || prev.isSuccess != curr.isSuccess,
+        listenWhen: (prev, curr) =>
+            prev.errorMessage != curr.errorMessage ||
+            prev.isSuccess != curr.isSuccess,
         listener: _onStateChanged,
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -65,7 +78,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               physics: const ClampingScrollPhysics(),
               padding: pagePadding,
               child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight - pagePadding.vertical),
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - pagePadding.vertical,
+                ),
                 child: _buildContent(context),
               ),
             );
@@ -95,20 +110,31 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         BlocBuilder<OtpVerificationCubit, OtpVerificationState>(
           buildWhen: (prev, curr) => prev.isVerifying != curr.isVerifying,
           builder: (context, state) {
-            return _VerifyButton(isLoading: state.isVerifying, onPressed: () => context.read<OtpVerificationCubit>().verifyOtp());
+            return _VerifyButton(
+              isLoading: state.isVerifying,
+              onPressed: () => context.read<OtpVerificationCubit>().verifyOtp(),
+            );
           },
         ),
         gap,
 
         // Rebuilds once per second (timer) — scoped so nothing else rebuilds.
         BlocBuilder<OtpVerificationCubit, OtpVerificationState>(
-          buildWhen: (prev, curr) => prev.canResend != curr.canResend || prev.timerSeconds != curr.timerSeconds,
+          buildWhen: (prev, curr) =>
+              prev.canResend != curr.canResend ||
+              prev.timerSeconds != curr.timerSeconds,
           builder: (context, state) {
-            return _ResendSection(canResend: state.canResend, timerSeconds: state.timerSeconds, onResend: _onResend);
+            return _ResendSection(
+              canResend: state.canResend,
+              timerSeconds: state.timerSeconds,
+              onResend: _onResend,
+            );
           },
         ),
         gap,
-        _BackToLoginLink(onPressed: () => context.goNamed(AppRouteName.loginScreen)),
+        _BackToLoginLink(
+          onPressed: () => context.goNamed(AppRouteName.loginScreen),
+        ),
       ],
     );
   }
@@ -120,7 +146,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       spacing: AppSpacing.s16.w,
       children: List.generate(
         AppConstants.otpLength,
-        (index) => _OtpBox(controller: _controllers[index], focusNode: _focusNodes[index], isLast: index == AppConstants.otpLength - 1, onChanged: (value) => _onDigitChanged(value, index)),
+        (index) => _OtpBox(
+          controller: _controllers[index],
+          focusNode: _focusNodes[index],
+          isLast: index == AppConstants.otpLength - 1,
+          onChanged: (value) => _onDigitChanged(value, index),
+        ),
       ),
     );
   }
@@ -166,7 +197,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     if (widget.otpPurpose == AppConstants.otpVerificationForResetPassword) {
       context.pushReplacementNamed(AppRouteName.resetPasswordScreen);
     } else if (widget.otpPurpose == AppConstants.otpVerificationForSignUp) {
-      context.pop(true); // Return true to indicate successful OTP verification for sign-up flow.
+      context.pop(
+        true,
+      ); // Return true to indicate successful OTP verification for sign-up flow.
     }
   }
 }
@@ -182,11 +215,23 @@ class _OtpHeader extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppImage.asset(AppDrawables.logoTransparent, width: IconSizes.display.w, height: IconSizes.display.h),
+        AppImage.asset(
+          AppDrawables.logoTransparent,
+          width: IconSizes.display.w,
+          height: IconSizes.display.h,
+        ),
         SizedBox(height: AppSpacing.s16.h),
-        AppText.titleLarge(context.l10n.otp_title, textWeight: AppTextWeight.extraBold),
+        AppText.titleLarge(
+          context.l10n.otp_title,
+          textWeight: AppTextWeight.extraBold,
+        ),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.otp_subtitle(phone), textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.otp_subtitle(phone),
+          textAlign: TextAlign.center,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
       ],
     );
   }
@@ -200,7 +245,12 @@ class _OtpBox extends StatelessWidget {
   final bool isLast;
   final ValueChanged<String> onChanged;
 
-  const _OtpBox({required this.controller, required this.focusNode, required this.isLast, required this.onChanged});
+  const _OtpBox({
+    required this.controller,
+    required this.focusNode,
+    required this.isLast,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +282,11 @@ class _VerifyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppFilledButton.text(context.l10n.otp_button, isLoading: isLoading, onPressed: isLoading ? null : onPressed);
+    return AppFilledButton.text(
+      context.l10n.otp_button,
+      isLoading: isLoading,
+      onPressed: isLoading ? null : onPressed,
+    );
   }
 }
 
@@ -243,22 +297,36 @@ class _ResendSection extends StatelessWidget {
   final int timerSeconds;
   final VoidCallback onResend;
 
-  const _ResendSection({required this.canResend, required this.timerSeconds, required this.onResend});
+  const _ResendSection({
+    required this.canResend,
+    required this.timerSeconds,
+    required this.onResend,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppText.bodySmall(context.l10n.otp_resend_prompt, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.otp_resend_prompt,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
         SizedBox(height: AppSpacing.s4.h),
         if (canResend)
           AppTextButton(
             context.l10n.otp_resend_button,
             onPressed: onResend,
-            style: const AppTextButtonStyle(intent: AppButtonIntent.secondary()),
+            style: const AppTextButtonStyle(
+              intent: AppButtonIntent.secondary(),
+            ),
           )
         else
-          AppText.bodySmall(context.l10n.otp_resend_timer(timerSeconds), textWeight: AppTextWeight.medium, color: context.appColors.contentSubtle),
+          AppText.bodySmall(
+            context.l10n.otp_resend_timer(timerSeconds),
+            textWeight: AppTextWeight.medium,
+            color: context.appColors.contentSubtle,
+          ),
       ],
     );
   }

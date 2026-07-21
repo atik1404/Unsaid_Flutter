@@ -41,7 +41,9 @@ class ForgotPasswordScreen extends StatelessWidget {
               padding: pagePadding,
               child: ConstrainedBox(
                 // Let the form fill the viewport so it can center vertically.
-                constraints: BoxConstraints(minHeight: constraints.maxHeight - pagePadding.vertical),
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - pagePadding.vertical,
+                ),
                 child: const _ForgotPasswordForm(),
               ),
             );
@@ -57,7 +59,11 @@ class ForgotPasswordScreen extends StatelessWidget {
     if (state.status.isSuccess) {
       context.pushReplacementNamed(
         AppRouteName.otpVerificationScreen,
-        extra: OtpVerificationArgs(verificationId: state.accountId ?? '', phoneNumber: state.phone.value, otpPurpose: AppConstants.otpVerificationForResetPassword),
+        extra: OtpVerificationArgs(
+          verificationId: state.accountId ?? '',
+          phoneNumber: state.phone.value,
+          otpPurpose: AppConstants.otpVerificationForResetPassword,
+        ),
       );
     } else if (state.status.isFailure && state.errorMessage != null) {
       AppToast.toast(message: state.errorMessage!, toastType: ToastType.error);
@@ -84,16 +90,24 @@ class _ForgotPasswordForm extends StatelessWidget {
         const _ForgotPasswordHeader(),
         gap,
         gap,
-        AppText.bodySmall(context.l10n.forgot_password_label_phone, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.forgot_password_label_phone,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
         SizedBox(height: AppSpacing.s4.h),
 
         // Rebuilds only when the phone input or its error visibility changes.
         BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
-          buildWhen: (prev, curr) => prev.phone != curr.phone || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.phone != curr.phone || prev.showError != curr.showError,
           builder: (context, state) {
             return _PhoneInput(
-              errorText: state.showError && state.phone.isNotValid ? _phoneErrorText(context, state.phone.error) : null,
-              onChanged: (value) => context.read<ForgotPasswordCubit>().updatePhone(value),
+              errorText: state.showError && state.phone.isNotValid
+                  ? _phoneErrorText(context, state.phone.error)
+                  : null,
+              onChanged: (value) =>
+                  context.read<ForgotPasswordCubit>().updatePhone(value),
             );
           },
         ),
@@ -110,7 +124,11 @@ class _ForgotPasswordForm extends StatelessWidget {
                 //context.read<ForgotPasswordCubit>().checkUserExistence()
                 context.pushNamed(
                   AppRouteName.otpVerificationScreen,
-                  extra: OtpVerificationArgs(otpPurpose: '', phoneNumber: '', verificationId: ''),
+                  extra: OtpVerificationArgs(
+                    otpPurpose: '',
+                    phoneNumber: '',
+                    verificationId: '',
+                  ),
                 ),
               },
             );
@@ -143,11 +161,23 @@ class _ForgotPasswordHeader extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppImage.asset(AppDrawables.logoTransparent, width: IconSizes.display.w, height: IconSizes.display.h),
+        AppImage.asset(
+          AppDrawables.logoTransparent,
+          width: IconSizes.display.w,
+          height: IconSizes.display.h,
+        ),
         SizedBox(height: AppSpacing.s16.h),
-        AppText.titleLarge(context.l10n.forgot_password_title, textWeight: AppTextWeight.extraBold),
+        AppText.titleLarge(
+          context.l10n.forgot_password_title,
+          textWeight: AppTextWeight.extraBold,
+        ),
         SizedBox(height: AppSpacing.s8.h),
-        AppText.bodySmall(context.l10n.forgot_password_subtitle, textAlign: TextAlign.center, textWeight: AppTextWeight.light, color: context.appColors.contentSubtle),
+        AppText.bodySmall(
+          context.l10n.forgot_password_subtitle,
+          textAlign: TextAlign.center,
+          textWeight: AppTextWeight.light,
+          color: context.appColors.contentSubtle,
+        ),
       ],
     );
   }
@@ -185,7 +215,11 @@ class _SendOtpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppFilledButton.text(context.l10n.forgot_password_button, isLoading: isLoading, onPressed: isLoading ? null : onPressed);
+    return AppFilledButton.text(
+      context.l10n.forgot_password_button,
+      isLoading: isLoading,
+      onPressed: isLoading ? null : onPressed,
+    );
   }
 }
 

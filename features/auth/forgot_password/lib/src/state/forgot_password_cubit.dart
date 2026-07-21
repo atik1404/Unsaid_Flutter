@@ -8,10 +8,12 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final FetchUserExistenceUseCase _fetchUserExistenceUseCase;
   final SendOtpUseCase _sendOtpUseCase;
 
-  ForgotPasswordCubit({required FetchUserExistenceUseCase fetchUserExistenceUseCase, required SendOtpUseCase sendOtpUseCase})
-    : _fetchUserExistenceUseCase = fetchUserExistenceUseCase,
-      _sendOtpUseCase = sendOtpUseCase,
-      super(const ForgotPasswordState());
+  ForgotPasswordCubit({
+    required FetchUserExistenceUseCase fetchUserExistenceUseCase,
+    required SendOtpUseCase sendOtpUseCase,
+  }) : _fetchUserExistenceUseCase = fetchUserExistenceUseCase,
+       _sendOtpUseCase = sendOtpUseCase,
+       super(const ForgotPasswordState());
 
   void updatePhone(String phone) {
     final phoneInput = PhoneInputValidator.dirty(phone);
@@ -27,13 +29,30 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     // Abort early on invalid input — the UI already shows the error.
     if (!state.phone.isValid) return;
 
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        errorMessage: null,
+      ),
+    );
 
-    final result = await _fetchUserExistenceUseCase(UserParams(identifier: state.phone.value.formatPhone()));
+    final result = await _fetchUserExistenceUseCase(
+      UserParams(identifier: state.phone.value.formatPhone()),
+    );
 
     result.when(
       success: (data) => {
-        if (data.exists) {_sendOtp(state.phone.value.formatPhone())} else {emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: 'User with this phone number does not exist'))},
+        if (data.exists)
+          {_sendOtp(state.phone.value.formatPhone())}
+        else
+          {
+            emit(
+              state.copyWith(
+                status: FormzSubmissionStatus.failure,
+                errorMessage: 'User with this phone number does not exist',
+              ),
+            ),
+          },
       },
       failure: (error) {
         var message = switch (error.message) {
@@ -41,7 +60,12 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
           LocaleKeyMessage(:final key) => key.name,
         };
 
-        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
       },
     );
   }
@@ -50,14 +74,25 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     final result = await _sendOtpUseCase(phone);
 
     result.when(
-      success: (data) => emit(state.copyWith(status: FormzSubmissionStatus.success, accountId: data.accountId, errorMessage: null)),
+      success: (data) => emit(
+        state.copyWith(
+          status: FormzSubmissionStatus.success,
+          accountId: data.accountId,
+          errorMessage: null,
+        ),
+      ),
       failure: (error) {
         var message = switch (error.message) {
           RawStringMessage(:final value) => value,
           LocaleKeyMessage(:final key) => key.name,
         };
 
-        emit(state.copyWith(status: FormzSubmissionStatus.failure, errorMessage: message));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: message,
+          ),
+        );
       },
     );
   }

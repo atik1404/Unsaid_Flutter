@@ -9,6 +9,9 @@ class MyPostsDto {
   /// a map. json_serializable can't target a top-level array, hence the manual
   /// factory instead of `@JsonSerializable`.
   factory MyPostsDto.fromJson(List<dynamic> json) => MyPostsDto(
-    posts: json.whereType<Map<String, dynamic>>().map(PostDto.fromJson).toList(),
+    posts: json
+        .whereType<Map<String, dynamic>>()
+        .map(PostDto.fromJson)
+        .toList(),
   );
 }

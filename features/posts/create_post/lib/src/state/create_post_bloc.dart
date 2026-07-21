@@ -14,7 +14,10 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   final CreatePostUseCase _createPostUseCase;
   final FetchTopicsUseCase _fetchTopicsUseCase;
 
-  CreatePostBloc({required this._createPostUseCase, required this._fetchTopicsUseCase}) : super(const CreatePostState()) {
+  CreatePostBloc({
+    required this._createPostUseCase,
+    required this._fetchTopicsUseCase,
+  }) : super(const CreatePostState()) {
     on<PostBodyChanged>(_onPostBodyChanged);
     on<MoodSelected>(_onMoodSelected);
     on<CreatePostSubmitted>(_onSubmitted);
@@ -25,7 +28,10 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
 
   /// Mirrors the latest composed text into state so the action button can
   /// validate it. Clears any stale error from a previous failed attempt.
-  void _onPostBodyChanged(PostBodyChanged event, Emitter<CreatePostState> emit) {
+  void _onPostBodyChanged(
+    PostBodyChanged event,
+    Emitter<CreatePostState> emit,
+  ) {
     emit(state.copyWith(postBody: event.body, errorMessage: null));
   }
 
@@ -42,10 +48,15 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
 
   /// Validates and sends the post to the backend, emitting submitting →
   /// success/failure so the UI can react.
-  Future<void> _onSubmitted(CreatePostSubmitted event, Emitter<CreatePostState> emit) async {
+  Future<void> _onSubmitted(
+    CreatePostSubmitted event,
+    Emitter<CreatePostState> emit,
+  ) async {
     if (!state.canSubmit) return;
 
-    emit(state.copyWith(status: CreatePostStatus.submitting, errorMessage: null));
+    emit(
+      state.copyWith(status: CreatePostStatus.submitting, errorMessage: null),
+    );
 
     final result = await _createPostUseCase.call(
       CreatePostParams(
@@ -60,15 +71,28 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
 
     result.when(
       success: (data) {
-        emit(state.copyWith(status: CreatePostStatus.success, successMessage: data.message));
+        emit(
+          state.copyWith(
+            status: CreatePostStatus.success,
+            successMessage: data.message,
+          ),
+        );
       },
       failure: (failure) {
-        emit(state.copyWith(status: CreatePostStatus.failure, errorMessage: failure));
+        emit(
+          state.copyWith(
+            status: CreatePostStatus.failure,
+            errorMessage: failure,
+          ),
+        );
       },
     );
   }
 
-  Future<void> _onFetchTopics(FetchTopics event, Emitter<CreatePostState> emit) async {
+  Future<void> _onFetchTopics(
+    FetchTopics event,
+    Emitter<CreatePostState> emit,
+  ) async {
     emit(state.copyWith(status: CreatePostStatus.loading, errorMessage: null));
     final result = await _fetchTopicsUseCase.call();
 
@@ -77,7 +101,12 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
         emit(state.copyWith(topics: data, status: CreatePostStatus.initial));
       },
       failure: (failure) {
-        emit(state.copyWith(status: CreatePostStatus.failure, errorMessage: failure));
+        emit(
+          state.copyWith(
+            status: CreatePostStatus.failure,
+            errorMessage: failure,
+          ),
+        );
       },
     );
   }

@@ -19,7 +19,7 @@ on:
       tester-groups:
         description: "Firebase tester groups"
         required: false
-        default: "qa"
+        default: "primary"
 
 permissions:
   contents: read

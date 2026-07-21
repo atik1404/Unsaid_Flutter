@@ -103,14 +103,18 @@ final class _PagerView extends StatelessWidget {
   final List<OnboardingPagerEntity> onboardingPagerList;
   final int currentPage;
 
-  const _PagerView({required this.onboardingPagerList, required this.currentPage});
+  const _PagerView({
+    required this.onboardingPagerList,
+    required this.currentPage,
+  });
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
       itemCount: onboardingPagerList.length,
       controller: PageController(initialPage: currentPage),
-      itemBuilder: (context, index) => _PageItem(item: onboardingPagerList[index]),
+      itemBuilder: (context, index) =>
+          _PageItem(item: onboardingPagerList[index]),
       onPageChanged: (index) {
         context.read<OnboardingCubit>().onPageChanged(
           index: index,
@@ -196,7 +200,9 @@ final class _PageIndicator extends StatelessWidget {
           width: 30.w,
           height: 5.h,
           decoration: BoxDecoration(
-            color: index == currentPage ? colorScheme.contentWarning : colorScheme.contentSubtle,
+            color: index == currentPage
+                ? colorScheme.contentWarning
+                : colorScheme.contentSubtle,
             borderRadius: BorderRadius.circular(5.r),
           ),
         );

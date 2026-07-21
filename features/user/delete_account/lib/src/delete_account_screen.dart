@@ -44,7 +44,9 @@ class DeleteAccountScreen extends StatelessWidget {
           padding: EdgeInsets.all(AppSpacing.s24.r),
           child: DeleteAccountForm(
             onDelete: () {
-              context.read<DeleteAccountCubit>().deleteAccount(); //call delete api
+              context
+                  .read<DeleteAccountCubit>()
+                  .deleteAccount(); //call delete api
             },
           ),
         ),
@@ -57,7 +59,9 @@ class DeleteAccountScreen extends StatelessWidget {
   /// failure: surface the error via a toast.
   void _onStateChanged(BuildContext context, DeleteAccountState state) {
     if (state.status.isSuccess) {
-      final message = (state.successMessage?.isNotEmpty ?? false) ? state.successMessage! : context.l10n.delete_account_success;
+      final message = (state.successMessage?.isNotEmpty ?? false)
+          ? state.successMessage!
+          : context.l10n.delete_account_success;
       AppToast.toast(message: message, toastType: ToastType.success);
       _logoutAndLeave(context);
     } else if (state.status.isFailure && state.errorMessage != null) {

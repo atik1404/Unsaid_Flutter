@@ -10,7 +10,11 @@ import 'package:common/common.dart';
 /// and [onToggle] reports the user's choice (true = English) back to the owner,
 /// which holds the actual locale state.
 class LanguagePillToggle extends StatelessWidget {
-  const LanguagePillToggle({super.key, required this.isEnglish, required this.onToggle});
+  const LanguagePillToggle({
+    super.key,
+    required this.isEnglish,
+    required this.onToggle,
+  });
 
   /// Whether the English segment is currently selected.
   final bool isEnglish;
@@ -48,12 +52,20 @@ class LanguagePillToggle extends StatelessWidget {
     );
   }
 
-  Widget _buildPillSegment({required String label, required bool selected, required AppColorScheme colors, required VoidCallback onTap}) {
+  Widget _buildPillSegment({
+    required String label,
+    required bool selected,
+    required AppColorScheme colors,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s8.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.s8.w,
+          vertical: AppSpacing.s8.h,
+        ),
         decoration: BoxDecoration(
           color: selected ? colors.brand : colors.surfaceSecondary,
           borderRadius: BorderRadius.circular(AppRadius.r8.r),

@@ -23,7 +23,9 @@ class TopicPillItem extends StatelessWidget {
   Widget _buildTopicPillItem(
     BuildContext context,
   ) {
-    final contentColor = isSelected ? context.appColors.contentPrimary : context.appColors.contentSecondary;
+    final contentColor = isSelected
+        ? context.appColors.contentPrimary
+        : context.appColors.contentSecondary;
 
     return GestureDetector(
       onTap: onTap,
@@ -32,10 +34,14 @@ class TopicPillItem extends StatelessWidget {
           horizontal: AppSpacing.s8.w,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? context.appColors.borderCard : context.appColors.surfaceSecondary,
+          color: isSelected
+              ? context.appColors.borderCard
+              : context.appColors.surfaceSecondary,
           borderRadius: BorderRadius.circular(AppRadius.rFull),
           border: Border.all(
-            color: isSelected ? context.appColors.borderPrimary : context.appColors.borderSecondary,
+            color: isSelected
+                ? context.appColors.borderPrimary
+                : context.appColors.borderSecondary,
           ),
         ),
         child: Center(

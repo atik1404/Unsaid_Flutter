@@ -35,9 +35,12 @@ class DeleteAccountForm extends StatelessWidget {
         _SectionLabel(context.l10n.delete_account_reason_title),
         SizedBox(height: AppSpacing.s8.h),
         BlocBuilder<DeleteAccountCubit, DeleteAccountState>(
-          buildWhen: (prev, curr) => prev.selectedReason != curr.selectedReason || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.selectedReason != curr.selectedReason ||
+              prev.showError != curr.showError,
           builder: (context, state) {
-            final showReasonError = state.showError && state.selectedReason == null;
+            final showReasonError =
+                state.showError && state.selectedReason == null;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,7 +49,8 @@ class DeleteAccountForm extends StatelessWidget {
                   child: Column(
                     children: [
                       for (final reason in DeleteAccountReason.values) ...[
-                        if (reason != DeleteAccountReason.values.first) const AppDivider(),
+                        if (reason != DeleteAccountReason.values.first)
+                          const AppDivider(),
                         DeleteReasonTile(
                           label: reason.label(context),
                           selected: state.selectedReason == reason,
@@ -56,7 +60,8 @@ class DeleteAccountForm extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (showReasonError) _ErrorText(context.l10n.delete_account_reason_error),
+                if (showReasonError)
+                  _ErrorText(context.l10n.delete_account_reason_error),
               ],
             );
           },
@@ -64,7 +69,10 @@ class DeleteAccountForm extends StatelessWidget {
 
         // "Other" free-text details — only shown when "Other" is selected.
         BlocBuilder<DeleteAccountCubit, DeleteAccountState>(
-          buildWhen: (prev, curr) => prev.selectedReason != curr.selectedReason || prev.showError != curr.showError || prev.isOtherDetailsMissing != curr.isOtherDetailsMissing,
+          buildWhen: (prev, curr) =>
+              prev.selectedReason != curr.selectedReason ||
+              prev.showError != curr.showError ||
+              prev.isOtherDetailsMissing != curr.isOtherDetailsMissing,
           builder: (context, state) {
             if (state.selectedReason?.requiresDetails != true) {
               return const SizedBox.shrink();
@@ -84,7 +92,9 @@ class DeleteAccountForm extends StatelessWidget {
                     minLines: 3,
                     maxLines: 5,
                     maxLength: 300,
-                    errorText: state.showError && state.isOtherDetailsMissing ? context.l10n.delete_account_other_error : null,
+                    errorText: state.showError && state.isOtherDetailsMissing
+                        ? context.l10n.delete_account_other_error
+                        : null,
                     onChanged: cubit.updateOtherDetails,
                   ),
                 ],
@@ -98,13 +108,17 @@ class DeleteAccountForm extends StatelessWidget {
         _SectionLabel(context.l10n.delete_account_confirm_title),
         SizedBox(height: AppSpacing.s8.h),
         BlocBuilder<DeleteAccountCubit, DeleteAccountState>(
-          buildWhen: (prev, curr) => prev.isConfirmed != curr.isConfirmed || prev.showError != curr.showError,
+          buildWhen: (prev, curr) =>
+              prev.isConfirmed != curr.isConfirmed ||
+              prev.showError != curr.showError,
           builder: (context, state) {
             return AppInputField(
               hint: context.l10n.delete_account_confirm_hint,
               variant: AppInputFieldVariant.filled,
               textInputAction: TextInputAction.done,
-              errorText: state.showError && !state.isConfirmed ? context.l10n.delete_account_confirm_error : null,
+              errorText: state.showError && !state.isConfirmed
+                  ? context.l10n.delete_account_confirm_error
+                  : null,
               onChanged: cubit.updateConfirmationText,
             );
           },
@@ -114,7 +128,8 @@ class DeleteAccountForm extends StatelessWidget {
         // Destructive submit — armed only when every precondition passes; shows a
         // spinner while the request is in flight.
         BlocBuilder<DeleteAccountCubit, DeleteAccountState>(
-          buildWhen: (prev, curr) => prev.canSubmit != curr.canSubmit || prev.status != curr.status,
+          buildWhen: (prev, curr) =>
+              prev.canSubmit != curr.canSubmit || prev.status != curr.status,
           builder: (context, state) {
             final isLoading = state.status.isInProgress;
             return AppFilledButton.text(
@@ -152,7 +167,11 @@ class _WarningCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(CupertinoIcons.exclamationmark_triangle_fill, color: colors.contentError, size: AppSpacing.s24.r),
+          Icon(
+            CupertinoIcons.exclamationmark_triangle_fill,
+            color: colors.contentError,
+            size: AppSpacing.s24.r,
+          ),
           SizedBox(width: AppSpacing.s12.w),
           Expanded(
             child: Column(

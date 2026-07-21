@@ -41,9 +41,17 @@ class ProfileSummaryCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText.titleSmall(name, textWeight: AppTextWeight.bold, color: context.appColors.contentBrand),
+                AppText.titleSmall(
+                  name,
+                  textWeight: AppTextWeight.bold,
+                  color: context.appColors.contentBrand,
+                ),
                 SizedBox(height: AppSpacing.s4.h),
-                AppText.bodySmall(subtitle, color: context.appColors.contentSecondary, textWeight: AppTextWeight.light),
+                AppText.bodySmall(
+                  subtitle,
+                  color: context.appColors.contentSecondary,
+                  textWeight: AppTextWeight.light,
+                ),
               ],
             ),
           ),
@@ -80,7 +88,10 @@ class ProfileSummaryCard extends StatelessWidget {
         color: context.appColors.surfaceSecondary,
         border: Border.all(color: context.appColors.borderBrand),
       ),
-      child: Icon(CupertinoIcons.person_fill, color: context.appColors.contentTertiary),
+      child: Icon(
+        CupertinoIcons.person_fill,
+        color: context.appColors.contentTertiary,
+      ),
     );
   }
 }

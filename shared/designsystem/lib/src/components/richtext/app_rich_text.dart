@@ -54,7 +54,9 @@ class AppRichText extends StatelessWidget {
     bool selectable = false,
     String? semanticsLabel,
   }) {
-    final regex = pattern is RegExp ? pattern : RegExp(RegExp.escape(pattern.toString()));
+    final regex = pattern is RegExp
+        ? pattern
+        : RegExp(RegExp.escape(pattern.toString()));
 
     final spans = <AppRichTextSegment>[];
     var cursor = 0;
@@ -107,7 +109,9 @@ class AppRichText extends StatelessWidget {
       ),
     );
 
-    final effectiveStyle = textSource.color != null ? merged.copyWith(color: textSource.color) : merged;
+    final effectiveStyle = textSource.color != null
+        ? merged.copyWith(color: textSource.color)
+        : merged;
 
     final children = segments.map((s) => s.toInlineSpan()).toList();
     final span = TextSpan(

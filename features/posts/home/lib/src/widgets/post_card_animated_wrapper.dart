@@ -15,10 +15,12 @@ class PostCardAnimatedWrapper extends StatefulWidget {
   });
 
   @override
-  State<PostCardAnimatedWrapper> createState() => _PostCardAnimatedWrapperState();
+  State<PostCardAnimatedWrapper> createState() =>
+      _PostCardAnimatedWrapperState();
 }
 
-class _PostCardAnimatedWrapperState extends State<PostCardAnimatedWrapper> with SingleTickerProviderStateMixin {
+class _PostCardAnimatedWrapperState extends State<PostCardAnimatedWrapper>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _opacity;
   late final Animation<Offset> _slide;

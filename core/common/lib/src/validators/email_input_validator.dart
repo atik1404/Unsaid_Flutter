@@ -7,7 +7,9 @@ class EmailInputValidator extends FormzInput<String, ValidationError> {
   const EmailInputValidator.dirty([super.value = '']) : super.dirty();
 
   //email regex for validation
-  static final _emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  static final _emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
 
   @override
   ValidationError? validator(String value) {
@@ -22,7 +24,9 @@ class EmailOtpInputValidator extends FormzInput<String, ValidationError> {
   const EmailOtpInputValidator.dirty([super.value = '']) : super.dirty();
 
   //email regex for validation
-  static final _emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  static final _emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
 
   @override
   ValidationError? validator(String value) {

@@ -86,8 +86,10 @@ class _ProfilePostCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _PostHeader(
-                title: 'Anonymous User', // In production this would be the user's display name
-                avatar: 'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
+                title:
+                    'Anonymous User', // In production this would be the user's display name
+                avatar:
+                    'https://thumbs.dreamstime.com/b/futuristic-alien-portrait-sci-fi-environment-high-detail-grey-skinned-humanoid-figure-elongated-smooth-head-large-379960286.jpg?w=576',
                 dateTime: DateTime.now().subtract(const Duration(minutes: 10)),
                 mood: post.mood,
                 colors: colors,
@@ -115,12 +117,27 @@ class _ProfilePostCard extends StatelessWidget {
       MoodType.angry => (colors.angry.backgroundColor, colors.angry.textColor),
       MoodType.happy => (colors.happy.backgroundColor, colors.happy.textColor),
       MoodType.sad => (colors.sad.backgroundColor, colors.sad.textColor),
-      MoodType.lonely => (colors.lonely.backgroundColor, colors.lonely.textColor),
-      MoodType.excited => (colors.excited.backgroundColor, colors.excited.textColor),
+      MoodType.lonely => (
+        colors.lonely.backgroundColor,
+        colors.lonely.textColor,
+      ),
+      MoodType.excited => (
+        colors.excited.backgroundColor,
+        colors.excited.textColor,
+      ),
       MoodType.dark => (colors.dark.backgroundColor, colors.dark.textColor),
-      MoodType.neutral => (colors.neutral.backgroundColor, colors.neutral.textColor),
-      MoodType.all => (context.appColors.backgroundPrimary, context.appColors.contentPrimary),
-      MoodType.confused => (colors.confused.backgroundColor, colors.confused.textColor),
+      MoodType.neutral => (
+        colors.neutral.backgroundColor,
+        colors.neutral.textColor,
+      ),
+      MoodType.all => (
+        context.appColors.backgroundPrimary,
+        context.appColors.contentPrimary,
+      ),
+      MoodType.confused => (
+        colors.confused.backgroundColor,
+        colors.confused.textColor,
+      ),
     };
   }
 }
@@ -186,9 +203,16 @@ final class _PostHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(String tag, {required Color backgroundColor, required Color textColor}) {
+  Widget _buildTag(
+    String tag, {
+    required Color backgroundColor,
+    required Color textColor,
+  }) {
     return AppTag(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.s8.w,
+        vertical: AppSpacing.s2.h,
+      ),
       backgroundColor: backgroundColor,
       child: AppText.captionSmall(
         tag,

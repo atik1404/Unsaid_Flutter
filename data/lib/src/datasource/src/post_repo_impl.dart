@@ -11,7 +11,9 @@ final class PostRepoImpl implements PostRepository {
   const PostRepoImpl(this._restClient);
 
   @override
-  Future<Result<CreatePostEntity, Failure>> createPost(CreatePostParams params) {
+  Future<Result<CreatePostEntity, Failure>> createPost(
+    CreatePostParams params,
+  ) {
     return _restClient.post(
       '/posts',
       data: params.toJson(),
@@ -49,7 +51,9 @@ final class PostRepoImpl implements PostRepository {
   }
 
   @override
-  Future<Result<PostPagerEntity, Failure>> fetchMyPosts(FetchPostsParams params) {
+  Future<Result<PostPagerEntity, Failure>> fetchMyPosts(
+    FetchPostsParams params,
+  ) {
     return _restClient.get(
       '/profile/posts',
       queryParameters: params.toJson(),
@@ -59,7 +63,9 @@ final class PostRepoImpl implements PostRepository {
   }
 
   @override
-  Future<Result<CommentEntity, Failure>> addComment(AddCommentParams params) async {
+  Future<Result<CommentEntity, Failure>> addComment(
+    AddCommentParams params,
+  ) async {
     return _restClient.post(
       '/posts/${params.postId}/comments',
       data: params.toJson(),
@@ -69,7 +75,9 @@ final class PostRepoImpl implements PostRepository {
   }
 
   @override
-  Future<Result<ReactionEntity, Failure>> addReact(AddReactParams params) async {
+  Future<Result<ReactionEntity, Failure>> addReact(
+    AddReactParams params,
+  ) async {
     return _restClient.post(
       '/posts/${params.postId}/reactions',
       data: params.toJson(),

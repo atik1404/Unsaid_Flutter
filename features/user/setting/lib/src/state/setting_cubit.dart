@@ -18,7 +18,9 @@ class SettingCubit extends Cubit<SettingState> {
     final name = _prefStorage.getString(PrefKey.anonymousName);
     final avatar = _prefStorage.getString(PrefKey.profilePicture);
     final phone = _prefStorage.getString(PrefKey.phoneNumber);
-    final isNotificationEnable = _prefStorage.getBoolean(PrefKey.appNotification);
+    final isNotificationEnable = _prefStorage.getBoolean(
+      PrefKey.appNotification,
+    );
     final isSoundEnable = _prefStorage.getBoolean(PrefKey.appNotificationSound);
     emit(
       state.copyWith(

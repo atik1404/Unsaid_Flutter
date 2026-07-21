@@ -12,7 +12,11 @@ class AnonymousCard extends StatelessWidget {
   final String _anonymousName;
   final String _avatar;
 
-  const AnonymousCard({super.key, required this._anonymousName, required this._avatar});
+  const AnonymousCard({
+    super.key,
+    required this._anonymousName,
+    required this._avatar,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +71,15 @@ class AnonymousCard extends StatelessWidget {
         if (state.selectedMood == null) {
           return const SizedBox.shrink();
         }
-        final (bg, text, _) = MoodDecoration.getColor(context, tag: state.selectedMood!.name);
+        final (bg, text, _) = MoodDecoration.getColor(
+          context,
+          tag: state.selectedMood!.name,
+        );
         return AppTag(
-          padding: EdgeInsets.symmetric(horizontal: AppSpacing.s8.w, vertical: AppSpacing.s2.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.s8.w,
+            vertical: AppSpacing.s2.h,
+          ),
           backgroundColor: bg,
           child: AppText.captionSmall(
             state.selectedMood!.name.toUpperCase(),

@@ -31,12 +31,23 @@ class SettingScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.s16.w, vertical: AppSpacing.s16.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.s16.w,
+          vertical: AppSpacing.s16.h,
+        ),
         child: Column(
           children: [
             // Rebuilds only when the profile fields change (i.e. once loaded).
-            BlocSelector<SettingCubit, SettingState, ({String name, String subtitle, String avatarUrl})>(
-              selector: (state) => (name: state.fullname, subtitle: state.phone, avatarUrl: state.avatarUrl),
+            BlocSelector<
+              SettingCubit,
+              SettingState,
+              ({String name, String subtitle, String avatarUrl})
+            >(
+              selector: (state) => (
+                name: state.fullname,
+                subtitle: state.phone,
+                avatarUrl: state.avatarUrl,
+              ),
               builder: (context, profile) {
                 return ProfileSummaryCard(
                   name: profile.name,

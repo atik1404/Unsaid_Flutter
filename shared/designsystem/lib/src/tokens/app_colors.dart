@@ -12,16 +12,34 @@ final class AppColors {
   // 300–500: text hierarchy               (light theme) / muted text (dark theme)
   // 600–800: text & borders               (dark theme)
   // 900    : primary body text            (light theme)
-  static const neutral50 = Color(0xFFF5F3FF); // #F5F3FF — light theme app background
+  static const neutral50 = Color(
+    0xFFF5F3FF,
+  ); // #F5F3FF — light theme app background
   static const neutral100 = Color(0xFFEDE8FF); // #EDE8FF — light theme dividers
-  static const neutral200 = Color(0xFFE8E4F0); // #E8E4F0 — light theme card borders
-  static const neutral300 = Color(0xFFC0B8D8); // #C0B8D8 — light disabled / dark body text
-  static const neutral400 = Color(0xFFB0A8CC); // #B0A8CC — light theme muted text
-  static const neutral500 = Color(0xFF8878AA); // #8878AA — light theme secondary text
-  static const neutral600 = Color(0xFF7070A0); // #7070A0 — dark theme username text
-  static const neutral700 = Color(0xFF46466A); // #46466A — dark theme muted text
-  static const neutral800 = Color(0xFF25253A); // #25253A — dark theme subtle borders
-  static const neutral900 = Color(0xFF3D3060); // #3D3060 — light theme primary body text
+  static const neutral200 = Color(
+    0xFFE8E4F0,
+  ); // #E8E4F0 — light theme card borders
+  static const neutral300 = Color(
+    0xFFC0B8D8,
+  ); // #C0B8D8 — light disabled / dark body text
+  static const neutral400 = Color(
+    0xFFB0A8CC,
+  ); // #B0A8CC — light theme muted text
+  static const neutral500 = Color(
+    0xFF8878AA,
+  ); // #8878AA — light theme secondary text
+  static const neutral600 = Color(
+    0xFF7070A0,
+  ); // #7070A0 — dark theme username text
+  static const neutral700 = Color(
+    0xFF46466A,
+  ); // #46466A — dark theme muted text
+  static const neutral800 = Color(
+    0xFF25253A,
+  ); // #25253A — dark theme subtle borders
+  static const neutral900 = Color(
+    0xFF3D3060,
+  ); // #3D3060 — light theme primary body text
 
   // ─── Brand — VOID purple ──────────────────────────────────────────────────
   // 50–200 : light tints & avatar backgrounds   (light theme)
@@ -29,14 +47,28 @@ final class AppColors {
   // 500    : primary accent                     (light theme)
   // 600    : strong brand border                (dark theme)
   // 700–900: dark theme layered backgrounds
-  static const brand50 = Color(0xFFF5F0FF); // #F5F0FF — lightest purple tint / avatar bg (light)
-  static const brand100 = Color(0xFFE8E2FF); // #E8E2FF — light card borders / card-specific border
-  static const brand200 = Color(0xFFC4A8F0); // #C4A8F0 — avatar borders (light theme)
-  static const brand300 = Color(0xFF9D71F0); // #9D71F0 — primary accent (dark theme)
+  static const brand50 = Color(
+    0xFFF5F0FF,
+  ); // #F5F0FF — lightest purple tint / avatar bg (light)
+  static const brand100 = Color(
+    0xFFE8E2FF,
+  ); // #E8E2FF — light card borders / card-specific border
+  static const brand200 = Color(
+    0xFFC4A8F0,
+  ); // #C4A8F0 — avatar borders (light theme)
+  static const brand300 = Color(
+    0xFF9D71F0,
+  ); // #9D71F0 — primary accent (dark theme)
   static const brand400 = Color(0xFF8A50E0); // #8A50E0 — mid-range purple
-  static const brand500 = Color(0xFF6D3FD4); // #6D3FD4 — primary accent (light theme)
-  static const brand600 = Color(0xFF5B21B6); // #5B21B6 — strong brand border (dark theme)
-  static const brand700 = Color(0xFF1A1A2E); // #1A1A2E — dark card borders / overlay base
+  static const brand500 = Color(
+    0xFF6D3FD4,
+  ); // #6D3FD4 — primary accent (light theme)
+  static const brand600 = Color(
+    0xFF5B21B6,
+  ); // #5B21B6 — strong brand border (dark theme)
+  static const brand700 = Color(
+    0xFF1A1A2E,
+  ); // #1A1A2E — dark card borders / overlay base
   static const brand800 = Color(0xFF111120); // #111120 — dark card background
   static const brand900 = Color(0xFF0B0B14); // #0B0B14 — dark app background
 
@@ -53,7 +85,9 @@ final class AppColors {
   static const secondary900 = Color(0xFF5C0A38); // #5C0A38
 
   // ─── Error — Rage red ─────────────────────────────────────────────────────
-  static const error50 = Color(0xFFFFF0F0); // #FFF0F0 — rage / destructive surface (light)
+  static const error50 = Color(
+    0xFFFFF0F0,
+  ); // #FFF0F0 — rage / destructive surface (light)
   static const error100 = Color(0xFFFFD9D6); // #FFD9D6
   static const error200 = Color(0xFFFFADA8); // #FFADA8
   static const error300 = Color(0xFFFF8880); // #FF8880
@@ -70,7 +104,9 @@ final class AppColors {
   static const warning200 = Color(0xFFFED7B0); // #FED7B0
   static const warning300 = Color(0xFFFDC088); // #FDC088
   static const warning400 = Color(0xFFFCA85A); // #FCA85A
-  static const warning500 = Color(0xFFF97316); // #F97316 — rant / warning accent
+  static const warning500 = Color(
+    0xFFF97316,
+  ); // #F97316 — rant / warning accent
   static const warning600 = Color(0xFFD95D08); // #D95D08
   static const warning700 = Color(0xFFB84A04); // #B84A04
   static const warning800 = Color(0xFF943A02); // #943A02
@@ -101,23 +137,45 @@ final class AppColors {
 
   // ─── Extended — Dark theme surfaces ───────────────────────────────────────
   // Colors used in the VOID dark UI that fall between the main brand scale steps.
-  static const darkSurfaceDeep = Color(0xFF0D0D1C); // #0D0D1C — deep card / feed bg (darker than brand800)
-  static const darkSurfaceBrand = Color(0xFF13102A); // #13102A — purple-tinted avatar icon bg
-  static const darkSurfaceDanger = Color(0xFF1A0C0C); // #1A0C0C — danger zone / destructive area bg
+  static const darkSurfaceDeep = Color(
+    0xFF0D0D1C,
+  ); // #0D0D1C — deep card / feed bg (darker than brand800)
+  static const darkSurfaceBrand = Color(
+    0xFF13102A,
+  ); // #13102A — purple-tinted avatar icon bg
+  static const darkSurfaceDanger = Color(
+    0xFF1A0C0C,
+  ); // #1A0C0C — danger zone / destructive area bg
 
   // ─── Extended — Dark theme borders ────────────────────────────────────────
-  static const darkBorderInner = Color(0xFF1E1E30); // #1E1E30 — inner dividers within cards
-  static const darkBorderCard = Color(0xFF22223A); // #22223A — card outer border
-  static const darkBorderBrandMuted = Color(0xFF6B21A8); // #6B21A8 — muted brand border (avatar rings)
+  static const darkBorderInner = Color(
+    0xFF1E1E30,
+  ); // #1E1E30 — inner dividers within cards
+  static const darkBorderCard = Color(
+    0xFF22223A,
+  ); // #22223A — card outer border
+  static const darkBorderBrandMuted = Color(
+    0xFF6B21A8,
+  ); // #6B21A8 — muted brand border (avatar rings)
 
   // ─── Extended — Dark theme text ───────────────────────────────────────────
-  static const darkContentSubtle = Color(0xFF35354E); // #35354E — faint text: timestamps, captions
-  static const darkContentMuted = Color(0xFF3D3D5C); // #3D3D5C — very faint text: status bar labels
+  static const darkContentSubtle = Color(
+    0xFF35354E,
+  ); // #35354E — faint text: timestamps, captions
+  static const darkContentMuted = Color(
+    0xFF3D3D5C,
+  ); // #3D3D5C — very faint text: status bar labels
 
   // ─── Extended — Light theme surfaces & borders ────────────────────────────
-  static const lightSurfaceInput = Color(0xFFFAF8FF); // #FAF8FF — input / textarea background
-  static const lightBorderMuted = Color(0xFFDDD8F5); // #DDD8F5 — muted border / phone frame
+  static const lightSurfaceInput = Color(
+    0xFFFAF8FF,
+  ); // #FAF8FF — input / textarea background
+  static const lightBorderMuted = Color(
+    0xFFDDD8F5,
+  ); // #DDD8F5 — muted border / phone frame
 
   // ─── Extended — Light theme text ──────────────────────────────────────────
-  static const lightContentSubtle = Color(0xFFA09AB8); // #A09AB8 — status bar / very faint text
+  static const lightContentSubtle = Color(
+    0xFFA09AB8,
+  ); // #A09AB8 — status bar / very faint text
 }

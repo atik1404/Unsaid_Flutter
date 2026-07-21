@@ -9,7 +9,8 @@ class PostsDto {
 
   const PostsDto({this.data, this.meta});
 
-  factory PostsDto.fromJson(Map<String, dynamic> json) => _$PostsDtoFromJson(json);
+  factory PostsDto.fromJson(Map<String, dynamic> json) =>
+      _$PostsDtoFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -62,7 +63,8 @@ class PostDto {
     this.author,
   });
 
-  factory PostDto.fromJson(Map<String, dynamic> json) => _$PostDtoFromJson(json);
+  factory PostDto.fromJson(Map<String, dynamic> json) =>
+      _$PostDtoFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -75,9 +77,15 @@ class PostAuthorDto {
   @JsonKey(name: 'anonymous_tag')
   final String? anonymousTag;
 
-  const PostAuthorDto({this.id, this.fullName, this.avatarSeed, this.anonymousTag});
+  const PostAuthorDto({
+    this.id,
+    this.fullName,
+    this.avatarSeed,
+    this.anonymousTag,
+  });
 
-  factory PostAuthorDto.fromJson(Map<String, dynamic> json) => _$PostAuthorDtoFromJson(json);
+  factory PostAuthorDto.fromJson(Map<String, dynamic> json) =>
+      _$PostAuthorDtoFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -92,5 +100,6 @@ class PostMetaDto {
 
   const PostMetaDto({this.total, this.pageNo, this.pageSize, this.totalPages});
 
-  factory PostMetaDto.fromJson(Map<String, dynamic> json) => _$PostMetaDtoFromJson(json);
+  factory PostMetaDto.fromJson(Map<String, dynamic> json) =>
+      _$PostMetaDtoFromJson(json);
 }

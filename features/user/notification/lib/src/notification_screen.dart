@@ -53,7 +53,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BlocBuilder<NotificationCubit, NotificationState>(
-            buildWhen: (prev, curr) => prev.filter != curr.filter || prev.unreadCount != curr.unreadCount,
+            buildWhen: (prev, curr) =>
+                prev.filter != curr.filter ||
+                prev.unreadCount != curr.unreadCount,
             builder: (context, state) {
               return NotificationFilterTab(
                 selected: state.filter,
@@ -76,7 +78,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 final items = state.visibleNotifications;
 
                 if (items.isEmpty) {
-                  return AppErrorScreen(title: context.l10n.notification_empty_title, message: context.l10n.notification_empty_message);
+                  return AppErrorScreen(
+                    title: context.l10n.notification_empty_title,
+                    message: context.l10n.notification_empty_message,
+                  );
                 }
 
                 return ListView.builder(
@@ -86,7 +91,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     return NotificationItem(
                       notification: notification,
                       onTap: () {
-                        context.read<NotificationCubit>().markAsRead(notification.id);
+                        context.read<NotificationCubit>().markAsRead(
+                          notification.id,
+                        );
                       },
                     );
                   },

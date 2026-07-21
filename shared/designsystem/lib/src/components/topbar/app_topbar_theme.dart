@@ -52,7 +52,8 @@ final class AppTopBarTheme extends ThemeExtension<AppTopBarTheme> {
       backgroundGradient: backgroundGradient ?? this.backgroundGradient,
       foregroundColor: foregroundColor ?? this.foregroundColor,
       elevation: elevation ?? this.elevation,
-      scrolledUnderElevation: scrolledUnderElevation ?? this.scrolledUnderElevation,
+      scrolledUnderElevation:
+          scrolledUnderElevation ?? this.scrolledUnderElevation,
       shadowColor: shadowColor ?? this.shadowColor,
       surfaceTintColor: surfaceTintColor ?? this.surfaceTintColor,
     );

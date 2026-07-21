@@ -22,12 +22,17 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   // -------------------------------------------------------
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final requiresAuth = _requiresAuth(options);
     final optionalAuth = _optionalAuth(options);
     if (!requiresAuth && !optionalAuth) return handler.next(options);
 
-    final bearerToken = _toBearerHeader(await _prefStorage.getSecureString(PrefKey.accessToken));
+    final bearerToken = _toBearerHeader(
+      await _prefStorage.getSecureString(PrefKey.accessToken),
+    );
     if (bearerToken == null) {
       // Optional-auth endpoints proceed as a guest when no token is stored.
       if (optionalAuth) return handler.next(options);
@@ -44,7 +49,10 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   // -------------------------------------------------------
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     if (err.requestOptions.extra[DioExtraKeys.isRetry] == true) {
       if (_isUnauthorized(err) || _isSessionConflict(err)) {
         return _handleAuthFailure(err, handler);
@@ -53,10 +61,13 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
     }
     if (_isSessionConflict(err)) return _handleAuthFailure(err, handler);
     if (!_isUnauthorized(err)) return handler.next(err);
-    if (_isRefreshRequest(err.requestOptions)) return _handleAuthFailure(err, handler);
+    if (_isRefreshRequest(err.requestOptions))
+      return _handleAuthFailure(err, handler);
 
     final attemptedAuth = err.requestOptions.headers['Authorization'];
-    final currentAuth = _toBearerHeader(await _prefStorage.getSecureString(PrefKey.accessToken));
+    final currentAuth = _toBearerHeader(
+      await _prefStorage.getSecureString(PrefKey.accessToken),
+    );
 
     if (currentAuth != null && attemptedAuth != currentAuth) {
       await _retry(err, currentAuth, handler);
@@ -95,7 +106,9 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 
   /// Calls the refresh endpoint using a dedicated Dio (no interceptors).
   Future<_TokenRecord> _fetchNewTokens() async {
-    final refreshToken = await _prefStorage.getSecureString(PrefKey.refreshToken);
+    final refreshToken = await _prefStorage.getSecureString(
+      PrefKey.refreshToken,
+    );
     if (refreshToken.isEmpty) {
       throw DioException(
         requestOptions: RequestOptions(path: _refreshPath),
@@ -112,7 +125,9 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
       final newAccessToken = data[_kAccessTokenKey]?.toString();
       final newRefreshToken = data[_kRefreshTokenKey]?.toString();
       final expiresIn = data[_kExpiresInKey]?.toString();
-      if (newAccessToken != null && newRefreshToken != null && expiresIn != null) {
+      if (newAccessToken != null &&
+          newRefreshToken != null &&
+          expiresIn != null) {
         return (newAccessToken, newRefreshToken, expiresIn);
       }
     }
@@ -127,22 +142,28 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   // HELPERS
   // -------------------------------------------------------
 
-  bool _requiresAuth(RequestOptions options) => options.extra[DioExtraKeys.requiresAuth] == true;
+  bool _requiresAuth(RequestOptions options) =>
+      options.extra[DioExtraKeys.requiresAuth] == true;
 
-  bool _optionalAuth(RequestOptions options) => options.extra[DioExtraKeys.optionalAuth] == true;
+  bool _optionalAuth(RequestOptions options) =>
+      options.extra[DioExtraKeys.optionalAuth] == true;
 
   /// True when the request participates in the auth lifecycle: either it
   /// strictly requires auth, or it is optional-auth and actually carried a
   /// token (so a 401 is worth a refresh). Guest optional-auth requests are
   /// excluded — there is nothing to refresh.
   bool _isAuthEnforced(RequestOptions options) =>
-      _requiresAuth(options) || (_optionalAuth(options) && options.headers.containsKey('Authorization'));
+      _requiresAuth(options) ||
+      (_optionalAuth(options) && options.headers.containsKey('Authorization'));
 
-  bool _isRefreshRequest(RequestOptions options) => options.path == _refreshPath || options.path.endsWith(_refreshPath);
+  bool _isRefreshRequest(RequestOptions options) =>
+      options.path == _refreshPath || options.path.endsWith(_refreshPath);
 
-  bool _isUnauthorized(DioException err) => err.response?.statusCode == 401 && _isAuthEnforced(err.requestOptions);
+  bool _isUnauthorized(DioException err) =>
+      err.response?.statusCode == 401 && _isAuthEnforced(err.requestOptions);
 
-  bool _isSessionConflict(DioException err) => err.response?.statusCode == 409 && _isAuthEnforced(err.requestOptions);
+  bool _isSessionConflict(DioException err) =>
+      err.response?.statusCode == 409 && _isAuthEnforced(err.requestOptions);
 
   bool _isNetworkError(DioException e) =>
       e.type == DioExceptionType.connectionTimeout ||
@@ -150,9 +171,14 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
       e.type == DioExceptionType.receiveTimeout ||
       e.type == DioExceptionType.connectionError;
 
-  String? _toBearerHeader(String? token) => (token == null || token.isEmpty) ? null : 'Bearer $token';
+  String? _toBearerHeader(String? token) =>
+      (token == null || token.isEmpty) ? null : 'Bearer $token';
 
-  Future<void> _saveTokens(String accessToken, String refreshToken, String expiresIn) async {
+  Future<void> _saveTokens(
+    String accessToken,
+    String refreshToken,
+    String expiresIn,
+  ) async {
     await _prefStorage.write(PrefKey.accessToken, accessToken);
     await _prefStorage.write(PrefKey.refreshToken, refreshToken);
     await _prefStorage.write(PrefKey.accessTokenExpiresIn, expiresIn);
@@ -175,4 +201,8 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
 // -------------------------------------------------------
 // INTERNAL: Token pair from refresh response
 // -------------------------------------------------------
-typedef _TokenRecord = (String accessToken, String refreshToken, String expiresIn);
+typedef _TokenRecord = (
+  String accessToken,
+  String refreshToken,
+  String expiresIn,
+);

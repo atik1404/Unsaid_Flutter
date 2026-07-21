@@ -39,7 +39,9 @@ class CreatePostScreen extends StatelessWidget {
     final verticalGap = SizedBox(height: AppSpacing.s8.h);
 
     return AppScaffold(
-      isLoading: state.status == CreatePostStatus.submitting || state.status == CreatePostStatus.loading,
+      isLoading:
+          state.status == CreatePostStatus.submitting ||
+          state.status == CreatePostStatus.loading,
       appBar: AppTopBar(
         titleWidget: AppText.headlineSmall(
           context.l10n.create_post_title,
@@ -49,7 +51,10 @@ class CreatePostScreen extends StatelessWidget {
         backgroundColor: context.scaffoldTheme.backgroundColor,
         foregroundColor: context.appColors.brand,
         leading: AppIconButton(
-          AppIcon(const Icon(CupertinoIcons.clear), color: context.appColors.brand),
+          AppIcon(
+            const Icon(CupertinoIcons.clear),
+            color: context.appColors.brand,
+          ),
           onPressed: () => context.pop(),
         ),
         actions: const [_PostActionButton()],
@@ -64,7 +69,10 @@ class CreatePostScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AnonymousCard(anonymousName: _prefStorage.getString(PrefKey.anonymousName), avatar: _prefStorage.getString(PrefKey.profilePicture)),
+              AnonymousCard(
+                anonymousName: _prefStorage.getString(PrefKey.anonymousName),
+                avatar: _prefStorage.getString(PrefKey.profilePicture),
+              ),
               verticalGap,
               AppText.bodyLarge(
                 context.l10n.create_post_mood_label,
@@ -99,10 +107,16 @@ class CreatePostScreen extends StatelessWidget {
   void _onStateChanged(BuildContext context, CreatePostState state) {
     switch (state.status) {
       case CreatePostStatus.success:
-        AppToast.toast(message: state.successMessage ?? '', toastType: ToastType.success);
+        AppToast.toast(
+          message: state.successMessage ?? '',
+          toastType: ToastType.success,
+        );
         context.pop();
       case CreatePostStatus.failure:
-        AppToast.toast(message: state.errorMessage?.resolveMessage(context) ?? '', toastType: ToastType.error);
+        AppToast.toast(
+          message: state.errorMessage?.resolveMessage(context) ?? '',
+          toastType: ToastType.error,
+        );
       case CreatePostStatus.initial:
       case CreatePostStatus.submitting:
         break;
@@ -122,11 +136,17 @@ class _PostActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreatePostBloc, CreatePostState>(
-      buildWhen: (prev, curr) => prev.canSubmit != curr.canSubmit || prev.isSubmitting != curr.isSubmitting,
+      buildWhen: (prev, curr) =>
+          prev.canSubmit != curr.canSubmit ||
+          prev.isSubmitting != curr.isSubmitting,
       builder: (context, state) {
         return AppTextButton(
           context.l10n.create_post_action_post,
-          onPressed: state.canSubmit ? () => context.read<CreatePostBloc>().add(const CreatePostSubmitted()) : null,
+          onPressed: state.canSubmit
+              ? () => context.read<CreatePostBloc>().add(
+                  const CreatePostSubmitted(),
+                )
+              : null,
         );
       },
     );
@@ -145,7 +165,8 @@ class _MoodSelector extends StatelessWidget {
     return BlocBuilder<CreatePostBloc, CreatePostState>(
       buildWhen: (prev, curr) => prev.selectedMood != curr.selectedMood,
       builder: (context, state) {
-        final listMoods = List<MoodType>.from(MoodType.values)..remove(MoodType.all);
+        final listMoods = List<MoodType>.from(MoodType.values)
+          ..remove(MoodType.all);
         return SizedBox(
           height: AppSpacing.s24.h,
           child: ListView.builder(
@@ -157,7 +178,8 @@ class _MoodSelector extends StatelessWidget {
               return MoodPillItem(
                 mood: mood.name,
                 isSelected: mood == state.selectedMood,
-                onTap: () => context.read<CreatePostBloc>().add(MoodSelected(mood)),
+                onTap: () =>
+                    context.read<CreatePostBloc>().add(MoodSelected(mood)),
               );
             },
           ),
@@ -182,7 +204,8 @@ class _PostInputField extends StatelessWidget {
       maxLines: 15,
       keyboardType: TextInputType.multiline,
       textInputAction: TextInputAction.newline,
-      onChanged: (value) => context.read<CreatePostBloc>().add(PostBodyChanged(value)),
+      onChanged: (value) =>
+          context.read<CreatePostBloc>().add(PostBodyChanged(value)),
     );
   }
 }

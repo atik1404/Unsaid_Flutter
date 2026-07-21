@@ -168,17 +168,35 @@ final class RestClient {
     final statusCode = e.response?.statusCode;
 
     return switch (e.type) {
-      DioExceptionType.sendTimeout || DioExceptionType.receiveTimeout || DioExceptionType.connectionTimeout => NetworkFailure(FailureKey.connectionTimeout, statusCode),
+      DioExceptionType.sendTimeout ||
+      DioExceptionType.receiveTimeout ||
+      DioExceptionType.connectionTimeout => NetworkFailure(
+        FailureKey.connectionTimeout,
+        statusCode,
+      ),
 
-      DioExceptionType.connectionError => NetworkFailure(FailureKey.network, statusCode),
+      DioExceptionType.connectionError => NetworkFailure(
+        FailureKey.network,
+        statusCode,
+      ),
 
-      DioExceptionType.cancel => UnknownFailure(FailureKey.requestCancelled, statusCode),
+      DioExceptionType.cancel => UnknownFailure(
+        FailureKey.requestCancelled,
+        statusCode,
+      ),
 
-      DioExceptionType.badResponse => _handleServerError(statusCode, e.response?.data),
+      DioExceptionType.badResponse => _handleServerError(
+        statusCode,
+        e.response?.data,
+      ),
 
-      DioExceptionType.badCertificate || DioExceptionType.unknown => UnknownFailure(FailureKey.unknown, statusCode),
+      DioExceptionType.badCertificate || DioExceptionType.unknown =>
+        UnknownFailure(FailureKey.unknown, statusCode),
 
-      DioExceptionType.transformTimeout => UnknownFailure(FailureKey.unknown, statusCode),
+      DioExceptionType.transformTimeout => UnknownFailure(
+        FailureKey.unknown,
+        statusCode,
+      ),
     };
   }
 

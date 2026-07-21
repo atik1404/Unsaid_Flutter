@@ -24,7 +24,8 @@ final class CommentsSection extends StatelessWidget {
         ListView.separated(
           itemCount: comments.length,
           shrinkWrap: true,
-          separatorBuilder: (context, index) => SizedBox(height: AppSpacing.s4.h),
+          separatorBuilder: (context, index) =>
+              SizedBox(height: AppSpacing.s4.h),
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return CommentsCard(comment: comments[index]);

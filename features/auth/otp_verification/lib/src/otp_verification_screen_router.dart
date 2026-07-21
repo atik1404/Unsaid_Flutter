@@ -20,8 +20,15 @@ final class OtpVerificationScreenRouter implements BaseRouter {
           return buildPageWithTransition(
             state: state,
             child: BlocProvider(
-              create: (_) => OtpVerificationCubit(phone: phone, verificationId: verificationId),
-              child: OtpVerificationScreen(phone: phone, verificationId: verificationId, otpPurpose: otpPurpose),
+              create: (_) => OtpVerificationCubit(
+                phone: phone,
+                verificationId: verificationId,
+              ),
+              child: OtpVerificationScreen(
+                phone: phone,
+                verificationId: verificationId,
+                otpPurpose: otpPurpose,
+              ),
             ),
           );
         },

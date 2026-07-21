@@ -10,7 +10,9 @@ abstract class PostRepository {
   /// Fetches the list of available topics (`GET /get_topics`).
   Future<Result<List<TopicEntity>, Failure>> fetchTopics();
 
-  Future<Result<PostPagerEntity, Failure>> fetchMyPosts(FetchPostsParams params);
+  Future<Result<PostPagerEntity, Failure>> fetchMyPosts(
+    FetchPostsParams params,
+  );
 
   Future<Result<PostDetailsEntity, Failure>> fetchPostDetails(String postId);
 

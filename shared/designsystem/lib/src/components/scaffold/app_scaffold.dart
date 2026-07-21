@@ -46,7 +46,8 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.scaffoldTheme;
-    final hasGradientBackground = enableGradientBackground && theme.gradientColor != null;
+    final hasGradientBackground =
+        enableGradientBackground && theme.gradientColor != null;
 
     // The body, with optional padding and selection support.
     var content = body;
@@ -67,7 +68,9 @@ class AppScaffold extends StatelessWidget {
     );
 
     Widget scaffold = Scaffold(
-      backgroundColor: hasGradientBackground ? Colors.transparent : theme.backgroundColor,
+      backgroundColor: hasGradientBackground
+          ? Colors.transparent
+          : theme.backgroundColor,
       appBar: appBar,
       body: content,
       floatingActionButton: floatingActionButton,
@@ -105,7 +108,9 @@ class AppScaffold extends StatelessWidget {
                 child: ColoredBox(
                   color: Colors.black.withValues(alpha: 0.3),
                   child: Center(
-                    child: CupertinoActivityIndicator(color: context.appColors.brand),
+                    child: CupertinoActivityIndicator(
+                      color: context.appColors.brand,
+                    ),
                   ),
                 ),
               ),

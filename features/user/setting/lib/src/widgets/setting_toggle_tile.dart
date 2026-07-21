@@ -36,9 +36,23 @@ class SettingToggleTile extends StatelessWidget {
     final colors = context.appColors;
     return ListTile(
       leading: Icon(icon, color: colors.brand),
-      title: AppText.bodyMedium(label, color: colors.contentPrimary, textWeight: AppTextWeight.medium),
-      subtitle: subtitle != null ? AppText.captionSmall(subtitle!, color: colors.contentSecondary, textWeight: AppTextWeight.light) : null,
-      trailing: AppSwitch(value: value, onChanged: onChanged, size: AppSwitchSize.sm),
+      title: AppText.bodyMedium(
+        label,
+        color: colors.contentPrimary,
+        textWeight: AppTextWeight.medium,
+      ),
+      subtitle: subtitle != null
+          ? AppText.captionSmall(
+              subtitle!,
+              color: colors.contentSecondary,
+              textWeight: AppTextWeight.light,
+            )
+          : null,
+      trailing: AppSwitch(
+        value: value,
+        onChanged: onChanged,
+        size: AppSwitchSize.sm,
+      ),
       // Tapping the row mirrors the switch for a larger, friendlier hit target.
       onTap: onChanged == null ? null : () => onChanged!(!value),
     );

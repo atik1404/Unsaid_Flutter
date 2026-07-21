@@ -26,10 +26,14 @@ enum DeleteAccountReason {
 /// of presentation concerns.
 extension DeleteAccountReasonL10n on DeleteAccountReason {
   String label(BuildContext context) => switch (this) {
-    DeleteAccountReason.noLongerUse => context.l10n.delete_account_reason_no_longer_use,
-    DeleteAccountReason.privacyConcerns => context.l10n.delete_account_reason_privacy,
-    DeleteAccountReason.betterAlternative => context.l10n.delete_account_reason_better_alternative,
-    DeleteAccountReason.technicalIssues => context.l10n.delete_account_reason_technical,
+    DeleteAccountReason.noLongerUse =>
+      context.l10n.delete_account_reason_no_longer_use,
+    DeleteAccountReason.privacyConcerns =>
+      context.l10n.delete_account_reason_privacy,
+    DeleteAccountReason.betterAlternative =>
+      context.l10n.delete_account_reason_better_alternative,
+    DeleteAccountReason.technicalIssues =>
+      context.l10n.delete_account_reason_technical,
     DeleteAccountReason.other => context.l10n.delete_account_reason_other,
   };
 }

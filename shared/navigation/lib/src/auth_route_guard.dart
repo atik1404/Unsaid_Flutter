@@ -39,7 +39,8 @@ String? authGuardRedirect(BuildContext context, GoRouterState state) {
   }
 
   if (isLoggedIn && routeName == AppRouteName.loginScreen) {
-    return state.uri.queryParameters[redirectQueryParam] ?? AppRouteName.homePath;
+    return state.uri.queryParameters[redirectQueryParam] ??
+        AppRouteName.homePath;
   }
 
   return null;

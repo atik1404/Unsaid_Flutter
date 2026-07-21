@@ -14,11 +14,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final FetchProfileUseCase _fetchProfileUseCase;
   final AppPrefStorage _appPrefStorage;
 
-  LoginBloc({required LoginUseCase loginUseCase, required FetchProfileUseCase fetchProfileUseCase, required AppPrefStorage appPrefStorage})
-    : _loginUseCase = loginUseCase,
-      _fetchProfileUseCase = fetchProfileUseCase,
-      _appPrefStorage = appPrefStorage,
-      super(const LoginState()) {
+  LoginBloc({
+    required LoginUseCase loginUseCase,
+    required FetchProfileUseCase fetchProfileUseCase,
+    required AppPrefStorage appPrefStorage,
+  }) : _loginUseCase = loginUseCase,
+       _fetchProfileUseCase = fetchProfileUseCase,
+       _appPrefStorage = appPrefStorage,
+       super(const LoginState()) {
     on<LoginPhoneChanged>(_onPhoneChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
@@ -28,17 +31,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   // ── Field change handlers ─────────────────────────────────────────────────
   void _onPhoneChanged(LoginPhoneChanged event, Emitter<LoginState> emit) {
-    emit(state.copyWith(phone: PhoneInputValidator.dirty(event.phone), errorMessage: null));
+    emit(
+      state.copyWith(
+        phone: PhoneInputValidator.dirty(event.phone),
+        errorMessage: null,
+      ),
+    );
   }
 
   void _onPasswordChanged(
     LoginPasswordChanged event,
     Emitter<LoginState> emit,
   ) {
-    emit(state.copyWith(password: PasswordInputValidator.dirty(event.password), errorMessage: null));
+    emit(
+      state.copyWith(
+        password: PasswordInputValidator.dirty(event.password),
+        errorMessage: null,
+      ),
+    );
   }
 
-  void _onTogglePasswordVisibility(LoginTogglePasswordVisibility event, Emitter<LoginState> emit) {
+  void _onTogglePasswordVisibility(
+    LoginTogglePasswordVisibility event,
+    Emitter<LoginState> emit,
+  ) {
     emit(state.copyWith(showPassword: !state.showPassword));
   }
 
@@ -65,14 +81,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
 
     final result = await _loginUseCase(
-      LoginParams(identifier: phone.value.formatPhone(), password: password.value),
+      LoginParams(
+        identifier: phone.value.formatPhone(),
+        password: password.value,
+      ),
     );
 
     result.when(
       success: (_) async {
-        final accessToken = await _appPrefStorage.getSecureString(PrefKey.accessToken);
-        debugPrint('loginStatus: ${_appPrefStorage.getBoolean(PrefKey.loginStatus)}, accessToken: $accessToken');
-        add(const FetchProfile()); // Chain the next step to fetch the user's profile after successful login.
+        final accessToken = await _appPrefStorage.getSecureString(
+          PrefKey.accessToken,
+        );
+        debugPrint(
+          'loginStatus: ${_appPrefStorage.getBoolean(PrefKey.loginStatus)}, accessToken: $accessToken',
+        );
+        add(
+          const FetchProfile(),
+        ); // Chain the next step to fetch the user's profile after successful login.
         //emit(state.copyWith(status: FormzSubmissionStatus.success));
       },
       failure: (failure) {

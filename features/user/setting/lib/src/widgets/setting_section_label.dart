@@ -13,10 +13,18 @@ class SettingSectionLabel extends StatelessWidget {
   /// The text colour, letting callers tint the danger-zone header differently.
   final Color color;
 
-  const SettingSectionLabel({super.key, required this.title, required this.color});
+  const SettingSectionLabel({
+    super.key,
+    required this.title,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return AppText.captionMedium(title, color: color, textWeight: AppTextWeight.light);
+    return AppText.captionMedium(
+      title,
+      color: color,
+      textWeight: AppTextWeight.light,
+    );
   }
 }

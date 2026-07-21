@@ -15,7 +15,8 @@ abstract class ChangePasswordState with _$ChangePasswordState {
   const factory ChangePasswordState({
     @Default(PasswordInputValidator.pure()) PasswordInputValidator oldPassword,
     @Default(PasswordInputValidator.pure()) PasswordInputValidator newPassword,
-    @Default(PasswordInputValidator.pure()) PasswordInputValidator confirmPassword,
+    @Default(PasswordInputValidator.pure())
+    PasswordInputValidator confirmPassword,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus status,
     @Default(false) bool showError,
     String? errorMessage,

@@ -17,5 +17,6 @@ final class UpdateProfileDto {
     this.message,
   });
 
-  factory UpdateProfileDto.fromJson(Map<String, dynamic> json) => _$UpdateProfileDtoFromJson(json);
+  factory UpdateProfileDto.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfileDtoFromJson(json);
 }

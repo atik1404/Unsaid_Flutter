@@ -16,5 +16,6 @@ final class ChangePasswordDto {
     this.message,
   });
 
-  factory ChangePasswordDto.fromJson(Map<String, dynamic> json) => _$ChangePasswordDtoFromJson(json);
+  factory ChangePasswordDto.fromJson(Map<String, dynamic> json) =>
+      _$ChangePasswordDtoFromJson(json);
 }

@@ -60,7 +60,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   /// Opens the Edit Profile screen, seeding it with the current profile. If the
   /// user saved changes (the screen pops with `true`), refreshes the profile.
-  Future<void> _openEditProfile(BuildContext context, ProfileState state) async {
+  Future<void> _openEditProfile(
+    BuildContext context,
+    ProfileState state,
+  ) async {
     final cubit = context.read<ProfileCubit>();
     final updated = await context.pushNamed<bool>(
       AppRouteName.editProfileScreen,

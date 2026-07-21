@@ -20,7 +20,9 @@ final class ChangePasswordScreenRouter implements BaseRouter {
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => ChangePasswordCubit(changePasswordUseCase: GetIt.I<ChangePasswordUseCase>()),
+            create: (_) => ChangePasswordCubit(
+              changePasswordUseCase: GetIt.I<ChangePasswordUseCase>(),
+            ),
             child: const ChangePasswordScreen(),
           ),
         ),

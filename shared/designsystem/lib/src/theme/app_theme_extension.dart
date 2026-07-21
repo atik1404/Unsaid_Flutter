@@ -15,15 +15,18 @@ import 'package:flutter/material.dart';
 extension AppThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
 
-  AppTypographyTheme get typography => theme.extension<AppTheme>()!.typographyTheme;
+  AppTypographyTheme get typography =>
+      theme.extension<AppTheme>()!.typographyTheme;
 
   AppTagTheme get tagTheme => theme.extension<AppTheme>()!.tagTheme;
 
   AppColorScheme get appColors => theme.extension<AppTheme>()!.colorSchemeTheme;
 
-  ModeColorScheme get modeColors => theme.extension<AppTheme>()!.modeColorScheme;
+  ModeColorScheme get modeColors =>
+      theme.extension<AppTheme>()!.modeColorScheme;
 
-  AppInputFieldTheme get inputTheme => theme.extension<AppTheme>()!.inputFieldTheme;
+  AppInputFieldTheme get inputTheme =>
+      theme.extension<AppTheme>()!.inputFieldTheme;
 
   AppButtonTheme get buttonTheme => theme.extension<AppTheme>()!.buttonTheme;
 
@@ -31,7 +34,8 @@ extension AppThemeExtension on BuildContext {
 
   AppTopBarTheme get topBarTheme => theme.extension<AppTheme>()!.topBarTheme;
 
-  AppScaffoldTheme get scaffoldTheme => theme.extension<AppTheme>()!.scaffoldTheme;
+  AppScaffoldTheme get scaffoldTheme =>
+      theme.extension<AppTheme>()!.scaffoldTheme;
 
   AppDividerTheme get dividerTheme => theme.extension<AppTheme>()!.dividerTheme;
 
