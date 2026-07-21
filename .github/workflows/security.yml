@@ -64,7 +64,7 @@ jobs:
       # Scans committed lockfiles (pubspec.lock, Gradle, actions) against the
       # OSV database and uploads SARIF to code scanning.
       - name: Run OSV Scanner
-        uses: google/osv-scanner-action/osv-scanner-action@v2
+        uses: google/osv-scanner-action/osv-scanner-action@v2.3.8
         continue-on-error: true # report, don't block, on newly found CVEs
         with:
           scan-args: |-
