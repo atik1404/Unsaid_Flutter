@@ -1,6 +1,8 @@
+import 'package:analytics/analytics.dart';
 import 'package:change_password/change_password.dart';
 import 'package:delete_account/delete_account.dart';
 import 'package:flutter/material.dart';
+import 'package:monitoring/monitoring.dart';
 import 'package:forgot_password/forgot_password.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -53,7 +55,15 @@ Future<void> registerNavigationModule(GetIt locator) async {
     GoRouter(
       navigatorKey: rootNavKey,
       initialLocation: AppRouteName.splash,
-      observers: [routeObserver],
+      // Observers (in order): the existing modal-route observer, the analytics
+      // observer (auto screen-view + navigation events → Clarity), and the
+      // Sentry observer (navigation breadcrumbs for crash context). The
+      // analytics/Sentry singletons are registered before this module runs.
+      observers: [
+        routeObserver,
+        locator<AnalyticsRouteObserver>(),
+        SentryNavigatorObserver(),
+      ],
       routes: routers,
       redirect: authGuardRedirect,
       refreshListenable: authStateNotifier,

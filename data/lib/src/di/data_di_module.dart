@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:data/src/datasource/data_source.dart';
 import 'package:dio/dio.dart';
@@ -13,6 +14,11 @@ class DataDiModule {
 
   static void init(GetIt getIt) {
     final prefStorage = getIt<AppPrefStorage>();
+    // Resolve the crash reporter registered by MonitoringDiModule (runs first).
+    // Falls back to a no-op if monitoring wasn't registered (e.g. in tests).
+    final crashReporter = getIt.isRegistered<CrashReporter>()
+        ? getIt<CrashReporter>()
+        : const NoopCrashReporter();
 
     final tokenRefreshDio = DioFactory.createTokenRefreshClient();
     getIt
@@ -27,14 +33,19 @@ class DataDiModule {
           tokenRefreshDio: tokenRefreshDio,
         ),
       )
-      ..registerSingleton<RestClient>(RestClient(getIt<Dio>()))
+      ..registerSingleton<RestClient>(
+        RestClient(getIt<Dio>(), crashReporter),
+      )
       // Image Dio — separate host/port for multipart image uploads
       ..registerSingleton<Dio>(
         DioFactory.createImageClient(prefStorage),
         instanceName: _imageClientName,
       )
       ..registerSingleton<RestClient>(
-        RestClient(getIt<Dio>(instanceName: _imageClientName)),
+        RestClient(
+          getIt<Dio>(instanceName: _imageClientName),
+          crashReporter,
+        ),
         instanceName: _imageClientName,
       )
       ..registerLazySingleton<AuthRepository>(

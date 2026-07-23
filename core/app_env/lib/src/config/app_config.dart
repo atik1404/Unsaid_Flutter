@@ -57,6 +57,13 @@ class AppConfig {
   final String apiSecret;
   final String projectId;
 
+  /// Sentry DSN for this environment. Empty ⇒ crash reporting runs as a no-op.
+  final String sentryDsn;
+
+  /// Microsoft Clarity project id for this environment. Empty ⇒ Clarity
+  /// session recording is skipped and analytics runs as a no-op.
+  final String clarityProjectId;
+
   const AppConfig._({
     required this.environment,
     required this.buildVariant,
@@ -65,6 +72,8 @@ class AppConfig {
     required this.imageUrl,
     required this.apiSecret,
     required this.projectId,
+    required this.sentryDsn,
+    required this.clarityProjectId,
   });
 
   /// Builds the configuration for [environment], resolving the debug-feature
@@ -85,6 +94,8 @@ class AppConfig {
       imageUrl: env.appImageUrl,
       apiSecret: env.apiSecret,
       projectId: env.projectId,
+      sentryDsn: env.sentryDsn,
+      clarityProjectId: env.clarityProjectId,
     );
   }
 

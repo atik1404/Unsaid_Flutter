@@ -5,11 +5,15 @@ import 'package:otp_verification/src/state/otp_verification_state.dart';
 
 class OtpVerificationCubit extends Cubit<OtpVerificationState> {
   Timer? _timer;
+  final AnalyticsTracker _analytics;
 
-  OtpVerificationCubit({required String verificationId, required String phone})
-    : super(
-        OtpVerificationState(verificationId: verificationId, phone: phone),
-      ) {
+  OtpVerificationCubit({
+    required String verificationId,
+    required String phone,
+    required this._analytics,
+  }) : super(
+         OtpVerificationState(verificationId: verificationId, phone: phone),
+       ) {
     _startTimer();
   }
 

@@ -20,4 +20,12 @@ final class ProdEnv implements EnvFields {
   @override
   @EnviedField(varName: 'PROJECT_ID')
   final String projectId = _ProdEnv.projectId;
+
+  @override
+  @EnviedField(varName: 'SENTRY_DSN', defaultValue: '')
+  final String sentryDsn = _ProdEnv.sentryDsn;
+
+  @override
+  @EnviedField(varName: 'CLARITY_PROJECT_ID', defaultValue: '')
+  final String clarityProjectId = _ProdEnv.clarityProjectId;
 }

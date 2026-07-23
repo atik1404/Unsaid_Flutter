@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -18,6 +19,7 @@ final class SplashScreenRouter implements BaseRouter {
           child: BlocProvider(
             create: (_) => SplashCubit(
               fetchProfileUseCase: GetIt.I.get<FetchProfileUseCase>(),
+              analytics: GetIt.I.get<AnalyticsTracker>(),
             ),
             child: SplashScreen(
               navigateToNextScreen: (redirect) => context.goNamed(redirect),

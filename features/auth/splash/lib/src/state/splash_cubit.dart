@@ -8,10 +8,13 @@ import 'package:domain/domain.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   final FetchProfileUseCase _fetchProfileUseCase;
+  final AnalyticsTracker _analytics;
   final _prefStorage = GetIt.I.get<AppPrefStorage>();
 
-  SplashCubit({required this._fetchProfileUseCase})
-    : super(const SplashState.loading()) {
+  SplashCubit({
+    required this._fetchProfileUseCase,
+    required this._analytics,
+  }) : super(const SplashState.loading()) {
     Future.microtask(checkAuthorization);
   }
 
@@ -20,6 +23,12 @@ class SplashCubit extends Cubit<SplashState> {
 
     final isAuthorized = _prefStorage.getBoolean(PrefKey.loginStatus);
     final isIntroScreenVisible = _prefStorage.getBoolean(PrefKey.isFirstLaunch);
+
+    // Business event: app launched; whether the user resumes an authorised
+    // session is a useful funnel signal (no PII).
+    _analytics.logEvent(
+      BusinessEvent('app_launch', parameters: {'authorized': isAuthorized}),
+    );
 
     if (isAuthorized) {
       await _fetchProfile();

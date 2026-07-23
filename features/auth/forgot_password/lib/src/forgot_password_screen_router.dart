@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forgot_password/forgot_password.dart';
 import 'package:forgot_password/src/state/forgot_password_cubit.dart';
@@ -19,6 +20,7 @@ final class ForgotPasswordScreenRouter implements BaseRouter {
             create: (_) => ForgotPasswordCubit(
               fetchUserExistenceUseCase: GetIt.I<FetchUserExistenceUseCase>(),
               sendOtpUseCase: GetIt.I<SendOtpUseCase>(),
+              analytics: GetIt.I<AnalyticsTracker>(),
             ),
             child: const ForgotPasswordScreen(),
           ),

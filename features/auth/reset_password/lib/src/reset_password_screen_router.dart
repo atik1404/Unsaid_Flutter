@@ -1,5 +1,7 @@
 import 'package:change_password/src/change_password_screen.dart';
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:reset_password/src/reset_password_screen.dart';
@@ -19,7 +21,9 @@ final class ResetPasswordScreenRouter implements BaseRouter {
         pageBuilder: (_, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) => ResetPasswordCubit(),
+            create: (_) => ResetPasswordCubit(
+              analytics: GetIt.I<AnalyticsTracker>(),
+            ),
             child: const ResetPasswordScreen(),
           ),
         ),

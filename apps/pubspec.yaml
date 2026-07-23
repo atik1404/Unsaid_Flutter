@@ -24,6 +24,10 @@ dependencies:
   domain: ^0.0.1
   app_env: ^0.0.1
 
+  # Telemetry: Clarity (analytics) + Sentry (stability monitoring)
+  analytics: ^0.0.1
+  monitoring: ^0.0.1
+
   cupertino_icons: ^1.0.9
   flutter_bloc: ^9.1.1
   flutter_screenutil: ^5.9.3

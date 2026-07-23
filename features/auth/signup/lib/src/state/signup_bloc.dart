@@ -7,8 +7,9 @@ import 'package:signup/src/state/signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final SignupUseCase _signupUseCase;
+  final AnalyticsTracker _analytics;
 
-  SignupBloc({required SignupUseCase signupUsecase})
+  SignupBloc({required SignupUseCase signupUsecase, required this._analytics})
     : _signupUseCase = signupUsecase,
       super(const SignupState()) {
     on<NameUpdate>(_onNameUpdate);
@@ -78,6 +79,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       ),
     );
 
+    // Business event: sign-up attempt (after client-side validation passed).
+    _analytics.logEvent(const BusinessEvent(AnalyticsEventName.signupAttempt));
+
     final result = await _signupUseCase.call(
       SignupParams(
         email: state.email.value.isEmpty ? null : state.email.value,
@@ -89,6 +93,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
     result.when(
       success: (data) {
+        _analytics.logEvent(
+          const BusinessEvent(AnalyticsEventName.signupSuccess),
+        );
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       },
       failure: (failure) {
@@ -96,6 +103,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           LocaleKeyMessage(:final key) => key.name,
           RawStringMessage(:final value) => value,
         };
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.signupFailure,
+            parameters: {'reason': message},
+          ),
+        );
         emit(
           state.copyWith(
             status: FormzSubmissionStatus.failure,

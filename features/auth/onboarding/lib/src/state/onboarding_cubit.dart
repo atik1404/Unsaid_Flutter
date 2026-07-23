@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onboarding/src/state/onboarding_state.dart';
 import 'package:pref_storage/pref_storage.dart';
@@ -11,13 +12,15 @@ import 'package:pref_storage/pref_storage.dart';
 /// - Emit the navigation signal that tells the screen to go to login.
 class OnboardingCubit extends Cubit<OnboardingState> {
   final AppPrefStorage _prefStorage;
+  final AnalyticsTracker _analytics;
 
   /// Creates an [OnboardingCubit].
   ///
-  /// [_prefStorage] is used to persist the first-launch flag when the user
-  /// completes onboarding.
+  /// [_prefStorage] persists the first-launch flag when the user completes
+  /// onboarding; [_analytics] records the completion business event.
   OnboardingCubit({
     required this._prefStorage,
+    required this._analytics,
   }) : super(const OnboardingState());
 
   /// Called whenever the [PageView] page changes.
@@ -41,6 +44,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   /// can redirect directly to login on subsequent launches.
   void navigateToHomeScreen() {
     _prefStorage.write(PrefKey.isFirstLaunch, true);
+    // Business event: user finished onboarding (key activation funnel step).
+    _analytics.logEvent(
+      const BusinessEvent(AnalyticsEventName.onboardingComplete),
+    );
     emit(state.copyWith(shouldNavigateToNextScreen: true));
   }
 }

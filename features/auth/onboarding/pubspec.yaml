@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  common: ^0.0.1
   navigation: ^0.0.1
   designsystem: ^0.0.1
   ui: ^0.0.1

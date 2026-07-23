@@ -8,9 +8,12 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final FetchUserExistenceUseCase _fetchUserExistenceUseCase;
   final SendOtpUseCase _sendOtpUseCase;
 
+  final AnalyticsTracker _analytics;
+
   ForgotPasswordCubit({
     required FetchUserExistenceUseCase fetchUserExistenceUseCase,
     required SendOtpUseCase sendOtpUseCase,
+    required this._analytics,
   }) : _fetchUserExistenceUseCase = fetchUserExistenceUseCase,
        _sendOtpUseCase = sendOtpUseCase,
        super(const ForgotPasswordState());
@@ -34,6 +37,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         status: FormzSubmissionStatus.inProgress,
         errorMessage: null,
       ),
+    );
+
+    // Business event: password-recovery requested.
+    _analytics.logEvent(
+      const BusinessEvent(AnalyticsEventName.forgotPasswordRequest),
     );
 
     final result = await _fetchUserExistenceUseCase(
@@ -74,13 +82,17 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     final result = await _sendOtpUseCase(phone);
 
     result.when(
-      success: (data) => emit(
-        state.copyWith(
-          status: FormzSubmissionStatus.success,
-          accountId: data.accountId,
-          errorMessage: null,
-        ),
-      ),
+      success: (data) {
+        // Business event: recovery OTP dispatched.
+        _analytics.logEvent(const BusinessEvent(AnalyticsEventName.otpSend));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.success,
+            accountId: data.accountId,
+            errorMessage: null,
+          ),
+        );
+      },
       failure: (error) {
         var message = switch (error.message) {
           RawStringMessage(:final value) => value,

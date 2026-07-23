@@ -7,7 +7,10 @@ import 'package:reset_password/src/state/reset_password_state.dart';
 /// Validates that the new and confirm passwords match, then
 /// simulates a network call to update the password.
 class ResetPasswordCubit extends Cubit<ResetPasswordState> {
-  ResetPasswordCubit() : super(const ResetPasswordState());
+  final AnalyticsTracker _analytics;
+
+  ResetPasswordCubit({required this._analytics})
+    : super(const ResetPasswordState());
 
   /// Attempts to change the user's password.
   ///
@@ -36,6 +39,9 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
 
     // Simulate a network call
     await Future.delayed(const Duration(seconds: 1));
+
+    // Business event: password reset completed.
+    _analytics.logEvent(const BusinessEvent(AnalyticsEventName.resetPassword));
 
     emit(state.copyWith(isLoading: false, isSuccess: true));
   }

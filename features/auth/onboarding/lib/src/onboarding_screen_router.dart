@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -26,8 +27,10 @@ final class OnboardingScreenRouter implements BaseRouter {
         pageBuilder: (context, state) => buildPageWithTransition(
           state: state,
           child: BlocProvider(
-            create: (_) =>
-                OnboardingCubit(prefStorage: GetIt.I.get<AppPrefStorage>()),
+            create: (_) => OnboardingCubit(
+              prefStorage: GetIt.I.get<AppPrefStorage>(),
+              analytics: GetIt.I.get<AnalyticsTracker>(),
+            ),
             child: OnboardingScreen(
               onNavigateToHomeScreen: () {
                 context.goNamed(AppRouteName.homeScreen);

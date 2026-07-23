@@ -10,6 +10,13 @@ export 'src/enums/failure_key.dart';
 export 'src/enums/mood_type.dart';
 export 'src/extensions/date_time_extension.dart';
 
+// Vendor-agnostic telemetry contracts (analytics + crash reporting). Features
+// depend on these interfaces; the Clarity/Sentry implementations live in the
+// `analytics` / `monitoring` packages.
+export 'src/telemetry/analytics_event.dart';
+export 'src/telemetry/analytics_tracker.dart';
+export 'src/telemetry/crash_reporter.dart';
+
 export 'src/enums/validation_error.dart';
 export 'src/validators/password_input_validator.dart';
 export 'src/validators/phone_input_validator.dart';

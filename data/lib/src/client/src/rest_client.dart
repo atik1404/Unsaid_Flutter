@@ -4,7 +4,13 @@ import 'package:flutter/foundation.dart';
 
 final class RestClient {
   final Dio _dio;
-  const RestClient(this._dio);
+
+  /// Optional stability reporter. Non-fatal network/parse errors are forwarded
+  /// here (as breadcrumbs + a captured exception) in non-debug builds. Nullable
+  /// so tests and any caller can construct a client without a reporter.
+  final CrashReporter? _crashReporter;
+
+  const RestClient(this._dio, [this._crashReporter]);
 
   // --- GET ---
   Future<Result<T, Failure>> get<T>(
@@ -226,6 +232,16 @@ final class RestClient {
       debugPrint('[$context] $error\n$stackTrace');
       return;
     }
-    //FirebaseCrashlytics.instance.recordError(error, stackTrace, reason: context);
+    // Production: forward to the stability reporter (Sentry) as a non-fatal
+    // error with a breadcrumb trail. No-op when no reporter was injected.
+    _crashReporter
+      ?..addBreadcrumb(
+        AppBreadcrumb(
+          message: 'Network/parse error in $context',
+          category: 'http',
+          level: BreadcrumbLevel.error,
+        ),
+      )
+      ..recordError(error, stackTrace, context: context);
   }
 }

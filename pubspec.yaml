@@ -21,6 +21,8 @@ workspace:
   - shared/navigation/
   - shared/di/
   - shared/pref_storage/
+  - shared/analytics/
+  - shared/monitoring/
 
   # auth related features
   - features/auth/login/
@@ -112,6 +114,7 @@ melos:
         firebase_auth: ^6.5.6
         #firebase_remote_config: ^6.3.0
         clarity_flutter: ^1.9.0
+        sentry_flutter: ^9.0.0
         in_app_update: ^5.0.0
         package_info_plus: ^10.2.1
         cached_network_image: ^3.4.1

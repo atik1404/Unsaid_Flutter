@@ -20,4 +20,12 @@ final class DevEnv implements EnvFields {
   @override
   @EnviedField(varName: 'PROJECT_ID')
   final String projectId = _DevEnv.projectId;
+
+  @override
+  @EnviedField(varName: 'SENTRY_DSN', defaultValue: '')
+  final String sentryDsn = _DevEnv.sentryDsn;
+
+  @override
+  @EnviedField(varName: 'CLARITY_PROJECT_ID', defaultValue: '')
+  final String clarityProjectId = _DevEnv.clarityProjectId;
 }

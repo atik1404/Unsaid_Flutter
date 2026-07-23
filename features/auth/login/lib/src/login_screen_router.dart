@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -21,6 +22,7 @@ final class LoginScreenRouter implements BaseRouter {
               loginUseCase: GetIt.instance<LoginUseCase>(),
               fetchProfileUseCase: GetIt.instance<FetchProfileUseCase>(),
               appPrefStorage: GetIt.instance<AppPrefStorage>(),
+              analytics: GetIt.instance<AnalyticsTracker>(),
             ),
             child: LoginScreen(
               // Flipping the auth state makes GoRouter re-run the guard via

@@ -13,11 +13,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUseCase _loginUseCase;
   final FetchProfileUseCase _fetchProfileUseCase;
   final AppPrefStorage _appPrefStorage;
+  final AnalyticsTracker _analytics;
 
   LoginBloc({
     required this._loginUseCase,
     required this._fetchProfileUseCase,
     required this._appPrefStorage,
+    required this._analytics,
   }) : super(const LoginState()) {
     on<LoginPhoneChanged>(_onPhoneChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
@@ -77,6 +79,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       ),
     );
 
+    // Business event: the user attempted to log in.
+    _analytics.logEvent(const BusinessEvent(AnalyticsEventName.loginAttempt));
+
     final result = await _loginUseCase(
       LoginParams(
         identifier: phone.value.formatPhone(),
@@ -86,6 +91,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     result.when(
       success: (_) async {
+        // Business event: login succeeded.
+        _analytics.logEvent(
+          const BusinessEvent(AnalyticsEventName.loginSuccess),
+        );
         final accessToken = await _appPrefStorage.getSecureString(
           PrefKey.accessToken,
         );
@@ -103,6 +112,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           RawStringMessage(:final value) => value,
           LocaleKeyMessage(:final key) => key.name,
         };
+
+        // Business event: login failed (reason recorded, no credentials).
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.loginFailure,
+            parameters: {'reason': message},
+          ),
+        );
 
         emit(
           state.copyWith(
