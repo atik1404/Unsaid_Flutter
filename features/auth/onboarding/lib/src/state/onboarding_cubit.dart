@@ -14,12 +14,11 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   /// Creates an [OnboardingCubit].
   ///
-  /// [prefStorage] is used to persist the first-launch flag when the user
+  /// [_prefStorage] is used to persist the first-launch flag when the user
   /// completes onboarding.
   OnboardingCubit({
-    required AppPrefStorage prefStorage,
-  }) : _prefStorage = prefStorage,
-       super(const OnboardingState());
+    required this._prefStorage,
+  }) : super(const OnboardingState());
 
   /// Called whenever the [PageView] page changes.
   ///

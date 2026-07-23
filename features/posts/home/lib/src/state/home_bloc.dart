@@ -145,8 +145,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   /// Only the matching item is rebuilt; the rest keep their identity.
   List<PostEntity> _toggleReaction(String postId, {required bool reacted}) {
     final index = state.posts.indexWhere((post) => post.id == postId);
-    if (index == -1 || state.posts[index].isReacted == reacted)
+    if (index == -1 || state.posts[index].isReacted == reacted) {
       return state.posts;
+    }
 
     final post = state.posts[index];
     final updatedPosts = List<PostEntity>.of(state.posts);

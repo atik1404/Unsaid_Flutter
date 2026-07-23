@@ -10,9 +10,8 @@ class SplashCubit extends Cubit<SplashState> {
   final FetchProfileUseCase _fetchProfileUseCase;
   final _prefStorage = GetIt.I.get<AppPrefStorage>();
 
-  SplashCubit({required FetchProfileUseCase fetchProfileUseCase})
-    : _fetchProfileUseCase = fetchProfileUseCase,
-      super(const SplashState.loading()) {
+  SplashCubit({required this._fetchProfileUseCase})
+    : super(const SplashState.loading()) {
     Future.microtask(checkAuthorization);
   }
 

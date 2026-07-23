@@ -65,8 +65,9 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     // Abort early on any field-level error — the UI already shows them inline.
     if (!oldPassword.isValid ||
         !newPassword.isValid ||
-        !confirmPassword.isValid)
+        !confirmPassword.isValid) {
       return;
+    }
 
     // New and confirm must match; the mismatch is surfaced inline by the UI.
     if (newPassword.value != confirmPassword.value) return;

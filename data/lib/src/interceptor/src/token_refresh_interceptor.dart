@@ -61,8 +61,9 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
     }
     if (_isSessionConflict(err)) return _handleAuthFailure(err, handler);
     if (!_isUnauthorized(err)) return handler.next(err);
-    if (_isRefreshRequest(err.requestOptions))
+    if (_isRefreshRequest(err.requestOptions)) {
       return _handleAuthFailure(err, handler);
+    }
 
     final attemptedAuth = err.requestOptions.headers['Authorization'];
     final currentAuth = _toBearerHeader(

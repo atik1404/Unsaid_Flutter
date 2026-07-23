@@ -15,13 +15,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AppPrefStorage _appPrefStorage;
 
   LoginBloc({
-    required LoginUseCase loginUseCase,
-    required FetchProfileUseCase fetchProfileUseCase,
-    required AppPrefStorage appPrefStorage,
-  }) : _loginUseCase = loginUseCase,
-       _fetchProfileUseCase = fetchProfileUseCase,
-       _appPrefStorage = appPrefStorage,
-       super(const LoginState()) {
+    required this._loginUseCase,
+    required this._fetchProfileUseCase,
+    required this._appPrefStorage,
+  }) : super(const LoginState()) {
     on<LoginPhoneChanged>(_onPhoneChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
