@@ -12,16 +12,16 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   final AppPrefStorage _prefStorage;
   final String _refreshPath;
 
-  /// Used only to end the analytics session when a session expires. Defaults to
-  /// a no-op so tests and non-app consumers can construct this interceptor
-  /// without wiring analytics — mirroring how [RestClient] takes a
-  /// [CrashReporter].
-  final AnalyticsTracker _analytics;
+  /// Used only to end the telemetry session when the backend rejects the
+  /// stored credentials. Defaults to a no-op so tests and non-app consumers can
+  /// construct this interceptor without wiring telemetry — mirroring how
+  /// [RestClient] takes a [CrashReporter].
+  final TelemetrySession _telemetrySession;
 
   TokenRefreshInterceptor({
     required this._tokenRefreshDio,
     required this._prefStorage,
-    this._analytics = const NoopAnalyticsTracker(),
+    this._telemetrySession = const TelemetrySession.noop(),
     this._refreshPath = '/auth/refresh',
   });
 
@@ -207,7 +207,7 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
     // authenticated endpoint), and emitting `logout` for a user who was never
     // signed in would pollute the funnel. Read before `clear()` wipes the flag.
     if (_prefStorage.getBoolean(PrefKey.loginStatus)) {
-      await _analytics.endSession(reason: 'session_expired');
+      await _telemetrySession.end(reason: 'session_expired');
     }
 
     await _prefStorage.clear();

@@ -15,8 +15,8 @@ export 'src/extensions/date_time_extension.dart';
 // `analytics` / `monitoring` packages.
 export 'src/telemetry/analytics_event.dart';
 export 'src/telemetry/analytics_tracker.dart';
-export 'src/telemetry/analytics_session_extension.dart';
 export 'src/telemetry/crash_reporter.dart';
+export 'src/telemetry/telemetry_session.dart';
 
 export 'src/enums/validation_error.dart';
 export 'src/validators/password_input_validator.dart';

@@ -23,6 +23,7 @@ final class LoginScreenRouter implements BaseRouter {
               fetchProfileUseCase: GetIt.instance<FetchProfileUseCase>(),
               appPrefStorage: GetIt.instance<AppPrefStorage>(),
               analytics: GetIt.instance<AnalyticsTracker>(),
+              telemetrySession: GetIt.instance<TelemetrySession>(),
             ),
             child: LoginScreen(
               // Flipping the auth state makes GoRouter re-run the guard via

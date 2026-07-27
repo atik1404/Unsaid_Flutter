@@ -58,7 +58,7 @@ final class DioFactory {
   static Dio create({
     required AppPrefStorage prefStorage,
     required Dio tokenRefreshDio,
-    AnalyticsTracker analytics = const NoopAnalyticsTracker(),
+    TelemetrySession telemetrySession = const TelemetrySession.noop(),
   }) {
     final dio = Dio(
       BaseOptions(
@@ -75,7 +75,7 @@ final class DioFactory {
       TokenRefreshInterceptor(
         tokenRefreshDio: tokenRefreshDio,
         prefStorage: prefStorage,
-        analytics: analytics,
+        telemetrySession: telemetrySession,
       ),
     );
     dio.interceptors.add(RetryInterceptor(dio: dio));
@@ -85,7 +85,7 @@ final class DioFactory {
   /// Image-upload client — uses [AppConfig.imageUrl] (different host/port).
   static Dio createImageClient(
     AppPrefStorage prefStorage, {
-    AnalyticsTracker analytics = const NoopAnalyticsTracker(),
+    TelemetrySession telemetrySession = const TelemetrySession.noop(),
   }) {
     final dio = Dio(
       BaseOptions(
@@ -102,7 +102,7 @@ final class DioFactory {
       TokenRefreshInterceptor(
         tokenRefreshDio: dio,
         prefStorage: prefStorage,
-        analytics: analytics,
+        telemetrySession: telemetrySession,
       ),
     );
     dio.interceptors.add(RetryInterceptor(dio: dio));

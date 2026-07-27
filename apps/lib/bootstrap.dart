@@ -36,6 +36,9 @@ Future<void> bootstrap(AppEnvironment environment) async {
   await MonitoringInitializer.run(
     dsn: config.sentryDsn,
     environment: config.environment.name,
+    // Sentry's own SDK logging follows the same variant policy as every other
+    // diagnostic in the app — never on in a release binary.
+    debug: config.debugFeatures.verboseLogging,
     appRunner: () async {
       // ── 3. Firebase ────────────────────────────────────────────────────────
       final firebaseOptions = DefaultFirebaseOptions.currentPlatform;
@@ -101,8 +104,8 @@ Future<void> _restoreTelemetryContext(GetIt getIt, AppConfig config) async {
   if (userId.isEmpty) return;
 
   // Warm start with a persisted session: re-attach the user to both pipelines
-  // so this launch is attributed to the same account as the login that
-  // created the session.
-  await crashReporter.setUser(TelemetryUser(id: userId));
-  await analytics.startSession(userId: userId);
+  // so this launch is attributed to the same account as the login that created
+  // the session. Runs before `runApp`, so a crash during the first frame is
+  // already tied to the right user.
+  await getIt<TelemetrySession>().start(userId: userId);
 }

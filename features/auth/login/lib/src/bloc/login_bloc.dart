@@ -15,11 +15,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AppPrefStorage _appPrefStorage;
   final AnalyticsTracker _analytics;
 
+  /// Identity for both telemetry backends. Separate from [_analytics], which
+  /// carries the funnel events for this screen.
+  final TelemetrySession _telemetrySession;
+
   LoginBloc({
     required this._loginUseCase,
     required this._fetchProfileUseCase,
     required this._appPrefStorage,
     required this._analytics,
+    required this._telemetrySession,
   }) : super(const LoginState()) {
     on<LoginPhoneChanged>(_onPhoneChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
@@ -139,12 +144,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     result.when(
       success: (data) {
-        // Associate the analytics session with the now-authenticated user, so
-        // every recording from here on is filterable by account. Done here
-        // rather than on `loginSuccess` because the user id only exists once
-        // the profile has been fetched. The id is the backend's opaque user id
-        // — no PII is sent.
-        _analytics.startSession(userId: data.id);
+        // Attach the authenticated user to Sentry and Clarity, so crash
+        // reports and session recordings from here on name the right account.
+        // Done here rather than on `loginSuccess` because the user id only
+        // exists once the profile has been fetched. Only the backend's opaque
+        // id is sent — no PII.
+        _telemetrySession.start(userId: data.id);
 
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       },

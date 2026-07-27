@@ -76,12 +76,13 @@ class DeleteAccountScreen extends StatelessWidget {
     // Capture the router before any await so we never touch a stale context.
     final router = GoRouter.of(context);
 
-    // Record the churn event, then end the analytics session so the account
-    // that was just deleted is no longer associated with this device's
-    // recordings. Ordering matters: both must land before the session resets.
-    final analytics = GetIt.I<AnalyticsTracker>()
-      ..logEvent(const BusinessEvent(AnalyticsEventName.accountDeleted));
-    await analytics.endSession(reason: 'account_deleted');
+    // Record the churn event, then end the telemetry session so the deleted
+    // account is no longer associated with this device's crash reports or
+    // recordings. The event must land before the session ends.
+    GetIt.I<AnalyticsTracker>().logEvent(
+      const BusinessEvent(AnalyticsEventName.accountDeleted),
+    );
+    await GetIt.I<TelemetrySession>().end(reason: 'account_deleted');
 
     await GetIt.I<AppPrefStorage>().clear();
     authStateNotifier.setLoggedIn(isLoggedIn: false);
