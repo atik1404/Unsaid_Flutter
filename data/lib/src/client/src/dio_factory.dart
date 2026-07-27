@@ -1,4 +1,5 @@
 import 'package:app_env/environment.dart';
+import 'package:common/common.dart';
 import 'package:data/src/interceptor/interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:pref_storage/pref_storage.dart';
@@ -57,6 +58,7 @@ final class DioFactory {
   static Dio create({
     required AppPrefStorage prefStorage,
     required Dio tokenRefreshDio,
+    AnalyticsTracker analytics = const NoopAnalyticsTracker(),
   }) {
     final dio = Dio(
       BaseOptions(
@@ -73,6 +75,7 @@ final class DioFactory {
       TokenRefreshInterceptor(
         tokenRefreshDio: tokenRefreshDio,
         prefStorage: prefStorage,
+        analytics: analytics,
       ),
     );
     dio.interceptors.add(RetryInterceptor(dio: dio));
@@ -80,7 +83,10 @@ final class DioFactory {
   }
 
   /// Image-upload client — uses [AppConfig.imageUrl] (different host/port).
-  static Dio createImageClient(AppPrefStorage prefStorage) {
+  static Dio createImageClient(
+    AppPrefStorage prefStorage, {
+    AnalyticsTracker analytics = const NoopAnalyticsTracker(),
+  }) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.I.imageUrl,
@@ -93,7 +99,11 @@ final class DioFactory {
 
     _addDiagnostics(dio);
     dio.interceptors.add(
-      TokenRefreshInterceptor(tokenRefreshDio: dio, prefStorage: prefStorage),
+      TokenRefreshInterceptor(
+        tokenRefreshDio: dio,
+        prefStorage: prefStorage,
+        analytics: analytics,
+      ),
     );
     dio.interceptors.add(RetryInterceptor(dio: dio));
     return dio;

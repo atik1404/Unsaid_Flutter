@@ -139,6 +139,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     result.when(
       success: (data) {
+        // Associate the analytics session with the now-authenticated user, so
+        // every recording from here on is filterable by account. Done here
+        // rather than on `loginSuccess` because the user id only exists once
+        // the profile has been fetched. The id is the backend's opaque user id
+        // — no PII is sent.
+        _analytics.startSession(userId: data.id);
+
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       },
       failure: (failure) {

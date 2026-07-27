@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:create_post/src/create_post_screen.dart';
 import 'package:create_post/src/state/create_post_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ final class CreatePostScreenRouter implements BaseRouter {
               create: (_) => CreatePostBloc(
                 createPostUseCase: GetIt.I.get(),
                 fetchTopicsUseCase: GetIt.I.get(),
+                analytics: GetIt.I<AnalyticsTracker>(),
               ),
               child: CreatePostScreen(),
             ),

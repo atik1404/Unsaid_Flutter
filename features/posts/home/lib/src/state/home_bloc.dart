@@ -15,11 +15,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final AddReactUseCase _addReactUseCase;
   final RemoveReactUseCase _removeReactUseCase;
+  final AnalyticsTracker _analytics;
 
   HomeBloc({
     required this._fetchPostsUseCase,
     required this._addReactUseCase,
     required this._removeReactUseCase,
+    required this._analytics,
   }) : super(const HomeState()) {
     on<LoadPostsEvent>((event, emit) => _loadPosts(emit));
     on<SelectMoodEvent>(_selectMood);
@@ -31,6 +33,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   /// immediately triggering a fresh [LoadPostsEvent].
   void _selectMood(SelectMoodEvent event, Emitter<HomeState> emit) {
     if (state.mood == event.mood) return;
+
+    // Filtering the feed is the main discovery gesture in this app — the
+    // closest equivalent to a search — so which moods people reach for is a
+    // signal worth having.
+    _analytics.logEvent(
+      FeatureUsageEvent(
+        feature: 'feed_mood_filter',
+        action: event.mood.name,
+      ),
+    );
+
     emit(
       state.copyWith(
         mood: event.mood,
@@ -96,6 +109,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     result.when(
       success: (data) {
+        // Logged only once the backend confirms it — the optimistic UI update
+        // above is rolled back on failure, so tracking it earlier would
+        // over-count reactions.
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.postReacted,
+            parameters: {'action': 'add', 'post': event.postId},
+          ),
+        );
+
         emit(state.copyWith(isReacting: false));
       },
       failure: (_) {
@@ -126,6 +149,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     result.when(
       success: (data) {
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.postReacted,
+            parameters: {'action': 'remove', 'post': event.postId},
+          ),
+        );
+
         emit(state.copyWith(isReacting: false));
       },
       failure: (_) {

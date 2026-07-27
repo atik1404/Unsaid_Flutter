@@ -291,6 +291,11 @@ class _DangerZoneSection extends StatelessWidget {
   /// Clears persisted data, flips the router's auth guard and sends the user to
   /// a clean home/login location.
   Future<void> _onSignOut(BuildContext context) async {
+    // Record the logout against the outgoing analytics session and detach the
+    // user id, so the anonymous activity that follows isn't attributed to the
+    // account that just signed out.
+    await GetIt.I<AnalyticsTracker>().endSession(reason: 'user_initiated');
+
     await GetIt.I<AppPrefStorage>().clear();
     // Flips the router's auth guard; an explicit go (not a redirect) lands the
     // user on a clean location without a leftover redirect param.

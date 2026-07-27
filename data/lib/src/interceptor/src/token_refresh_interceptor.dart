@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:data/src/client/client.dart';
 import 'package:dio/dio.dart';
 import 'package:pref_storage/pref_storage.dart';
@@ -11,9 +12,16 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   final AppPrefStorage _prefStorage;
   final String _refreshPath;
 
+  /// Used only to end the analytics session when a session expires. Defaults to
+  /// a no-op so tests and non-app consumers can construct this interceptor
+  /// without wiring analytics — mirroring how [RestClient] takes a
+  /// [CrashReporter].
+  final AnalyticsTracker _analytics;
+
   TokenRefreshInterceptor({
     required this._tokenRefreshDio,
     required this._prefStorage,
+    this._analytics = const NoopAnalyticsTracker(),
     this._refreshPath = '/auth/refresh',
   });
 
@@ -194,6 +202,14 @@ final class TokenRefreshInterceptor extends QueuedInterceptor {
   }
 
   Future<void> _forceLogout() async {
+    // Only report a logout if there was a session to lose. This method also
+    // runs for a request that simply had no token (a guest hitting an
+    // authenticated endpoint), and emitting `logout` for a user who was never
+    // signed in would pollute the funnel. Read before `clear()` wipes the flag.
+    if (_prefStorage.getBoolean(PrefKey.loginStatus)) {
+      await _analytics.endSession(reason: 'session_expired');
+    }
+
     await _prefStorage.clear();
     //AuthEventBus.instance.dispatch(AuthEvent.sessionExpired);
   }

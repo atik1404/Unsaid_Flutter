@@ -12,11 +12,14 @@ import 'package:formz/formz.dart';
 /// edits, and delegates the update to [UpdateProfileUseCase].
 class EditProfileCubit extends Cubit<EditProfileState> {
   final UpdateProfileUseCase _updateProfileUseCase;
+  final AnalyticsTracker _analytics;
 
   EditProfileCubit({
     required UpdateProfileUseCase updateProfileUseCase,
     required ProfileEntity profile,
+    required AnalyticsTracker analytics,
   }) : _updateProfileUseCase = updateProfileUseCase,
+       _analytics = analytics,
        super(_seed(profile));
 
   /// Builds the initial pre-populated state from the current profile. Fields
@@ -71,6 +74,19 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     );
   }
 
+  /// Names of the fields that differ from the values the form was seeded with.
+  ///
+  /// Mirrors [EditProfileState.isDirty] field-for-field, so the analytics event
+  /// reports exactly what the submitted update covers. Only field *names* are
+  /// reported — the entered values are personal data and never leave the device
+  /// through analytics.
+  List<String> _changedFields() => [
+    if (state.fullName.value != state.initialFullName) 'full_name',
+    if (state.email.value != state.initialEmail) 'email',
+    if (state.phone.value != state.initialPhone) 'phone',
+    if (state.bio.value != state.initialBio) 'bio',
+  ];
+
   /// Validates the form and, if valid and changed, calls the update use case.
   Future<void> save() async {
     // Re-dirty every field so the validator runs against the current values,
@@ -114,13 +130,24 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     );
 
     result.when(
-      success: (message) => emit(
-        state.copyWith(
-          status: FormzSubmissionStatus.success,
-          successMessage: message,
-          errorMessage: null,
-        ),
-      ),
+      success: (message) {
+        // Which fields the user actually changed is the useful signal here —
+        // never the values themselves, which are PII.
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.profileUpdated,
+            parameters: {'fields': _changedFields().join(',')},
+          ),
+        );
+
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.success,
+            successMessage: message,
+            errorMessage: null,
+          ),
+        );
+      },
       failure: (error) {
         // Resolve the failure into a displayable message (raw string or l10n key).
         final message = switch (error.message) {

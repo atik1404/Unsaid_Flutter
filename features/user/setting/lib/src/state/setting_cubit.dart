@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pref_storage/pref_storage.dart';
 import 'package:setting/src/state/setting_state.dart';
@@ -10,8 +11,22 @@ import 'package:setting/src/state/setting_state.dart';
 /// rebuilds via its `BlocSelector`.
 class SettingCubit extends Cubit<SettingState> {
   final AppPrefStorage _prefStorage;
+  final AnalyticsTracker _analytics;
 
-  SettingCubit({required this._prefStorage}) : super(const SettingState());
+  SettingCubit({required this._prefStorage, required this._analytics})
+    : super(const SettingState());
+
+  /// Emits a single `setting_toggled` event carrying which preference changed
+  /// and its new value, so every switch on the screen is tracked consistently
+  /// without one event name per toggle.
+  void _trackToggle(String setting, {required bool value}) {
+    _analytics.logEvent(
+      BusinessEvent(
+        AnalyticsEventName.settingToggled,
+        parameters: {'setting': setting, 'value': value},
+      ),
+    );
+  }
 
   /// Loads the current user's profile summary from persistent storage.
   void loadUserProfile() {
@@ -36,12 +51,14 @@ class SettingCubit extends Cubit<SettingState> {
   /// Toggles push notifications.
   void setPushNotifications({required bool value}) {
     _prefStorage.write(PrefKey.appNotification, value);
+    _trackToggle('push_notifications', value: value);
     emit(state.copyWith(pushNotifications: value));
   }
 
   /// Toggles in-app notification sounds.
   void setSoundEnabled({required bool value}) {
     _prefStorage.write(PrefKey.appNotificationSound, value);
+    _trackToggle('notification_sound', value: value);
     emit(state.copyWith(soundEnabled: value));
   }
 }

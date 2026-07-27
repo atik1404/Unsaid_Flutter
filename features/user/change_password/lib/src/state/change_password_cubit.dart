@@ -11,9 +11,12 @@ import 'package:formz/formz.dart';
 /// confirm fields must additionally match before the request is sent.
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   final ChangePasswordUseCase _changePasswordUseCase;
+  final AnalyticsTracker _analytics;
 
-  ChangePasswordCubit({required this._changePasswordUseCase})
-    : super(const ChangePasswordState());
+  ChangePasswordCubit({
+    required this._changePasswordUseCase,
+    required this._analytics,
+  }) : super(const ChangePasswordState());
 
   void updateOldPassword(String value) {
     emit(
@@ -88,13 +91,20 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     );
 
     result.when(
-      success: (message) => emit(
-        state.copyWith(
-          status: FormzSubmissionStatus.success,
-          successMessage: message,
-          errorMessage: null,
-        ),
-      ),
+      success: (message) {
+        // Security-relevant account action; no password material is attached.
+        _analytics.logEvent(
+          const BusinessEvent(AnalyticsEventName.changePassword),
+        );
+
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.success,
+            successMessage: message,
+            errorMessage: null,
+          ),
+        );
+      },
       failure: (error) {
         // Resolve the failure into a displayable message (raw string or l10n key).
         final message = switch (error.message) {

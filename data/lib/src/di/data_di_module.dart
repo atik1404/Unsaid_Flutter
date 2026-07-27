@@ -20,6 +20,13 @@ class DataDiModule {
         ? getIt<CrashReporter>()
         : const NoopCrashReporter();
 
+    // Same contract as above for the analytics tracker registered by
+    // AnalyticsDiModule: the token interceptor uses it to end the analytics
+    // session when the backend rejects the credentials (session expiry).
+    final analytics = getIt.isRegistered<AnalyticsTracker>()
+        ? getIt<AnalyticsTracker>()
+        : const NoopAnalyticsTracker();
+
     final tokenRefreshDio = DioFactory.createTokenRefreshClient();
     getIt
       ..registerSingleton<Dio>(
@@ -31,6 +38,7 @@ class DataDiModule {
         DioFactory.create(
           prefStorage: prefStorage,
           tokenRefreshDio: tokenRefreshDio,
+          analytics: analytics,
         ),
       )
       ..registerSingleton<RestClient>(
@@ -38,7 +46,7 @@ class DataDiModule {
       )
       // Image Dio — separate host/port for multipart image uploads
       ..registerSingleton<Dio>(
-        DioFactory.createImageClient(prefStorage),
+        DioFactory.createImageClient(prefStorage, analytics: analytics),
         instanceName: _imageClientName,
       )
       ..registerSingleton<RestClient>(

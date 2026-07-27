@@ -86,12 +86,23 @@ Future<void> _restoreTelemetryContext(GetIt getIt, AppConfig config) async {
   await crashReporter.setTag('flavor', config.environment.name);
   await crashReporter.setTag('build_variant', config.buildVariant.name);
 
+  // Mirror the build dimensions onto the analytics session so Clarity
+  // recordings can be filtered by flavor/variant the same way crash reports
+  // are. These are session-scoped (they describe the build, not one event),
+  // which is exactly what Clarity's custom tags are for.
+  final analytics = getIt<AnalyticsTracker>();
+  await analytics.setCustomTag('flavor', config.environment.name);
+  await analytics.setCustomTag('build_variant', config.buildVariant.name);
+
   final prefs = getIt<AppPrefStorage>();
   if (!prefs.getBoolean(PrefKey.loginStatus)) return;
 
   final userId = prefs.getString(PrefKey.userId);
   if (userId.isEmpty) return;
 
+  // Warm start with a persisted session: re-attach the user to both pipelines
+  // so this launch is attributed to the same account as the login that
+  // created the session.
   await crashReporter.setUser(TelemetryUser(id: userId));
-  await getIt<AnalyticsTracker>().setUserId(userId);
+  await analytics.startSession(userId: userId);
 }

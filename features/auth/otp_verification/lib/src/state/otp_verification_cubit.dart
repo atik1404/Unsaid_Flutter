@@ -40,6 +40,11 @@ class OtpVerificationCubit extends Cubit<OtpVerificationState> {
 
   Future<void> resendOtp() async {
     if (!state.canResend) return;
+
+    // A resend usually means the first code never arrived — a drop-off point
+    // worth watching in the signup/recovery funnel.
+    _analytics.logEvent(const BusinessEvent(AnalyticsEventName.otpResend));
+
     emit(state.copyWith(otp: '', errorMessage: null));
     _startTimer();
   }
@@ -54,6 +59,10 @@ class OtpVerificationCubit extends Cubit<OtpVerificationState> {
     emit(state.copyWith(isVerifying: true, errorMessage: null));
 
     await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
+
+    // Completes the OTP step of the auth funnel. The code itself is a
+    // credential and is never attached.
+    _analytics.logEvent(const BusinessEvent(AnalyticsEventName.otpVerify));
 
     emit(state.copyWith(isVerifying: false, isSuccess: true));
   }

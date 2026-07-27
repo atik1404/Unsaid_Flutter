@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,7 @@ final class SettingScreenRouter implements BaseRouter {
           child: BlocProvider(
             create: (_) => SettingCubit(
               prefStorage: GetIt.I.get<AppPrefStorage>(),
+              analytics: GetIt.I<AnalyticsTracker>(),
             )..loadUserProfile(),
             child: const SettingScreen(),
           ),

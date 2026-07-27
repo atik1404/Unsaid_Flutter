@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,7 @@ final class PostDetailsScreenRouter implements BaseRouter {
                 addCommentUseCase: GetIt.I.get(),
                 addReactUseCase: GetIt.I.get(),
                 removeReactUseCase: GetIt.I.get(),
+                analytics: GetIt.I<AnalyticsTracker>(),
                 postId: postId ?? '',
               ),
               child: const PostDetailsScreen(),

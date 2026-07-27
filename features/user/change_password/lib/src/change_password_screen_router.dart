@@ -1,5 +1,6 @@
 import 'package:change_password/src/change_password_screen.dart';
 import 'package:change_password/src/state/change_password_cubit.dart';
+import 'package:common/common.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -22,6 +23,7 @@ final class ChangePasswordScreenRouter implements BaseRouter {
           child: BlocProvider(
             create: (_) => ChangePasswordCubit(
               changePasswordUseCase: GetIt.I<ChangePasswordUseCase>(),
+              analytics: GetIt.I<AnalyticsTracker>(),
             ),
             child: const ChangePasswordScreen(),
           ),

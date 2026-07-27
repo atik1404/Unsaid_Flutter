@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:entity/entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
@@ -11,10 +12,16 @@ part 'post_details_event.dart';
 /// after the route is pushed with the [PostDetailsModel] passed as
 /// a GoRouter extra.
 class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
+  /// Screen label attached to events this bloc shares with the feed, so the
+  /// same event name can still be split by origin in the dashboard. A local
+  /// constant keeps the bloc free of a dependency on the navigation package.
+  static const String _screenName = 'post_details';
+
   final FetchPostDetailsUseCase _fetchPostDetailsUseCase;
   final AddCommentUseCase _addCommentUseCase;
   final AddReactUseCase _addReactUseCase;
   final RemoveReactUseCase _removeReactUseCase;
+  final AnalyticsTracker _analytics;
   final String _postId;
 
   PostDetailsBloc({
@@ -23,6 +30,7 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
     required this._addCommentUseCase,
     required this._removeReactUseCase,
     required this._addReactUseCase,
+    required this._analytics,
   }) : _postId = postId,
        super(const PostDetailsState()) {
     on<FetchPostDetailsEvent>(_fetchPostDetails);
@@ -50,6 +58,15 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
 
     result.when(
       success: (data) {
+        // Tracked on a confirmed load rather than on route entry, so a failed
+        // fetch is not counted as the user having read the post.
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.postOpened,
+            parameters: {'post': event.postId},
+          ),
+        );
+
         emit(
           state.copyWith(
             isLoading: false,
@@ -82,6 +99,14 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
 
     result.when(
       success: (data) {
+        // The comment text is user-authored content and is never sent.
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.postCommented,
+            parameters: {'post': _postId},
+          ),
+        );
+
         final comments = List<CommentEntity>.from(state.postDetails!.comments)
           ..add(data);
         emit(
@@ -135,6 +160,19 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
 
     result.when(
       success: (data) {
+        // Same event name the feed emits, so reactions aggregate across both
+        // surfaces; `screen` keeps them separable when that matters.
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.postReacted,
+            parameters: {
+              'action': 'add',
+              'post': _postId,
+              'screen': _screenName,
+            },
+          ),
+        );
+
         emit(state.copyWith(isReacting: false));
       },
       failure: (_) {
@@ -164,6 +202,17 @@ class PostDetailsBloc extends Bloc<PostDetailsEvent, PostDetailsState> {
 
     result.when(
       success: (data) {
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.postReacted,
+            parameters: {
+              'action': 'remove',
+              'post': _postId,
+              'screen': _screenName,
+            },
+          ),
+        );
+
         emit(state.copyWith(isReacting: false));
       },
       failure: (_) {

@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,7 @@ final class HomeScreenRouter implements BaseRouter {
               fetchPostsUseCase: GetIt.I.get(),
               addReactUseCase: GetIt.I.get(),
               removeReactUseCase: GetIt.I.get(),
+              analytics: GetIt.I<AnalyticsTracker>(),
             ),
             child: const HomeScreen(),
           ),

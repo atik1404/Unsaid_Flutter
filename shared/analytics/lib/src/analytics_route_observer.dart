@@ -12,14 +12,18 @@ import 'package:flutter/widgets.dart';
 ///
 /// Because it lives at the navigator level, no screen needs to emit its own
 /// screen-view event — eliminating a whole class of duplicate/missing events.
+///
+/// This is also exactly where Clarity's docs recommend driving the current
+/// screen name from ("to cover all route changes, call it inside a
+/// RouteObserver"); the translation to that API happens in the tracker.
+///
+/// Suppressing repeat screen views is the tracker's job, so this observer stays
+/// a plain, backend-agnostic translation of navigator callbacks into events.
 /// ---------------------------------------------------------------------------
 final class AnalyticsRouteObserver extends NavigatorObserver {
   AnalyticsRouteObserver(this._tracker);
 
   final AnalyticsTracker _tracker;
-
-  /// Name of the route currently on top, used to suppress duplicates.
-  String? _currentRoute;
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
@@ -49,11 +53,7 @@ final class AnalyticsRouteObserver extends NavigatorObserver {
     if (to == null) return; // dialogs / unnamed routes are skipped
     final from = _nameOf(left);
 
-    // Suppress a screen-view repeat for the same destination.
-    if (to != _currentRoute) {
-      _currentRoute = to;
-      _tracker.logEvent(ScreenViewEvent(screenName: to));
-    }
+    _tracker.logEvent(ScreenViewEvent(screenName: to));
     _tracker.logEvent(NavigationEvent(from: from, to: to, action: action));
   }
 

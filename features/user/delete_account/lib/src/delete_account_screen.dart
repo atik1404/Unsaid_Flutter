@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:delete_account/src/state/delete_account_cubit.dart';
 import 'package:delete_account/src/state/delete_account_state.dart';
 import 'package:delete_account/src/widgets/delete_account_form.dart';
@@ -74,6 +75,14 @@ class DeleteAccountScreen extends StatelessWidget {
   Future<void> _logoutAndLeave(BuildContext context) async {
     // Capture the router before any await so we never touch a stale context.
     final router = GoRouter.of(context);
+
+    // Record the churn event, then end the analytics session so the account
+    // that was just deleted is no longer associated with this device's
+    // recordings. Ordering matters: both must land before the session resets.
+    final analytics = GetIt.I<AnalyticsTracker>()
+      ..logEvent(const BusinessEvent(AnalyticsEventName.accountDeleted));
+    await analytics.endSession(reason: 'account_deleted');
+
     await GetIt.I<AppPrefStorage>().clear();
     authStateNotifier.setLoggedIn(isLoggedIn: false);
     router.goNamed(AppRouteName.homeScreen);

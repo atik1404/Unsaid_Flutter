@@ -13,10 +13,12 @@ part 'create_post_event.dart';
 class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   final CreatePostUseCase _createPostUseCase;
   final FetchTopicsUseCase _fetchTopicsUseCase;
+  final AnalyticsTracker _analytics;
 
   CreatePostBloc({
     required this._createPostUseCase,
     required this._fetchTopicsUseCase,
+    required this._analytics,
   }) : super(const CreatePostState()) {
     on<PostBodyChanged>(_onPostBodyChanged);
     on<MoodSelected>(_onMoodSelected);
@@ -58,6 +60,12 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
       state.copyWith(status: CreatePostStatus.submitting, errorMessage: null),
     );
 
+    // Attempt/success/failure are tracked as a trio so the create-post funnel
+    // (and its drop-off) is visible, matching the login and signup flows.
+    _analytics.logEvent(
+      const BusinessEvent(AnalyticsEventName.postCreateAttempt),
+    );
+
     final result = await _createPostUseCase.call(
       CreatePostParams(
         postBody: state.postBody.trim(),
@@ -71,6 +79,15 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
 
     result.when(
       success: (data) {
+        // The mood is a content dimension worth segmenting on; the post body
+        // itself is user-authored content and is never sent.
+        _analytics.logEvent(
+          BusinessEvent(
+            AnalyticsEventName.postCreateSuccess,
+            parameters: {'mood': state.selectedMood?.name},
+          ),
+        );
+
         emit(
           state.copyWith(
             status: CreatePostStatus.success,
@@ -79,6 +96,10 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
         );
       },
       failure: (failure) {
+        _analytics.logEvent(
+          const BusinessEvent(AnalyticsEventName.postCreateFailure),
+        );
+
         emit(
           state.copyWith(
             status: CreatePostStatus.failure,

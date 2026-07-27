@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:domain/domain.dart';
 import 'package:edit_profile/src/edit_profile_screen.dart';
 import 'package:edit_profile/src/state/edit_profile_cubit.dart';
@@ -27,6 +28,7 @@ final class EditProfileScreenRouter implements BaseRouter {
               create: (_) => EditProfileCubit(
                 updateProfileUseCase: GetIt.I<UpdateProfileUseCase>(),
                 profile: profile,
+                analytics: GetIt.I<AnalyticsTracker>(),
               ),
               child: const EditProfileScreen(),
             ),
