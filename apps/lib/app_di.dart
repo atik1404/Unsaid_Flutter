@@ -9,8 +9,9 @@ import 'package:get_it/get_it.dart';
 
 Future<void> configureDependencies(
   GetIt getIt,
-  AppEnvironment environment,
-) async {
+  AppEnvironment environment, {
+  required bool crashlyticsEnabled,
+}) async {
   final config = AppConfig.I;
 
   // ── Telemetry first ──────────────────────────────────────────────────────
@@ -18,7 +19,15 @@ Future<void> configureDependencies(
   // the CrashReporter and the router consumes the AnalyticsRouteObserver. Each
   // module falls back to a no-op implementation when its secret is unset, so
   // the app runs identically with telemetry disabled.
-  MonitoringDiModule.init(getIt, enabled: config.sentryDsn.isNotEmpty);
+  //
+  // [crashlyticsEnabled] must match what `CrashlyticsInitializer.install`
+  // received in bootstrap, so the reporter is only registered when the SDK is
+  // actually collecting.
+  MonitoringDiModule.init(
+    getIt,
+    sentryEnabled: config.sentryDsn.isNotEmpty,
+    crashlyticsEnabled: crashlyticsEnabled,
+  );
   AnalyticsDiModule.init(getIt, enabled: config.clarityProjectId.isNotEmpty);
 
   // Spans both telemetry backends, so it is composed here rather than inside

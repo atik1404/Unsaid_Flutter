@@ -7,12 +7,25 @@ import 'package:common/common.dart';
 import 'package:di/di.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:monitoring/monitoring.dart';
 import 'package:pref_storage/pref_storage.dart';
+
+/// Whether crashes are uploaded to Firebase Crashlytics.
+///
+/// On for every flavor and build type, so a crash is reported wherever it
+/// happens and the integration can be verified without a special build. The dev
+/// and prod flavors are separate Firebase *apps* (`com.user.unsaid.dev` vs
+/// `com.user.unsaid`) inside one project, so their crashes stay separated in
+/// the console.
+///
+/// To stop debug-build noise (deliberate crashes, hot-reload errors) reaching
+/// the console, change this to `!kDebugMode`. Crashlytics still needs a real
+/// crash + relaunch to upload, so release builds remain the way to test it
+/// properly.
+const bool _crashlyticsEnabled = true;
 
 Future<void> bootstrap(AppEnvironment environment) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +39,29 @@ Future<void> bootstrap(AppEnvironment environment) async {
   final config = AppConfig.I;
 
   // ═══════════════════════════════════════════
-  // 2. Sentry (stability monitoring) + guarded zone
+  // 2. Firebase
+  //
+  // Initialised before either crash backend because Crashlytics cannot be
+  // touched until it completes.
+  // ═══════════════════════════════════════════
+  final firebaseOptions = DefaultFirebaseOptions.currentPlatform;
+  await Firebase.initializeApp(options: firebaseOptions);
+  await FirebaseAuth.instance.setSettings(
+    appVerificationDisabledForTesting: true,
+  );
+
+  // ═══════════════════════════════════════════
+  // 3. Crashlytics — MUST be installed before Sentry.
+  //
+  // Sentry's error integrations chain onto whatever handlers already exist, so
+  // installing Crashlytics first means both backends see every Dart error.
+  // Doing it the other way round would overwrite Sentry's handlers instead.
+  // See `CrashlyticsInitializer.install`.
+  // ═══════════════════════════════════════════
+  await CrashlyticsInitializer.install(enabled: _crashlyticsEnabled);
+
+  // ═══════════════════════════════════════════
+  // 4. Sentry (stability monitoring) + guarded zone
   //
   // `MonitoringInitializer.run` initialises Sentry (crash/ANR/native only) and
   // runs the ENTIRE remaining bootstrap inside Sentry's guarded zone, so any
@@ -40,23 +75,13 @@ Future<void> bootstrap(AppEnvironment environment) async {
     // diagnostic in the app — never on in a release binary.
     debug: config.debugFeatures.verboseLogging,
     appRunner: () async {
-      // ── 3. Firebase ────────────────────────────────────────────────────────
-      final firebaseOptions = DefaultFirebaseOptions.currentPlatform;
-      await Firebase.initializeApp(options: firebaseOptions);
-      await FirebaseAuth.instance.setSettings(
-        appVerificationDisabledForTesting: true,
-      );
-
-      // ── 4. Crashlytics — kept alongside Sentry (per integration decision).
-      //     Enabled only in prod. We add NO new Crashlytics capture calls, so a
-      //     given error is never reported to both backends by our code.
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
-        environment == AppEnvironment.prod,
-      );
-
       // ── 5. DI (telemetry → data → domain → navigation) ─────────────────────
       final getIt = GetIt.instance;
-      await configureDependencies(getIt, environment);
+      await configureDependencies(
+        getIt,
+        environment,
+        crashlyticsEnabled: _crashlyticsEnabled,
+      );
       await registerAppDiModule();
 
       // ── 6. Route all unhandled bloc errors into the crash reporter ─────────

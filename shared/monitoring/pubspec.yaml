@@ -1,5 +1,5 @@
 name: monitoring
-description: "Application stability monitoring (Sentry): crash, ANR, fatal & non-fatal exception reporting."
+description: "Application stability monitoring (Sentry + Firebase Crashlytics): crash, ANR, fatal & non-fatal exception reporting."
 publish_to: none
 version: 0.0.1
 resolution: workspace
@@ -26,8 +26,10 @@ dependencies:
   code_analyzer: ^0.0.1
   common: ^0.0.1
 
-  # Stability monitoring backend.
+  # Stability monitoring backends. Both run side by side: Sentry owns the
+  # richer Dart-side reporting, Crashlytics keeps crashes visible in Firebase.
   sentry_flutter: ^9.0.0
+  firebase_crashlytics: ^5.2.6
 
   # Bloc observer hooks business-logic errors into the crash reporter.
   flutter_bloc: ^9.1.1
