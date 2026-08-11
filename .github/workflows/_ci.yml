@@ -51,10 +51,17 @@ on:
         default: 14
         type: number
 
-# Cancel superseded runs on the same ref to save minutes.
+# Cancel superseded runs on the same ref to save minutes — but only for PRs.
+#
+# On main (CD) and on the nightly schedule the run produces a shipped artifact,
+# so a build that is already in flight must be allowed to finish. Cancelling one
+# is also actively misleading: when the `concurrency` block lives in a *called*
+# workflow, a superseded run is reported to the caller as a red **failure** with
+# the bare annotation "The operation was canceled." — indistinguishable at a
+# glance from a real build error.
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}-${{ inputs.flavor }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   # =========================================================================
@@ -206,8 +213,12 @@ jobs:
       # "daemon disappeared unexpectedly", and an out-of-disk build reports
       # something equally unhelpful. Dump the machine state and the daemon's own
       # log so the *next* red run says why it went red.
+      # Also runs on cancellation: when a runner exhausts memory or disk the job
+      # is terminated from outside and reports only "The operation was
+      # canceled.", so the state dump is the only way to tell that apart from a
+      # deliberate cancellation.
       - name: Diagnose build failure
-        if: ${{ failure() }}
+        if: ${{ failure() || cancelled() }}
         run: |
           echo "::group::Disk"; df -h; echo "::endgroup::"
           echo "::group::Memory"; free -h; echo "::endgroup::"
