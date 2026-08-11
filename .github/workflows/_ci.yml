@@ -130,6 +130,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      # A GitHub-hosted runner starts with ~14 GB free. A Flutter release build
+      # spends that fast: Gradle + pub caches, the NDK pinned in
+      # app/build.gradle.kts (auto-downloaded, ~4 GB unpacked) and one AOT
+      # snapshot per ABI. Reclaim the preinstalled toolchains this build never
+      # touches so an out-of-disk failure can't masquerade as a build error.
+      - name: Free disk space
+        run: |
+          set -euo pipefail
+          df -h /
+          sudo rm -rf \
+            /usr/share/dotnet \
+            /usr/share/swift \
+            /usr/local/lib/node_modules \
+            /opt/ghc \
+            /usr/local/.ghcup \
+            "${AGENT_TOOLSDIRECTORY:-/opt/hostedtoolcache}/CodeQL" || true
+          df -h /
+
       - name: Setup Flutter workspace
         uses: ./.github/actions/setup-flutter
 
@@ -183,6 +201,22 @@ jobs:
             --target=${{ inputs.entry-target }} \
             --build-number=${{ steps.version.outputs.code }} \
             --build-name=${{ steps.version.outputs.name }}
+
+      # A Gradle daemon that is OOM-killed by the kernel only ever reports
+      # "daemon disappeared unexpectedly", and an out-of-disk build reports
+      # something equally unhelpful. Dump the machine state and the daemon's own
+      # log so the *next* red run says why it went red.
+      - name: Diagnose build failure
+        if: ${{ failure() }}
+        run: |
+          echo "::group::Disk"; df -h; echo "::endgroup::"
+          echo "::group::Memory"; free -h; echo "::endgroup::"
+          echo "::group::Kernel OOM kills"
+          sudo dmesg 2>/dev/null | grep -iE 'killed process|out of memory' || echo "none recorded"
+          echo "::endgroup::"
+          echo "::group::Gradle daemon log"
+          tail -n 300 ~/.gradle/daemon/*/daemon-*.log 2>/dev/null || echo "no daemon log"
+          echo "::endgroup::"
 
       # Build-dir relocation in root build.gradle.kts makes the exact path
       # awkward to hard-code, so we locate the freshly built APK by glob.
